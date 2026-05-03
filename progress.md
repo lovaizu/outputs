@@ -22,8 +22,8 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 ### 全体の進め方（このPRで完結）
 
-1. **要件定義** — `requirements.md` の各項目を確定（← 今ここ、ほぼ完了）
-2. **設計** — 実現方法（AHK / Karabiner / HHKB キーマップ）を決定し設計書を作成
+1. ~~**要件定義** — `requirements.md` の各項目を確定~~ ✅
+2. **設計** — 実現方法（AHK / Karabiner / HHKB キーマップ）を決定し設計書を作成 ← **次ここ**
 3. **セットアップ手順** — 設定ファイル（`.ahk`, `.json`）と手順書を作成
 
 ---
@@ -50,7 +50,9 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 ### コンフリクト解消（確定済み）
 
 - Edit 優先、衝突した他カテゴリは SPL+別キーへ移動
-- Close window / tab / file → `SPL+C` に統一（C = Close）
+- Close window / tab → `SPL+K` に統一（K = Kill, Emacs `C-x k` parallel）
+- Bookmark → `SPL+I`（I = Interest）
+- Minimize → `SPL+M`（衝突なし）
 - File / Pane 操作 → Emacs C-x 系（`Ctrl+X *`）に統一
 
 ### 固有キー（Win/Mac/Emacs どのデフォルトとも一致しない）
