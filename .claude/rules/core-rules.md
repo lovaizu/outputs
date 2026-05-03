@@ -12,7 +12,7 @@ The user's stated goal is the fixed point. Means adapt; the goal does not. Do no
 
 ## 3. Verified at every stage
 
-At every stage of work, iterate adversarial simulation and review by a separately spawned agent that did not produce the artifact. Do not advance until review surfaces no new issues.
+At every stage of work, a separately spawned agent that did not produce the artifact performs both adversarial simulation and review. The producing agent does not evaluate its own work. Do not advance until review surfaces no new issues.
 
 ## 4. Proposed for judgment
 
