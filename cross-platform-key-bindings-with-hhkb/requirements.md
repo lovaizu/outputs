@@ -67,14 +67,25 @@
 
 ## File: File Operations
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| New file | `Ctrl+N` | `Cmd+N` | `SPL+N` |
-| Open file | `Ctrl+O` | `Cmd+O` | `SPL+O` |
-| Save | `Ctrl+S` | `Cmd+S` | `SPL+S` |
-| Save as | `Ctrl+Shift+S` | `Cmd+Shift+S` | `SPL+Shift+S` |
-| Close file | `Ctrl+W` | `Cmd+W` | `SPL+C` |
-| Quick switch (VS Code) | `Ctrl+P` | `Cmd+P` | `SPL+P` |
+| Operation | Key (Emacs) | Key(HHKB) |
+|-----------|-------------|-----------|
+| Open / New file | `C-x C-f` | `Ctrl+X Ctrl+F` |
+| Save | `C-x C-s` | `Ctrl+X Ctrl+S` |
+| Save as | `C-x C-w` | `Ctrl+X Ctrl+W` |
+| Close file | `C-x k` | `Ctrl+X K` |
+| Switch file (buffer) | `C-x b` | `Ctrl+X B` |
+
+---
+
+## Pane: Pane / Split Operations
+
+| Operation | Key (Emacs) | Key(HHKB) |
+|-----------|-------------|-----------|
+| Close current pane | `C-x 0` | `Ctrl+X 0` |
+| Close other panes | `C-x 1` | `Ctrl+X 1` |
+| Split top / bottom | `C-x 2` | `Ctrl+X 2` |
+| Split left / right | `C-x 3` | `Ctrl+X 3` |
+| Switch to other pane | `C-x o` | `Ctrl+X O` |
 
 ---
 
