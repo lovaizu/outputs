@@ -18,11 +18,11 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 ## Current Phase
 
-**要件定義レビュー中** — Window / Tab / File カテゴリ追加、コンフリクト解消済み
+**要件定義レビュー中** — 残タスク1件のみ（Bookmark キー確定）
 
 ### 全体の進め方（このPRで完結）
 
-1. **要件定義** — `requirements.md` の各項目を ✅/❌/❓ で確定（PR レビュー）
+1. **要件定義** — `requirements.md` の各項目を確定（← 今ここ、ほぼ完了）
 2. **設計** — 実現方法（AHK / Karabiner / HHKB キーマップ）を決定し設計書を作成
 3. **セットアップ手順** — 設定ファイル（`.ahk`, `.json`）と手順書を作成
 
@@ -38,34 +38,52 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 | `App` | アプリ切替・起動・終了 |
 | `Window` | ウィンドウ操作（新規・閉じる・最小化・最大化） |
 | `Tab` | タブ操作・全アプリ共通（Chrome・VS Code・Terminal） |
-| `File` | ファイル操作（新規・開く・保存・閉じる・切替） |
+| `File` | ファイル操作（Emacs C-x 系） |
+| `Pane` | ペイン・分割操作（Emacs C-x 0/1/2/3/o） |
 | `SS` | スクリーンショット |
 | `Edit` | Emacs キーバインド（テキスト編集） |
 | `Browser` | ブラウザ固有操作（リロード・URLバー等） |
 
-### 前提追加
+### 前提
 - Mac のウィンドウ切替は AltTab アプリを使用（`Cmd+Tab` に割り当て）
 
 ### コンフリクト解消（確定済み）
 
-| 重複キー | Edit 操作（残す） | 他カテゴリ（移動先） |
-|---------|-----------------|-------------------|
-| `SPL+W` | Copy region | Close 系 → `SPL+C` |
-| `Ctrl+W` | Cut region | Close tab → `SPL+C` |
-| `Ctrl+L` | Recenter | Focus URL bar → `SPL+L` |
-| `Ctrl+R` | Search backward | Reload → `SPL+R` |
-| `Ctrl+D` | Delete forward | Bookmark → `SPL+M` |
-| `Ctrl+S` | Search forward | Save → `SPL+S` |
-| `Ctrl+N` | Next line | New window/file → `SPL+N`（文脈依存） |
+- Edit 優先、衝突した他カテゴリは SPL+別キーへ移動
+- Close window / tab / file → `SPL+C` に統一（C = Close）
+- File / Pane 操作 → Emacs C-x 系（`Ctrl+X *`）に統一
 
-### Close 系の統一
-- Close window / Close tab / Close file → すべて `SPL+C`
+### 固有キー（Win/Mac/Emacs どのデフォルトとも一致しない）
+
+| HHKB | 操作 | 理由 |
+|------|------|------|
+| `SPL+C` | Close 統一 | デフォルト（W/F4）は Edit と衝突するため |
+| `SPL+M` | Bookmark | D は Edit（Delete forward）に使用中 |
+| `SPL2+PS*` | Screenshot | HHKB 固有チョード |
+| `SPL2+SPR` | IME 英語切替 | HHKB 固有チョード |
+
+---
+
+## 未確定（次セッション最初に解決）
+
+### ⚠️ SPL+M の重複
+
+`SPL+M` が2箇所で衝突している：
+
+| 操作 | カテゴリ | 現在のキー |
+|------|----------|-----------|
+| Minimize | Window | `SPL+M`（Mac: Cmd+M に対応、確定済み） |
+| Bookmark | Browser | `SPL+M`（← 要変更） |
+
+**候補：** Bookmark を `SPL+K` に変更（ユーザーから提案あり、未確定）
+
+→ **次セッション冒頭で「SPL+K でよいか」を確認してから requirements.md を更新する**
 
 ---
 
 ## Next Tasks
 
-1. **PR レビュー** — requirements.md を確認、TBD（Minimize / Maximize の HHKB キー）を確定
+1. **Bookmark キー確定** — `SPL+K` でよいか確認 → requirements.md 更新・コミット
 2. **設計** — 要件確定後、設計書を作成（実現方法・キー割り当て）
 3. **設定ファイル作成** — `emacs-keybind.ahk`、`hhkb-emacs-keybindings.json`
 4. **手順書作成** — セットアップ手順を `hhkb-keybinding-design.md` に記述
