@@ -18,7 +18,7 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 ## Current Phase
 
-**要件定義レビュー中** — 残タスク1件のみ（Bookmark キー確定）
+**要件定義完了** — 全キー確定、次は設計フェーズ
 
 ### 全体の進め方（このPRで完結）
 
@@ -57,36 +57,28 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 | HHKB | 操作 | 理由 |
 |------|------|------|
-| `SPL+C` | Close 統一 | デフォルト（W/F4）は Edit と衝突するため |
-| `SPL+M` | Bookmark | D は Edit（Delete forward）に使用中 |
+| `SPL+K` | Close 統一 | W/F4 は Edit と衝突; K = Kill (Emacs parallel) |
+| `SPL+I` | Bookmark | D は Edit（Delete forward）に使用中; I = Interest |
 | `SPL2+PS*` | Screenshot | HHKB 固有チョード |
 | `SPL2+SPR` | IME 英語切替 | HHKB 固有チョード |
 
 ---
 
-## 未確定（次セッション最初に解決）
+## Resolved
 
-### ⚠️ SPL+M の重複
+### SPL+M conflict → resolved
 
-`SPL+M` が2箇所で衝突している：
-
-| 操作 | カテゴリ | 現在のキー |
-|------|----------|-----------|
-| Minimize | Window | `SPL+M`（Mac: Cmd+M に対応、確定済み） |
-| Bookmark | Browser | `SPL+M`（← 要変更） |
-
-**候補：** Bookmark を `SPL+K` に変更（ユーザーから提案あり、未確定）
-
-→ **次セッション冒頭で「SPL+K でよいか」を確認してから requirements.md を更新する**
+- Close (window/tab): `SPL+C` → `SPL+K` (K = Kill, Emacs `C-x k` parallel)
+- Bookmark: `SPL+M` → `SPL+I` (I = Interest)
+- Minimize stays `SPL+M` — no conflict
 
 ---
 
 ## Next Tasks
 
-1. **Bookmark キー確定** — `SPL+K` でよいか確認 → requirements.md 更新・コミット
-2. **設計** — 要件確定後、設計書を作成（実現方法・キー割り当て）
-3. **設定ファイル作成** — `emacs-keybind.ahk`、`hhkb-emacs-keybindings.json`
-4. **手順書作成** — セットアップ手順を `hhkb-keybinding-design.md` に記述
+1. **設計** — 要件確定後、設計書を作成（実現方法・キー割り当て）
+2. **設定ファイル作成** — `emacs-keybind.ahk`、`hhkb-emacs-keybindings.json`
+3. **手順書作成** — セットアップ手順を `hhkb-keybinding-design.md` に記述
 
 ## Session Context
 

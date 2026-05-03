@@ -28,12 +28,12 @@
 | Category | Operation | Key (Win) | Key (Mac) | Key(HHKB) | Reason |
 |----------|-----------|-----------|-----------|-----------|--------|
 | IME | Switch to English | `Eisu` | `Ctrl+Space` | `SPL2+SPR` | HHKB has no Eisu key — Fn1 layer chord |
-| Window | Close window | `Alt+F4` | `Cmd+W` | `SPL+C` | W conflicts with Edit Copy region (`M-w`) |
-| Tab | Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` | Same as above — unified to C = Close |
+| Window | Close window | `Alt+F4` | `Cmd+W` | `SPL+K` | W conflicts with Edit Copy region (`M-w`); K = Kill (Emacs `C-x k`) |
+| Tab | Close tab | `Ctrl+W` | `Cmd+W` | `SPL+K` | Same as above — unified to K = Kill |
 | SS | Full screen capture | `PrintScreen` | `Cmd+Ctrl+Shift+3` | `SPL2+PS` | HHKB has no PrintScreen — Fn1 layer chord |
 | SS | Region capture | `Win+Shift+S` | `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` | Same as above |
 | SS | Window capture | `Alt+PrintScreen` | `Cmd+Ctrl+Shift+4 Space` | `SPL2+PS+W` | Same as above |
-| Browser | Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
+| Browser | Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+I` | D conflicts with Edit Kill word forward (`M-d`); I = Interest |
 
 ---
 
@@ -61,7 +61,7 @@
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
 |-----------|-----------|-----------|-----------|--------|
 | New window | `Ctrl+N` | `Cmd+N` | `SPL+N` | |
-| Close window | `Alt+F4` | `Cmd+W` | `SPL+C` | ✓ |
+| Close window | `Alt+F4` | `Cmd+W` | `SPL+K` | ✓ |
 | Minimize | `Win+↓` | `Cmd+M` | `SPL+M` | |
 | Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | `Ctrl+SPL+F` | |
 
@@ -74,7 +74,7 @@
 | New tab | `Ctrl+T` | `Cmd+T` | `SPL+T` | |
 | Next tab | `Ctrl+Tab` | `Ctrl+Tab` | `Ctrl+Tab` | |
 | Previous tab | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | |
-| Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` | ✓ |
+| Close tab | `Ctrl+W` | `Cmd+W` | `SPL+K` | ✓ |
 | Reopen closed tab | `Ctrl+Shift+T` | `Cmd+Shift+T` | `SPL+Shift+T` | |
 
 ---
@@ -187,7 +187,7 @@
 |-----------|-----------|-----------|-----------|--------|
 | Reload page | `Ctrl+R` | `Cmd+R` | `SPL+R` | |
 | Focus URL bar | `Ctrl+L` | `Cmd+L` | `SPL+L` | |
-| Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` | ✓ |
+| Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+I` | ✓ |
 | Open link in new tab | `Ctrl+Click` | `Cmd+Click` | `SPL+Click` | |
 | Navigate back | `Alt+←` | `Cmd+←` | `SPL+←` | |
 | Navigate forward | `Alt+→` | `Cmd+→` | `SPL+→` | |
