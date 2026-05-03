@@ -6,20 +6,20 @@
 
 | Item | Win | Mac |
 |------|-----|-----|
-| Keyboard layout | 日本語配列 | 英語配列 |
-| Physical IME keys | 半角/全角・英数・かな あり | 英数・かな なし |
+| Keyboard layout | JIS | US |
+| Physical IME keys | Hankaku/Zenkaku, Eisu, Kana present | Eisu, Kana absent |
 | Window switcher | OS standard (`Alt+Tab`) | AltTab app (`Cmd+Tab`) |
 
 ---
 
 ## HHKB Key Layout (Bottom Row)
 
-| OS  | SPL2 (Space左2) | SPL (Space左) | SP (Space) | SPR (Space右) | SPR2 (Space右2) |
+| OS  | SPL2 (Space L2) | SPL (Space L) | SP (Space) | SPR (Space R) | SPR2 (Space R2) |
 |-----|----------------|--------------|-----------|--------------|---------------|
-| Win | Fn1 | Alt | Space | かな | Win |
-| Mac | Fn1 | Opt | Space | かな | Cmd |
+| Win | Fn1 | Alt | Space | Kana | Win |
+| Mac | Fn1 | Opt | Space | Kana | Cmd |
 
-> **Fn1 layer:** Fn1 を押している間、Space右（かな）は `英数` になる。
+> **Fn1 layer:** While Fn1 is held, SPR (Kana) becomes `Eisu`.
 
 > **Custom (✓):** HHKB key that differs from all platform defaults (Win / Mac / Emacs) — requires a dedicated remapping rule.
 
@@ -27,7 +27,7 @@
 
 | Operation | Category | Default (Win / Mac) | Key(HHKB) | Reason |
 |-----------|----------|---------------------|-----------|--------|
-| Switch to English | IME | `英数` / `Ctrl+Space` | `SPL2+SPR` | HHKB has no 英数 key — Fn1 layer chord |
+| Switch to English | IME | `Eisu` / `Ctrl+Space` | `SPL2+SPR` | HHKB has no Eisu key — Fn1 layer chord |
 | Close window | Window | `Alt+F4` / `Cmd+W` | `SPL+C` | W conflicts with Edit Copy region (`M-w`) |
 | Close tab | Tab | `Ctrl+W` / `Cmd+W` | `SPL+C` | Same as above — unified to C = Close |
 | Full screen capture | SS | `PrintScreen` / `Cmd+Ctrl+Shift+3` | `SPL2+PS` | HHKB has no PrintScreen — Fn1 layer chord |
@@ -41,8 +41,8 @@
 
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
 |-----------|-----------|-----------|-----------|--------|
-| Switch to English | `英数` | `Ctrl+Space` (toggle) | `SPL2+SPR` | ✓ |
-| Switch to Japanese | `かな` | `Ctrl+Space` (toggle) | `SPR` | |
+| Switch to English | `Eisu` | `Ctrl+Space` (toggle) | `SPL2+SPR` | ✓ |
+| Switch to Japanese | `Kana` | `Ctrl+Space` (toggle) | `SPR` | |
 
 ---
 
