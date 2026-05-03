@@ -21,14 +21,28 @@
 
 > **Fn1 layer:** Fn1 を押している間、Space右（かな）は `英数` になる。
 
+> **Custom (✓):** HHKB key that differs from all platform defaults (Win / Mac / Emacs) — requires a dedicated remapping rule.
+
+### Custom Key Summary
+
+| Key(HHKB) | Category | Operation | Default (Win / Mac) | Reason |
+|-----------|----------|-----------|---------------------|--------|
+| `SPL2+SPR` | IME | Switch to English | `英数` / `Ctrl+Space` | HHKB has no 英数 key — Fn1 layer chord |
+| `SPL+C` | Window | Close window | `Alt+F4` / `Cmd+W` | W conflicts with Edit Copy region (`M-w`) |
+| `SPL+C` | Tab | Close tab | `Ctrl+W` / `Cmd+W` | Same as above — unified to C = Close |
+| `SPL2+PS` | SS | Full screen capture | `PrintScreen` / `Cmd+Ctrl+Shift+3` | HHKB has no PrintScreen — Fn1 layer chord |
+| `SPL2+PS+S` | SS | Region capture | `Win+Shift+S` / `Cmd+Ctrl+Shift+4` | Same as above |
+| `SPL2+PS+W` | SS | Window capture | `Alt+PrintScreen` / `Cmd+Ctrl+Shift+4 Space` | Same as above |
+| `SPL+M` | Browser | Bookmark | `Ctrl+D` / `Cmd+D` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
+
 ---
 
 ## IME: IME Toggle
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| Switch to English | `英数` | `Ctrl+Space` (toggle) | `SPL2+SPR` |
-| Switch to Japanese | `かな` | `Ctrl+Space` (toggle) | `SPR` |
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
+|-----------|-----------|-----------|-----------|--------|
+| Switch to English | `英数` | `Ctrl+Space` (toggle) | `SPL2+SPR` | ✓ |
+| Switch to Japanese | `かな` | `Ctrl+Space` (toggle) | `SPR` | |
 
 ---
 
@@ -44,24 +58,24 @@
 
 ## Window: Window Operations
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| New window | `Ctrl+N` | `Cmd+N` | `SPL+N` |
-| Close window | `Alt+F4` | `Cmd+W` | `SPL+C` |
-| Minimize | `Win+↓` | `Cmd+M` | `SPL+M` |
-| Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | `Ctrl+SPL+F` |
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
+|-----------|-----------|-----------|-----------|--------|
+| New window | `Ctrl+N` | `Cmd+N` | `SPL+N` | |
+| Close window | `Alt+F4` | `Cmd+W` | `SPL+C` | ✓ |
+| Minimize | `Win+↓` | `Cmd+M` | `SPL+M` | |
+| Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | `Ctrl+SPL+F` | |
 
 ---
 
 ## Tab: Tab Operations (all tabbed apps)
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| New tab | `Ctrl+T` | `Cmd+T` | `SPL+T` |
-| Next tab | `Ctrl+Tab` | `Ctrl+Tab` | `Ctrl+Tab` |
-| Previous tab | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` |
-| Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` |
-| Reopen closed tab | `Ctrl+Shift+T` | `Cmd+Shift+T` | `SPL+Shift+T` |
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
+|-----------|-----------|-----------|-----------|--------|
+| New tab | `Ctrl+T` | `Cmd+T` | `SPL+T` | |
+| Next tab | `Ctrl+Tab` | `Ctrl+Tab` | `Ctrl+Tab` | |
+| Previous tab | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | |
+| Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` | ✓ |
+| Reopen closed tab | `Ctrl+Shift+T` | `Cmd+Shift+T` | `SPL+Shift+T` | |
 
 ---
 
@@ -91,11 +105,11 @@
 
 ## SS: Screenshot
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| Capture region → clipboard | `Win+Shift+S` | `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` |
-| Capture full screen → clipboard | `Print Screen` | `Cmd+Ctrl+Shift+3` | `SPL2+PS` |
-| Capture window → clipboard | `Alt+Print Screen` | `Cmd+Ctrl+Shift+4` then `Space` | `SPL2+PS+W` |
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
+|-----------|-----------|-----------|-----------|--------|
+| Capture region → clipboard | `Win+Shift+S` | `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` | ✓ |
+| Capture full screen → clipboard | `Print Screen` | `Cmd+Ctrl+Shift+3` | `SPL2+PS` | ✓ |
+| Capture window → clipboard | `Alt+Print Screen` | `Cmd+Ctrl+Shift+4` then `Space` | `SPL2+PS+W` | ✓ |
 
 ---
 
@@ -169,11 +183,11 @@
 
 ## Browser: Browser Operations (Chrome)
 
-| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
-|-----------|-----------|-----------|-----------|
-| Reload page | `Ctrl+R` | `Cmd+R` | `SPL+R` |
-| Focus URL bar | `Ctrl+L` | `Cmd+L` | `SPL+L` |
-| Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` |
-| Open link in new tab | `Ctrl+Click` | `Cmd+Click` | `SPL+Click` |
-| Navigate back | `Alt+←` | `Cmd+←` | `SPL+←` |
-| Navigate forward | `Alt+→` | `Cmd+→` | `SPL+→` |
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) | Custom |
+|-----------|-----------|-----------|-----------|--------|
+| Reload page | `Ctrl+R` | `Cmd+R` | `SPL+R` | |
+| Focus URL bar | `Ctrl+L` | `Cmd+L` | `SPL+L` | |
+| Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` | ✓ |
+| Open link in new tab | `Ctrl+Click` | `Cmd+Click` | `SPL+Click` | |
+| Navigate back | `Alt+←` | `Cmd+←` | `SPL+←` | |
+| Navigate forward | `Alt+→` | `Cmd+→` | `SPL+→` | |
