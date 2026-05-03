@@ -25,15 +25,15 @@
 
 ### Custom Key Summary
 
-| Key(HHKB) | Category | Operation | Default (Win / Mac) | Reason |
-|-----------|----------|-----------|---------------------|--------|
-| `SPL2+SPR` | IME | Switch to English | `英数` / `Ctrl+Space` | HHKB has no 英数 key — Fn1 layer chord |
-| `SPL+C` | Window | Close window | `Alt+F4` / `Cmd+W` | W conflicts with Edit Copy region (`M-w`) |
-| `SPL+C` | Tab | Close tab | `Ctrl+W` / `Cmd+W` | Same as above — unified to C = Close |
-| `SPL2+PS` | SS | Full screen capture | `PrintScreen` / `Cmd+Ctrl+Shift+3` | HHKB has no PrintScreen — Fn1 layer chord |
-| `SPL2+PS+S` | SS | Region capture | `Win+Shift+S` / `Cmd+Ctrl+Shift+4` | Same as above |
-| `SPL2+PS+W` | SS | Window capture | `Alt+PrintScreen` / `Cmd+Ctrl+Shift+4 Space` | Same as above |
-| `SPL+M` | Browser | Bookmark | `Ctrl+D` / `Cmd+D` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
+| Operation | Category | Default (Win / Mac) | Key(HHKB) | Reason |
+|-----------|----------|---------------------|-----------|--------|
+| Switch to English | IME | `英数` / `Ctrl+Space` | `SPL2+SPR` | HHKB has no 英数 key — Fn1 layer chord |
+| Close window | Window | `Alt+F4` / `Cmd+W` | `SPL+C` | W conflicts with Edit Copy region (`M-w`) |
+| Close tab | Tab | `Ctrl+W` / `Cmd+W` | `SPL+C` | Same as above — unified to C = Close |
+| Full screen capture | SS | `PrintScreen` / `Cmd+Ctrl+Shift+3` | `SPL2+PS` | HHKB has no PrintScreen — Fn1 layer chord |
+| Region capture | SS | `Win+Shift+S` / `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` | Same as above |
+| Window capture | SS | `Alt+PrintScreen` / `Cmd+Ctrl+Shift+4 Space` | `SPL2+PS+W` | Same as above |
+| Bookmark current page | Browser | `Ctrl+D` / `Cmd+D` | `SPL+M` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
 
 ---
 
