@@ -48,8 +48,8 @@
 |-----------|-----------|-----------|-----------|
 | New window | `Ctrl+N` | `Cmd+N` | `SPL+N` |
 | Close window | `Alt+F4` | `Cmd+W` | `SPL+C` |
-| Minimize | `Win+↓` | `Cmd+M` | TBD |
-| Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | TBD |
+| Minimize | `Win+↓` | `Cmd+M` | `SPL+M` |
+| Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | `Ctrl+SPL+F` |
 
 ---
 
