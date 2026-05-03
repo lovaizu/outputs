@@ -18,13 +18,81 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 ## Current Phase
 
-**要件定義完了** — 全キー確定、次は設計フェーズ
+**設計フェーズ — レイヤー分類完了、検証ステップ待ち**
 
 ### 全体の進め方（このPRで完結）
 
 1. ~~**要件定義** — `requirements.md` の各項目を確定~~ ✅
-2. **設計** — 実現方法（AHK / Karabiner / HHKB キーマップ）を決定し設計書を作成 ← **次ここ**
+2. **設計** ← **今ここ**
+   - ~~a. レイヤー分類（L1/L2/L3）~~ ✅
+   - b. 検証項目の解決（13件） ← **次ここ**
+   - c. 検証結果を踏まえて設計確定
+   - d. 設計書作成
 3. **セットアップ手順** — 設定ファイル（`.ahk`, `.json`）と手順書を作成
+
+---
+
+## Design: Layer Classification
+
+Three layers:
+- **L1 (HHKB Keymap)**: Physical key mapping in HHKB Studio
+- **L2 (OS Remap)**: Karabiner (Mac) / AHK (Win)
+- **L3 (App Config)**: VS Code keybindings.json, iTerm2, etc.
+
+### Classification Summary
+
+| Category | Mac | Win |
+|----------|-----|-----|
+| IME | L1 (HHKB Eisu/Kana keycode) | L1 (same) |
+| App | L2 (Opt+key → Cmd+key) | L2 (Alt+key → varies) |
+| Window | L2 (Opt+key → Cmd+key) | L2 (Alt+key → varies) |
+| Tab | L2 (Opt+key → Cmd+key) | L2 (Alt+key → Ctrl+key) |
+| File | L3 (app-specific, Ctrl+X prefix free) | L3 (app-specific, Ctrl+X conflicts with cut) |
+| Pane | L3 (same as File) | L3 (same as File) |
+| SS | L2 (Fn1+PS → Cmd+Ctrl+Shift+3/4) | L2 (Fn1+PS → PrintScreen/Win+Shift+S) |
+| Edit (Ctrl) | Mostly macOS Cocoa native | L2 (AHK, conflicts with OS shortcuts) |
+| Edit (Meta) | L2 (Opt+key → per-key conversion) | L2 (Alt+key, conflicts with menus) |
+| Browser | L2 (Opt+key → Cmd+key) | L2 (Alt+key, mostly native) |
+
+### Full classification detail
+
+See plan file: `~/.claude/plans/fuzzy-popping-candy.md`
+
+---
+
+## Verification Items (13 件)
+
+### High risk (design changes likely)
+
+| ID | Issue | Impact |
+|----|-------|--------|
+| VERIFY-11 | Win: Ctrl+key conflicts (Ctrl+N=New, Ctrl+P=Print, Ctrl+F=Find...) | Edit Ctrl 10+ bindings |
+| VERIFY-2 | Win: Alt+letter activates menu bar | Edit Meta 5+ bindings |
+| VERIFY-6 | Mac: Opt+Arrow (word movement) vs Browser navigation conflict | Browser 2 vs all text editing |
+| VERIFY-5 | Win: Ctrl+X = cut, blocks prefix sequences | File/Pane 10 bindings |
+
+### Medium risk
+
+| ID | Issue | Impact |
+|----|-------|--------|
+| VERIFY-1 | Mac US layout: HHKB Eisu/Kana keycode recognition | IME 2 bindings |
+| VERIFY-3 | Mac: Karabiner per-key Opt+letter rules feasibility | Edit Meta + App/Window/Tab |
+| VERIFY-9 | Win: SPL+K close — tab vs window distinction | Close 2 bindings |
+| VERIFY-12 | Ctrl+V = Paste vs Page Down | 1 binding (critical op) |
+| VERIFY-13 | Ctrl+S = Save vs Emacs search | 2 bindings |
+
+### Low risk / user clarification needed
+
+| ID | Issue | Impact |
+|----|-------|--------|
+| VERIFY-4 | HHKB "PS" key — which physical key? | SS 3 bindings |
+| VERIFY-7 | Clipboard history (M-y) — no native equivalent | 1 binding |
+| VERIFY-8 | Ctrl+Space conflict with IME toggle on Mac | 1 binding |
+| VERIFY-10 | Win: Alt+Space = system menu, not search | 1 binding |
+
+### Test procedures
+
+Each VERIFY item has a concrete test procedure in the plan file (`~/.claude/plans/fuzzy-popping-candy.md`).
 
 ---
 
@@ -66,27 +134,12 @@ Cmd/Opt スワップの検討を経て、根本から再設計することに決
 
 ---
 
-## Resolved
-
-### SPL+M conflict → resolved
-
-- Close (window/tab): `SPL+C` → `SPL+K` (K = Kill, Emacs `C-x k` parallel)
-- Bookmark: `SPL+M` → `SPL+I` (I = Interest)
-- Minimize stays `SPL+M` — no conflict
-
----
-
-## Next Tasks
-
-1. **設計** — 要件確定後、設計書を作成（実現方法・キー割り当て）
-2. **設定ファイル作成** — `emacs-keybind.ahk`、`hhkb-emacs-keybindings.json`
-3. **手順書作成** — セットアップ手順を `hhkb-keybinding-design.md` に記述
-
 ## Session Context
 
 - 作業ブランチ: worktree-keybind
 - PR: https://github.com/lovaizu/outputs/pull/12
 - 要件ファイル: `cross-platform-key-bindings-with-hhkb/requirements.md`
+- プランファイル: `~/.claude/plans/fuzzy-popping-candy.md`（検証手順の詳細）
 - 成果物（作成予定）:
   - `cross-platform-key-bindings-with-hhkb/hhkb-keybinding-design.md`
   - `cross-platform-key-bindings-with-hhkb/hhkb-emacs-keybindings.json`
