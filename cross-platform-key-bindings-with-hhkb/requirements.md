@@ -25,15 +25,15 @@
 
 ### Custom Key Summary
 
-| Operation | Category | Default (Win / Mac) | Key(HHKB) | Reason |
-|-----------|----------|---------------------|-----------|--------|
-| Switch to English | IME | `Eisu` / `Ctrl+Space` | `SPL2+SPR` | HHKB has no Eisu key — Fn1 layer chord |
-| Close window | Window | `Alt+F4` / `Cmd+W` | `SPL+C` | W conflicts with Edit Copy region (`M-w`) |
-| Close tab | Tab | `Ctrl+W` / `Cmd+W` | `SPL+C` | Same as above — unified to C = Close |
-| Full screen capture | SS | `PrintScreen` / `Cmd+Ctrl+Shift+3` | `SPL2+PS` | HHKB has no PrintScreen — Fn1 layer chord |
-| Region capture | SS | `Win+Shift+S` / `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` | Same as above |
-| Window capture | SS | `Alt+PrintScreen` / `Cmd+Ctrl+Shift+4 Space` | `SPL2+PS+W` | Same as above |
-| Bookmark current page | Browser | `Ctrl+D` / `Cmd+D` | `SPL+M` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
+| Category | Operation | Key (Win) | Key (Mac) | Key(HHKB) | Reason |
+|----------|-----------|-----------|-----------|-----------|--------|
+| IME | Switch to English | `Eisu` | `Ctrl+Space` | `SPL2+SPR` | HHKB has no Eisu key — Fn1 layer chord |
+| Window | Close window | `Alt+F4` | `Cmd+W` | `SPL+C` | W conflicts with Edit Copy region (`M-w`) |
+| Tab | Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` | Same as above — unified to C = Close |
+| SS | Full screen capture | `PrintScreen` | `Cmd+Ctrl+Shift+3` | `SPL2+PS` | HHKB has no PrintScreen — Fn1 layer chord |
+| SS | Region capture | `Win+Shift+S` | `Cmd+Ctrl+Shift+4` | `SPL2+PS+S` | Same as above |
+| SS | Window capture | `Alt+PrintScreen` | `Cmd+Ctrl+Shift+4 Space` | `SPL2+PS+W` | Same as above |
+| Browser | Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` | D conflicts with Edit Kill word forward (`M-d`). **⚠️ Conflicts with Minimize (`SPL+M`)** |
 
 ---
 
