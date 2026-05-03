@@ -8,6 +8,7 @@
 |------|-----|-----|
 | Keyboard layout | 日本語配列 | 英語配列 |
 | Physical IME keys | 半角/全角・英数・かな あり | 英数・かな なし |
+| Window switcher | OS standard (`Alt+Tab`) | AltTab app (`Cmd+Tab`) |
 
 ---
 
@@ -22,7 +23,7 @@
 
 ---
 
-## Category 1: IME Toggle
+## IME: IME Toggle
 
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) |
 |-----------|-----------|-----------|-----------|
@@ -31,19 +32,53 @@
 
 ---
 
-## Category 2: App Operations
+## App: App Operations
 
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) |
 |-----------|-----------|-----------|-----------|
-| Switch app | `Alt+Tab` | `Cmd+Tab` | `SPL+Tab` |
+| Switch app / window | `Alt+Tab` | `Cmd+Tab` (AltTab) | `SPL+Tab` |
 | Launch app (Search / Spotlight) | `Alt+Space` | `Cmd+Space` | `SPL+SP` |
 | Quit app | `Alt+F4` | `Cmd+Q` | `SPL+Q` |
-| Close window | `Alt+F4` | `Cmd+W` | `SPL+W` |
-| New window / document | `Ctrl+N` | `Cmd+N` | `SPL+N` |
 
 ---
 
-## Category 3: Screenshot
+## Window: Window Operations
+
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
+|-----------|-----------|-----------|-----------|
+| New window | `Ctrl+N` | `Cmd+N` | `SPL+N` |
+| Close window | `Alt+F4` | `Cmd+W` | `SPL+C` |
+| Minimize | `Win+↓` | `Cmd+M` | TBD |
+| Maximize / Fullscreen | `F11` | `Ctrl+Cmd+F` | TBD |
+
+---
+
+## Tab: Tab Operations (all tabbed apps)
+
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
+|-----------|-----------|-----------|-----------|
+| New tab | `Ctrl+T` | `Cmd+T` | `SPL+T` |
+| Next tab | `Ctrl+Tab` | `Ctrl+Tab` | `Ctrl+Tab` |
+| Previous tab | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` |
+| Close tab | `Ctrl+W` | `Cmd+W` | `SPL+C` |
+| Reopen closed tab | `Ctrl+Shift+T` | `Cmd+Shift+T` | `SPL+Shift+T` |
+
+---
+
+## File: File Operations
+
+| Operation | Key (Win) | Key (Mac) | Key(HHKB) |
+|-----------|-----------|-----------|-----------|
+| New file | `Ctrl+N` | `Cmd+N` | `SPL+N` |
+| Open file | `Ctrl+O` | `Cmd+O` | `SPL+O` |
+| Save | `Ctrl+S` | `Cmd+S` | `SPL+S` |
+| Save as | `Ctrl+Shift+S` | `Cmd+Shift+S` | `SPL+Shift+S` |
+| Close file | `Ctrl+W` | `Cmd+W` | `SPL+C` |
+| Quick switch (VS Code) | `Ctrl+P` | `Cmd+P` | `SPL+P` |
+
+---
+
+## SS: Screenshot
 
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) |
 |-----------|-----------|-----------|-----------|
@@ -53,7 +88,7 @@
 
 ---
 
-## Category 4: Text Operations
+## Edit: Text Editing
 
 ### 4.1 Cursor Movement — Character / Line
 
@@ -121,17 +156,13 @@
 
 ---
 
-## Category 5: Browser Operations (Chrome)
+## Browser: Browser Operations (Chrome)
 
 | Operation | Key (Win) | Key (Mac) | Key(HHKB) |
 |-----------|-----------|-----------|-----------|
-| New tab | `Ctrl+T` | `Cmd+T` | `Ctrl+T` |
-| Switch to next tab | `Ctrl+Tab` | `Ctrl+Tab` | `Ctrl+Tab` |
-| Switch to previous tab | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` | `Ctrl+Shift+Tab` |
-| Close current tab | `Ctrl+W` | `Cmd+W` | `Ctrl+W` |
-| Reopen closed tab | `Ctrl+Shift+T` | `Cmd+Shift+T` | `Ctrl+Shift+T` |
-| Focus URL bar | `Ctrl+L` | `Cmd+L` | `Ctrl+L` |
-| Reload page | `Ctrl+R` | `Cmd+R` | `Ctrl+R` |
-| Bookmark current page | `Ctrl+D` | `Cmd+D` | `Ctrl+D` |
-| Open link in new tab | `Ctrl+Click` | `Cmd+Click` | `Ctrl+Click` |
-| Navigate back / forward | `Alt+←` / `Alt+→` | `Cmd+←` / `Cmd+→` | `SPL+←` / `SPL+→` |
+| Reload page | `Ctrl+R` | `Cmd+R` | `SPL+R` |
+| Focus URL bar | `Ctrl+L` | `Cmd+L` | `SPL+L` |
+| Bookmark current page | `Ctrl+D` | `Cmd+D` | `SPL+M` |
+| Open link in new tab | `Ctrl+Click` | `Cmd+Click` | `SPL+Click` |
+| Navigate back | `Alt+←` | `Cmd+←` | `SPL+←` |
+| Navigate forward | `Alt+→` | `Cmd+→` | `SPL+→` |
