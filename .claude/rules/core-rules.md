@@ -18,11 +18,13 @@ Means adapt; the goal does not. Do not reinterpret, narrow, or expand the goal w
 
 ## 3. Verified at every stage
 
-**When to verify:** at each point where a decision could affect whether or how the goal is achieved.
+Verify at each point where a decision could affect whether or how the goal is achieved — not only at the end.
 
-**Who verifies:** a separately spawned simulation agent and a separately spawned review agent, independent from the producer and from each other, each evaluate the artifact against the goal and the ideal end-state.
+**Who verifies:** Two separately spawned evaluators, each independent from the producer and from each other:
+- **User simulation:** evaluates from the user's perspective — can the user achieve their goal with this artifact?
+- **Expert review:** evaluates from an expert perspective — does this artifact follow best practices?
 
-**How findings are handled:** every finding must be resolved — evaluator findings cannot be dismissed without being addressed. Iterate until both evaluators independently confirm zero concerns. If evaluators raise contradictory findings or a concern requires a tradeoff, surface it to the user for judgment (Rule 4).
+**How findings are handled:** Every finding must be resolved — evaluator findings cannot be dismissed without being addressed. If evaluators raise contradictory findings or a concern requires a tradeoff, surface it to the user for judgment (Rule 4).
 
 Evaluators are not required to spawn their own evaluators.
 
