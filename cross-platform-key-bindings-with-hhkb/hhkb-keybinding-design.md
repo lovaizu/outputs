@@ -82,9 +82,7 @@ All rules apply **only when HHKB is connected** (vendor_id: 1278, product_id: 22
 | SPL2+PS+S | Fn1+`` ` ``+S | Cmd+Ctrl+Shift+4 |
 | SPL2+PS+W | Fn1+`` ` ``+W | Cmd+Ctrl+Shift+4, then Space |
 
-### Edit (Emacs — all apps except Emacs-native apps)
-
-Excluded apps: VS Code, Ghostty, cmux, Terminal.app (these handle Emacs keys natively).
+### Edit (Emacs — all apps)
 
 **Cursor movement:**
 
@@ -231,9 +229,7 @@ Karabiner monitors Ctrl+X state and converts the following chord:
 | SPL2+PS+S | Fn1+`` ` ``+S | AHK: Win+Shift+S (region snip) |
 | SPL2+PS+W | Fn1+`` ` ``+W | AHK: Alt+Print Screen (window capture) |
 
-### Edit (Emacs — all apps except Emacs-native apps)
-
-Excluded apps: VS Code (`Code.exe`), Windows Terminal (`WindowsTerminal.exe`).
+### Edit (Emacs — all apps)
 
 **Cursor movement:**
 
@@ -338,3 +334,31 @@ AHK monitors Ctrl+X state and converts:
 | Ctrl+S → Ctrl+F (Find) on Win | Ctrl+S is Emacs search forward; existing Win Save is Ctrl+X Ctrl+S |
 | SPL+K unifies close window and close tab | K = Kill (Emacs C-x k parallel). Alt+F4 closes focused window or tab depending on context |
 | Clipboard history (M-y) | No universal OS clipboard history. Delegates to system clipboard manager (e.g., Windows built-in Win+V, or a third-party tool on Mac) |
+
+---
+
+## Verification Items
+
+Items that must be confirmed before or during implementation. Each has a concrete test procedure.
+
+### Mac (Karabiner)
+
+| ID | Item | Risk | Test |
+|----|------|------|------|
+| V-M1 | HHKB vendor_id / product_id | All rules silently inactive if wrong | Open Karabiner EventViewer while HHKB is connected; confirm vendor_id and product_id |
+| V-M2 | Ctrl+Space IME conflict | Ctrl+Space (set-mark) eaten by macOS IME | System Settings → Keyboard Shortcuts → Input Sources → uncheck Ctrl+Space; then verify Ctrl+Space reaches Karabiner |
+| V-M3 | Karabiner Ctrl+X variable reset | Prefix state stuck ON after timeout | Press Ctrl+X then wait 3 s without chord; confirm next key is not treated as a File command |
+| V-M4 | Screenshot chord (PS vs PS+S vs PS+W) | Wrong capture triggered | Press each chord individually; confirm correct screenshot mode activates |
+| V-M5 | Opt+Arrow conflict: word-move vs browser navigation | SPL+F/B broken in Chrome | In Chrome URL bar, press SPL+F; confirm word-forward, not browser forward |
+| V-M6 | Ctrl+K in text fields (Shift+End → Cmd+X) | Shift+End selects to visual line end, not logical EOL in wrapped text | In a wrapped paragraph, press Ctrl+K; confirm kill to logical end of line |
+
+### Win (AHK)
+
+| ID | Item | Risk | Test |
+|----|------|------|------|
+| V-W1 | AHK Ctrl+X prefix reset | Prefix state stuck ON | Press Ctrl+X then wait 2 s; confirm next key is not treated as a File command |
+| V-W2 | SPL+K (Alt+K) context detection | Wrong close action (tab vs window) | In Chrome press SPL+K → should close tab; on Desktop press SPL+K → should close window |
+| V-W3 | Ctrl+V (Page Down) vs paste conflict | Users expecting Ctrl+V = paste get page scroll | Press Ctrl+V in Notepad; confirm Page Down, not paste (paste is Ctrl+Y) |
+| V-W4 | Alt+letter activates menu bar | SPL+* rules fire menu bar before AHK intercepts | In Notepad press SPL+N (Alt+N); confirm new window, not Format menu |
+| V-W5 | Ctrl+S → Ctrl+F (find) in all apps | Ctrl+S Save muscle memory broken | Press Ctrl+S in Notepad; confirm find dialog opens, not Save |
+| V-W6 | Windows Terminal pane splits (Ctrl+X 2/3) | Default WT keybindings differ | In WT press Ctrl+X 2; confirm horizontal split (requires WT settings.json update — document in setup) |
