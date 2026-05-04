@@ -144,14 +144,14 @@ aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 - T3+T5（評価）: 5ラウンド実施。各ラウンドで valid findings を修正
 - 修正済み: EB.1（ゴール確認）, EB.2（基準トレーサビリティ）, EA.1（会話コンテキスト除外の明示）, ED.4（valid result 定義）, GOAL-3（autonomous 起動パス）, EXPERT-3（空ファイル・unreadable principles）, EXPERT-4（allowed-tools 宣言）, EXPERT-1（Boolean 曖昧さ）, GOAL-3（autonomous 空引数の中立メッセージ）
 
-**エスカレーション事項（ユーザー判断待ち）**:
-- [EA.1] 5ラウンド・複数アプローチで解消されなかった finding: 「evaluator への独立性を instruction で達成しようとしている。EA.1 は structural でなければならないとする」
-  - 反論: Agent tool のサブエージェントは親の会話コンテキストを構造的に継承しない。instruction は「何を渡すか」の指定であり、「無視せよ」の指示ではない。これは構造的独立性の範囲内と解釈できる
-  - 選択肢: **accept**（現設計のまま）/ **fix**（evaluator を2ターン化：ターン1で基準導出、ターン2で評価）/ **reject**（finding 自体が不当と判断）
+**エスカレーション結果**:
+- [EA.1] **reject** — 事実テストで確認：Agent tool のサブエージェントは親の会話履歴に構造的にアクセスできない。evaluators の finding は「instruction が独立性の唯一の機構」という誤った前提に基づいていた。3 evaluators が全員 reject に同意。
+- Edge case として記録：評価対象が rules ファイル自体の場合、そのファイルがシステムコンテキストに入っているため完全隔離は不可能。この場合 EA.2（停止・報告）が適用される。assay はこの制約を明示していないが軽微な残課題。
 
 ### 現在地
 
-T5（評価・修正ループ）完了。T6（ユーザーレビュー）待ち
+T5（評価・修正ループ）完了、EA.1 escalation を reject で解決。
+**次のステップ: T6（ユーザーレビュー・承認）→ T7（PR #10 完成・マージ）**
 
 ---
 
