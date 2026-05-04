@@ -2,14 +2,14 @@
 
 ## Architecture
 
-### Layers
-
 | Layer | Role | Tool |
 |-------|------|------|
 | **L1 (HHKB Keymap)** | Physical key layout | HHKB Studio Keymap Tool |
 | **L2 (OS Remap)** | All key conversion rules | Karabiner-Elements (Mac) / AHK v2 (Win) |
 
-No L3 (app-specific config) is used. All rules are handled at L2.
+No L3 (app-specific config). All rules are handled at L2, including app-conditional rules.
+
+Keybinding requirements: [requirements.md](./requirements.md)
 
 ---
 
@@ -36,290 +36,124 @@ Fn1 layer other keys: follow the standard video reference.
 
 ## L2: Karabiner-Elements (Mac)
 
-All rules apply **only when HHKB is connected** (vendor_id: 1278, product_id: 22).
+### Basics
 
-### IME
+- Rules apply **only when HHKB is connected** (vendor_id: 1278, product_id: 22 — verify with Karabiner EventViewer).
+- **SPL = Opt**, SPL2 = Fn1.
+- Prerequisite: disable Mac's default Ctrl+Space IME shortcut in System Settings.
 
-| HHKB | Karabiner rule | Result |
-|------|----------------|--------|
-| SPR (Kana) | passthrough | Switch to Japanese |
-| SPL2+SPR (Fn1+Kana = Eisu keycode) | passthrough | Switch to English |
+### Standard conversion
 
-> Prerequisite: disable Mac's default Ctrl+Space IME shortcut in System Settings.
+All categories in requirements.md (IME, App, Window, Tab, SS, Edit, Browser) apply with **SPL → Opt** and **Opt+\* → Cmd+\*** unless noted below.
 
-### App
+On Mac, `Ctrl+F/B/N/P/A/E/D/S/R/V` are handled by macOS Cocoa natively and require no explicit rule (passthrough).
 
-| HHKB | Input | Output | Note |
-|------|-------|--------|------|
-| SPL+Tab | Opt+Tab | Cmd+Tab | App switch (AltTab app) |
-| SPL+SP | Opt+Space | Cmd+Space | Spotlight |
-| SPL+Q | Opt+Q | Cmd+Q | Quit app |
+### Non-trivial conversions (explicit Karabiner rules required)
 
-### Window
+These differ from a simple Opt → Cmd substitution:
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+N | Opt+N | Cmd+N |
-| SPL+K | Opt+K | Cmd+W |
-| SPL+M | Opt+M | Cmd+M |
-| Ctrl+SPL+F | Ctrl+Opt+F | Ctrl+Cmd+F |
+| Input | Output | Note |
+|-------|--------|------|
+| Ctrl+K | Shift+End → Cmd+X | Kill to EOL: select to end then cut to clipboard |
+| Ctrl+W | Cmd+X | Cut region |
+| Ctrl+Y | Cmd+V | Paste |
+| Ctrl+/ | Cmd+Z | Undo |
+| Ctrl+Shift+/ | Cmd+Shift+Z | Redo |
+| Ctrl+G | → | Deselect (move right to clear selection) |
+| Opt+F (SPL+F) | Opt+→ | Word forward |
+| Opt+B (SPL+B) | Opt+← | Word backward |
+| Opt+V (SPL+V) | Page Up | Scroll up |
+| Opt+W (SPL+W) | Cmd+C | Copy region |
+| Opt+D (SPL+D) | Opt+→ → Delete | Word kill forward (no clipboard) |
+| Opt+DEL (SPL+DEL) | Opt+Backspace | Word kill backward |
 
-### Tab
+### Terminal apps (Ghostty, Terminal.app) — passthrough override
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+T | Opt+T | Cmd+T |
-| SPL+K | Opt+K | Cmd+W (same as Window — Cmd+W closes tab or window depending on context) |
-| SPL+Shift+T | Opt+Shift+T | Cmd+Shift+T |
-| Ctrl+Tab | passthrough | — |
-| Ctrl+Shift+Tab | passthrough | — |
+In terminal apps, readline manages its own kill ring. The following keys must passthrough so readline handles them natively instead of the standard L2 conversion above:
 
-### Screenshot
+| Key | Standard L2 output | Terminal override |
+|-----|-------------------|-------------------|
+| Ctrl+K | Shift+End → Cmd+X | passthrough |
+| Ctrl+W | Cmd+X | passthrough |
+| Ctrl+Y | Cmd+V | passthrough |
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL2+PS | Fn1+`` ` `` | Cmd+Ctrl+Shift+3 |
-| SPL2+PS+S | Fn1+`` ` ``+S | Cmd+Ctrl+Shift+4 |
-| SPL2+PS+W | Fn1+`` ` ``+W | Cmd+Ctrl+Shift+4, then Space |
+All other keys follow the standard conversion even in terminals.
 
-### Edit (Emacs — all apps)
+### File / Pane: Ctrl+X prefix
 
-**Cursor movement:**
+Karabiner tracks a `ctrl_x_pressed` variable. While active, the next key is treated as a chord:
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+F | passthrough | macOS Cocoa native (→) |
-| Ctrl+B | passthrough | macOS Cocoa native (←) |
-| Ctrl+N | passthrough | macOS Cocoa native (↓) |
-| Ctrl+P | passthrough | macOS Cocoa native (↑) |
-| Ctrl+A | passthrough | macOS Cocoa native (Home) |
-| Ctrl+E | passthrough | macOS Cocoa native (End) |
-| SPL+F (M-f) | Opt+F | Opt+→ (word forward) |
-| SPL+B (M-b) | Opt+B | Opt+← (word backward) |
-| Ctrl+V | passthrough | scroll down (page down) |
-| SPL+V (M-v) | Opt+V | Page Up |
-| Ctrl+L | passthrough | recenter (no universal equiv; passthrough) |
-| SPL+G SPL+G | Opt+G Opt+G | go to line (app-specific) |
+| Chord | Output |
+|-------|--------|
+| Ctrl+X → Ctrl+F | Cmd+O |
+| Ctrl+X → Ctrl+S | Cmd+S |
+| Ctrl+X → Ctrl+W | Cmd+Shift+S |
+| Ctrl+X → K | Cmd+W |
+| Ctrl+X → B | Cmd+T |
+| Ctrl+X → H | Cmd+A |
+| Ctrl+X → 2 | Cmd+K Cmd+\ (VS Code) / Cmd+D (Terminal) |
+| Ctrl+X → 3 | Cmd+K Cmd+- (VS Code) / Cmd+Shift+D (Terminal) |
+| Ctrl+X → O | Cmd+K Cmd+→ (VS Code) |
+| Ctrl+X → 0 | Cmd+K W (VS Code) |
 
-**Deletion:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+D | passthrough | macOS Cocoa native (Delete fwd) |
-| SPL+D (M-d) | Opt+D | Opt+→ then Delete (word kill fwd, no clipboard) |
-| SPL+DEL (M-DEL) | Opt+DEL | Opt+Backspace (word kill back, OS native) |
-| Ctrl+K | Ctrl+K | Shift+End → Cmd+X (kill to EOL → clipboard) |
-
-**Mark / Region:**
-
-| HHKB | Input | Output | Note |
-|------|-------|--------|------|
-| Ctrl+Space | Ctrl+Space | set mark (state ON) | Disable Mac IME Ctrl+Space first |
-| Ctrl+G | Ctrl+G | clear mark + → (deselect) | mark state only |
-| Ctrl+X H | Ctrl+X H | Cmd+A | select all |
-
-**Kill / Yank:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+W (M-w) | Opt+W | Cmd+C (copy) |
-| Ctrl+W | Ctrl+W | Cmd+X (cut) |
-| Ctrl+Y | Ctrl+Y | Cmd+V (paste) |
-| SPL+Y (M-y) | Opt+Y | clipboard history (best effort) |
-
-**Undo / Redo:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+/ | Ctrl+/ | Cmd+Z |
-| Ctrl+Shift+/ | Ctrl+Shift+/ | Cmd+Shift+Z |
-
-**Search / Replace:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+S | passthrough | macOS Cocoa native (find) |
-| Ctrl+R | passthrough | macOS Cocoa native (find prev) |
-| SPL+Shift+5 (M-%) | Opt+Shift+5 | query replace (app-specific) |
-
-### File (Ctrl+X prefix — all apps)
-
-Karabiner monitors Ctrl+X state and converts the following chord:
-
-| HHKB sequence | Output (Mac) |
-|---------------|--------------|
-| Ctrl+X → Ctrl+F | Cmd+O (open file) |
-| Ctrl+X → Ctrl+S | Cmd+S (save) |
-| Ctrl+X → Ctrl+W | Cmd+Shift+S (save as) |
-| Ctrl+X → K | Cmd+W (close file/tab) |
-| Ctrl+X → B | Cmd+T (switch tab/buffer) |
-
-### Pane (Ctrl+X prefix — app-specific)
-
-| HHKB sequence | VS Code (Mac) | Terminal (Mac) |
-|---------------|---------------|----------------|
-| Ctrl+X → 0 | Cmd+K W | — |
-| Ctrl+X → 1 | close other editors | — |
-| Ctrl+X → 2 | Cmd+K Cmd+\ (horiz split) | Cmd+D (horiz) |
-| Ctrl+X → 3 | Cmd+K Cmd+- (vert split) | Cmd+Shift+D (vert) |
-| Ctrl+X → O | Cmd+K Cmd+→ (next pane) | — |
-
-### Browser (Chrome only)
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+R | Opt+R | Cmd+R (reload) |
-| SPL+L | Opt+L | Cmd+L (focus URL) |
-| SPL+I | Opt+I | Cmd+D (bookmark) |
-| SPL+Click | Opt+Click | Cmd+Click (new tab) |
-| SPL+← | Opt+← | Cmd+← (back) |
-| SPL+→ | Opt+→ | Cmd+→ (forward) |
+Variable resets after 3 s or on any unrecognized key.
 
 ---
 
 ## L2: AHK v2 (Win)
 
-### Operation policy
+### Basics
 
-- **Do not register to startup.**
-- Launch `.ahk` manually when using HHKB; quit when switching to the built-in keyboard.
-- No device filter required (manual start/stop serves the same purpose).
+- **Do not register to startup.** Launch manually when using HHKB; quit when switching to built-in keyboard.
+- **SPL = Alt**, SPL2 = Fn1.
+- No device filter needed (manual start/stop is equivalent).
 
-### IME
+### Standard conversion
 
-| HHKB | Input | Note |
-|------|-------|------|
-| SPR (Kana) | passthrough | Switch to Japanese (OS native) |
-| SPL2+SPR (Fn1+Kana) | passthrough | Switch to English (Eisu keycode, OS native) |
+All categories in requirements.md apply with **SPL → Alt** and **Alt+\* → Ctrl+\*** (or Win+\* for system ops) unless noted below.
 
-### App
+On Win, Ctrl+\* keys are actively remapped by AHK (no OS-level native handling unlike macOS Cocoa).
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+Tab | Alt+Tab | passthrough (native) |
-| SPL+SP | Alt+Space | Win+S (search) |
-| SPL+Q | Alt+Q | Alt+F4 (quit) |
+### Non-trivial conversions
 
-### Window
+| Input | Output | Note |
+|-------|--------|------|
+| Alt+Space (SPL+SP) | Win+S | Alt+Space opens system menu; remap to search |
+| Alt+Q (SPL+Q) | Alt+F4 | Quit app |
+| Alt+M (SPL+M) | Win+↓ | Minimize |
+| Ctrl+Alt+F (Ctrl+SPL+F) | F11 | Fullscreen |
+| Ctrl+K | Shift+End → Ctrl+X | Kill to EOL |
+| Ctrl+W | Ctrl+X | Cut region |
+| Ctrl+Y | Ctrl+V | Paste |
+| Ctrl+/ | Ctrl+Z | Undo |
+| Ctrl+Shift+/ | Ctrl+Shift+Z | Redo |
+| Ctrl+S | Ctrl+F | Search forward (Win Save moved to Ctrl+X Ctrl+S) |
+| Alt+K (SPL+K) | Ctrl+W or Alt+F4 | Close: tabbed apps → Ctrl+W; others → Alt+F4 |
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+N | Alt+N | Ctrl+N (new window) |
-| SPL+K | Alt+K | Ctrl+W or Alt+F4 (see note below) |
-| SPL+M | Alt+M | Win+↓ (minimize) |
-| Ctrl+SPL+F | Ctrl+Alt+F | F11 (fullscreen) |
+### Terminal apps (Windows Terminal) — passthrough override
 
-### Tab
+| Key | Standard L2 output | Terminal override |
+|-----|-------------------|-------------------|
+| Ctrl+K | Shift+End → Ctrl+X | passthrough |
+| Ctrl+W | Ctrl+X | passthrough |
+| Ctrl+Y | Ctrl+V | passthrough |
 
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+T | Alt+T | Ctrl+T (new tab) |
-| SPL+K | Alt+K | same as Window SPL+K |
-| SPL+Shift+T | Alt+Shift+T | Ctrl+Shift+T (reopen tab) |
-| Ctrl+Tab | passthrough | — |
-| Ctrl+Shift+Tab | passthrough | — |
+### File / Pane: Ctrl+X prefix
 
-> **SPL+K on Win**: AHK uses app context. Tabbed apps (Chrome, VS Code, Windows Terminal) → Ctrl+W (close tab). Other apps → Alt+F4 (close window).
+AHK tracks a `CtrlXActive` flag. Resets after 2 s or on unrecognized key.
 
-### Screenshot
-
-| HHKB | Input | Note |
-|------|-------|------|
-| SPL2+PS | Fn1+`` ` `` = Print Screen | HHKB L1 handles this; Win native PS = full capture |
-| SPL2+PS+S | Fn1+`` ` ``+S | AHK: Win+Shift+S (region snip) |
-| SPL2+PS+W | Fn1+`` ` ``+W | AHK: Alt+Print Screen (window capture) |
-
-### Edit (Emacs — all apps)
-
-**Cursor movement:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+F | Ctrl+F | → |
-| Ctrl+B | Ctrl+B | ← |
-| Ctrl+N | Ctrl+N | ↓ |
-| Ctrl+P | Ctrl+P | ↑ |
-| Ctrl+A | Ctrl+A | Home |
-| Ctrl+E | Ctrl+E | End |
-| SPL+F (M-f) | Alt+F | Ctrl+→ (word forward) |
-| SPL+B (M-b) | Alt+B | Ctrl+← (word backward) |
-| Ctrl+V | Ctrl+V | Page Down |
-| SPL+V (M-v) | Alt+V | Page Up |
-| Ctrl+L | Ctrl+L | passthrough (recenter no equiv) |
-| SPL+G SPL+G | Alt+G Alt+G | go to line (app-specific) |
-
-**Deletion:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+D | Ctrl+D | Delete |
-| SPL+D (M-d) | Alt+D | Ctrl+Delete (word kill fwd) |
-| SPL+DEL (M-DEL) | Alt+DEL | Ctrl+Backspace (word kill back) |
-| Ctrl+K | Ctrl+K | Shift+End → Ctrl+X (kill to EOL → clipboard) |
-
-**Mark / Region:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+Space | Ctrl+Space | set mark (state ON) |
-| Ctrl+G | Ctrl+G | clear mark + → (deselect) |
-| Ctrl+X H | Ctrl+X H | Ctrl+A (select all) |
-
-**Kill / Yank:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+W (M-w) | Alt+W | Ctrl+C (copy) |
-| Ctrl+W | Ctrl+W | Ctrl+X (cut) |
-| Ctrl+Y | Ctrl+Y | Ctrl+V (paste) |
-| SPL+Y (M-y) | Alt+Y | clipboard history (best effort) |
-
-**Undo / Redo:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+/ | Ctrl+/ | Ctrl+Z |
-| Ctrl+Shift+/ | Ctrl+Shift+/ | Ctrl+Shift+Z |
-
-**Search / Replace:**
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| Ctrl+S | Ctrl+S | Ctrl+F (find) |
-| Ctrl+R | Ctrl+R | passthrough or Shift+F3 (find prev) |
-| SPL+Shift+5 | Alt+Shift+5 | Ctrl+H (replace) |
-
-### File (Ctrl+X prefix — all apps)
-
-AHK monitors Ctrl+X state and converts:
-
-| HHKB sequence | Output (Win) |
-|---------------|--------------|
-| Ctrl+X → Ctrl+F | Ctrl+O (open file) |
-| Ctrl+X → Ctrl+S | Ctrl+S (save) |
-| Ctrl+X → Ctrl+W | Ctrl+Shift+S (save as) |
-| Ctrl+X → K | Ctrl+W (close file/tab) |
-| Ctrl+X → B | Ctrl+Tab (switch tab/buffer) |
-
-### Pane (Ctrl+X prefix — app-specific)
-
-| HHKB sequence | VS Code (Win) | Windows Terminal |
-|---------------|---------------|-----------------|
-| Ctrl+X → 0 | Ctrl+K W | — |
-| Ctrl+X → 1 | close other editors | — |
-| Ctrl+X → 2 | Ctrl+K Ctrl+\ (horiz split) | Alt+Shift+- (horiz) |
-| Ctrl+X → 3 | Ctrl+K Ctrl+- (vert split) | Alt+Shift+= (vert) |
-| Ctrl+X → O | Ctrl+K Ctrl+→ (next pane) | — |
-
-### Browser (Chrome only)
-
-| HHKB | Input | Output |
-|------|-------|--------|
-| SPL+R | Alt+R | Ctrl+R (reload) |
-| SPL+L | Alt+L | Ctrl+L (focus URL) |
-| SPL+I | Alt+I | Ctrl+D (bookmark) |
-| SPL+← | Alt+← | passthrough (native back) |
-| SPL+→ | Alt+→ | passthrough (native forward) |
+| Chord | Output |
+|-------|--------|
+| Ctrl+X → Ctrl+F | Ctrl+O |
+| Ctrl+X → Ctrl+S | Ctrl+S |
+| Ctrl+X → Ctrl+W | Ctrl+Shift+S |
+| Ctrl+X → K | Ctrl+W |
+| Ctrl+X → B | Ctrl+Tab |
+| Ctrl+X → H | Ctrl+A |
+| Ctrl+X → 2 | Ctrl+K Ctrl+\ (VS Code) / Alt+Shift+- (WT) |
+| Ctrl+X → 3 | Ctrl+K Ctrl+- (VS Code) / Alt+Shift+= (WT) |
+| Ctrl+X → O | Ctrl+K Ctrl+→ (VS Code) |
+| Ctrl+X → 0 | Ctrl+K W (VS Code) |
 
 ---
 
@@ -327,38 +161,27 @@ AHK monitors Ctrl+X state and converts:
 
 | Decision | Reason |
 |----------|--------|
-| No L3 | Karabiner and AHK both support prefix sequences and app conditions; no need to push config into individual apps |
-| AHK manual start, no startup | Standard AHK v2 has no per-device filtering without AutoHotInterception (kernel driver with stability risks). Manual start/stop serves the same purpose safely |
-| Ctrl+\* overwrites Win OS shortcuts (Ctrl+N, Ctrl+F, etc.) | Intentional: Emacs bindings take priority. App operations use SPL+\* (Alt+\*) instead |
-| Alt+\* overwrites Win menu bar activation | Intentional: SPL key is Alt; menu bar access is sacrificed |
-| Ctrl+S → Ctrl+F (Find) on Win | Ctrl+S is Emacs search forward; existing Win Save is Ctrl+X Ctrl+S |
-| SPL+K unifies close window and close tab | K = Kill (Emacs C-x k parallel). Alt+F4 closes focused window or tab depending on context |
-| Clipboard history (M-y) | No universal OS clipboard history. Delegates to system clipboard manager (e.g., Windows built-in Win+V, or a third-party tool on Mac) |
+| No L3 | Karabiner and AHK support app-conditional rules at L2; no per-app config files needed |
+| AHK manual start | AHK v2 has no per-device filtering without a kernel driver. Manual start/stop is the safe equivalent |
+| Ctrl+\* overwrites Win OS shortcuts | Intentional: Emacs bindings take priority. App ops use SPL+\* (Alt+\*) |
+| Alt+\* overwrites Win menu bar | Intentional: SPL = Alt; menu bar access is sacrificed |
+| Ctrl+S → Ctrl+F on Win | Emacs C-s = search forward; Save is Ctrl+X Ctrl+S |
+| SPL+K unifies close window/tab | K = Kill (Emacs C-x k parallel); Cmd+W / Alt+F4 close tab or window by context |
+| Terminal passthrough (Ctrl+K/W/Y) | Terminal readline uses its own kill ring; OS clipboard ops don't apply |
+| Clipboard history (M-y) | No universal equivalent; delegates to OS clipboard manager (Win+V on Win) |
 
 ---
 
 ## Verification Items
 
-Items that must be confirmed before or during implementation. Each has a concrete test procedure.
-
-### Mac (Karabiner)
-
 | ID | Item | Risk | Test |
 |----|------|------|------|
-| V-M1 | HHKB vendor_id / product_id | All rules silently inactive if wrong | Open Karabiner EventViewer while HHKB is connected; confirm vendor_id and product_id |
-| V-M2 | Ctrl+Space IME conflict | Ctrl+Space (set-mark) eaten by macOS IME | System Settings → Keyboard Shortcuts → Input Sources → uncheck Ctrl+Space; then verify Ctrl+Space reaches Karabiner |
-| V-M3 | Karabiner Ctrl+X variable reset | Prefix state stuck ON after timeout | Press Ctrl+X then wait 3 s without chord; confirm next key is not treated as a File command |
-| V-M4 | Screenshot chord (PS vs PS+S vs PS+W) | Wrong capture triggered | Press each chord individually; confirm correct screenshot mode activates |
-| V-M5 | Opt+Arrow conflict: word-move vs browser navigation | SPL+F/B broken in Chrome | In Chrome URL bar, press SPL+F; confirm word-forward, not browser forward |
-| V-M6 | Ctrl+K in text fields (Shift+End → Cmd+X) | Shift+End selects to visual line end, not logical EOL in wrapped text | In a wrapped paragraph, press Ctrl+K; confirm kill to logical end of line |
-
-### Win (AHK)
-
-| ID | Item | Risk | Test |
-|----|------|------|------|
-| V-W1 | AHK Ctrl+X prefix reset | Prefix state stuck ON | Press Ctrl+X then wait 2 s; confirm next key is not treated as a File command |
-| V-W2 | SPL+K (Alt+K) context detection | Wrong close action (tab vs window) | In Chrome press SPL+K → should close tab; on Desktop press SPL+K → should close window |
-| V-W3 | Ctrl+V (Page Down) vs paste conflict | Users expecting Ctrl+V = paste get page scroll | Press Ctrl+V in Notepad; confirm Page Down, not paste (paste is Ctrl+Y) |
-| V-W4 | Alt+letter activates menu bar | SPL+* rules fire menu bar before AHK intercepts | In Notepad press SPL+N (Alt+N); confirm new window, not Format menu |
-| V-W5 | Ctrl+S → Ctrl+F (find) in all apps | Ctrl+S Save muscle memory broken | Press Ctrl+S in Notepad; confirm find dialog opens, not Save |
-| V-W6 | Windows Terminal pane splits (Ctrl+X 2/3) | Default WT keybindings differ | In WT press Ctrl+X 2; confirm horizontal split (requires WT settings.json update — document in setup) |
+| V-M1 | HHKB vendor_id / product_id | All rules silently inactive if wrong | Karabiner EventViewer → confirm values while HHKB connected |
+| V-M2 | Ctrl+Space IME conflict | Set-mark eaten by macOS IME | Disable in System Settings → confirm Ctrl+Space reaches Karabiner |
+| V-M3 | Karabiner Ctrl+X variable reset | Prefix stuck ON | Press Ctrl+X, wait 3 s, press a key → confirm no chord fires |
+| V-M4 | Screenshot chords (PS / PS+S / PS+W) | Wrong capture mode | Press each chord individually; confirm correct mode |
+| V-M5 | Ctrl+K wrapped text (Shift+End) | Selects visual line, not logical EOL | In wrapped paragraph, press Ctrl+K → confirm logical EOL kill |
+| V-W1 | AHK Ctrl+X prefix reset | Prefix stuck ON | Press Ctrl+X, wait 2 s, press a key → confirm no chord fires |
+| V-W2 | SPL+K context (tab vs window) | Wrong close action | Chrome: SPL+K → close tab; Desktop: SPL+K → close window |
+| V-W3 | Alt+letter menu bar intercept | Menu opens before AHK fires | Notepad: SPL+N → confirm new window, not Format menu |
+| V-W4 | Windows Terminal Ctrl+X 2/3 | Default WT keybindings differ | Requires WT settings.json update (document in setup) |
