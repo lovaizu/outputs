@@ -53,12 +53,12 @@ Fn1 layer other keys: follow the standard HHKB video reference.
 
 ### Install
 
-Search for **"Emacs Friendly Keymap"** (or `lfs.vscode-emacs-friendly`) in the Extensions panel and install.
+Search for **"Awesome Emacs Keymap"** (`tuttieee.emacs-mcx`) in the Extensions panel and install.
 
 Alternatively:
 
 ```
-ext install lfs.vscode-emacs-friendly
+ext install tuttieee.emacs-mcx
 ```
 
 ### Configuration
@@ -67,7 +67,7 @@ Add to `settings.json`:
 
 ```json
 {
-  "emacs-friendly.useMetaKey": true
+  "emacs-mcx.useMetaKey": true
 }
 ```
 
