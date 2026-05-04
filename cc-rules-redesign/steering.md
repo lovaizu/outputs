@@ -20,7 +20,7 @@
 
 ## PR goal
 
-CCが産出するあらゆる成果物（計画・スキル・コマンド・エージェント設計など）に、生成原則と検証原則が取り込まれた状態にする。
+CCが産出するあらゆる成果物（計画・スキル・コマンド・エージェント設計など）に、行動原則と評価原則が取り込まれた状態にする。
 
 aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 
@@ -29,7 +29,7 @@ aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 | 活動 | 定義 |
 |---|---|
 | 生成 | AIがユーザーの目的を達成するプロダクト・ドキュメントを生成する |
-| 検証 | AIが生成物がユーザーのゴールを達成しているかを有効な方法で評価する |
+| 評価 | AIが生成物がユーザーのゴールを達成しているかを有効な方法で評価する |
 
 ## Completed
 
@@ -37,43 +37,31 @@ aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 - [x] Draft principles → `.claude/rules/principles.md`
 - [x] Archive existing `.claude/rules/` files → `cc-rules-redesign/rules-backup/`
 - [x] principles.md を 4原則に整理・洗練（名称変更・抽象度統一）
-- [x] 生成原則・検証原則の設計（要件合意）
+- [x] 生成原則・評価原則の設計（要件合意）
+- [x] `generation.md` → `action.md` にリネーム（Action Principles）
+- [x] `verification.md` → `evaluation.md` にリネーム（Evaluation Principles）
+- [x] 両原則の文言精査・整備
 
-## 生成原則（合意済み・変更なし）
+## 現在のファイル状態
 
-ファイル: `.claude/rules/principles.md` → **`generation.md` にリネーム**
+最新コミット: `16d6674`
 
-現行4原則をそのまま使用。
-
-## 検証原則（合意済み・未実装）
-
-ファイル: `.claude/rules/verification.md`（新規作成）
-
-1. **Independence** — 評価者は生成プロセスのコンテキストを持たず、互いの評価結果も知らない
-2. **Goal-derived** — 評価基準はゴールから導出する。ゴールに紐づかない基準は無効
-3. **Criteria-bound** — 評価は事前に明示された基準に対して行う
-4. **Quorum** — 独立した3評価者が並列評価し、2/3以上一致した指摘のみ有効
-5. **Resolution** — 有効な指摘はすべて解消またはユーザーへエスカレーション。解消されるまでループ
-
-## 評価メカニズムの要件（合意済み・未実装）
-
-1. トリガーが2種類 — ユーザー起動 / AI自律起動
-2. メインコンテキストには結論だけ返す — 評価詳細はサブエージェント内に閉じる
-3. バイアスなし — 独立したサブエージェントで評価
-4. 最新のprinciples を動的に参照する
-5. 評価者同士が互いの出力を見ない
-6. 発見は原則単位でトレーサブル
-7. 改善後もゴールが保たれているか確認
-8. 終了条件：すべての指摘が解消されたらループ終了
-9. 3評価者・2/3以上一致 = 有効な指摘
+- `.claude/rules/action.md` — Action Principles
+  - A: Fact-grounded（4項目）
+  - B: Goal-anchored（5項目）— B.3に「アプローチ失敗時は代替手段を探す」追加済み
+  - C: Verified at every stage — C.2をgoal perspectiveに修正済み
+  - D: Proposed for judgment
+- `.claude/rules/evaluation.md` — Evaluation Principles
+  - A: Independence
+  - B: Goal-derived
+  - C: Criteria-bound
+  - D: Quorum
+  - E: Resolution — 修正がデフォルト、エスカレーションは例外。Fixed/Escalatedをサブ項目化。E.3をアプローチ変更要件に修正
 
 ## Next tasks（次セッションの起点）
 
-1. [ ] `principles.md` → `generation.md` にリネーム
-2. [ ] `verification.md` を作成（検証原則5つ）
-3. [ ] **オープン問題**: CCが計画やスキルを作るとき、どのような仕組みで両原則が取り込まれるか設計する
-4. [ ] 3の設計を実装する
-5. [ ] PR #10 完成
+1. [ ] **オープン問題の設計・実装**: CCが計画やスキルを作るとき、Action PrinciplesとEvaluation Principlesが取り込まれる仕組みをどう設計するか
+2. [ ] PR #10 完成
 
 ## Session context
 
