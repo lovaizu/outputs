@@ -1,4 +1,4 @@
-# Continuation — 番号付き箇条書きへの変換
+# Continuation
 
 ## ブランチ・PR
 
@@ -8,37 +8,39 @@
 
 ## 現在のファイル状態
 
-両ファイルとも最良の検証済み版に戻した状態（コミット `edab8df`）。
+最新コミット: `d840962` — A/B/C見出し + 番号付きリスト形式に変換済み。
 
-- `.claude/rules/generation.md` → `4187463` の内容（前セッションで洗練済みの散文版）
-- `.claude/rules/verification.md` → `3dcc50b` の内容（9ラウンドのループホールレビュー完了版）
+- `.claude/rules/generation.md` — A/B/C/D見出し、各原則の文を番号付きリストに分割
+- `.claude/rules/verification.md` — A/B/C/D/E見出し、各原則の文を番号付きリストに分割
 
-## 次のタスク
+## 次のタスク：項目の切れ目を意図単位に直す
 
-**番号付き箇条書きへの変換**（generation.md・verification.md 両方）
+### 問題
+
+今は「文の区切り = 項目の区切り」になっている。正しくは「意図の区切り = 項目の区切り」。
+
+例（generation.md A原則）：
+```
+現在:
+3. Verify the complete population relevant to the goal, never sample.
+4. The population is everything the goal's success depends on.
+5. If uncertain, state the assumed scope and confirm with the user.
+
+あるべき姿（3〜5は「母集団の定義と扱い」という一つの意図）:
+3. Verify the complete population relevant to the goal, never sample. The population is everything the goal's success depends on; if uncertain, state the assumed scope and confirm with the user.
+```
 
 ### ルール
 
-- 各原則の本文を `1.1`、`1.2`... 形式の番号付き項目に分割する
-- 各項目は完全な文（句読点あり）にする
-- em dash（—）不使用、コロン（:）不使用
-- 条件付き文は "If X, Y." 形式
-- **内容を一切変えない** — 変換前後で意味が等価であることを一文ずつ確認する
-
-### 前回の失敗パターン（避けること）
-
-- "The user's stated goal is the fixed point." → 消えた（重大な劣化）
-- "not assumptions" → "only" に弱体化
-- "Present every result to the user" → 消えた
-- 評価者の役割説明 "(can they achieve their goal?)" → 消えた
-- 3.3 に "or escalating" を追記してAIに逃げ道を与えた
+- 意図・論理的まとまりを単位として項目を組み直す
+- 文言は一切変えない
+- 変更前後で意味が等価であることを確認する
 
 ### 手順
 
-1. generation.md を変換（内容照合しながら）
-2. ユーザーにPRで確認してもらう前に、元の散文と変換後を並べて差分レビュー
-3. verification.md を変換
-4. 両ファイルをコミット・プッシュ
+1. generation.md を意図単位で組み直す
+2. verification.md を意図単位で組み直す
+3. コミット・プッシュ（確認不要）
 
 ## その先のタスク（steering.md より）
 
