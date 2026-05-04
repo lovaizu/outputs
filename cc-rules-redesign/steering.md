@@ -20,62 +20,46 @@
 
 ## Design decisions
 
-- Core rules alone won't be followed. Workflows operationalize the rules.
-- Core rules serve as a checklist when designing workflows (not converted into workflows themselves).
+- Principles alone won't be followed. Workflows operationalize the principles.
+- Principles serve as a checklist when designing workflows (not converted into workflows themselves).
 - Each workflow is a custom slash command for aiya.
-- Sub-agent for workflow review: `wf-rev` (checks each command's workflow against principles).
 - File naming: this file is `steering.md`; slash command definitions go under `.claude/skills/`.
-- Scope agreement upfront (before autonomous execution) belongs in the `/go` workflow, not core rules.
+- Scope agreement upfront (before autonomous execution) belongs in the `/go` workflow, not principles.
 
 ## Current phase
 
-PR #10 open — core rules complete, command creation not yet started.
+**wf-rev 再設計中。** principles.md と wf-rev を整理・洗練した後、未解決の設計判断が残っている。
 
-Core rules grew from 4 to 8 rules during rule refinement:
-- Rules 1–5: original (Fact-first, Purpose-driven, Concise-first, Story-driven, User-frame)
-- Rule 6: Expert-first (design gate: consult expert before committing to approach)
-- Rule 7: Ship-ready (delivery gate: self-test → external review → iterate)
-- Rule 8: Staged execution (validate one unit before batch; enumerate before advancing)
+### principles.md の状態（完了）
 
-PR #10 is complete when all five commands are created and wf-rev approved.
+- ファイル名: `core-rules.md` → `principles.md`
+- タイトル: "Core Rules" → "Principles"
+- 4原則に整理済み（Fact-grounded / Goal-anchored / Verified at every stage / Proposed for judgment）
+- Principle 3 を他の原則と同じ抽象度に整理済み
+- スポーン失敗フォールバック節を削除済み
+
+### wf-rev の状態（設計判断待ち）
+
+現在の wf-rev は「ワークフロー定義ファイルを principles に照らしてレビューする」という狭いスコープ。
+
+ユーザーの意図は異なる：**CC のあらゆる活動に principles を適用する**スキルが欲しい。つまり、ワークフローのレビューツールではなく、CC が何をするときも 4原則に従って動くためのフレームワーク。
+
+**未回答の確認事項（次のセッションで確認）：**
+このスキルは `/hi` `/go` などの aiya コマンドから呼ばれる sub-skill として想定しているか？それとも単体で使う汎用スキルか？
 
 ## Completed
 
 - [x] Collect pain points
-- [x] Draft core rules → `.claude/rules/principles.md`
+- [x] Draft principles → `.claude/rules/principles.md`
 - [x] Archive existing `.claude/rules/` files → `cc-rules-redesign/rules-backup/`
-- [x] Create `wf-rev` skill → `.claude/skills/wf-rev/`
-- [x] Extend core rules to cover all identified pain points (8 rules total)
+- [x] principles.md を 4原則に整理・洗練（名称変更・抽象度統一・フォールバック削除）
+- [x] wf-rev をゼロベースで再作成（principles v2 準拠、simulation/review の観点を明示）
 
-## Next tasks (in order)
+## Next tasks
 
-1. [ ] User reviews PR #10
-2. [ ] Address PR #10 feedback
-3. [ ] Create `/hi` workflow
-4. [ ] wf-rev review of `/hi`
-5. [ ] Address wf-rev findings for `/hi`
-6. [ ] User reviews `/hi`
-7. [ ] Address user feedback for `/hi`
-8. [ ] Create `/go` workflow
-9. [ ] wf-rev review of `/go`
-10. [ ] Address wf-rev findings for `/go`
-11. [ ] User reviews `/go`
-12. [ ] Address user feedback for `/go`
-13. [ ] Create `/ty` workflow
-14. [ ] wf-rev review of `/ty`
-15. [ ] Address wf-rev findings for `/ty`
-16. [ ] User reviews `/ty`
-17. [ ] Address user feedback for `/ty`
-18. [ ] Create `/gm` workflow
-19. [ ] wf-rev review of `/gm`
-20. [ ] Address wf-rev findings for `/gm`
-21. [ ] User reviews `/gm`
-22. [ ] Address user feedback for `/gm`
-23. [ ] Create `/bb` workflow
-24. [ ] wf-rev review of `/bb`
-25. [ ] Address wf-rev findings for `/bb`
-26. [ ] User reviews `/bb`
-27. [ ] Address user feedback for `/bb`
+1. [ ] wf-rev の設計方針を確定（sub-skill か汎用か → ユーザーに確認）
+2. [ ] wf-rev をゼロベースで再設計・作成
+3. [ ] aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成
 
 ## Session context
 
