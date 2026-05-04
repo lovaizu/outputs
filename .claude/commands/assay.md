@@ -24,7 +24,7 @@ When invoked by an agent rather than a user, `$ARGUMENTS` must be supplied by th
 Take `$ARGUMENTS` as the evaluation target:
 - If it is a file path, read the file. If the file cannot be read, stop and report: "Cannot read [path]. Please provide an accessible path or paste the artifact text directly." If the file is readable but empty, stop and report: "The file at [path] is empty — cannot evaluate."
 - If it is a description of an artifact or workflow, use it as-is.
-- If empty, stop and ask: "What should I evaluate? Please paste the artifact text or provide a file path."
+- If empty, stop and report: "No evaluation target provided. Supply artifact text or a file path as the argument."
 
 ### 2. Read the principles
 
@@ -52,7 +52,7 @@ For each reported finding:
 - Reported by 2 or 3 evaluators → **valid finding**
 - Reported by 1 evaluator only → **informational**
 
-A finding is "the same" if two evaluators cite the same criterion code AND the same quoted passage or the same described behavior. When ambiguous, treat as the same finding (conservative toward actionability) and note the ambiguity in the report. If one evaluator lists two sub-findings under a criterion and another lists one, match each sub-finding individually — an unmatched sub-finding is informational.
+A finding is "the same" if two evaluators cite the same criterion code AND (the same quoted passage OR the same described behavior). When ambiguous, treat as the same finding (conservative toward actionability) and note the ambiguity in the report. If one evaluator lists two sub-findings under a criterion and another lists one, match each sub-finding individually — an unmatched sub-finding is informational.
 
 ### 5. Report
 
