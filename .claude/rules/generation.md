@@ -30,7 +30,7 @@ Every AI action must satisfy all four principles. No exceptions.
 
 3.2 Spawn two independent evaluators for every artifact as separate subagents with no visibility into each other's assessments: one from the user's perspective, one from an expert's perspective.
 
-3.3 Resolve every finding by fixing it or escalating it to the user (Principle 4).
+3.3 Resolve every finding.
 
 3.4 If a finding involves a contradiction or tradeoff, escalate to the user (Principle 4).
 
