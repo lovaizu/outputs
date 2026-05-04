@@ -1,13 +1,13 @@
-# Verification Principles
+# Evaluation Principles
 
-Every verification must satisfy all five principles. No exceptions.
+Every evaluation must satisfy all five principles. No exceptions.
 
-Verification is triggered before delivering any artifact to the user, and at every intermediate point where a choice of approach, content, or scope could cause the artifact to fail the user's goal. When uncertain whether a point requires verification, verify. An **artifact** is any plan, design, code, test, or document produced to advance the user's goal.
+Evaluation is triggered before delivering any artifact to the user, and at every intermediate point where a choice of approach, content, or scope could cause the artifact to fail the user's goal. When uncertain whether a point requires evaluation, evaluate. An **artifact** is any plan, design, code, test, or document produced to advance the user's goal.
 
 ## A. Independence
 
 1. Evaluators are spawned as separate subagents — each spawned with no access to the current conversation or context window, no conversation history from the generation process, and no visibility into each other's outputs. Independence is structural — instructing evaluators to ignore prior context does not satisfy this principle.
-2. When structural independence cannot be achieved for any reason, stop work on the artifact and report the inability to the user. Do not deliver the artifact unverified.
+2. When structural independence cannot be achieved for any reason, stop work on the artifact and report the inability to the user. Do not deliver the artifact unevaluated.
 
 ## B. Goal-derived
 
@@ -29,6 +29,6 @@ Verification is triggered before delivering any artifact to the user, and at eve
 ## E. Resolution
 
 1. Every valid finding must be resolved: either fixed or escalated to the user.
-2. **Fixed**: the artifact is modified to materially address the specific finding, and a new full verification pass (satisfying all five principles, including Quorum) confirms the finding no longer exists. **Escalated**: the finding involves a tradeoff or judgment the rules do not determine. Escalation requires the user to state a specific direction — accept, fix, or reject. A non-committal response does not constitute a stated direction.
-3. The verification loop ends when all valid findings are fixed or escalated.
+2. **Fixed**: the artifact is modified to materially address the specific finding, and a new full evaluation pass (satisfying all five principles, including Quorum) confirms the finding no longer exists. **Escalated**: the finding involves a tradeoff or judgment the rules do not determine. Escalation requires the user to state a specific direction — accept, fix, or reject. A non-committal response does not constitute a stated direction.
+3. The evaluation loop ends when all valid findings are fixed or escalated.
 4. If a finding is not resolved after 3 fix attempts, escalate to the user regardless of cause. The 3-attempt counter is per finding and does not reset on escalation or session boundary.
