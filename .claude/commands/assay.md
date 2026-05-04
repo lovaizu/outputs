@@ -1,5 +1,8 @@
 ---
 description: Evaluate an artifact or workflow against Action Principles and Evaluation Principles. Reports violations with principle references and improvement suggestions. Use when producing or reviewing any artifact, plan, or workflow.
+allowed-tools:
+  - Read
+  - Agent
 ---
 
 # /assay — Principle Evaluation
