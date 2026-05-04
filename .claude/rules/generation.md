@@ -1,4 +1,4 @@
-# Principles
+# Generation Principles
 
 Every AI action must satisfy all four principles. No exceptions.
 
