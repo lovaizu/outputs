@@ -11,6 +11,42 @@ No L3 (app-specific config). All rules are handled at L2, including app-conditio
 
 Keybinding requirements: [requirements.md](./requirements.md)
 
+### Terminal environments
+
+| OS | Terminal emulator | Shell environment |
+|----|------------------|------------------|
+| Mac | Ghostty / cmux (same config — cmux is built on libghostty) | zsh |
+| Win | Windows Terminal | WSL + zsh + tmux |
+
+### Shell prerequisites (L2 enablers)
+
+Karabiner / AHK convert `Ctrl+K/W` to clipboard cut and `Ctrl+Y` to clipboard paste. For this to work inside terminals, the shell's kill ring must be bridged to the OS clipboard. This is a prerequisite for L2, not an app-specific keybinding.
+
+**Mac — `.zshrc`:**
+```zsh
+function _pb-kill-line()          { zle kill-line;          printf '%s' "$CUTBUFFER" | pbcopy }
+function _pb-backward-kill-word() { zle backward-kill-word; printf '%s' "$CUTBUFFER" | pbcopy }
+function _pb-yank()               { CUTBUFFER=$(pbpaste);   zle yank }
+zle -N _pb-kill-line;          bindkey '^K' _pb-kill-line
+zle -N _pb-backward-kill-word; bindkey '^W' _pb-backward-kill-word
+zle -N _pb-yank;               bindkey '^Y' _pb-yank
+```
+
+**Win — `.zshrc` (WSL):**
+```zsh
+function _cb-kill-line()          { zle kill-line;          printf '%s' "$CUTBUFFER" | clip.exe }
+function _cb-backward-kill-word() { zle backward-kill-word; printf '%s' "$CUTBUFFER" | clip.exe }
+function _cb-yank()               { CUTBUFFER=$(powershell.exe Get-Clipboard); zle yank }
+zle -N _cb-kill-line;          bindkey '^K' _cb-kill-line
+zle -N _cb-backward-kill-word; bindkey '^W' _cb-backward-kill-word
+zle -N _cb-yank;               bindkey '^Y' _cb-yank
+```
+
+**Win — `.tmux.conf`** (sync tmux copy buffer with Windows clipboard):
+```
+set -g set-clipboard on
+```
+
 ---
 
 ## L1: HHKB Keymap
@@ -67,9 +103,9 @@ These differ from a simple Opt → Cmd substitution:
 | Opt+D (SPL+D) | Opt+→ → Delete | Word kill forward (no clipboard) |
 | Opt+DEL (SPL+DEL) | Opt+Backspace | Word kill backward |
 
-### Terminal apps (Ghostty, Terminal.app) — passthrough override
+### Terminal apps (Ghostty, cmux) — passthrough override
 
-In terminal apps, readline manages its own kill ring. The following keys must passthrough so readline handles them natively instead of the standard L2 conversion above:
+In terminal apps, readline manages its own kill ring. The shell prerequisites above bridge it to the OS clipboard. The following keys must passthrough at L2 so the shell's ZLE widgets handle them (and sync to clipboard):
 
 | Key | Standard L2 output | Terminal override |
 |-----|-------------------|-------------------|
@@ -130,7 +166,7 @@ On Win, Ctrl+\* keys are actively remapped by AHK (no OS-level native handling u
 | Ctrl+S | Ctrl+F | Search forward (Win Save moved to Ctrl+X Ctrl+S) |
 | Alt+K (SPL+K) | Ctrl+W or Alt+F4 | Close: tabbed apps → Ctrl+W; others → Alt+F4 |
 
-### Terminal apps (Windows Terminal) — passthrough override
+### Terminal apps (WSL + tmux) — passthrough override
 
 | Key | Standard L2 output | Terminal override |
 |-----|-------------------|-------------------|
