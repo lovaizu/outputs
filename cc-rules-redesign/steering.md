@@ -23,7 +23,7 @@
 - Core rules alone won't be followed. Workflows operationalize the rules.
 - Core rules serve as a checklist when designing workflows (not converted into workflows themselves).
 - Each workflow is a custom slash command for aiya.
-- Sub-agent for workflow review: `wf-rev` (checks each command's workflow against core-rules).
+- Sub-agent for workflow review: `wf-rev` (checks each command's workflow against principles).
 - File naming: this file is `steering.md`; slash command definitions go under `.claude/skills/`.
 - Scope agreement upfront (before autonomous execution) belongs in the `/go` workflow, not core rules.
 
@@ -42,7 +42,7 @@ PR #10 is complete when all five commands are created and wf-rev approved.
 ## Completed
 
 - [x] Collect pain points
-- [x] Draft core rules → `.claude/rules/core-rules.md`
+- [x] Draft core rules → `.claude/rules/principles.md`
 - [x] Archive existing `.claude/rules/` files → `cc-rules-redesign/rules-backup/`
 - [x] Create `wf-rev` skill → `.claude/skills/wf-rev/`
 - [x] Extend core rules to cover all identified pain points (8 rules total)

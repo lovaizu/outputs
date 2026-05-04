@@ -2,9 +2,9 @@
 name: wf-rev
 description: >-
   Reviews workflow definitions (slash commands, skills, sub-agents, step sequences,
-  or CLAUDE.md rules) against core-rules.md. Use when the user asks to review,
+  or CLAUDE.md rules) against principles.md. Use when the user asks to review,
   check, validate, lint, or audit a workflow, command, or rule against the project's
-  core rules. Also invoke automatically when creating or revising a workflow to
+  principles. Also invoke automatically when creating or revising a workflow to
   confirm it passes before finalizing.
 argument-hint: "[workflow-definition-or-path]"
 effort: high
@@ -14,11 +14,11 @@ context: fork
 
 # /wf-rev — Workflow Reviewer
 
-Workflows that violate core principles ship broken behavior silently. This skill catches every violation before a workflow is finalized — by reviewing it against `core-rules.md` and producing a verdict per rule, with exact quotes and ready-to-apply rewrites.
+Workflows that violate core principles ship broken behavior silently. This skill catches every violation before a workflow is finalized — by reviewing it against `principles.md` and producing a verdict per rule, with exact quotes and ready-to-apply rewrites.
 
 ## Preconditions
 
-Read `.claude/rules/core-rules.md` before doing anything. If the file is missing or empty, stop and report: "No core-rules.md found — cannot review."
+Read `.claude/rules/principles.md` before doing anything. If the file is missing or empty, stop and report: "No principles.md found — cannot review."
 
 Read the target workflow in full before judging anything. Do not infer its content from its filename or description.
 
@@ -38,24 +38,24 @@ This skill reviews one workflow per invocation. Do not modify any file.
 **Step 1 — Orient (Rule 2)**
 
 State before acting:
-- **Goal:** produce a report that judges this workflow against every rule in core-rules.md — this goal is fixed regardless of whether this skill was invoked directly by the user or automatically
+- **Goal:** produce a report that judges this workflow against every rule in principles.md — this goal is fixed regardless of whether this skill was invoked directly by the user or automatically
 - **Ideal end-state:** a report with a verdict for every rule; every FAIL backed by an exact quote and a ready-to-apply rewrite; user simulation and expert review have confirmed zero concerns
 - **Plan:** load facts → extract rules → pilot Rule 1 → spawn per remaining rule → verify coverage → draft report → user simulation → expert review → output
 
 **Step 2 — Load facts (Rule 1)**
 
-Read the target workflow and core-rules.md directly from their file paths. Both must be read now — do not rely on memory, prior summaries, or content passed by the invoking agent.
+Read the target workflow and principles.md directly from their file paths. Both must be read now — do not rely on memory, prior summaries, or content passed by the invoking agent.
 
 **Step 3 — Extract rules (Rule 1 — complete population)**
 
-From core-rules.md, list every rule heading and every sub-bullet as a separate checklist item. Count the total. Cross-check by listing each rule heading verbatim below the count. Do not proceed until the count matches the listed headings one-for-one.
+From principles.md, list every rule heading and every sub-bullet as a separate checklist item. Count the total. Cross-check by listing each rule heading verbatim below the count. Do not proceed until the count matches the listed headings one-for-one.
 
 **Step 4 — Pilot: Rule 1 (Fact-grounded)**
 
 Rule 1 (Fact-grounded) governs how an AI reads and processes content, making it the most likely to surface process issues in any workflow. Always pilot this rule.
 
 Spawn one subagent. Instruct it:
-- Read core-rules.md from its file path
+- Read principles.md from its file path
 - Read the target workflow from its file path — do not rely on any content passed to you
 - Extract Rule 1 (Fact-grounded) in full
 - Review the workflow against every line of Rule 1
@@ -68,7 +68,7 @@ Report: "Pilot complete (Rule 1 — Fact-grounded) — N rules total — proceed
 **Step 5 — Spawn per remaining rule (Rule 1 — complete population)**
 
 Spawn one subagent per remaining rule. For each subagent, instruct:
-- Read core-rules.md from its file path
+- Read principles.md from its file path
 - Read the target workflow from its file path — do not rely on any content passed to you
 - Extract the assigned rule by number, in full
 - Review the workflow against every line of that rule
@@ -89,12 +89,12 @@ For each rule:
 
 **Step 8 — User simulation (Rule 3)**
 
-Spawn an evaluator independent from you (the producer). Pass it the workflow file path, core-rules.md file path, and the drafted report text. Instruct it:
-- Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
+Spawn an evaluator independent from you (the producer). Pass it the workflow file path, principles.md file path, and the drafted report text. Instruct it:
+- Read the workflow and principles.md directly from the provided file paths — do not rely on content passed to you
 - Evaluate from the user's perspective: given this report, can the user understand what is wrong with their workflow and how to fix it?
 - Check: are violations explained clearly enough to act on? Are rewrites concrete and directly applicable? Is the overall verdict actionable?
 
-Every finding must be incorporated — evaluator findings cannot be dismissed without being addressed. Before applying a finding, verify it maps to a violation of a rule in core-rules.md — not a stylistic preference. Reject findings that would expand the goal beyond producing a per-rule verdict report, unless the user directs otherwise.
+Every finding must be incorporated — evaluator findings cannot be dismissed without being addressed. Before applying a finding, verify it maps to a violation of a rule in principles.md — not a stylistic preference. Reject findings that would expand the goal beyond producing a per-rule verdict report, unless the user directs otherwise.
 
 If any incorporated finding involves a tradeoff or a choice the rules do not determine, surface it to the user and await judgment before continuing (Rule 4).
 
@@ -102,8 +102,8 @@ Report: "User simulation complete — N findings incorporated."
 
 **Step 9 — Expert review (Rule 3)**
 
-Spawn an evaluator independent from you and from the user simulation. Pass it the workflow file path, core-rules.md file path, and the revised report text. Instruct it:
-- Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
+Spawn an evaluator independent from you and from the user simulation. Pass it the workflow file path, principles.md file path, and the revised report text. Instruct it:
+- Read the workflow and principles.md directly from the provided file paths — do not rely on content passed to you
 - Do not invoke wf-rev or any other skill
 - Do not spawn further agents
 - Evaluate from an expert perspective: does this report follow best practices for workflow auditing? Check: (a) every rule has a verdict, (b) every FAIL cites direct evidence from the workflow, (c) no verdict contradicts the rule text, (d) output format matches the template in this skill
