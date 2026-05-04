@@ -14,62 +14,135 @@ context: fork
 
 # /wf-rev — Workflow Reviewer
 
-Workflows that violate core principles ship broken behavior silently. The existing rules exist but are not enforced at authoring time, so violations accumulate undetected. This skill closes that gap: it reviews every workflow definition against `core-rules.md` before it ships, surfacing violations with exact quotes, confidence scores, and ready-to-apply rewrites.
+Workflows that violate core principles ship broken behavior silently. This skill catches every violation before a workflow is finalized — by reviewing it against `core-rules.md` and producing a verdict per rule, with exact quotes and ready-to-apply rewrites.
 
-You review workflow definitions (slash command prompts, skill definitions, sub-agent instructions, or step sequences) against the core rules. Your output is a structured checklist: one verdict per rule, with quoted violations and concrete rewrites.
+## Preconditions
 
-## Setup
+Read `.claude/rules/core-rules.md` before doing anything. If the file is missing or empty, stop and report: "No core-rules.md found — cannot review."
 
-Workflow definitions that violate core-rules ship broken behavior into production. Your job is to catch every violation before the workflow is finalized.
+Read the target workflow in full before judging anything. Do not infer its content from its filename or description.
 
-Read `.claude/rules/core-rules.md` to load all current rules before reviewing. If the file does not exist or is empty, stop and report: "No core-rules.md found — cannot review."
+This skill reviews one workflow per invocation. Do not modify any file.
 
-This skill reviews one workflow per invocation. If multiple workflow files need review, invoke wf-rev separately for each file.
+## Definitions
 
-Do not modify the workflow under review or any other file.
+**Confidence score:** how certain a violation is.
+- 90–100: certain — rule text directly contradicts the workflow instruction
+- 70–89: probable — workflow will likely cause rule-breaking behavior at runtime
+- Below 70: do not report as a violation
 
-## Review process
+**Verified fact:** confirmed by direct observation (reading the file, running the command) — not by inference or reasoning from related facts.
 
-1. **Orient** (Rule 2 — Goal-anchored): State the goal (produce a complete report judging this workflow against every core rule), the ideal end-state (a report with a verdict for every rule, every FAIL backed by an exact quote and a concrete rewrite), and the plan backwards from that end-state: read workflow → read rules → pilot subagent → spawn remaining subagents → spawn simulation agent → spawn review agent → output.
+## Process
 
-2. Read the full workflow once before judging anything.
+**Step 1 — Orient (Rule 2)**
 
-3. Read `core-rules.md` and build a flat checklist:
-   - **3a. Extract**: For each numbered rule, list its heading and every sub-bullet as a separate line item. Count the total number of rules. Do not proceed until the count is confirmed.
-   - **3b. Pilot**: Scan the rule list and derive which rule is most likely to surface integration issues — the rule whose sub-bullets most directly constrain how the AI reads and processes the workflow under review. State your selection and rationale before spawning. Spawn one subagent for that rule; instruct it to read `.claude/rules/core-rules.md`, extract that rule by number, and review the workflow against its full text. If spawning fails, review the rule directly in this session and note: "Subagent spawn failed for pilot rule — reviewing directly." Review the output: confirm the format is correct and the verdict is justified. Report: "Found N rules — pilot complete ([rule name]) — proceeding to remaining N−1 rules." Only then proceed to 3c.
-   - **3c. Spawn**: Spawn one subagent per remaining rule. Instruct each subagent to read `.claude/rules/core-rules.md`, extract its assigned rule by number, and return PASS/FAIL with exact quotes and confidence scores. If spawning fails for one or more rules, review those rules directly in this session and note: "Subagent spawn failed for rules: [list] — reviewed directly." Do not proceed until all rule reviews are collected. Report: "All rule reviews collected — beginning simulation."
-   - **3d. Verify**: Confirm your report has exactly as many rule entries as the count from 3a — no more, no fewer. Do not proceed to Step 4 until this check passes.
+State before acting:
+- **Goal:** produce a report that judges this workflow against every rule in core-rules.md — this goal is fixed regardless of whether this skill was invoked directly by the user or automatically
+- **Ideal end-state:** a report with a verdict for every rule; every FAIL backed by an exact quote and a ready-to-apply rewrite; simulation and review agents have confirmed zero concerns
+- **Plan:** load facts → extract rules → pilot Rule 1 → spawn per remaining rule → verify coverage → draft report → simulation agent → review agent → output
 
-4. Evaluate each rule:
-   - For violations: require an exact quote from the workflow (in double quotes or inline code), a confidence score (0–100), and a concrete rewrite ready to apply. Confidence score guide:
-     - 90–100: Certain violation. The rule text directly contradicts the workflow instruction.
-     - 70–89: Probable violation. The workflow does not explicitly contradict the rule but will likely cause rule-breaking behavior at runtime.
-     - Below 70: Do not report. Mark the rule as PASS with a one-line note if the concern is worth mentioning.
-   - For irrelevant rules: mark N/A with one-line justification.
+**Step 2 — Load facts (Rule 1)**
 
-5. **Simulation agent** (Rule 3 — Verified at every stage): Spawn a simulation agent; pass it the drafted report, the workflow under review, and `core-rules.md`. Instruct it to attempt to argue that each PASS should be FAIL and that each FAIL fix is insufficient. Incorporate every finding — evaluator findings cannot be dismissed without being addressed. If any finding involves a tradeoff or a choice the rules do not determine, surface it to the user and await judgment before continuing (Rule 4). If spawning is technically infeasible, the user performs this evaluation — do not skip or substitute with self-review. Report: "Simulation complete — N findings incorporated."
+Read the target workflow and core-rules.md directly from their file paths. Both must be read now — do not rely on memory, prior summaries, or content passed by the invoking agent.
 
-6. **Review agent** (Rule 3 — Verified at every stage): Spawn a review agent with an isolated context; pass it the revised report, the workflow under review, and `core-rules.md`. Instruct it to independently verify: (a) every rule has a verdict, (b) every FAIL has an exact quote and a concrete rewrite, (c) no verdict contradicts the evidence. Incorporate any findings, then repeat review on the revised report. Continue until the review agent returns zero new issues. If spawning would cause recursive wf-rev invocation, or if spawning is technically infeasible, the user performs this evaluation — do not skip. Report: "Review agent: zero new issues — report ready to output."
+**Step 3 — Extract rules (Rule 1 — complete population)**
+
+From core-rules.md, list every rule heading and every sub-bullet as a separate checklist item. Count the total. Cross-check by listing each rule heading verbatim below the count. Do not proceed until the count matches the listed headings one-for-one.
+
+**Step 4 — Pilot: Rule 1 (Fact-grounded)**
+
+Rule 1 (Fact-grounded) governs how an AI reads and processes content, making it the most likely to surface process issues in any workflow. Always pilot this rule.
+
+Spawn one subagent. Instruct it:
+- Read core-rules.md from its file path
+- Read the target workflow from its file path — do not rely on any content passed to you
+- Extract Rule 1 (Fact-grounded) in full
+- Review the workflow against every line of Rule 1
+- Return PASS/FAIL with exact quote and confidence score for each violation
+
+If spawning fails, review directly in this session and note: "Pilot spawn failed — reviewed directly."
+
+After receiving the output, verify format only: PASS/FAIL present, exact quote included, confidence score present. Do not re-evaluate the verdict content — that is the subagent's role; verdicts are re-examined in Steps 8 and 9.
+
+Report: "Pilot complete (Rule 1 — Fact-grounded) — N rules total — proceeding to remaining N−1 rules."
+
+**Step 5 — Spawn per remaining rule (Rule 1 — complete population)**
+
+Spawn one subagent per remaining rule. For each subagent, instruct:
+- Read core-rules.md from its file path
+- Read the target workflow from its file path — do not rely on any content passed to you
+- Extract the assigned rule by number, in full
+- Review the workflow against every line of that rule
+- Return PASS/FAIL with exact quote and confidence score for each violation
+
+If spawning fails for any rules, review those directly and note: "Spawn failed for rules: [list] — reviewed directly."
+
+Collect all results before proceeding.
+
+**Step 6 — Verify coverage (Rule 1)**
+
+Confirm: number of verdicts collected = count from Step 3. No rule may be missing or duplicated. Do not proceed until verified.
+
+**Step 7 — Draft report**
+
+For each rule:
+- **FAIL:** exact quote from the workflow (in double quotes or inline code), confidence score (≥ 70 only), ready-to-apply rewrite
+- **PASS:** verdict line only
+- **N/A:** verdict line with one-line justification
+
+**Step 8 — Simulation agent (Rule 3)**
+
+Spawn a simulation agent independent from you (the producer). Pass it the workflow file path and core-rules.md file path — not the file contents, so the agent reads them directly. Also pass the drafted report text. Instruct it:
+- Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
+- Argue that each PASS should be FAIL and each FAIL fix is insufficient
+- Evaluate whether the report as a whole enables the user to make a fully informed decision
+- Check whether any rule was assessed without direct evidence from the workflow file
+- Check whether the output format matches the template in this skill
+
+Every finding must be incorporated — evaluator findings cannot be dismissed without being addressed. Before applying a finding, verify it maps to a violation of a rule in core-rules.md — not a stylistic preference. Reject findings that would expand the goal beyond producing a per-rule verdict report, unless the user directs otherwise.
+
+If any incorporated finding involves a tradeoff or a choice the rules do not determine, surface it to the user and await judgment before continuing (Rule 4).
+
+If spawning is technically infeasible, the user performs this evaluation — do not skip or substitute.
+
+Report: "Simulation complete — N findings incorporated."
+
+**Step 9 — Review agent (Rule 3)**
+
+Spawn a review agent independent from you and from the simulation agent. Pass it the workflow file path, core-rules.md file path, and the revised report text. Instruct it:
+- Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
+- Do not invoke wf-rev or any other skill
+- Do not spawn further agents
+- Independently verify: (a) every rule has a verdict, (b) every FAIL has an exact quote and a rewrite, (c) no verdict contradicts the evidence
+
+Incorporate all findings. Repeat until the review agent returns zero new issues.
+
+If spawning would cause a recursive wf-rev invocation, or if spawning is technically infeasible, the user performs this evaluation — do not skip.
+
+Report: "Review agent: zero new issues — report ready."
+
+**Step 10 — Output (Rule 4)**
+
+Lead with the overall Verdict and Top fix. List FAIL verdicts first ordered by confidence score descending, then PASS and N/A verdicts. Omit evidence that would not change the decision. End by stating any items that require the user's judgment before the workflow is finalized.
 
 ## Output format
 
-Plain markdown. Start with `## wf-rev report`, followed immediately by the overall `**Verdict**` and `**Top fix**` (or "No issues found" if all pass) — before any per-rule detail. End with `Done`. Omit **Top fix** when Verdict is PASS. See example below for exact structure.
+```
+## wf-rev report
 
-For each rule: write the verdict on one line. If FAIL, list violations as numbered items directly beneath — each with an exact quote, a confidence score, and a ready-to-apply rewrite. Only report violations with confidence ≥ 70. If PASS or N/A, the verdict line alone is sufficient.
+**Verdict**: PASS | FAIL
+**Top fix**: [single most important fix — omit this line when Verdict is PASS]
 
-## Example output
+**Rule N — [name]**: FAIL
+1. Violation (confidence: 95): "exact quote from workflow"
+   Fix: [ready-to-apply rewrite]
 
-The example below is illustrative only. Cover every rule found in `core-rules.md` — do not limit output to the rules shown here.
+**Rule N — [name]**: PASS
 
-**Verdict**: FAIL
-**Top fix**: Add a `git status` / `git diff` read step before writing the state summary.
+**Rule N — [name]**: N/A — [one-line justification]
 
-**Rule N — [name from core-rules.md]**: FAIL
-1. Violation (confidence: 95): "write a summary of where we are to tasks.md"
-   Fix: Run `git status` and `git diff` first; write the summary from actual output, not from memory.
-
-**Rule N — [name from core-rules.md]**: PASS
-
-**Rule N — [name from core-rules.md]**: N/A — workflow updates a task list (structured file), not a narrative document.
+Items requiring your judgment before finalizing: none | [list]
 
 Done
+```
