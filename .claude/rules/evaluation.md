@@ -29,6 +29,7 @@ Evaluation is triggered before delivering any artifact to the user, and at every
 ## E. Resolution
 
 1. Every valid finding must be fixed. Escalate to the user only when the finding involves a tradeoff or judgment the rules do not determine.
-2. **Fixed**: the artifact is modified to materially address the specific finding, and a new full evaluation pass (satisfying all five principles, including Quorum) confirms the finding no longer exists. **Escalated**: the finding involves a tradeoff or judgment the rules do not determine. Escalation requires the user to state a specific direction — accept, fix, or reject. A non-committal response does not constitute a stated direction.
-3. The evaluation loop ends when all valid findings are fixed or escalated.
-4. If a finding is not resolved after 3 fix attempts, escalate to the user regardless of cause. The 3-attempt counter is per finding and does not reset on escalation or session boundary.
+   - **Fixed**: the artifact is modified to materially address the specific finding, and a new full evaluation pass (satisfying all five principles, including Quorum) confirms the finding no longer exists.
+   - **Escalated**: the finding involves a tradeoff or judgment the rules do not determine. Escalation requires the user to state a specific direction — accept, fix, or reject. A non-committal response does not constitute a stated direction.
+2. The evaluation loop ends when all valid findings are fixed or escalated.
+3. If a finding is not resolved after 3 fix attempts, escalate to the user regardless of cause. The 3-attempt counter is per finding and does not reset on escalation or session boundary.
