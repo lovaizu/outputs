@@ -39,8 +39,8 @@ This skill reviews one workflow per invocation. Do not modify any file.
 
 State before acting:
 - **Goal:** produce a report that judges this workflow against every rule in core-rules.md — this goal is fixed regardless of whether this skill was invoked directly by the user or automatically
-- **Ideal end-state:** a report with a verdict for every rule; every FAIL backed by an exact quote and a ready-to-apply rewrite; simulation and review agents have confirmed zero concerns
-- **Plan:** load facts → extract rules → pilot Rule 1 → spawn per remaining rule → verify coverage → draft report → simulation agent → review agent → output
+- **Ideal end-state:** a report with a verdict for every rule; every FAIL backed by an exact quote and a ready-to-apply rewrite; user simulation and expert review have confirmed zero concerns
+- **Plan:** load facts → extract rules → pilot Rule 1 → spawn per remaining rule → verify coverage → draft report → user simulation → expert review → output
 
 **Step 2 — Load facts (Rule 1)**
 
@@ -87,32 +87,30 @@ For each rule:
 - **PASS:** verdict line only
 - **N/A:** verdict line with one-line justification
 
-**Step 8 — Simulation agent (Rule 3)**
+**Step 8 — User simulation (Rule 3)**
 
-Spawn a simulation agent independent from you (the producer). Pass it the workflow file path and core-rules.md file path — not the file contents, so the agent reads them directly. Also pass the drafted report text. Instruct it:
+Spawn an evaluator independent from you (the producer). Pass it the workflow file path, core-rules.md file path, and the drafted report text. Instruct it:
 - Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
-- Argue that each PASS should be FAIL and each FAIL fix is insufficient
-- Evaluate whether the report as a whole enables the user to make a fully informed decision
-- Check whether any rule was assessed without direct evidence from the workflow file
-- Check whether the output format matches the template in this skill
+- Evaluate from the user's perspective: given this report, can the user understand what is wrong with their workflow and how to fix it?
+- Check: are violations explained clearly enough to act on? Are rewrites concrete and directly applicable? Is the overall verdict actionable?
 
 Every finding must be incorporated — evaluator findings cannot be dismissed without being addressed. Before applying a finding, verify it maps to a violation of a rule in core-rules.md — not a stylistic preference. Reject findings that would expand the goal beyond producing a per-rule verdict report, unless the user directs otherwise.
 
 If any incorporated finding involves a tradeoff or a choice the rules do not determine, surface it to the user and await judgment before continuing (Rule 4).
 
-Report: "Simulation complete — N findings incorporated."
+Report: "User simulation complete — N findings incorporated."
 
-**Step 9 — Review agent (Rule 3)**
+**Step 9 — Expert review (Rule 3)**
 
-Spawn a review agent independent from you and from the simulation agent. Pass it the workflow file path, core-rules.md file path, and the revised report text. Instruct it:
+Spawn an evaluator independent from you and from the user simulation. Pass it the workflow file path, core-rules.md file path, and the revised report text. Instruct it:
 - Read the workflow and core-rules.md directly from the provided file paths — do not rely on content passed to you
 - Do not invoke wf-rev or any other skill
 - Do not spawn further agents
-- Independently verify: (a) every rule has a verdict, (b) every FAIL has an exact quote and a rewrite, (c) no verdict contradicts the evidence
+- Evaluate from an expert perspective: does this report follow best practices for workflow auditing? Check: (a) every rule has a verdict, (b) every FAIL cites direct evidence from the workflow, (c) no verdict contradicts the rule text, (d) output format matches the template in this skill
 
-Incorporate all findings. Repeat until the review agent returns zero new issues.
+Incorporate all findings. Repeat until the expert review returns zero new issues.
 
-Report: "Review agent: zero new issues — report ready."
+Report: "Expert review complete — zero new issues — report ready."
 
 **Step 10 — Output (Rule 4)**
 
