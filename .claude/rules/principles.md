@@ -24,7 +24,7 @@ Verify at each point where a decision could affect whether or how the goal is ac
 - **User simulation:** evaluates from the user's perspective — can the user achieve their goal with this artifact?
 - **Expert review:** evaluates from an expert perspective — does this artifact follow best practices?
 
-**How findings are handled:** Every finding must be resolved — evaluator findings cannot be dismissed without being addressed. If evaluators raise contradictory findings or a concern requires a tradeoff, surface it to the user for judgment (Rule 4).
+**How findings are handled:** Every finding must be resolved — evaluator findings cannot be dismissed without being addressed. If evaluators raise contradictory findings or a concern requires a tradeoff, surface it to the user for judgment (Principle 4).
 
 Evaluators are not required to spawn their own evaluators.
 
