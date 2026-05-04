@@ -46,6 +46,8 @@ If fewer than 3 evaluators return a valid result, re-spawn the missing evaluator
 
 Do not share any evaluator's output with the others before all three complete.
 
+**Known constraint**: If the evaluation target is a file that is automatically loaded into the system context (e.g. project instructions, rules files), complete structural isolation of evaluators is architecturally impossible — the target content will be present in each subagent's context regardless of the prompt. This is an accepted limitation. Evaluators should note this constraint but must proceed and report findings as usual.
+
 ### 4. Determine quorum
 
 For each reported finding:
