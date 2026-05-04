@@ -11,15 +11,6 @@
 
 No L3 (app-specific config) is used. All rules are handled at L2.
 
-### AHK Operation Policy
-
-AHK is **not** registered to startup. Start it manually when using the HHKB.
-When using the laptop's built-in keyboard, keep AHK stopped.
-
-Reason: AHK has no practical per-device filtering without a kernel driver
-(AutoHotInterception), which has known stability risks (device ID overflow on
-unplug/sleep). Manual start/stop eliminates the need for device filtering.
-
 ---
 
 ## L1: HHKB Keymap
@@ -78,7 +69,7 @@ All rules apply **only when HHKB is connected** (vendor_id: 1278, product_id: 22
 | HHKB | Input | Output |
 |------|-------|--------|
 | SPL+T | Opt+T | Cmd+T |
-| SPL+K | Opt+K | Cmd+W |
+| SPL+K | Opt+K | Cmd+W (same as Window — Cmd+W closes tab or window depending on context) |
 | SPL+Shift+T | Opt+Shift+T | Cmd+Shift+T |
 | Ctrl+Tab | passthrough | — |
 | Ctrl+Shift+Tab | passthrough | — |
@@ -157,23 +148,23 @@ Excluded apps: VS Code, Ghostty, cmux, Terminal.app (these handle Emacs keys nat
 
 Karabiner monitors Ctrl+X state and converts the following chord:
 
-| HHKB | Input | Output (Mac) |
-|------|-------|--------------|
-| Ctrl+X Ctrl+F | — | Cmd+O (open file) |
-| Ctrl+X Ctrl+S | — | Cmd+S (save) |
-| Ctrl+X Ctrl+W | — | Cmd+Shift+S (save as) |
-| Ctrl+X K | — | Cmd+W (close file/tab) |
-| Ctrl+X B | — | Cmd+T (switch tab/buffer) |
+| HHKB sequence | Output (Mac) |
+|---------------|--------------|
+| Ctrl+X → Ctrl+F | Cmd+O (open file) |
+| Ctrl+X → Ctrl+S | Cmd+S (save) |
+| Ctrl+X → Ctrl+W | Cmd+Shift+S (save as) |
+| Ctrl+X → K | Cmd+W (close file/tab) |
+| Ctrl+X → B | Cmd+T (switch tab/buffer) |
 
 ### Pane (Ctrl+X prefix — app-specific)
 
-| HHKB | Input | VS Code (Mac) | Terminal (Mac) |
-|------|-------|---------------|----------------|
-| Ctrl+X 0 | — | Cmd+K W | — |
-| Ctrl+X 1 | — | close other editors | — |
-| Ctrl+X 2 | — | Cmd+K Cmd+\ (horiz split) | Cmd+D (horiz) |
-| Ctrl+X 3 | — | Cmd+K Cmd+- (vert split) | Cmd+Shift+D (vert) |
-| Ctrl+X O | — | Cmd+K Cmd+→ (next pane) | — |
+| HHKB sequence | VS Code (Mac) | Terminal (Mac) |
+|---------------|---------------|----------------|
+| Ctrl+X → 0 | Cmd+K W | — |
+| Ctrl+X → 1 | close other editors | — |
+| Ctrl+X → 2 | Cmd+K Cmd+\ (horiz split) | Cmd+D (horiz) |
+| Ctrl+X → 3 | Cmd+K Cmd+- (vert split) | Cmd+Shift+D (vert) |
+| Ctrl+X → O | Cmd+K Cmd+→ (next pane) | — |
 
 ### Browser (Chrome only)
 
@@ -216,7 +207,7 @@ Karabiner monitors Ctrl+X state and converts the following chord:
 | HHKB | Input | Output |
 |------|-------|--------|
 | SPL+N | Alt+N | Ctrl+N (new window) |
-| SPL+K | Alt+K | Alt+F4 (close window) |
+| SPL+K | Alt+K | Ctrl+W or Alt+F4 (see note below) |
 | SPL+M | Alt+M | Win+↓ (minimize) |
 | Ctrl+SPL+F | Ctrl+Alt+F | F11 (fullscreen) |
 
@@ -225,13 +216,12 @@ Karabiner monitors Ctrl+X state and converts the following chord:
 | HHKB | Input | Output |
 |------|-------|--------|
 | SPL+T | Alt+T | Ctrl+T (new tab) |
-| SPL+K | Alt+K | Ctrl+W (close tab) |
+| SPL+K | Alt+K | same as Window SPL+K |
 | SPL+Shift+T | Alt+Shift+T | Ctrl+Shift+T (reopen tab) |
 | Ctrl+Tab | passthrough | — |
 | Ctrl+Shift+Tab | passthrough | — |
 
-> SPL+K is ambiguous (close window vs close tab). AHK sends Alt+F4 for window
-> context; app-level behavior determines whether it closes the tab or window.
+> **SPL+K on Win**: AHK uses app context. Tabbed apps (Chrome, VS Code, Windows Terminal) → Ctrl+W (close tab). Other apps → Alt+F4 (close window).
 
 ### Screenshot
 
@@ -307,23 +297,23 @@ Excluded apps: VS Code (`Code.exe`), Windows Terminal (`WindowsTerminal.exe`).
 
 AHK monitors Ctrl+X state and converts:
 
-| HHKB | Input | Output (Win) |
-|------|-------|--------------|
-| Ctrl+X Ctrl+F | — | Ctrl+O (open file) |
-| Ctrl+X Ctrl+S | — | Ctrl+S (save) |
-| Ctrl+X Ctrl+W | — | Ctrl+Shift+S (save as) |
-| Ctrl+X K | — | Ctrl+W (close file/tab) |
-| Ctrl+X B | — | Ctrl+Tab (switch tab/buffer) |
+| HHKB sequence | Output (Win) |
+|---------------|--------------|
+| Ctrl+X → Ctrl+F | Ctrl+O (open file) |
+| Ctrl+X → Ctrl+S | Ctrl+S (save) |
+| Ctrl+X → Ctrl+W | Ctrl+Shift+S (save as) |
+| Ctrl+X → K | Ctrl+W (close file/tab) |
+| Ctrl+X → B | Ctrl+Tab (switch tab/buffer) |
 
 ### Pane (Ctrl+X prefix — app-specific)
 
-| HHKB | Input | VS Code (Win) | Windows Terminal |
-|------|-------|---------------|-----------------|
-| Ctrl+X 0 | — | Ctrl+K W | — |
-| Ctrl+X 1 | — | close other editors | — |
-| Ctrl+X 2 | — | Ctrl+K Ctrl+\ (horiz split) | Alt+Shift+- (horiz) |
-| Ctrl+X 3 | — | Ctrl+K Ctrl+- (vert split) | Alt+Shift+= (vert) |
-| Ctrl+X O | — | Ctrl+K Ctrl+→ (next pane) | — |
+| HHKB sequence | VS Code (Win) | Windows Terminal |
+|---------------|---------------|-----------------|
+| Ctrl+X → 0 | Ctrl+K W | — |
+| Ctrl+X → 1 | close other editors | — |
+| Ctrl+X → 2 | Ctrl+K Ctrl+\ (horiz split) | Alt+Shift+- (horiz) |
+| Ctrl+X → 3 | Ctrl+K Ctrl+- (vert split) | Alt+Shift+= (vert) |
+| Ctrl+X → O | Ctrl+K Ctrl+→ (next pane) | — |
 
 ### Browser (Chrome only)
 
@@ -342,7 +332,7 @@ AHK monitors Ctrl+X state and converts:
 | Decision | Reason |
 |----------|--------|
 | No L3 | Karabiner and AHK both support prefix sequences and app conditions; no need to push config into individual apps |
-| AHK manual start, no startup | Avoids AutoHotInterception kernel driver. Manual start/stop replaces per-device filter |
+| AHK manual start, no startup | Standard AHK v2 has no per-device filtering without AutoHotInterception (kernel driver with stability risks). Manual start/stop serves the same purpose safely |
 | Ctrl+\* overwrites Win OS shortcuts (Ctrl+N, Ctrl+F, etc.) | Intentional: Emacs bindings take priority. App operations use SPL+\* (Alt+\*) instead |
 | Alt+\* overwrites Win menu bar activation | Intentional: SPL key is Alt; menu bar access is sacrificed |
 | Ctrl+S → Ctrl+F (Find) on Win | Ctrl+S is Emacs search forward; existing Win Save is Ctrl+X Ctrl+S |
