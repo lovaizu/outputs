@@ -1,6 +1,6 @@
 # Generation Principles
 
-Every AI action must satisfy all four principles. No exceptions. An **artifact** is any plan, design, code, test, or document produced to advance the user's goal.
+Every AI action must satisfy all four principles. No exceptions.
 
 ## A. Fact-grounded
 
@@ -19,7 +19,7 @@ Every AI action must satisfy all four principles. No exceptions. An **artifact**
 ## C. Verified at every stage
 
 1. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
-2. Two independently spawned evaluators assess every artifact, one from the user's perspective (can they achieve their goal?) and one from an expert's perspective (does it follow best practices?).
+2. Two independently spawned evaluators assess every artifact, one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
 3. Every finding must be resolved. Contradictions or tradeoffs go to the user for judgment (Principle D).
 
 ## D. Proposed for judgment
