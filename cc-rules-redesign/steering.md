@@ -138,9 +138,20 @@ aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 - `context: fork` はスキル全体をサブエージェントに渡す用途。今回はオーケストレーター役なので使わない
 - スキル本文が「Claude への指示」として機能する
 
+### T2–T5 完了メモ
+
+- T2（仕様設計）+ T4（実装）: `.claude/commands/assay.md` 作成
+- T3+T5（評価）: 5ラウンド実施。各ラウンドで valid findings を修正
+- 修正済み: EB.1（ゴール確認）, EB.2（基準トレーサビリティ）, EA.1（会話コンテキスト除外の明示）, ED.4（valid result 定義）, GOAL-3（autonomous 起動パス）, EXPERT-3（空ファイル・unreadable principles）, EXPERT-4（allowed-tools 宣言）, EXPERT-1（Boolean 曖昧さ）, GOAL-3（autonomous 空引数の中立メッセージ）
+
+**エスカレーション事項（ユーザー判断待ち）**:
+- [EA.1] 5ラウンド・複数アプローチで解消されなかった finding: 「evaluator への独立性を instruction で達成しようとしている。EA.1 は structural でなければならないとする」
+  - 反論: Agent tool のサブエージェントは親の会話コンテキストを構造的に継承しない。instruction は「何を渡すか」の指定であり、「無視せよ」の指示ではない。これは構造的独立性の範囲内と解釈できる
+  - 選択肢: **accept**（現設計のまま）/ **fix**（evaluator を2ターン化：ターン1で基準導出、ターン2で評価）/ **reject**（finding 自体が不当と判断）
+
 ### 現在地
 
-T2 進行中
+T5（評価・修正ループ）完了。T6（ユーザーレビュー）待ち
 
 ---
 
