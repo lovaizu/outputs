@@ -61,8 +61,6 @@ Spawn one subagent. Instruct it:
 - Review the workflow against every line of Rule 1
 - Return PASS/FAIL with exact quote and confidence score for each violation
 
-If spawning fails, review directly in this session and note: "Pilot spawn failed — reviewed directly."
-
 After receiving the output, verify format only: PASS/FAIL present, exact quote included, confidence score present. Do not re-evaluate the verdict content — that is the subagent's role; verdicts are re-examined in Steps 8 and 9.
 
 Report: "Pilot complete (Rule 1 — Fact-grounded) — N rules total — proceeding to remaining N−1 rules."
@@ -75,8 +73,6 @@ Spawn one subagent per remaining rule. For each subagent, instruct:
 - Extract the assigned rule by number, in full
 - Review the workflow against every line of that rule
 - Return PASS/FAIL with exact quote and confidence score for each violation
-
-If spawning fails for any rules, review those directly and note: "Spawn failed for rules: [list] — reviewed directly."
 
 Collect all results before proceeding.
 
@@ -104,8 +100,6 @@ Every finding must be incorporated — evaluator findings cannot be dismissed wi
 
 If any incorporated finding involves a tradeoff or a choice the rules do not determine, surface it to the user and await judgment before continuing (Rule 4).
 
-If spawning is technically infeasible, the user performs this evaluation — do not skip or substitute.
-
 Report: "Simulation complete — N findings incorporated."
 
 **Step 9 — Review agent (Rule 3)**
@@ -117,8 +111,6 @@ Spawn a review agent independent from you and from the simulation agent. Pass it
 - Independently verify: (a) every rule has a verdict, (b) every FAIL has an exact quote and a rewrite, (c) no verdict contradicts the evidence
 
 Incorporate all findings. Repeat until the review agent returns zero new issues.
-
-If spawning would cause a recursive wf-rev invocation, or if spawning is technically infeasible, the user performs this evaluation — do not skip.
 
 Report: "Review agent: zero new issues — report ready."
 

@@ -24,7 +24,7 @@ Means adapt; the goal does not. Do not reinterpret, narrow, or expand the goal w
 
 **How findings are handled:** every finding must be resolved — evaluator findings cannot be dismissed without being addressed. Iterate until both evaluators independently confirm zero concerns. If evaluators raise contradictory findings or a concern requires a tradeoff, surface it to the user for judgment (Rule 4).
 
-**Fallback:** if spawning evaluators is technically infeasible (no agent-spawning capability available), the user performs the evaluation. Evaluators are not required to spawn their own evaluators.
+Evaluators are not required to spawn their own evaluators.
 
 ## 4. Proposed for judgment
 
