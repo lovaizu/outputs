@@ -27,11 +27,15 @@ AHK operates at the application layer on Windows, causing structural conflicts w
 
 On Mac, macOS Cocoa already provides native Emacs bindings (`Ctrl+F/B/N/P/A/E/K`) in text fields. Karabiner adds complexity without sufficient benefit given the reduced scope.
 
-### Remaining work
+### Remaining work (user's manual steps — docs are complete)
 
 - [x] Write `setup.md`: HHKB configuration steps + VSCode Emacs extension setup (both platforms)
-- [ ] Uninstall Karabiner-Elements (Mac)
+- [x] Remove archive (Karabiner JSON / AHK script)
+- [ ] Uninstall Karabiner-Elements (Mac) — use Preferences → Misc → Uninstall, not just trash
 - [ ] Uninstall AHK (Win)
+- [ ] Install VSCode extension: `tuttieee.emacs-mcx`, set `"emacs-mcx.useMetaKey": true`
+- [ ] HHKB Keymap Tool: set BS, Fn1+backtick=PrintScreen, Fn1+Kana=Eisu
+- [ ] Merge PR #12
 
 ---
 
