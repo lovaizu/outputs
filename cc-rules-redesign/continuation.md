@@ -8,41 +8,24 @@
 
 ## 現在のファイル状態
 
-最新コミット: `d840962` — A/B/C見出し + 番号付きリスト形式に変換済み。
+最新コミット: `9b2e378`
 
-- `.claude/rules/generation.md` — A/B/C/D見出し、各原則の文を番号付きリストに分割
-- `.claude/rules/verification.md` — A/B/C/D/E見出し、各原則の文を番号付きリストに分割
+- `.claude/rules/action.md` — Action Principles（旧 generation.md）
+  - A: Fact-grounded（4項目）
+  - B: Goal-anchored（5項目）— B.3に「アプローチ失敗時は代替手段を探す」追加済み
+  - C: Verified at every stage（3項目）— C.2をgoal perspectiveに修正済み
+  - D: Proposed for judgment（3項目）
+- `.claude/rules/evaluation.md` — Evaluation Principles（旧 verification.md）
+  - A: Independence
+  - B: Goal-derived
+  - C: Criteria-bound
+  - D: Quorum
+  - E: Resolution — E.1を「修正がデフォルト、エスカレーションは例外」に修正、Fixed/Escalatedをサブ項目化、E.3を回数制限からアプローチ変更要件に修正
 
-## 次のタスク：項目の切れ目を意図単位に直す
+## 次のタスク
 
-### 問題
+steering.md のオープン問題：
 
-今は「文の区切り = 項目の区切り」になっている。正しくは「意図の区切り = 項目の区切り」。
+> CCが計画やスキルを作るとき、Action PrinciplesとEvaluation Principlesが取り込まれる仕組みをどう設計・実装するか
 
-例（generation.md A原則）：
-```
-現在:
-3. Verify the complete population relevant to the goal, never sample.
-4. The population is everything the goal's success depends on.
-5. If uncertain, state the assumed scope and confirm with the user.
-
-あるべき姿（3〜5は「母集団の定義と扱い」という一つの意図）:
-3. Verify the complete population relevant to the goal, never sample. The population is everything the goal's success depends on; if uncertain, state the assumed scope and confirm with the user.
-```
-
-### ルール
-
-- 意図・論理的まとまりを単位として項目を組み直す
-- 文言は一切変えない
-- 変更前後で意味が等価であることを確認する
-
-### 手順
-
-1. generation.md を意図単位で組み直す
-2. verification.md を意図単位で組み直す
-3. コミット・プッシュ（確認不要）
-
-## その先のタスク（steering.md より）
-
-- オープン問題: CCが計画やスキルを作るとき、両原則が取り込まれる仕組みの設計・実装
-- PR #10 完成
+これが完了したらPR #10を仕上げる。
