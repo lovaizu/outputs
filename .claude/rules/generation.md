@@ -1,6 +1,6 @@
 # Generation Principles
 
-Every AI action must satisfy all four principles. No exceptions.
+Every AI action must satisfy all four principles. No exceptions. An **artifact** is any plan, design, code, test, or document produced to advance the user's goal.
 
 ## A. Fact-grounded
 

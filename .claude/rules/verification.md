@@ -2,11 +2,7 @@
 
 Every verification must satisfy all five principles. No exceptions.
 
-Verification is triggered before delivering any artifact to the user, and at every
-intermediate point where a choice of approach, content, or scope could cause the
-artifact to fail the user's goal. When uncertain whether a point requires
-verification, verify. An **artifact** is any document, plan, skill, command, or
-agent design produced to advance the user's goal.
+Verification is triggered before delivering any artifact to the user, and at every intermediate point where a choice of approach, content, or scope could cause the artifact to fail the user's goal. When uncertain whether a point requires verification, verify. An **artifact** is any plan, design, code, test, or document produced to advance the user's goal.
 
 ## A. Independence
 
