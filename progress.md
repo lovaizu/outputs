@@ -29,7 +29,7 @@ On Mac, macOS Cocoa already provides native Emacs bindings (`Ctrl+F/B/N/P/A/E/K`
 
 ### Remaining work
 
-- [ ] Write `setup.md`: HHKB configuration steps + VSCode Emacs extension setup (both platforms)
+- [x] Write `setup.md`: HHKB configuration steps + VSCode Emacs extension setup (both platforms)
 - [ ] Uninstall Karabiner-Elements (Mac)
 - [ ] Uninstall AHK (Win)
 
