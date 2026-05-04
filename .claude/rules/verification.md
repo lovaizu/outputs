@@ -10,56 +10,50 @@ agent design produced to advance the user's goal.
 
 ## 1. Independence
 
-Evaluators are spawned as separate subagents — each spawned with no access to the
-current conversation or context window, no conversation history from the generation
-process, and no visibility into each other's outputs. Independence is structural — instructing evaluators to ignore
-prior context does not satisfy this principle.
+1.1 Spawn evaluators as separate subagents — each with no access to the current conversation or context window, no conversation history from the generation process, and no visibility into each other's outputs.
 
-When structural independence cannot be achieved for any reason, stop work on the
-artifact and report the inability to the user. Do not deliver the artifact
-unverified.
+1.2 Independence is structural — instructing evaluators to ignore prior context does not satisfy this principle.
+
+1.3 If structural independence cannot be achieved for any reason: stop work and report to the user — do not deliver the artifact unverified.
 
 ## 2. Goal-derived
 
-Before deriving criteria, confirm the user's stated goal. If the goal is ambiguous,
-implicit, or has evolved across turns, surface this to the user. If the user cannot
-or does not clarify, stop and report the ambiguity — do not proceed on an
-unconfirmed goal. Any criterion not traceable to the confirmed goal is invalid and
-must be discarded.
+2.1 Confirm the user's stated goal before deriving criteria.
+
+2.2 Discard any criterion not traceable to the confirmed goal.
+
+2.3 If the goal is ambiguous, implicit, or has evolved across turns: surface this to the user.
+
+2.4 If the user cannot or does not clarify: stop and report the ambiguity — do not proceed on an unconfirmed goal.
 
 ## 3. Criteria-bound
 
-Write out all evaluation criteria in the output before any evaluation begins. Evaluation
-proceeds only against criteria that were stated before it started. Post-hoc criteria
-are invalid.
+3.1 Write out all evaluation criteria in the output before any evaluation begins.
+
+3.2 Evaluate only against criteria that were stated before evaluation started.
+
+3.3 Post-hoc criteria are invalid.
 
 ## 4. Quorum
 
-Three independent evaluators assess each artifact in parallel. A valid evaluator
-result contains a substantive assessment — an empty, malformed, or non-evaluative
-response does not count as a returned result. Only findings agreed upon by 2 of 3
-evaluators are valid. Quorum is assessed per finding, not per evaluator pair.
+4.1 Three independent evaluators assess each artifact in parallel.
 
-Findings that do not reach quorum are surfaced to the user as informational — they
-are not actionable but must not be silently discarded.
+4.2 A valid evaluator result contains a substantive assessment — empty, malformed, or non-evaluative responses do not count.
 
-If fewer than 3 evaluators return a valid result, re-spawn the missing evaluator
-once. If re-spawning fails, report all findings from the evaluators that did run to
-the user, stop, and do not deliver the artifact — quorum cannot be assessed.
+4.3 A finding is valid only if 2 of 3 evaluators agree. Quorum is assessed per finding, not per evaluator pair.
+
+4.4 Findings that do not reach quorum are surfaced to the user as informational — do not silently discard them.
+
+4.5 If fewer than 3 evaluators return a valid result: re-spawn the missing evaluator once.
+
+4.6 If re-spawning fails: report all findings from the evaluators that did run, stop, and do not deliver the artifact — quorum cannot be assessed.
 
 ## 5. Resolution
 
-Every valid finding must be resolved: either fixed or escalated to the user.
+5.1 Resolve every valid finding: either fix or escalate.
 
-**Fixed**: the artifact is modified to materially address the specific finding, and
-a new full verification pass (satisfying all five principles, including Quorum)
-confirms the finding no longer exists.
+5.2 **Fixed**: modify the artifact to materially address the finding, then run a new full verification pass (satisfying all five principles) confirming the finding no longer exists.
 
-**Escalated**: the finding involves a tradeoff or judgment the rules do not
-determine. Escalation requires the user to state a specific direction — accept, fix,
-or reject. A non-committal response does not constitute a stated direction.
+5.3 **Escalated**: the finding involves a tradeoff or judgment the rules do not determine. Obtain a specific user direction — accept, fix, or reject. A non-committal response does not constitute a stated direction.
 
-The verification loop ends when all valid findings are fixed or escalated. If a
-finding is not resolved after 3 fix attempts, escalate to the user regardless of
-cause. The 3-attempt counter is per finding and does not reset on escalation or
-session boundary.
+5.4 If a finding is not resolved after 3 fix attempts: escalate regardless of cause. The counter is per finding and does not reset on escalation or session boundary.
