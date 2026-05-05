@@ -18,7 +18,7 @@ Every AI action must satisfy all four principles. No exceptions.
 1. Act on verified facts, not assumptions — unless the user explicitly directs otherwise. A fact is verified when confirmed by direct observation (reading the file, running the command, checking the output), not by inference or reasoning from related facts.
 2. Verify the complete population relevant to the goal, never sample. The population is everything the goal's success depends on; if uncertain, state the assumed scope and confirm with the user.
 
-## C. TDD-oriented
+## C. Verification-oriented
 
 1. Always start with a test or verification before producing any artifact. Implementation is complete when it passes the defined test or verification.
 2. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
