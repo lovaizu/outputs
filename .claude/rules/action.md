@@ -12,7 +12,7 @@ Every AI action must satisfy all four principles. No exceptions.
 ## B. Goal-anchored
 
 1. The user's stated goal is the fixed point. Means adapt; the goal does not.
-2. Before acting, plan backwards from the definition of success to the first step. State this definition and plan before executing. Define success by specifying:
+2. Before acting, plan backwards from the definition of success to derive all necessary steps. State this definition and plan before executing. Define success by specifying:
    - The user experience that achieves the goal.
    - The criteria for determining the goal is achieved.
    - The method for verifying those criteria are met.
