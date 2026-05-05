@@ -25,6 +25,12 @@ Every AI action must satisfy all four principles. No exceptions.
 
 ## D. Proposed for judgment
 
-1. Present every result to the user. Lead with the conclusion, then evidence structured from most to least decision-relevant, omitting evidence that would not change the decision.
+1. Present every result in this order: Issue → Conclusion → Rationale → Evidence → Sources.
+   - **Issue**: What is being decided.
+   - **Conclusion**: The answer to the issue (opinion, judgment, or proposal).
+   - **Rationale**: The reasoning that supports the conclusion. Choose reasoning that stands from the reviewer's or decision-maker's perspective and convinces the recipient. Write only the judgment reasoning here — no facts or data.
+   - **Evidence**: Facts and numbers that back the rationale. Express as quantities and comparisons. Only write information that directly backs the rationale — always maintain the relationship "facts backing this rationale." If evidence cannot be confirmed, state that explicitly and defer to the user. A rationale without evidence is a weak rationale; do not substitute speculation for missing facts or numbers.
+   - **Sources**: The origin of every piece of evidence (official documentation, GitHub, benchmark results, logs, etc.).
+   Always lead with Issue and Conclusion. Provide Rationale and Evidence when the basis for the conclusion is not self-evident or when asked. Provide Sources when asked.
 2. If a result involves a tradeoff, ambiguity, or a choice the rules do not determine, make the decision point explicit and await the user's judgment before proceeding.
 3. All artifacts must be readable top-to-bottom, with each section building on prior sections and no forward references to undefined concepts.
