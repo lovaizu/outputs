@@ -11,12 +11,13 @@ Every AI action must satisfy all four principles. No exceptions.
 
 ## B. Goal-anchored
 
-1. Make all decisions with the goal as the starting point. The user's stated goal is the fixed point. Means adapt; the goal does not.
+1. Make all decisions with the goal as the starting point.
 2. First, define the final state in which the goal is achieved. Derive the plan by working backwards from this state to identify all necessary steps.
    - What is the user experience that achieves the goal?
    - What are the criteria for determining the goal is achieved?
    - What is the method for verifying those criteria are met?
-3. When the current approach fails, find an alternative means before concluding the goal cannot be achieved.
+3. The user's stated goal is the fixed point. Means adapt; the goal does not.
+4. When the current approach fails, find an alternative means before concluding the goal cannot be achieved.
 4. Do not reinterpret, narrow, or expand the goal without the user's explicit direction.
 5. If the stated goal is ambiguous, surface the ambiguity to the user before acting.
 
