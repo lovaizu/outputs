@@ -11,60 +11,93 @@
 /* 4. Typography            — headings, body, accents */
 /* ◤◢ don't touch above ◤◢ */
 /* 5. Components            — header, footer, sections */
-/* 6. Accent utilities      — a-*, is-* */
+/* 6. Accent utilities      — a-* */
+/* 7. State / decoration    — is-* */
 ```
 
-Sections 1–4 (base) are shared across projects. Only sections 5–6 change per design.
+Sections 1–4 (base) are shared across projects. Only sections 5–7 change per design.
 
-## Breakpoint
+## Desktop-first approach
 
-Single breakpoint: `599px` (desktop-first).
+These guidelines follow a desktop-first approach. Mobile styles are overrides inside `@media (max-width: 599px)`. Do not mix mobile-first and desktop-first in the same file.
+
+## Breakpoints
+
+Default: single breakpoint at `599px`.
 
 ```css
-/* mobile override */
 @media (max-width: 599px) { ... }
 ```
 
-Do not add other breakpoints unless the design explicitly requires them.
+Add a tablet breakpoint at `768px` when the design explicitly calls for a distinct tablet layout (common for HP). Do not add breakpoints speculatively.
 
-## Color palette
+## Reset
 
-Define as CSS custom properties at `:root` for each project. Reference values from the LP template:
+The `box-sizing` reset applies universally — it must appear before any third-party or vendor CSS:
 
 ```css
-:root {
-  --color-accent:  #336699;   /* #369 — links, icons, headers */
-  --color-bg:      #f2efe6;   /* section backgrounds */
-  --color-text:    #333333;   /* body text */
-  --color-border:  #dddddd;   /* dividers, table borders */
-  --color-danger:  #cc2200;   /* sale price, urgency text */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 ```
 
-Do not hardcode hex values inside component rules — always use a variable.
+## Show/hide
+
+`.pc` / `.sp` use `display: none` — this removes the element from the accessibility tree:
+
+```css
+.pc { display: block; }
+.sp { display: none; }
+
+@media (max-width: 599px) {
+  .pc { display: none; }
+  .sp { display: block; }
+}
+```
+
+Do not use `visibility: hidden` or `opacity: 0` for these — they keep the content in the accessibility tree and cause duplicate announcements.
+
+## Color palette
+
+Define project colors as CSS custom properties at `:root`. Do not hardcode hex values inside component rules.
+
+```css
+:root {
+  --color-accent:  #336699;
+  --color-bg:      #f2efe6;
+  --color-text:    #333333;
+  --color-border:  #dddddd;
+  --color-danger:  #cc2200;
+}
+```
+
+Values above are from the LP template — update per project. The `.a-red` utility maps to `var(--color-danger)`; update both together when the danger color changes.
 
 ## Typography
 
-- Body: `font-size` on the root element, use `em` or `rem` for component-level overrides.
-- Use `clamp()` for fluid heading sizes: `font-size: clamp(18px, 5.07vw, 27px)`.
-- Apply `font-feature-settings: "palt"` and `-webkit-font-smoothing: antialiased` to all headings.
-- `line-height: 1.618` for body, `1.41` for headings, `1.5` for UI elements (table cells, list items).
+- Use `em` / `rem` for font sizes in components; `px` is acceptable for layout dimensions.
+- Use `clamp()` for fluid heading sizes. Formula: `preferred-vw = (target-px ÷ viewport-width) × 100`. Example for a target of 27px on a 375px viewport: `font-size: clamp(18px, 7.20vw, 27px)`.
+- Apply `font-feature-settings: "palt"` to headings and to body text using `text-align: justify`. Do not apply to Latin-only text.
+- Apply `-webkit-font-smoothing: antialiased` to all headings.
+- Add `overflow-wrap: break-word` to body — prevents mixed Japanese/ASCII strings (URLs, product codes) from overflowing narrow containers on mobile.
+- Standard line-heights: `1.618` body, `1.41` headings, `1.5` UI elements (table cells, list items).
 
 ## Layout utilities (l-*)
 
-These are shared and must not be modified per project.
+These are shared across all page types and must not be modified per project. To adjust a value per project, wrap the element in a project-specific class.
 
 | Class | Purpose |
 |-------|---------|
-| `.l-width` | Center column, max-width 808px, padding 0 24px |
-| `.l-wide` | Full-bleed background (negative margin trick) |
-| `.l-margin` | Vertical rhythm: 40px (desktop) / 24px (mobile) |
-| `.l-padding` | Inner spacing: 40px (desktop) / 24px (mobile) |
+| `.l-width` | Center column, max-width 808px, padding 0 24px. HP projects may override max-width via a wrapper class. |
+| `.l-wide` | Full-bleed background. Implemented as negative margin on both sides equal to the padding of the parent container, with matching positive padding to restore inner alignment. Must be a direct child of `.l-width`. |
+| `.l-margin` | Vertical rhythm: 40px desktop / 24px mobile |
+| `.l-padding` | Inner spacing: 40px desktop / 24px mobile |
 | `.l-padding-s` | Compact inner spacing: 1.5em |
-| `.l-grid-2` / `.l-grid-3` | CSS Grid: 2 or 3 equal columns |
-| `.l-columns-2` / `.l-columns-3` | CSS columns for lists |
-
-Do not override these classes inside component rules. Add a wrapper class instead.
+| `.l-grid-2` | CSS Grid, 2 equal columns, gap 24px. Collapses to 1 column on mobile. |
+| `.l-grid-3` | CSS Grid, 3 equal columns, gap 24px. Collapses to 2 columns on mobile. |
+| `.l-columns-2` / `.l-columns-3` | CSS columns for lists. Collapses to 1 column on mobile. |
 
 ## Component naming (BEM-style)
 
@@ -74,36 +107,38 @@ Do not override these classes inside component rules. Add a wrapper class instea
 .block__element--modifier { }
 ```
 
-Keep component selectors flat (one level of nesting max in the selector chain). Exception: `:first-child`, `:last-child`, pseudo-elements.
+Keep selectors flat — one class per rule where possible. Exceptions: `:first-child`, `:last-child`, pseudo-elements.
 
 ```css
 /* ok */
 .faq__q::before { }
 .faq__item:last-child { }
 
-/* avoid — specificity creep */
+/* avoid — four-level chain, high specificity */
 .faq .faq__item .faq__q h4 { }
 ```
 
-When specificity must be raised to override a base rule, prefix with the parent element:
+When a base rule must be overridden (e.g. `.main` font-size affects component text), prefix with the nearest ancestor block, not a chain:
 
 ```css
-/* template pattern */
-.main ul.bullet__ul li p { }
+/* minimal override — one ancestor + one element */
+.main .faq__a { font-size: 1rem; }
 ```
+
+`!important` is banned inside component rules. It is acceptable only in utility classes where winning the cascade is the explicit purpose (e.g. `.a-center { text-align: center !important }`).
 
 ## Accent utilities (a-*)
 
-Typography-only utilities applied via `class` in HTML:
+Typography-only utilities applied via class in HTML:
 
 | Class | Effect |
 |-------|--------|
 | `.a-bold` | `font-weight: 700` |
 | `.a-big` / `.a-big1` / `.a-big2` / `.a-big3` | 21 / 24 / 27 / 30px (scaled on mobile) |
 | `.a-marker` | Yellow highlight underline |
-| `.a-red` | Danger color text |
+| `.a-red` | Danger color text (`var(--color-danger)`) |
 | `.a-underline` | Plain underline |
-| `.a-blink` | CSS blink animation (use sparingly) |
+| `.a-blink` | CSS blink animation — use only for short-lived UI signals (e.g. "NEW" badge). WCAG 2.2.2 requires blinking content to stop within 5 seconds. Never apply to body text. |
 | `.a-center` | `text-align: center` |
 
 Do not create new `a-*` classes without updating this table.
@@ -118,7 +153,7 @@ Do not create new `a-*` classes without updating this table.
 
 ## Images
 
-Base rule applies to all `<img>`:
+Base rule for all `<img>`:
 
 ```css
 img {
@@ -128,21 +163,37 @@ img {
 }
 ```
 
-For cover images inside fixed-height containers, use `object-fit: cover` on the `<img>`, not on the container.
+For images inside fixed-height containers, use `object-fit: cover` on `<img>`, not on the container.
 
 ## Animations
 
-Use `animate.css` classes for entrance animations. Custom keyframes go at the bottom of `style.css`, after all component rules.
+Use `animate.css` for entrance animations. Copy only the `@keyframes` blocks you actually use into `style.css` — do not load the full animate.css file.
 
-Do not use `transition` for layout-affecting properties (`width`, `height`, `padding`) — prefer `transform` and `opacity`.
+All entrance animations must have a `prefers-reduced-motion` counterpart:
 
-## What not to put in style.css
+```css
+@media (prefers-reduced-motion: reduce) {
+  .animate__animated {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+```
 
-- Inline styles belong in HTML only for third-party embeds (e.g. Vimeo aspect-ratio wrapper).
-- JavaScript-driven class toggles use a separate `js-*` class, never a styled class.
+Animate only `transform` and `opacity` — never `width`, `height`, or `padding` (causes layout recalculation).
+
+Add `will-change: transform, opacity` to an element before its entrance animation fires, and reset to `will-change: auto` after the animation completes. This promotes the element to its own compositor layer during the animation.
+
+Custom keyframes go at the bottom of `style.css`, after all component rules.
+
+## Inline styles
+
+Inline styles are allowed only for values that cannot be expressed in a class — specifically, dynamically computed values or third-party embed wrappers. Document each use with a comment explaining why a class is insufficient.
+
+JS-driven class toggles use `js-*` classes — never style a `js-*` class in CSS.
 
 ## TODO
 
-- [ ] Decide whether to adopt CSS custom properties project-wide or keep hex literals
-- [ ] Define print styles policy
-- [ ] Dark mode strategy (if any)
+- [ ] Print styles policy
+- [ ] Dark mode strategy
+- [ ] Audit animate.css usage per project and remove unused keyframes

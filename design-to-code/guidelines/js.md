@@ -2,114 +2,129 @@
 
 ## Stack
 
-- **jQuery 3.6.0** — DOM manipulation, event handling, AJAX
-- **BudouX** — Japanese line-break optimization (loaded as a custom element, no JS API call needed)
-- **Vimeo Player.js** — loaded inline via the Vimeo embed snippet; do not bundle separately
+- **jQuery 3.6.0** — DOM manipulation, event handling (vendored at `js/jquery-3.6.0.min.js`)
+- **BudouX** — Japanese line-break optimization (custom element, no JS API call needed)
 
-No build step. All JS is vanilla ES5-compatible or jQuery-based, delivered as plain `.js` files.
+No build step. Target ES2017+. IE11 is not supported; if a specific project requires it, define a per-project override.
 
 ## File layout
 
 ```
 js/
   jquery-3.6.0.min.js   ← vendored, do not edit
-  function.js           ← all custom behavior for this LP
+  function.js           ← all custom behavior for this page
 ```
 
-Do not split custom code across multiple files unless the file exceeds ~300 lines.
+Split into separate files at feature boundaries (e.g. `slider.js`, `modal.js`), not by line count. Line count above ~300 is a signal to consider splitting.
 
 ## function.js structure
 
-Wrap everything in a document-ready handler:
+Wrap everything in a document-ready handler. Declare all variables with `var` inside the handler — no module-scope variables, no implicit globals.
 
 ```js
 $(function () {
-  // scroll behavior
-  // sticky button
-  // form interaction
-  // animation triggers
+  // scroll
+  // animations
+  // interactions
 });
 ```
 
-No global variables. No inline `<script>` blocks in HTML except third-party embeds.
-
-## Scroll
-
-Smooth scroll to anchor:
+Guard against jQuery not loading:
 
 ```js
-$('a[href^="#"]').on('click', function (e) {
-  e.preventDefault();
-  var target = $($(this).attr('href'));
+if (typeof jQuery === 'undefined') {
+  console.error('jQuery failed to load');
+  // stop — do not execute dependent code
+  return;
+}
+```
+
+No inline `<script>` blocks in HTML except third-party embeds.
+
+## Smooth scroll
+
+CSS `scroll-behavior: smooth` handles most cases. Use jQuery for offset control (e.g. subtracting a sticky header height). Exclude bare `href="#"` links:
+
+```js
+$('a[href^="#"]').not('[href="#"]').on('click', function (e) {
+  var id = $(this).attr('href').slice(1);
+  var target = $('#' + id);
   if (target.length) {
-    $('html, body').animate({ scrollTop: target.offset().top }, 400);
-  }
-});
-```
-
-CSS `scroll-behavior: smooth` is already set on `html` — use it for native browser scroll. The jQuery fallback above handles older browsers and precise offset control (e.g. accounting for sticky header height).
-
-## Animations (animate.css)
-
-Trigger entrance animations on scroll using IntersectionObserver (preferred) or a scroll event fallback:
-
-```js
-var observer = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('animate__animated', 'animate__fadeIn');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.js-animate').forEach(function (el) {
-  observer.observe(el);
-});
-```
-
-Mark animatable elements with `js-animate` in HTML. Never add `animate__animated` statically in HTML unless the animation should fire on page load.
-
-## Sticky footer button
-
-Show/hide based on scroll position:
-
-```js
-$(window).on('scroll', function () {
-  if ($(this).scrollTop() > 300) {
-    $('.sticky-footer-btn').addClass('is-visible');
-  } else {
-    $('.sticky-footer-btn').removeClass('is-visible');
-  }
-});
-```
-
-CSS controls visibility via `.is-visible`. JavaScript only toggles the class.
-
-## Forms
-
-- Do not submit forms with jQuery `.ajax()` unless explicitly required — use native form submission or the embed script from the form provider (e.g. Kartra, Kajabi).
-- Validate required fields before submission:
-
-```js
-$('form').on('submit', function (e) {
-  var email = $(this).find('input[type="email"]').val();
-  if (!email) {
     e.preventDefault();
-    alert('メールアドレスを入力してください。');
+    var headerH = $('.js-sticky-header').outerHeight() || 0;
+    $('html, body').animate({ scrollTop: target.offset().top - headerH }, 400);
   }
 });
+```
+
+Key points:
+- `e.preventDefault()` is inside the `if (target.length)` block — only fires when there is a valid target.
+- Sticky header offset is wired up. Update the `.js-sticky-header` selector per project.
+
+## Entrance animations (animate.css)
+
+Feature-detect IntersectionObserver before using it. Place inside the document-ready handler. Check `prefers-reduced-motion` before adding animation classes:
+
+```js
+$(function () {
+  if (!('IntersectionObserver' in window)) { return; }
+
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        if (!prefersReduced) {
+          entry.target.classList.add('animate__animated', 'animate__fadeIn');
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  // threshold 0.2 + rootMargin avoids premature fire on small mobile screens
+
+  document.querySelectorAll('.js-animate').forEach(function (el) {
+    observer.observe(el);
+  });
+});
+```
+
+Never add `animate__animated` statically in HTML unless the animation fires on page load.
+
+## Scroll event listeners
+
+Use `{ passive: true }` on `scroll` and `touchstart` listeners to avoid blocking the browser's compositor thread. Wrap the handler body in `requestAnimationFrame` for visual updates:
+
+```js
+$(window).on('scroll', { passive: true }, function () {
+  requestAnimationFrame(function () {
+    // read scroll position and update DOM here
+  });
+});
+```
+
+## Event delegation
+
+Use delegated events for elements that may be inserted after page load:
+
+```js
+// direct — use when elements exist at DOMContentLoaded
+$('.js-toggle').on('click', fn);
+
+// delegated — use when elements are injected dynamically
+$(document).on('click', '.js-toggle', fn);
 ```
 
 ## What not to do
 
 - Do not use `document.write`.
 - Do not load jQuery twice.
-- Do not put behavior in `style.css` via `content` tricks.
-- Do not use `var` at module scope — keep variables inside the ready handler.
+- Do not declare variables without `var`.
+- Do not style `js-*` classes in CSS.
+- Do not use `!important` in JavaScript-generated inline styles.
 
 ## TODO
 
-- [ ] Decide whether to migrate from jQuery to vanilla JS for new projects
-- [ ] Define error handling policy for failed form submissions
-- [ ] Accessibility: keyboard navigation and focus trap for any modal/overlay
+- [ ] Evaluate migrating from jQuery to vanilla JS for new projects
+- [ ] Keyboard navigation and focus trap for any modal/overlay (accessibility)
+- [ ] Error boundary strategy for try/catch in critical interaction paths
