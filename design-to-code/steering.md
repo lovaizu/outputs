@@ -7,8 +7,8 @@
 ## Task List (workflow order)
 
 - [x] 1. Decide and set up work rules (this file + guidelines structure)
-- [ ] 2. Set up coding guidelines ← **next**
-- [ ] 3. Receive design input, clarify publish target, and draft a plan
+- [x] 2. Set up coding guidelines
+- [ ] 3. Receive design input, clarify publish target, and draft a plan ← **next**
 - [ ] 4. Get plan approved by user
 - [ ] 5. Implement
 - [ ] 6. Expert review + guideline compliance check → fix all findings
@@ -60,8 +60,8 @@ design-to-code/
 ## Session Context
 
 - Branch: `worktree-design-coding`
-- LP template input is at `design-to-code/lp-template/input/` — use this as the reference when writing guidelines
-- Task 1 (rules) is complete. Resume from Task 2 (guidelines).
+- LP template input is at `design-to-code/lp-template/input/` — the reference used to write guidelines
+- Tasks 1–2 complete. Resume from Task 3 (receive design input).
 
 ## Decisions
 
