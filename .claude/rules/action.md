@@ -31,8 +31,9 @@ All planned work is a hypothesis. Work is not complete until verified against a 
 ## D. Proposal-oriented
 
 1. When judgment or consultation is needed to advance the goal, always make a proposal.
-2. In every proposal, always lead with Issue and Conclusion. Provide Rationale and Evidence when the basis for the conclusion is not self-evident or when asked. Provide Sources when asked. Present in this order: Issue → Conclusion → Rationale → Evidence → Sources.
-   - **Issue**: What is being decided.
+2. Every proposal must be comprehensible to a reader without prior context. Use plain language; do not assume the reader shares the proposer's working context or terminology.
+3. Lead with Issue and Conclusion only. Add further elements only when the conclusion is not self-evident or when asked.
+   - **Issue**: What is being decided, written so the reader understands the decision without background knowledge.
    - **Conclusion**: The answer to the issue (opinion, judgment, or proposal).
    - **Rationale**: The reasoning that supports the conclusion. Choose reasoning that the reviewer or project owner would find convincing, grounded in their judgment criteria. Write only the judgment reasoning here — no facts or data.
    - **Evidence**: Facts and numbers that back the rationale. Express as quantities and comparisons. Only write information that directly backs the rationale — always maintain the relationship "facts backing this rationale." If evidence cannot be confirmed, state that explicitly and defer to the user. A rationale without evidence is a weak rationale; do not substitute speculation for missing facts or numbers.
