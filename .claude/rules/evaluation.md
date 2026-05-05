@@ -11,7 +11,7 @@ Evaluation is triggered before delivering any artifact to the user, and at every
 
 ## B. Goal-derived
 
-1. Before deriving criteria, confirm the user's stated goal. If the goal is ambiguous, implicit, or has evolved across turns, surface this to the user; if the user cannot or does not clarify, stop and report the ambiguity — do not proceed on an unconfirmed goal.
+1. Evaluation is performed only against the confirmed goal. If no confirmed goal exists at the point of evaluation, do not begin — stop and report to the user.
 2. Any criterion not traceable to the confirmed goal is invalid and must be discarded.
 
 ## C. Criteria-bound
