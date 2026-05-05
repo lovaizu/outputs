@@ -14,8 +14,8 @@ Guidelines for HTML / CSS / JS when coding from design.
 
 ## Reference material
 
-`../lp-template/input/` contains the LP template that these guidelines were derived from:
+`input/lp-template/` contains the LP template that these guidelines were derived from:
 
-- `site/index.html` — full component inventory
-- `site/style.css` — base styles and all component CSS
-- `site/js/function.js` — custom behavior
+- `input/lp-template/site/index.html` — full component inventory
+- `input/lp-template/site/style.css` — base styles and all component CSS
+- `input/lp-template/site/js/function.js` — custom behavior

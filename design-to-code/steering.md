@@ -60,7 +60,7 @@ design-to-code/
 ## Session Context
 
 - Branch: `worktree-design-coding`
-- LP template input is at `design-to-code/lp-template/input/` — the reference used to write guidelines
+- LP template input is at `design-to-code/guidelines/input/lp-template/` — the reference used to write guidelines
 - Tasks 1–2 complete. Resume from Task 3 (receive design input).
 
 ## Decisions
