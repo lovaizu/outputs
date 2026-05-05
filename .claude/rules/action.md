@@ -25,7 +25,7 @@ All planned work is a hypothesis. Work is not complete until verified against a 
 1. Before starting any work, define the hypothesis and the method by which it will be verified.
 2. For implementation: write tests first. Work is complete when the tests pass.
 3. For research: define the hypothesis and verification method first. Judge based on the verification results.
-4. For artifacts: assess with independently spawned evaluators.
+4. For artifacts: assess with independently spawned evaluators — one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
 5. Resolve every finding.
 
 ## D. Proposal-oriented
