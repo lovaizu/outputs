@@ -6,17 +6,19 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List (workflow order)
 
-- [ ] 0. Verify Figma JSON design tokens against guideline values → finalize token table
-- [ ] 1. `theme.json` — colors, fonts, fontSizes, layout, templateParts declaration
+- [ ] 0. Verify Figma JSON design tokens against guideline values; translate ACF field schema to Pods field groups → finalize token + field table
+- [ ] 1. `theme.json` — colors, fonts, fontSizes, layout (templateParts added in Task 4 after parts files exist)
 - [ ] 2. `style.css` / `index.php` / `functions.php` — theme header, Works CPT + taxonomy, Pods field registration, Splide.js enqueue
+- [ ] 2b. Download Splide v4 core + Auto Scroll extension → `assets/js/vendor/` (self-hosted, no CDN)
 - [ ] 3. Font assets — download WOFF2 via curl → `assets/fonts/` (4 families)
-- [ ] 4. Template parts — `parts/header.html`, `parts/footer.html`
+- [ ] 4. Template parts — `parts/header.html`, `parts/footer.html`; add `templateParts` declaration to `theme.json`
+- [ ] 4b. Copy image assets from `input/chee-portforio/images/` → `theme/assets/images/`
 - [ ] 5. Templates — `templates/front-page.html`, `templates/archive-works.html`, `templates/single-works.html`
 - [ ] 6. Block patterns × 8 — sec01-fv, sec02-works, sec03-voice, sec04-service, sec05-cta, sec06-profile, sec07-flow, sec08-contact
 - [ ] 7. Splide.js init — `assets/js/splide-init.js` (FV auto-scroll, Voice carousel, single-works gallery swipe)
 - [ ] 8. Contact form spec — Fluent Forms field definition + shortcode doc
 - [ ] 9. Responsive CSS — Navigation breakpoint override (1024px), FV mockup sizing
-- [ ] 10. Expert review (WordPress / HTML / CSS / Accessibility sub-agents) + guideline compliance → fix all findings
+- [ ] 10. Expert review (WordPress / HTML / CSS / Accessibility sub-agents) + guideline compliance → fix all findings; verify `layout.allowEditing: false` lockdown in Site Editor
 - [ ] 11. Handoff doc — Local environment setup, plugin install steps, font swap guide
 
 > Steps 0–11 complete one design cycle. Repeat from step 0 for each new design input.
