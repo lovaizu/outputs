@@ -1,0 +1,668 @@
+{
+  "metadata": {
+    "exportedAt": "2026-05-05T08:32:35.664Z",
+    "componentName": "sevtion03-カルーセルコンテンツ",
+    "totalElements": 47,
+    "nestingDepth": 6,
+    "plugin": "Figma to JSON Exporter"
+  },
+  "designTokens": {
+    "colors": {
+      "color-rgb(255, 255, 255)": "rgb(255, 255, 255)",
+      "color-rgb(0, 0, 0)": "rgb(0, 0, 0)",
+      "color-rgb(17, 17, 17)": "rgb(17, 17, 17)"
+    },
+    "fonts": {
+      "noto-sans-jp": {
+        "family": "Noto Sans JP",
+        "sizes": {
+          "size-24": "24px",
+          "size-18": "18px"
+        },
+        "weights": {
+          "weight-400": "400"
+        }
+      },
+      "roboto-condensed": {
+        "family": "Roboto Condensed",
+        "sizes": {
+          "size-70": "70px"
+        },
+        "weights": {
+          "weight-500": "500"
+        }
+      },
+      "noto-sans-cjk-jp": {
+        "family": "Noto Sans CJK JP",
+        "sizes": {
+          "size-14": "14px"
+        },
+        "weights": {
+          "weight-400": "400"
+        }
+      },
+      "hanatotyoutyo": {
+        "family": "hanatotyoutyo",
+        "sizes": {
+          "size-24": "24px"
+        },
+        "weights": {
+          "weight-400": "400"
+        }
+      }
+    },
+    "spacing": {},
+    "effects": {}
+  },
+  "structure": {
+    "name": "sevtion03-----------",
+    "type": "FRAME",
+    "size": {
+      "w": 2809,
+      "h": 939
+    },
+    "styles": {
+      "layout": {
+        "direction": "row",
+        "gap": 0,
+        "align": {
+          "main": "start",
+          "cross": "start"
+        }
+      }
+    },
+    "children": [
+      {
+        "name": "voice04",
+        "type": "GROUP",
+        "size": {
+          "w": 668,
+          "h": 296
+        },
+        "children": [
+          {
+            "name": "voice",
+            "type": "TEXT",
+            "size": {
+              "w": 69,
+              "h": 29
+            },
+            "content": "voice",
+            "styles": {
+              "bg": "rgb(255, 255, 255)",
+              "text": {
+                "family": "Noto Sans JP",
+                "size": 24,
+                "weight": "400",
+                "align": "left"
+              }
+            }
+          },
+          {
+            "name": "04",
+            "type": "TEXT",
+            "size": {
+              "w": 72,
+              "h": 82
+            },
+            "content": "04",
+            "styles": {
+              "bg": "rgb(255, 255, 255)",
+              "text": {
+                "family": "Roboto Condensed",
+                "size": 70,
+                "weight": "500",
+                "align": "left"
+              }
+            }
+          },
+          {
+            "name": "--------",
+            "type": "GROUP",
+            "size": {
+              "w": 140,
+              "h": 190
+            },
+            "children": [
+              {
+                "name": "---------t--",
+                "type": "TEXT",
+                "size": {
+                  "w": 122,
+                  "h": 40
+                },
+                "content": "セールスライター\nTさん",
+                "styles": {
+                  "bg": "rgb(0, 0, 0)",
+                  "text": {
+                    "family": "Noto Sans CJK JP",
+                    "size": 14,
+                    "weight": "400",
+                    "align": "center"
+                  }
+                }
+              },
+              {
+                "name": "ellipse-34",
+                "type": "ELLIPSE",
+                "size": {
+                  "w": 140,
+                  "h": 140
+                },
+                "styles": {
+                  "bg": "rgb(255, 255, 255)"
+                }
+              },
+              {
+                "name": "mask-group",
+                "type": "GROUP",
+                "size": {
+                  "w": 140,
+                  "h": 140
+                },
+                "children": [
+                  {
+                    "name": "ellipse-28",
+                    "type": "ELLIPSE",
+                    "size": {
+                      "w": 140,
+                      "h": 140
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "writer-1",
+                    "type": "RECTANGLE",
+                    "size": {
+                      "w": 193,
+                      "h": 138
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "group-41",
+            "type": "GROUP",
+            "size": {
+              "w": 453,
+              "h": 225
+            },
+            "children": [
+              {
+                "name": "---lp---------------------------------------------------------lp----------------------------------------------------",
+                "type": "TEXT",
+                "size": {
+                  "w": 453,
+                  "h": 162
+                },
+                "content": "以前にLP制作を協業したことがあり、デザインとコーディングの依頼をさせて頂きました。 クライアントの満足度も高く、理想通りのLPデザインを制作して頂けました。\nまた、私からの細かい指摘にも丁寧に対応頂き、スムーズな仕事ができました！",
+                "styles": {
+                  "bg": "rgb(0, 0, 0)",
+                  "text": {
+                    "family": "Noto Sans JP",
+                    "size": 18,
+                    "weight": "400",
+                    "align": "left"
+                  }
+                }
+              },
+              {
+                "name": "group-40",
+                "type": "GROUP",
+                "size": {
+                  "w": 274,
+                  "h": 45
+                },
+                "children": [
+                  {
+                    "name": "rectangle-109",
+                    "type": "RECTANGLE",
+                    "size": {
+                      "w": 274,
+                      "h": 45
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "-----lp------",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 253,
+                      "h": 32
+                    },
+                    "content": "理想通りのLPデザインに。",
+                    "styles": {
+                      "bg": "rgb(17, 17, 17)",
+                      "text": {
+                        "family": "hanatotyoutyo",
+                        "size": 24,
+                        "weight": "400",
+                        "align": "left"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "voice03",
+        "type": "GROUP",
+        "size": {
+          "w": 671,
+          "h": 425
+        },
+        "children": [
+          {
+            "name": "group-39",
+            "type": "GROUP",
+            "size": {
+              "w": 140,
+              "h": 315
+            },
+            "children": [
+              {
+                "name": "group-38",
+                "type": "GROUP",
+                "size": {
+                  "w": 70,
+                  "h": 95
+                },
+                "children": [
+                  {
+                    "name": "voice",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 69,
+                      "h": 29
+                    },
+                    "content": "voice",
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)",
+                      "text": {
+                        "family": "Noto Sans JP",
+                        "size": 24,
+                        "weight": "400",
+                        "align": "left"
+                      }
+                    }
+                  },
+                  {
+                    "name": "03",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 70,
+                      "h": 82
+                    },
+                    "content": "03",
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)",
+                      "text": {
+                        "family": "Roboto Condensed",
+                        "size": 70,
+                        "weight": "500",
+                        "align": "left"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "--------------",
+                "type": "GROUP",
+                "size": {
+                  "w": 140,
+                  "h": 204
+                },
+                "children": [
+                  {
+                    "name": "ellipse-33",
+                    "type": "ELLIPSE",
+                    "size": {
+                      "w": 140,
+                      "h": 140
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "mask-group",
+                    "type": "GROUP",
+                    "size": {
+                      "w": 140,
+                      "h": 140
+                    },
+                    "children": [
+                      {
+                        "name": "ellipse-30",
+                        "type": "ELLIPSE",
+                        "size": {
+                          "w": 140,
+                          "h": 140
+                        },
+                        "styles": {
+                          "bg": "rgb(255, 255, 255)"
+                        }
+                      },
+                      {
+                        "name": "spi-1",
+                        "type": "RECTANGLE",
+                        "size": {
+                          "w": 211,
+                          "h": 151
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "name": "----------------n--",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 107,
+                      "h": 60
+                    },
+                    "content": "スピリチュアル\nコンサルタント\nNさん",
+                    "styles": {
+                      "bg": "rgb(0, 0, 0)",
+                      "text": {
+                        "family": "Noto Sans CJK JP",
+                        "size": 14,
+                        "weight": "400",
+                        "align": "center"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "group-37",
+            "type": "GROUP",
+            "size": {
+              "w": 460,
+              "h": 414
+            },
+            "children": [
+              {
+                "name": "----------------------lp----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------lp---------",
+                "type": "TEXT",
+                "size": {
+                  "w": 460,
+                  "h": 351
+                },
+                "content": "コンサルとして活動をはじめてからしっかりしたLPを作りたいと思っていたのですが、商品がスピリチュアルや集客などのニッチなジャンルであるため誰にお願いすれば希望通りのものが制作できるかなとずっと悩んでいました。かといって、自分でイチから作成するのも難しそうでなかなか進められず💦\n\n伊藤さんにお願いしたところ、最初のヒアリングから丁寧に対応して頂き、最後まで細かく進捗報告を頂いていたので安心してお願いできました。\n同様にデザインなどの希望もしっかり聞いて頂けたので、私の商品のターゲットにピッタリ合うLPが作成できました。",
+                "styles": {
+                  "bg": "rgb(0, 0, 0)",
+                  "text": {
+                    "family": "Noto Sans JP",
+                    "size": 18,
+                    "weight": "400",
+                    "align": "left"
+                  }
+                }
+              },
+              {
+                "name": "group-36",
+                "type": "GROUP",
+                "size": {
+                  "w": 441,
+                  "h": 45
+                },
+                "children": [
+                  {
+                    "name": "rectangle-111",
+                    "type": "RECTANGLE",
+                    "size": {
+                      "w": 441,
+                      "h": 45
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "---------------------lp-",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 425,
+                      "h": 32
+                    },
+                    "content": "ニッチなジャンルでも安心。ターゲットに合うLP。",
+                    "styles": {
+                      "bg": "rgb(17, 17, 17)",
+                      "text": {
+                        "family": "hanatotyoutyo",
+                        "size": 24,
+                        "weight": "400",
+                        "align": "left"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "voice02",
+        "type": "GROUP",
+        "size": {
+          "w": 670,
+          "h": 562
+        },
+        "children": [
+          {
+            "name": "voice02_text",
+            "type": "GROUP",
+            "size": {
+              "w": 460,
+              "h": 548
+            },
+            "children": [
+              {
+                "name": "pta----------------------------------------------------hp--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
+                "type": "TEXT",
+                "size": {
+                  "w": 460,
+                  "h": 486
+                },
+                "content": "PTA主催のイベントも控えていることも踏まえて、いろいろ相談に乗ってもらい、おかげさまで理想以上のクオリティでHPを仕上げて下さりました。 何よりありがたかったのは、理解できる伝え方をしてくださったこと。  いつまでに、どういう内容を、どんな形で回答すればいいのかを明確にして下さったので、スムーズにやり取りができました。 全体像を組み立てていくうえでも、「こうしたい」という思いを形にするために、必要なピースを全部整理して下さったので、ありがたかったです。 それそれ！っていうツボを押さえて下さったので、助かりました。  こんなことなら、最初からお願いするんだった！ 親身になってくださったおかげて無事に公開できました。",
+                "styles": {
+                  "bg": "rgb(0, 0, 0)",
+                  "text": {
+                    "family": "Noto Sans JP",
+                    "size": 18,
+                    "weight": "400",
+                    "align": "left"
+                  }
+                }
+              },
+              {
+                "name": "group-34",
+                "type": "GROUP",
+                "size": {
+                  "w": 424,
+                  "h": 45
+                },
+                "children": [
+                  {
+                    "name": "rectangle-110",
+                    "type": "RECTANGLE",
+                    "size": {
+                      "w": 424,
+                      "h": 45
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "----------------------",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 403,
+                      "h": 24
+                    },
+                    "content": "こんなことなら、最初からお願いするんだった！",
+                    "styles": {
+                      "bg": "rgb(17, 17, 17)",
+                      "text": {
+                        "family": "hanatotyoutyo",
+                        "size": 24,
+                        "weight": "400",
+                        "align": "left"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "group-35",
+            "type": "GROUP",
+            "size": {
+              "w": 140,
+              "h": 320
+            },
+            "children": [
+              {
+                "name": "voice02",
+                "type": "GROUP",
+                "size": {
+                  "w": 74,
+                  "h": 99
+                },
+                "children": [
+                  {
+                    "name": "voice",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 72,
+                      "h": 28
+                    },
+                    "content": "voice",
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)",
+                      "text": {
+                        "family": "Noto Sans JP",
+                        "size": 24,
+                        "weight": "400",
+                        "align": "left"
+                      }
+                    }
+                  },
+                  {
+                    "name": "02",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 70,
+                      "h": 82
+                    },
+                    "content": "02",
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)",
+                      "text": {
+                        "family": "Roboto Condensed",
+                        "size": 70,
+                        "weight": "500",
+                        "align": "left"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "pta--",
+                "type": "GROUP",
+                "size": {
+                  "w": 140,
+                  "h": 205
+                },
+                "children": [
+                  {
+                    "name": "---pta---t--",
+                    "type": "TEXT",
+                    "size": {
+                      "w": 105,
+                      "h": 40
+                    },
+                    "content": "小学校PTA会長\nTさん",
+                    "styles": {
+                      "bg": "rgb(0, 0, 0)",
+                      "text": {
+                        "family": "Noto Sans CJK JP",
+                        "size": 14,
+                        "weight": "400",
+                        "align": "center"
+                      }
+                    }
+                  },
+                  {
+                    "name": "ellipse-31",
+                    "type": "ELLIPSE",
+                    "size": {
+                      "w": 140,
+                      "h": 140
+                    },
+                    "styles": {
+                      "bg": "rgb(255, 255, 255)"
+                    }
+                  },
+                  {
+                    "name": "mask-group",
+                    "type": "GROUP",
+                    "size": {
+                      "w": 140,
+                      "h": 140
+                    },
+                    "children": [
+                      {
+                        "name": "ellipse-29",
+                        "type": "ELLIPSE",
+                        "size": {
+                          "w": 140,
+                          "h": 140
+                        },
+                        "styles": {
+                          "bg": "rgb(255, 255, 255)"
+                        }
+                      },
+                      {
+                        "name": "pta-1",
+                        "type": "RECTANGLE",
+                        "size": {
+                          "w": 177,
+                          "h": 127
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "components": 0,
+    "instances": 0,
+    "frames": 1,
+    "texts": 15,
+    "hasAutoLayout": true,
+    "hasEffects": false
+  }
+}
