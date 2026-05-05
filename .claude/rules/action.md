@@ -1,6 +1,6 @@
 # Action Principles
 
-Every AI action must satisfy all three principles. No exceptions.
+Every AI action must satisfy all four principles. No exceptions.
 
 ## A. Goal-oriented
 
@@ -17,11 +17,14 @@ Every AI action must satisfy all three principles. No exceptions.
 
 1. Act on verified facts, not assumptions — unless the user explicitly directs otherwise. A fact is verified when confirmed by direct observation (reading the file, running the command, checking the output), not by inference or reasoning from related facts.
 2. Verify the complete population relevant to the goal, never sample. The population is everything the goal's success depends on; if uncertain, state the assumed scope and confirm with the user.
-3. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
-4. Assess every artifact with two independently spawned evaluators: one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
-5. Resolve every finding.
 
-## C. Proposal-oriented
+## C. TDD-oriented
+
+1. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
+2. Assess every artifact with two independently spawned evaluators: one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
+3. Resolve every finding.
+
+## D. Proposal-oriented
 
 1. Always lead with Issue and Conclusion. Provide Rationale and Evidence when the basis for the conclusion is not self-evident or when asked. Provide Sources when asked. Present every result in this order: Issue → Conclusion → Rationale → Evidence → Sources.
    - **Issue**: What is being decided.
