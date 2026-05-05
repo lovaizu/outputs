@@ -192,8 +192,27 @@ Inline styles are allowed only for values that cannot be expressed in a class �
 
 JS-driven class toggles use `js-*` classes — never style a `js-*` class in CSS.
 
+## @layer strategy
+
+This project does not use `@layer`. Cascade order is managed by load order (reset → vendor → site CSS) and specificity. Vendor libraries (animate.css) are not loaded as full stylesheets — only the needed `@keyframes` are copied into `style.css`, so there is no layer conflict to resolve.
+
+If a future project adds a full third-party stylesheet that conflicts with component rules, introduce `@layer` at that point and document it here.
+
+## Vendor file versioning
+
+Pin versions in filenames or in a comment at the top of each vendored file:
+
+```css
+/* normalize.css v8.0.1 — https://github.com/necolas/normalize.css */
+```
+
+```
+js/jquery-3.6.0.min.js   ← version in filename
+```
+
+When updating a vendor file, update the version reference and test for visual regressions.
+
 ## TODO
 
 - [ ] Print styles policy
 - [ ] Dark mode strategy
-- [ ] Audit animate.css usage per project and remove unused keyframes

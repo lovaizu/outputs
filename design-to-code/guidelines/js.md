@@ -115,6 +115,32 @@ $('.js-toggle').on('click', fn);
 $(document).on('click', '.js-toggle', fn);
 ```
 
+## Third-party injected content
+
+Do not query for elements that third-party scripts (chat widgets, analytics, form tools) inject into the DOM inside the document-ready handler — they may not exist yet. Use a MutationObserver or the callback the third-party provides:
+
+```js
+var observer = new MutationObserver(function (mutations) {
+  mutations.forEach(function (m) {
+    m.addedNodes.forEach(function (node) {
+      if (node.classList && node.classList.contains('js-target')) {
+        // handle injected element
+        observer.disconnect();
+      }
+    });
+  });
+});
+observer.observe(document.body, { childList: true, subtree: true });
+```
+
+## animate.css version
+
+The animate.css class names changed between v3 and v4 (v4 uses `animate__` prefix; v3 uses bare names like `animated`). Pin the version in a comment at the top of `style.css` alongside the copied `@keyframes`:
+
+```css
+/* animate.css v4.1.1 — copied keyframes only: fadeIn, bounceIn */
+```
+
 ## What not to do
 
 - Do not use `document.write`.

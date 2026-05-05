@@ -34,12 +34,14 @@
 
 Order: reset → vendor → site CSS. Site CSS is always last.
 
-Every icon wrapped with Font Awesome must carry `aria-hidden="true"`. If the icon conveys meaning, add a visually hidden text label alongside it:
+Font Awesome 4.7 (current) uses a private-use Unicode icon font, which is read aloud inconsistently by screen readers. Every icon must carry `aria-hidden="true"`. If the icon conveys meaning, add a visually hidden label:
 
 ```html
 <span class="fa fa-check" aria-hidden="true"></span>
 <span class="sr-only">完了</span>
 ```
+
+For new projects, prefer Font Awesome 6 (SVG-based) or inline SVG — both provide more reliable accessibility and smaller payloads than the icon font approach.
 
 ## JavaScript load order
 
@@ -182,8 +184,31 @@ Never remove `:focus` / `:focus-visible` outlines without providing a custom rep
 
 Use `<figcaption>` only when it adds information beyond the `alt`. When `<figcaption>` fully describes the image, set `alt=""` on the inner `<img>` to avoid screen readers announcing the description twice.
 
+## Google Fonts
+
+Always append `&display=swap` to the Google Fonts URL to prevent invisible text (FOIT) while the font loads:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet">
+```
+
+For Japanese, the full character set is large. Consider self-hosting a subset (e.g. with `glyphhanger` or Google Fonts subset parameter) to reduce transfer size.
+
+## Performance targets
+
+Every page must pass these thresholds on a simulated 4G mobile connection:
+
+| Metric | Target |
+|--------|--------|
+| LCP (Largest Contentful Paint) | < 2.5s |
+| CLS (Cumulative Layout Shift) | < 0.1 |
+| Total image weight | < 500KB |
+| Total JS (excluding vendor) | < 50KB |
+
+Check before delivery using Lighthouse or PageSpeed Insights. A design-faithful page that fails these thresholds is not complete.
+
 ## TODO
 
 - [ ] OGP / SNS meta tag template (og:title, og:image, og:description) — required for LINE/X sharing
-- [ ] Font preload strategy for Noto Sans JP (self-host subset vs Google Fonts)
 - [ ] Full accessibility checklist (ARIA landmark audit, color contrast)
