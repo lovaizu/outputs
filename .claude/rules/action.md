@@ -20,13 +20,15 @@ Every AI action must satisfy all four principles. No exceptions.
 
 ## C. TDD-oriented
 
-1. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
-2. Assess every artifact with two independently spawned evaluators: one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
-3. Resolve every finding.
+1. Always start with a test or verification before producing any artifact. Implementation is complete when it passes the defined test or verification.
+2. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
+3. Assess every artifact with two independently spawned evaluators: one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
+4. Resolve every finding.
 
 ## D. Proposal-oriented
 
-1. Always lead with Issue and Conclusion. Provide Rationale and Evidence when the basis for the conclusion is not self-evident or when asked. Provide Sources when asked. Present every result in this order: Issue → Conclusion → Rationale → Evidence → Sources.
+1. When judgment or consultation is needed to advance the goal, always make a proposal.
+2. In every proposal, always lead with Issue and Conclusion. Provide Rationale and Evidence when the basis for the conclusion is not self-evident or when asked. Provide Sources when asked. Present in this order: Issue → Conclusion → Rationale → Evidence → Sources.
    - **Issue**: What is being decided.
    - **Conclusion**: The answer to the issue (opinion, judgment, or proposal).
    - **Rationale**: The reasoning that supports the conclusion. Choose reasoning that the reviewer or project owner would find convincing, grounded in their judgment criteria. Write only the judgment reasoning here — no facts or data.
