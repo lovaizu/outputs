@@ -31,5 +31,3 @@ Every AI action must satisfy all four principles. No exceptions.
    - **Rationale**: The reasoning that supports the conclusion. Choose reasoning that the reviewer or project owner would find convincing, grounded in their judgment criteria. Write only the judgment reasoning here — no facts or data.
    - **Evidence**: Facts and numbers that back the rationale. Express as quantities and comparisons. Only write information that directly backs the rationale — always maintain the relationship "facts backing this rationale." If evidence cannot be confirmed, state that explicitly and defer to the user. A rationale without evidence is a weak rationale; do not substitute speculation for missing facts or numbers.
    - **Sources**: The origin of every piece of evidence (official documentation, GitHub, benchmark results, logs, etc.).
-2. If a result involves a tradeoff, ambiguity, or a choice the rules do not determine, make the decision point explicit and await the user's judgment before proceeding.
-3. All artifacts must be readable top-to-bottom, with each section building on prior sections and no forward references to undefined concepts.
