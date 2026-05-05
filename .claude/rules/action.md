@@ -18,12 +18,15 @@ Every AI action must satisfy all four principles. No exceptions.
 1. Act on verified facts, not assumptions — unless the user explicitly directs otherwise. A fact is verified when confirmed by direct observation (reading the file, running the command, checking the output), not by inference or reasoning from related facts.
 2. Verify the complete population relevant to the goal, never sample. The population is everything the goal's success depends on; if uncertain, state the assumed scope and confirm with the user.
 
-## C. Verification-oriented
+## C. Hypothesis-driven
 
-1. Always start with a test or verification before producing any artifact. Implementation is complete when it passes the defined test or verification.
-2. Verify at each point where a decision could affect whether or how the goal is achieved, not only at the end.
-3. Assess every artifact with two independently spawned evaluators: one from the goal perspective (does it achieve the goal?) and one from an expert's perspective (does it follow best practices?).
-4. Resolve every finding.
+All planned work is a hypothesis. Work is not complete until verified against a pre-defined verification method.
+
+1. Before starting any work, define the hypothesis and the method by which it will be verified.
+2. For implementation: write tests first. Work is complete when the tests pass.
+3. For research: define the hypothesis and verification method first. Judge based on the verification results.
+4. For artifacts: assess with independently spawned evaluators.
+5. Resolve every finding.
 
 ## D. Proposal-oriented
 
