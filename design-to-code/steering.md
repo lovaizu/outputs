@@ -50,9 +50,10 @@
 design-to-code/
 ├── steering.md          ← this file
 ├── guidelines/          ← coding guidelines (HTML, CSS, JS)
-├── input/               ← design files as received (do not modify)
+│   └── input/           ← reference materials for guidelines
 └── <project-slug>/      ← per-design working directory
     ├── steering.md      ← per-project steering
+    ├── input/           ← design files as received (do not modify)
     └── (output files)
 ```
 
