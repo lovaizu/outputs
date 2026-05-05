@@ -39,15 +39,15 @@ Step 3: If something breaks, roll back later.
 **Verdict**: FAIL
 
 ### Valid Findings
-- [A.1] "Assume the tests passed based on yesterday's run" — Acting on an unverified
+- [B.1] "Assume the tests passed based on yesterday's run" — Acting on an unverified
   assumption rather than a directly observed fact. → Improvement: Run the test suite
   and confirm the result before proceeding to deploy.
-- [A.2] "Deploy immediately without checking current branch state" — The relevant
+- [B.2] "Deploy immediately without checking current branch state" — The relevant
   population (branch state, pending changes) was not fully verified before acting.
   → Improvement: Run git status and review all staged changes before deploying.
 
 ### Informational (1 evaluator only — not actionable)
-- [B.2] No end-state was derived from the goal before planning the steps — flagged
+- [A.2] No end-state was derived from the goal before planning the steps — flagged
   by evaluator 2 only.
 ```
 
