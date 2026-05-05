@@ -60,8 +60,18 @@ design-to-code/
 ## Session Context
 
 - Branch: `worktree-design-coding`
-- LP template input is at `design-to-code/guidelines/input/lp-template/` — the reference used to write guidelines
+- PR: https://github.com/lovaizu/outputs/pull/13
+- LP template reference: `design-to-code/guidelines/input/lp-template/`
 - Tasks 1–2 complete. Resume from Task 3 (receive design input).
+
+## How to resume (Task 3)
+
+1. Read this file.
+2. Ask the user to provide the design input (images, PSD, or site files).
+3. Clarify the publish target (LP / HP / other) and any requirements.
+4. Create a per-project directory: `design-to-code/<project-slug>/`
+5. Place received files in `design-to-code/<project-slug>/input/` as-is, commit immediately.
+6. Draft a plan (steering.md for the project) and get user approval before implementing.
 
 ## Decisions
 
@@ -70,3 +80,5 @@ design-to-code/
 | 2026-05-05 | Use `steering.md` (not `progress.md`) as the handoff document |
 | 2026-05-05 | `input/` stores received files as-is; zip deleted after extraction |
 | 2026-05-05 | All deliverables require sub-agent expert review + guideline compliance check before delivery |
+| 2026-05-05 | Guidelines cover HTML / CSS / JS (common) + lp.md (LP-specific); reviewed by 5 expert sub-agents, all findings resolved |
+| 2026-05-05 | Reference materials for guidelines live under `guidelines/input/`, not at project level |
