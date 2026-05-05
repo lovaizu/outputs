@@ -150,8 +150,21 @@ aiya コマンド（/hi, /go, /ty, /gm, /bb）の作成は別PR。
 
 ### 現在地
 
-T5（評価・修正ループ）完了、EA.1 escalation を reject で解決。
-**次のステップ: T6（ユーザーレビュー・承認）→ T7（PR #10 完成・マージ）**
+T6 進行中。assay レビューを通じてユーザーから原則の根本的な問題点を指摘され、action.md・evaluation.md を大幅改訂。
+
+**このセッションで行った主な変更:**
+- action.md を4原則（A/B/C/D）から4原則（Goal/Fact/Hypothesis/Proposal-oriented）に再設計
+  - A. Goal-oriented: 目的指向。最終状態の定義（UX・評価基準・検証方法）から逆算して計画
+  - B. Fact-oriented: 事実指向。検証済み事実のみで行動、全量確認
+  - C. Hypothesis-driven: 仮説検証指向。実装はテストファースト、調査は仮説先行、成果物は2観点で独立検証
+  - D. Proposal-oriented: 提案指向。Issue→Conclusion→Rationale→Evidence→Sources 構造で提案
+- evaluation.md B.1: ゴール確認プロセスを action.md の責務に委譲、評価は「確認済みゴールを前提とする」に絞った
+
+**assay.md の状況:**
+- assay.md 自体は変更なし（action.md の変更内容と整合しているか確認が必要）
+- cc-rules-redesign/t6-review.md 作成済み（内容は古い原則に基づくため要更新）
+
+**次のステップ: assay.md と t6-review.md の内容を新原則と照合 → T6 承認 → T7（PR）**
 
 ---
 
