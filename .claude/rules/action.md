@@ -26,7 +26,7 @@ All planned work is a hypothesis. Work is not complete until verified against a 
 2. For implementation: write tests first. Work is complete when the tests pass.
 3. For research: define the hypothesis and verification method first. Judge based on the verification results.
 4. For artifacts: verify against two criteria independently — (1) goal alignment: does it achieve the stated goal? (2) quality: does it follow relevant best practices? Treat each as a separate verification pass.
-5. Address every finding. Do not skip, defer, or deprioritize any finding.
+5. Address every finding. Do not skip, defer, or deprioritize any finding without stating the rationale tied to the goal.
 
 ## D. Proposal-oriented
 
