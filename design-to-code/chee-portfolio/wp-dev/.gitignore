@@ -1,0 +1,4 @@
+# Ignore everything in wp-dev/ except docker-compose.yml
+*
+!.gitignore
+!docker-compose.yml
