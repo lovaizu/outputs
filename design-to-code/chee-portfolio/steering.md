@@ -6,22 +6,68 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List (workflow order)
 
+Each task includes a checkpoint — validate before moving to the next task.
+
+- [ ] -1. Local dev environment — WP-CLI + SQLite in `wp-dev/` (WP core gitignored); symlink `theme/` into WP themes; start `php -S localhost:8080`
+  - ✔ `wp eval 'echo "ok";'` returns `ok`
 - [ ] 0. Verify Figma JSON design tokens against guideline values; translate ACF field schema to Pods field groups → finalize token + field table
 - [ ] 1. `theme.json` — colors, fonts, fontSizes, layout (templateParts added in Task 4 after parts files exist)
+  - ✔ `wp theme activate` succeeds; `wp eval 'print_r(wp_get_global_settings());'` shows expected color/font presets
 - [ ] 2. `style.css` / `index.php` / `functions.php` — theme header, Works CPT + taxonomy, Pods field registration, Splide.js enqueue
+  - ✔ `wp eval 'echo "ok";'` — no PHP fatal; `wp post-type list` shows `works`
 - [ ] 2b. Download Splide v4 core + Auto Scroll extension → `assets/js/vendor/` (self-hosted, no CDN)
 - [ ] 3. Font assets — download WOFF2 via curl → `assets/fonts/` (4 families)
 - [ ] 4. Template parts — `parts/header.html`, `parts/footer.html`; add `templateParts` declaration to `theme.json`
+  - ✔ curl `localhost:8080` — header/footer render, no block validation errors in HTML
 - [ ] 4b. Copy image assets from `input/chee-portforio/images/` → `theme/assets/images/`
 - [ ] 5. Templates — `templates/front-page.html`, `templates/archive-works.html`, `templates/single-works.html`
+  - ✔ curl each URL — expected blocks present, no fallback to `index.html`
 - [ ] 6. Block patterns × 8 — sec01-fv, sec02-works, sec03-voice, sec04-service, sec05-cta, sec06-profile, sec07-flow, sec08-contact
+  - ✔ Per pattern: `wp eval 'echo serialize_blocks(parse_blocks(file_get_contents("...")));'` — valid block grammar
 - [ ] 7. Splide.js init — `assets/js/splide-init.js` (FV auto-scroll, Voice carousel, single-works gallery swipe)
+  - ✔ curl page source — Splide script tag present, no 404 in enqueue path
 - [ ] 8. Contact form spec — Fluent Forms field definition + shortcode doc
 - [ ] 9. Responsive CSS — Navigation breakpoint override (1024px), FV mockup sizing
+  - ✔ **User opens `localhost:8080` in browser** — visual check on 3 breakpoints (PC / tablet / mobile)
 - [ ] 10. Expert review (WordPress / HTML / CSS / Accessibility sub-agents) + guideline compliance → fix all findings; verify `layout.allowEditing: false` lockdown in Site Editor
-- [ ] 11. Handoff doc — Local environment setup, plugin install steps, font swap guide
+- [ ] 11. Handoff doc + GitHub Actions workflow template — Local setup steps, plugin install, deployment flow (prod→stg→confirm→prod), font swap guide
 
-> Steps 0–11 complete one design cycle. Repeat from step 0 for each new design input.
+> Steps -1 to 11 complete one design cycle. Repeat from step 0 for each new design input.
+
+## Local Dev Environment
+
+**構成:** WP-CLI + SQLite（MySQL不要）+ `php -S localhost:8080`
+
+```
+design-to-code/chee-portfolio/
+├── theme/               ← Git管理（成果物）
+└── wp-dev/              ← Git管理外（.gitignoreで除外）
+    ├── wp-content/
+    │   ├── themes/
+    │   │   └── chee-portfolio → symlink to ../../theme/
+    │   └── database/    ← SQLiteファイル（gitignore）
+    └── (WP core files)  ← gitignore
+```
+
+**動作確認の分担:**
+- AI: WP-CLIコマンドでプリセット存在・PHP fatal・ブロック文法を自動検証
+- ユーザー: `localhost:8080` をブラウザで目視確認（Task 9以降）
+
+## Info Required for Deployment Workflow
+
+Task 11 の GitHub Actions ワークフローを完成させるには以下が必要。未確定の項目は雛形にプレースホルダーとして残す。
+
+| 情報 | 用途 | 確定済み？ |
+|------|------|-----------|
+| stg サーバー hostname | SSH接続先 | — |
+| stg SSH ユーザー / deploy path | rsync/WP-CLI接続 | — |
+| prod サーバー hostname | SSH接続先 | — |
+| prod SSH ユーザー / deploy path | rsync/WP-CLI接続 | — |
+| サーバー上のWP-CLI有無 | リモートWP操作 | — |
+| デプロイ方式（rsync / WP-CLI alias / その他） | Actions workflow設計 | — |
+| stg/prod DBコピー方法（WP-CLI db export / バックアッププラグイン） | prod→stgコピー手順 | — |
+| GitHub ActionsのSecretsに登録するキー名 | workflow.yml | — |
+| テーマのデプロイ対象リポジトリ（本リポジトリ or 別リポジトリ） | Actions trigger設計 | — |
 
 ## Decisions
 
@@ -32,7 +78,8 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 | 2026-05-06 | Fonts self-hosted as WOFF2 in `assets/fonts/`; downloaded via curl from Google Fonts API |
 | 2026-05-06 | Theme code output: `design-to-code/chee-portfolio/theme/` in this repo |
 | 2026-05-06 | Figma JSON used to verify guideline token values before generating theme.json; discrepancies flagged for user confirmation |
-| 2026-05-06 | AI scope: code generation only; environment setup documented in handoff doc |
+| 2026-05-06 | Local dev: WP-CLI + SQLite + php -S; AI runs automated checks, user does visual browser check from Task 9 |
+| 2026-05-06 | Task 11 includes GitHub Actions workflow template; deployment-specific values left as placeholders until server info is provided |
 
 ## Key Specs (from guideline)
 
@@ -97,17 +144,20 @@ design-to-code/chee-portfolio/
 │       ├── design/      ← design PNGs
 │       ├── structures/  ← Figma JSON exports
 │       └── images/      ← image assets
-└── theme/               ← WordPress block theme output
-    ├── style.css
-    ├── theme.json
-    ├── index.php
-    ├── functions.php
-    ├── templates/
-    ├── parts/
-    ├── patterns/
-    └── assets/
-        ├── fonts/
-        └── js/
+├── theme/               ← WordPress block theme output (Git管理)
+│   ├── style.css
+│   ├── theme.json
+│   ├── index.php
+│   ├── functions.php
+│   ├── templates/
+│   ├── parts/
+│   ├── patterns/
+│   └── assets/
+│       ├── fonts/
+│       ├── images/
+│       └── js/
+│           └── vendor/  ← Splide (self-hosted)
+└── wp-dev/              ← ローカル開発用WP環境 (gitignore)
 ```
 
 ## Session Context
