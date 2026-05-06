@@ -1,5 +1,9 @@
 # chee-portfolio Steering
 
+## Design Specification
+
+See [`design.md`](design.md) for architecture, CI/CD pipeline, E2E strategy, and WordPress design decisions. This file tracks tasks and session state only.
+
 ## Purpose
 
 WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイトを、Figmaデザインに基づきWordPressブロックテーマ（FSE）で構築する。
@@ -8,8 +12,8 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 Each task includes a checkpoint — validate before moving to the next task.
 
-- [ ] -1. Local dev environment — WP-CLI + SQLite in `wp-dev/` (WP core gitignored); symlink `theme/` into WP themes; start `php -S localhost:8080`
-  - ✔ `wp eval 'echo "ok";'` returns `ok`
+- [ ] -1. Local dev environment — Docker (`wordpress:php8.2-apache` + DB); bind-mount `theme/` into container themes dir; `wp-dev/` gitignored
+  - ✔ `wp eval 'echo "ok";' --allow-root` returns `ok` inside container
 - [ ] 0. Verify Figma JSON design tokens against guideline values; translate ACF field schema to Pods field groups → finalize token + field table
 - [ ] 1. `theme.json` — colors, fonts, fontSizes, layout (templateParts added in Task 4 after parts files exist)
   - ✔ `wp theme activate` succeeds; `wp eval 'print_r(wp_get_global_settings());'` shows expected color/font presets
@@ -189,18 +193,17 @@ design-to-code/chee-portfolio/
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
 - Input committed at: `design-to-code/chee-portfolio/input/`
-- **Resume from: Task -1 (local dev environment setup)**
+- Design spec: `design-to-code/chee-portfolio/design.md`
+- **Resume from: Task -1 (local dev environment — Docker)**
 
 ## How to Resume
 
 1. Read this file.
 2. Check git log to confirm last commit.
-3. Start Task -1: set up WP-CLI + SQLite local environment in `wp-dev/`.
-   - Install WP-CLI if not present: `brew install wp-cli`
-   - Download WP core into `wp-dev/`: `wp core download --path=wp-dev`
-   - Add SQLite integration drop-in
-   - Create `.gitignore` in `wp-dev/` to exclude WP core and DB
-   - Symlink `theme/` → `wp-dev/wp-content/themes/chee-portfolio`
-   - Start server: `php -S localhost:8080 -t wp-dev`
-   - Validate: `wp eval 'echo "ok";' --path=wp-dev`
+3. Start Task -1: set up Docker local environment in `wp-dev/`.
+   - Write `wp-dev/docker-compose.yml` (wordpress:php8.2-apache + MariaDB)
+   - Bind-mount `theme/` into container at `/var/www/html/wp-content/themes/chee-portfolio`
+   - Add `wp-dev/` to `.gitignore`
+   - `docker compose up -d` and install WP via WP-CLI
+   - Validate: `docker compose exec wordpress wp eval 'echo "ok";' --allow-root`
 4. Proceed through tasks in order, running the ✔ checkpoint after each one.
