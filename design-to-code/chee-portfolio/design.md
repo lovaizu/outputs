@@ -256,14 +256,18 @@ design-to-code/chee-portfolio/
     └── (Docker volume: WP core + SQLite or MySQL)
 ```
 
-Docker compose brings up WP + DB. Theme directory is bind-mounted so edits are live.  
+**Base image:** `wordpress:php8.2-apache` + `mariadb:10.11`
+
+Docker Compose brings up WP + DB. Theme directory is bind-mounted so edits are live.  
 AI runs WP-CLI checks; user does visual browser check from Task 9 onward.
 
 ---
 
 ## TODO
 
-- [ ] Confirm E2E staging URL and add to GitHub Secrets
-- [ ] Decide Docker base image (official `wordpress:php8.2-apache` or custom)
-- [ ] Provide `{server_id}`, prod/stg domains, WP-CLI status on Xserver (needed before Task 11)
-- [ ] Playwright test for mobile viewport (375px) — scope TBD after Task 9 visual check
+Items below require user-provided information and cannot proceed without it.
+
+- [ ] E2E staging URL → add as `STG_URL` in GitHub Secrets
+- [ ] `{server_id}`, prod domain, stg domain → add as GitHub Secrets before Task 11
+- [ ] WP-CLI status on Xserver (pre-installed or manual `~/bin/` install needed)
+- [ ] Playwright mobile viewport (375px) scope — revisit after Task 9 visual check
