@@ -34,6 +34,46 @@ Each task includes a checkpoint — validate before moving to the next task.
 
 > Steps -1 to 11 complete one design cycle. Repeat from step 0 for each new design input.
 
+## Design Policy
+
+`input/figma-to-wp-guideline.md` をベースに、以下の変更を適用する。**この steering.md の記載がガイドラインより優先される。**
+
+| 項目 | ガイドライン | 本プロジェクトでの採用 | 理由 |
+|------|------------|---------------------|------|
+| カスタムフィールド | ACF Free | **Pods + Meta Field Block** | ACF Freeでは Query Loop内のカスタムフィールド表示に別プラグインが必要。Podsは完全無料で CPT・タクソノミー・フィールドをすべてカバー |
+| お問合せフォーム | Contact Form 7 | **Fluent Forms** | CF7は2026年に機能フリーズ宣言。Fluent Forms無料プランはAjax送信・プライバシー同意チェックボックスを標準で含む |
+| フォントホスティング | Google Fonts CDN想定 | **WOFF2 セルフホスト** (`assets/fonts/`) | GDPR・パフォーマンス観点で外部CDN不使用（ガイドラインの意図通り、実装方法を明確化） |
+| 開発フロー | コード生成後にレビュー | **タスクごとにWP-CLIで自動検証** + ブラウザ目視確認 | WPブロックテーマの不具合はサイレント失敗が多く、後工程での手戻りが大きいため |
+
+## User Prep
+
+開発を始める前にユーザー側で用意するもの。
+
+### Task -1 開始前（ローカル環境）
+
+| 項目 | コマンド / 手順 |
+|------|----------------|
+| WP-CLI インストール | `brew install wp-cli` |
+| PHP 8.x 確認 | `php -v`（macOS標準搭載、8.0以上推奨） |
+
+### Task 11 前（デプロイワークフロー構築時）
+
+| 情報 | 用途 |
+|------|------|
+| Xserver サーバーID（例: sv12345） | SSH ユーザー名 / デプロイパス構築 |
+| prod ドメイン名 | デプロイパス: `/home/{server_id}/{domain}/public_html/` |
+| stg ドメイン名 または ディレクトリ | stg デプロイパス構築 |
+| prod / stg に WP-CLI インストール済みか | DB コピー手順（`wp db export/import`） |
+| テーマのデプロイ元リポジトリ（本リポジトリ or 別） | GitHub Actions trigger 設計 |
+| GitHub Secrets のキー名（命名自由） | workflow.yml のシークレット参照名 |
+
+**確定済み（Xserver調査結果）**
+- SSH ポート: **10022**、公開鍵認証のみ
+- デプロイ方式: rsync over SSH（`-e "ssh -p 10022"`）
+- ドキュメントルート: `/home/{server_id}/{domain}/public_html/`
+- WP-CLI: デフォルト非搭載 → SSH で `~/bin/` に手動インストール必要
+- DB コピー: `wp db export / wp db import`
+
 ## Local Dev Environment
 
 **構成:** WP-CLI + SQLite（MySQL不要）+ `php -S localhost:8080`
@@ -52,26 +92,6 @@ design-to-code/chee-portfolio/
 **動作確認の分担:**
 - AI: WP-CLIコマンドでプリセット存在・PHP fatal・ブロック文法を自動検証
 - ユーザー: `localhost:8080` をブラウザで目視確認（Task 9以降）
-
-## Info Required for Deployment Workflow
-
-**確定済み（Xserver調査結果）**
-- SSH: 全プラン対応、ポート **10022**、公開鍵認証のみ
-- デプロイ方式: **rsync over SSH** (`-e "ssh -p 10022"`)
-- ドキュメントルート: `/home/{server_id}/{domain}/public_html/`
-- WP-CLI: デフォルト非搭載 → SSH で `~/bin/` に手動インストール必要
-- DB コピー: `wp db export / wp db import` (WP-CLI経由)
-
-**ユーザーから必要な情報（Task 11 前に確認）**
-
-| 情報 | 用途 | 確定済み？ |
-|------|------|-----------|
-| Xserver サーバーID（例: sv12345） | SSH ユーザー名 / パス構築 | — |
-| prod ドメイン名 | デプロイパス構築 | — |
-| stg ドメイン名 / ディレクトリ | stg デプロイパス構築 | — |
-| WP-CLI を prod / stg にインストール済みか | DB コピー手順 | — |
-| テーマのデプロイ対象リポジトリ（本リポジトリ or 別） | Actions trigger 設計 | — |
-| GitHub Secrets に登録するキー名（命名自由） | workflow.yml | — |
 
 ## Decisions
 
