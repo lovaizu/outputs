@@ -169,4 +169,18 @@ design-to-code/chee-portfolio/
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
 - Input committed at: `design-to-code/chee-portfolio/input/`
-- Resume from: Task 0 (verify Figma JSON tokens)
+- **Resume from: Task -1 (local dev environment setup)**
+
+## How to Resume
+
+1. Read this file.
+2. Check git log to confirm last commit.
+3. Start Task -1: set up WP-CLI + SQLite local environment in `wp-dev/`.
+   - Install WP-CLI if not present: `brew install wp-cli`
+   - Download WP core into `wp-dev/`: `wp core download --path=wp-dev`
+   - Add SQLite integration drop-in
+   - Create `.gitignore` in `wp-dev/` to exclude WP core and DB
+   - Symlink `theme/` → `wp-dev/wp-content/themes/chee-portfolio`
+   - Start server: `php -S localhost:8080 -t wp-dev`
+   - Validate: `wp eval 'echo "ok";' --path=wp-dev`
+4. Proceed through tasks in order, running the ✔ checkpoint after each one.
