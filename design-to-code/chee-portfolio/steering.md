@@ -55,19 +55,23 @@ design-to-code/chee-portfolio/
 
 ## Info Required for Deployment Workflow
 
-Task 11 の GitHub Actions ワークフローを完成させるには以下が必要。未確定の項目は雛形にプレースホルダーとして残す。
+**確定済み（Xserver調査結果）**
+- SSH: 全プラン対応、ポート **10022**、公開鍵認証のみ
+- デプロイ方式: **rsync over SSH** (`-e "ssh -p 10022"`)
+- ドキュメントルート: `/home/{server_id}/{domain}/public_html/`
+- WP-CLI: デフォルト非搭載 → SSH で `~/bin/` に手動インストール必要
+- DB コピー: `wp db export / wp db import` (WP-CLI経由)
+
+**ユーザーから必要な情報（Task 11 前に確認）**
 
 | 情報 | 用途 | 確定済み？ |
 |------|------|-----------|
-| stg サーバー hostname | SSH接続先 | — |
-| stg SSH ユーザー / deploy path | rsync/WP-CLI接続 | — |
-| prod サーバー hostname | SSH接続先 | — |
-| prod SSH ユーザー / deploy path | rsync/WP-CLI接続 | — |
-| サーバー上のWP-CLI有無 | リモートWP操作 | — |
-| デプロイ方式（rsync / WP-CLI alias / その他） | Actions workflow設計 | — |
-| stg/prod DBコピー方法（WP-CLI db export / バックアッププラグイン） | prod→stgコピー手順 | — |
-| GitHub ActionsのSecretsに登録するキー名 | workflow.yml | — |
-| テーマのデプロイ対象リポジトリ（本リポジトリ or 別リポジトリ） | Actions trigger設計 | — |
+| Xserver サーバーID（例: sv12345） | SSH ユーザー名 / パス構築 | — |
+| prod ドメイン名 | デプロイパス構築 | — |
+| stg ドメイン名 / ディレクトリ | stg デプロイパス構築 | — |
+| WP-CLI を prod / stg にインストール済みか | DB コピー手順 | — |
+| テーマのデプロイ対象リポジトリ（本リポジトリ or 別） | Actions trigger 設計 | — |
+| GitHub Secrets に登録するキー名（命名自由） | workflow.yml | — |
 
 ## Decisions
 
