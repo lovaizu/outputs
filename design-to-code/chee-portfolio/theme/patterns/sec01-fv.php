@@ -24,8 +24,8 @@ $fv_works = get_posts([
 <h1 class="wp-block-heading has-noto-sans-jp-font-family" style="font-style:normal;font-weight:700;line-height:1.3;font-size:clamp(40px, 5vw, 60px)">LP制作×広告運用</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.6"}},"fontFamily":"noto-sans-jp","fontSize":"sm","textColor":"text-secondary"} -->
-<p class="has-noto-sans-jp-font-family has-sm-font-size has-text-secondary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.6">提案も、デザインも、運用も</p>
+<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"clamp(20px, 2vw, 24px)"}},"fontFamily":"noto-sans-jp","textColor":"text-secondary"} -->
+<p class="has-noto-sans-jp-font-family has-text-secondary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:clamp(20px, 2vw, 24px)">提案も、デザインも、運用も</p>
 <!-- /wp:paragraph -->
 
 </div>

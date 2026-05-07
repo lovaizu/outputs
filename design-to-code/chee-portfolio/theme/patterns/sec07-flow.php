@@ -6,13 +6,13 @@
  * Block Types: core/group
  */
 $steps = [
-  ['num' => '1', 'title' => '無料ご相談、お問合せ',    'body' => 'お問合せフォーム、あるいは公式LINEやSNSのDMよりお問合せください。'],
+  ['num' => '1', 'title' => '無料ご相談、お問合せ',       'body' => 'お問合せフォーム、あるいは公式LINEやSNSのDMよりお問合せください。'],
   ['num' => '2', 'title' => 'お打ち合わせ、見積もり、ご契約', 'body' => '制作の背景や目的からお伺い致します。'],
-  ['num' => '3', 'title' => 'ご提案、設計',            'body' => '競合他社やお客様の目的、ユーザーの利用しやすいサイトを考えます。'],
-  ['num' => '4', 'title' => 'デザイン',               'body' => 'ファーストビュー決定後、全体のデザインを制作いたします。'],
-  ['num' => '5', 'title' => 'コーディング、表示確認、調整', 'body' => 'インターネット環境で表示確認をお願いします。'],
-  ['num' => '6', 'title' => '納品　アフターフォロー2週間', 'body' => 'テキストの修正や画像の差し替えなど軽微な修正に対応致します。'],
-  ['num' => '7', 'title' => 'ご請求、お支払い',          'body' => '初めてのお取引の場合、着手金として50％お振込みをお願いしております。'],
+  ['num' => '3', 'title' => 'ご提案、設計',              'body' => '競合他社やお客様の目的、ユーザーの利用しやすいサイトを考えます。'],
+  ['num' => '4', 'title' => 'デザイン',                  'body' => 'ファーストビュー決定後、全体のデザインを制作いたします。'],
+  ['num' => '5', 'title' => 'コーディング、表示確認、調整',  'body' => 'インターネット環境で表示確認をお願いします。'],
+  ['num' => '6', 'title' => '納品', 'subtitle' => 'アフターフォロー2週間', 'body' => 'テキストの修正や画像の差し替えなど軽微な修正に対応致します。'],
+  ['num' => '7', 'title' => 'ご請求、お支払い',            'body' => '初めてのお取引の場合、着手金として50％お振込みをお願いしております。'],
 ];
 ?>
 <!-- wp:group {"tagName":"section","className":"sec-flow","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
@@ -34,8 +34,8 @@ $steps = [
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
-<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontFamily":"noto-sans-jp","fontSize":"md"} -->
-<h3 class="wp-block-heading has-noto-sans-jp-font-family has-md-font-size" style="font-style:normal;font-weight:700"><?php echo esc_html($step['title']); ?></h3>
+<!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"sm"} -->
+<h3 class="wp-block-heading has-noto-sans-jp-font-family has-sm-font-size" style="font-style:normal;font-weight:500"><?php echo esc_html($step['title']); ?><?php if (!empty($step['subtitle'])): ?><span class="flow-step__subtitle"><?php echo esc_html($step['subtitle']); ?></span><?php endif; ?></h3>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"fontSize":"sm","textColor":"text-secondary"} -->
 <p class="has-sm-font-size has-text-secondary-color has-text-color"><?php echo esc_html($step['body']); ?></p>
