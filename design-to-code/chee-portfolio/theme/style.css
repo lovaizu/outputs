@@ -212,6 +212,103 @@ img {
 
 /* ── Works section ───────────────────────────────────────────────────────── */
 
+.work-card {
+  border-top: 1px solid var(--wp--preset--color--accent);
+  padding-top: 32px;
+  margin-bottom: 48px;
+}
+
+.work-card:last-child {
+  margin-bottom: 0;
+}
+
+.work-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.work-card-title {
+  font-size: var(--wp--preset--font-size--md);
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.work-card-title a {
+  text-decoration: none;
+  color: var(--wp--preset--color--text-primary);
+  flex: 1;
+}
+
+.work-card-arrow {
+  flex-shrink: 0;
+}
+
+.work-card-client {
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--text-secondary);
+}
+
+.work-card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.work-pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.work-card-desc {
+  font-size: var(--wp--preset--font-size--sm);
+  color: var(--wp--preset--color--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+
+.work-card-image img {
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.works-more-wrap {
+  text-align: center;
+  margin-top: 48px;
+}
+
+.works-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--wp--preset--color--accent);
+  color: var(--wp--preset--color--accent);
+  border-radius: 999px;
+  padding: 12px 32px;
+  text-decoration: none;
+  font-size: var(--wp--preset--font-size--sm);
+  transition: background 0.2s, color 0.2s;
+}
+
+.works-more-link:hover {
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+}
+
+/* legacy class — keep for archive template */
 .works-card {
   transition: box-shadow 0.2s ease;
 }
@@ -479,6 +576,12 @@ img {
   display: block;
   text-decoration: none;
   color: inherit;
+}
+
+.site-logo-link p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.3;
 }
 
 .site-logo-link:hover {

@@ -189,7 +189,7 @@ Known critical diffs (from 2026-05-08 comparison):
 
 **Done when**: all sections show no diff, or only values unreadable from design comp remain (reported as "Unresolved diffs").
 
-**Task 9.6 COMPLETE** — all 6 known diffs resolved. Unresolved diffs: none CSS/layout; phone mockup images show Works screenshots (content/data only, not a CSS issue).
+**Task 9.6 ONGOING** — loop until user OKs. Each iteration: extract Figma JSON measurements → screenshot → 1 independent evaluator (zero-tolerance: report every diff, no matter how small) → fix all findings → repeat.
 
 ---
 
@@ -206,7 +206,7 @@ Known critical diffs (from 2026-05-08 comparison):
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6 DONE. All 6 known diffs resolved. Next: Task 10 — CI/CD (confirm stg host details with user first).**
+- **Current state: Task 9.6 in progress. Evaluation loop running — user OKs when complete.**
 
 ## Unresolved
 

@@ -36,7 +36,7 @@
 <figure class="wp-block-image" style="border-radius:100%"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/sec06-Profile.jpg'); ?>" alt="伊藤 千晶" style="border-radius:100%"/></figure>
 <!-- /wp:image -->
 <!-- wp:paragraph {"textAlign":"center","fontSize":"xs","textColor":"text-secondary"} --><p class="has-text-align-center has-text-secondary-color has-text-color has-xs-font-size">WEBデザイナー</p><!-- /wp:paragraph -->
-<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"md"} --><p class="has-text-align-center has-md-font-size" style="font-style:normal;font-weight:500">伊藤 千晶</p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"sm"} --><p class="has-text-align-center has-sm-font-size" style="font-style:normal;font-weight:500">伊藤 千晶</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"textAlign":"center","fontSize":"xs","textColor":"accent","fontFamily":"jost"} --><p class="has-text-align-center has-accent-color has-text-color has-jost-font-family has-xs-font-size">Chiaki Itoh</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
