@@ -10,83 +10,79 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List (workflow order)
 
-Checkpoint legend:
-- **[AI]** — static check run by AI in this session (JSON syntax, file structure, block markup)
-- **[User]** — runtime check requiring Docker / WP-CLI / browser on user's machine
-
 Complete all checkpoints before advancing to the next task.
 
 ---
 
 - [x] -1. Local dev environment — `wp-dev/docker-compose.yml` (wordpress:php8.2-apache + mariadb:10.11); theme/ bind-mounted; `wp-dev/` gitignored
-  - [AI] ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
-  - [AI] ✔ `wp-dev/.gitignore` excludes everything except docker-compose.yml
-  - [User] `cd wp-dev && docker compose up -d` starts without error
-  - [User] `docker compose run --rm cli wp core install --url=http://localhost:8080 --title="Chee Portfolio" --admin_user=admin --admin_password=admin --admin_email=admin@example.com --allow-root`
-  - [User] `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → `ok`
+  - ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
+  - ✔ `wp-dev/.gitignore` excludes everything except docker-compose.yml
+  - `cd wp-dev && docker compose up -d` starts without error
+  - `docker compose run --rm cli wp core install --url=http://localhost:8080 --title="Chee Portfolio" --admin_user=admin --admin_password=admin --admin_email=admin@example.com --allow-root`
+  - `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → `ok`
 
 - [ ] 0. Verify Figma JSON design tokens against `theme.json` values; finalize Pods field group schema
-  - [AI] ✔ Token values in `theme.json` match Figma JSON exports
-  - [AI] ✔ Pods field group spec documented in `design.md`
+  - ✔ Token values in `theme.json` match Figma JSON exports
+  - ✔ Pods field group spec documented in `design.md`
 
 - [ ] 1. `theme.json` complete — templateParts added after Task 4
-  - [AI] ✔ `theme.json` passes `python3 -m json.tool`
-  - [AI] ✔ All 8 color slugs, 4 font families, 7 font sizes, layout values present
-  - [User] `docker compose run --rm cli wp theme activate chee-portfolio --allow-root` → no error
-  - [User] `docker compose run --rm cli wp eval 'print_r(wp_get_global_settings()["color"]["palette"]["theme"]);' --allow-root` → 8 colors listed
+  - ✔ `theme.json` passes `python3 -m json.tool`
+  - ✔ All 8 color slugs, 4 font families, 7 font sizes, layout values present
+  - `docker compose run --rm cli wp theme activate chee-portfolio --allow-root` → no error
+  - `docker compose run --rm cli wp eval 'print_r(wp_get_global_settings()["color"]["palette"]["theme"]);' --allow-root` → 8 colors listed
 
 - [ ] 2. `functions.php` — Works CPT + taxonomy, Pods field registration, Splide enqueue
-  - [AI] ✔ `register_post_type('works', ...)` present; `show_in_rest => true`
-  - [AI] ✔ Splide enqueue referencing `assets/js/vendor/splide.min.js`
-  - [User] `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → no PHP fatal
-  - [User] `docker compose run --rm cli wp post-type list --allow-root` → `works` listed
+  - ✔ `register_post_type('works', ...)` present; `show_in_rest => true`
+  - ✔ Splide enqueue referencing `assets/js/vendor/splide.min.js`
+  - `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → no PHP fatal
+  - `docker compose run --rm cli wp post-type list --allow-root` → `works` listed
 
 - [ ] 2b. Download Splide v4 core + Auto Scroll → `assets/js/vendor/` (self-hosted)
-  - [AI] ✔ `splide.min.js` and `splide-extension-auto-scroll.min.js` exist in `assets/js/vendor/`
+  - ✔ `splide.min.js` and `splide-extension-auto-scroll.min.js` exist in `assets/js/vendor/`
 
 - [ ] 3. Font WOFF2 files → `assets/fonts/` (4 families, 9 files)
-  - [AI] ✔ All 9 `.woff2` files present under `assets/fonts/`
-  - [AI] ✔ Filenames match `src` paths in `theme.json` fontFace definitions
+  - ✔ All 9 `.woff2` files present under `assets/fonts/`
+  - ✔ Filenames match `src` paths in `theme.json` fontFace definitions
 
 - [ ] 4. Template parts — `parts/header.html`, `parts/footer.html`; add `templateParts` to `theme.json`
-  - [AI] ✔ Both files exist; contain `<!-- wp:` block markup
-  - [AI] ✔ `theme.json` `templateParts` array has header and footer entries
-  - [User] `curl -s http://localhost:8080 | grep -c 'wp-block'` → non-zero
-  - [User] No block validation errors in browser console
+  - ✔ Both files exist; contain `<!-- wp:` block markup
+  - ✔ `theme.json` `templateParts` array has header and footer entries
+  - `curl -s http://localhost:8080 | grep -c 'wp-block'` → non-zero
+  - No block validation errors in browser console
 
 - [ ] 4b. Copy image assets `input/chee-portforio/images/` → `theme/assets/images/`
-  - [AI] ✔ All source images present in `theme/assets/images/`
+  - ✔ All source images present in `theme/assets/images/`
 
 - [ ] 5. Templates — `front-page.html`, `archive-works.html`, `single-works.html`
-  - [AI] ✔ Each file exists; contains expected block names (query-loop in archive, etc.)
-  - [User] `curl -s http://localhost:8080/ | grep 'wp-block-template-part'` → found
-  - [User] `curl -s http://localhost:8080/works/ | grep 'wp-block-query'` → found
+  - ✔ Each file exists; contains expected block names (query-loop in archive, etc.)
+  - `curl -s http://localhost:8080/ | grep 'wp-block-template-part'` → found
+  - `curl -s http://localhost:8080/works/ | grep 'wp-block-query'` → found
 
 - [ ] 6. Block patterns × 8 (sec01–sec08)
-  - [AI] ✔ 8 `.php` files under `patterns/`; each has valid `register_block_pattern` header comment
-  - [AI] ✔ Block markup parses as valid JSON-in-comment (python3 structural check)
-  - [User] `docker compose run --rm cli wp block-pattern list --allow-root` → 8 patterns listed
+  - ✔ 8 `.php` files under `patterns/`; each has valid `register_block_pattern` header comment
+  - ✔ Block markup parses as valid JSON-in-comment (python3 structural check)
+  - `docker compose run --rm cli wp block-pattern list --allow-root` → 8 patterns listed
 
 - [ ] 7. Splide init — `assets/js/splide-init.js`
-  - [AI] ✔ File exists; references correct selectors for FV, Voice, single-works
-  - [User] `curl -s http://localhost:8080 | grep 'splide-init.js'` → script tag present
+  - ✔ File exists; references correct selectors for FV, Voice, single-works
+  - `curl -s http://localhost:8080 | grep 'splide-init.js'` → script tag present
 
 - [ ] 8. Fluent Forms contact form — shortcode documented
-  - [AI] ✔ Shortcode placeholder in `sec08-contact` pattern present
-  - [User] Plugin activated, form created, shortcode confirmed in pattern
+  - ✔ Shortcode placeholder in `sec08-contact` pattern present
+  - Plugin activated, form created, shortcode confirmed in pattern
 
 - [ ] 9. Responsive CSS — nav 1024px breakpoint, FV mockup sizing
-  - [AI] ✔ CSS file exists; `@media` rules for 1024px and 781px present
-  - [User] **Browser visual check** — `localhost:8080` at PC / tablet / mobile widths
+  - ✔ CSS file exists; `@media` rules for 1024px and 781px present
+  - **Browser visual check** — `localhost:8080` at PC / tablet / mobile widths
 
 - [ ] 10. Expert review — WordPress / HTML / CSS / Accessibility sub-agents → fix all findings
-  - [AI] Spawn 4 reviewer sub-agents; apply all fixes
-  - [AI] ✔ `layout.allowEditing: false` confirmed in `theme.json`
+  - Spawn 4 reviewer sub-agents; apply all fixes
+  - ✔ `layout.allowEditing: false` confirmed in `theme.json`
 
 - [ ] 11. GitHub Actions workflow + handoff doc
-  - [AI] ✔ `.github/workflows/deploy.yml` exists with 4 jobs (sync-stg, deploy-stg, e2e, deploy-prod)
-  - [AI] ✔ Playwright test files exist under `theme/e2e/`
-  - [User] Secrets (`STG_URL`, `server_id`, domains) added to GitHub repository
+  - ✔ `.github/workflows/deploy.yml` exists with 4 jobs (sync-stg, deploy-stg, e2e, deploy-prod)
+  - ✔ Playwright test files exist under `theme/e2e/`
+  - Secrets (`STG_URL`, `server_id`, domains) added to GitHub repository
 
 > Tasks -1 to 11 complete one design cycle. Repeat from Task 0 for each new design input.
 
@@ -145,9 +141,7 @@ design-to-code/chee-portfolio/
     └── (WP core files)  ← gitignore
 ```
 
-**動作確認の分担:**
-- AI: WP-CLIコマンドでプリセット存在・PHP fatal・ブロック文法を自動検証
-- ユーザー: `localhost:8080` をブラウザで目視確認（Task 9以降）
+**動作確認:** WP-CLIコマンドでプリセット存在・PHP fatal・ブロック文法を検証。Task 9以降は `localhost:8080` をブラウザで目視確認。
 
 ## Decisions
 
@@ -246,7 +240,7 @@ design-to-code/chee-portfolio/
 - PR: https://github.com/lovaizu/outputs/pull/13
 - Input committed at: `design-to-code/chee-portfolio/input/`
 - Design spec: `design-to-code/chee-portfolio/design.md`
-- **Current state: Task -1 AI checks passed. Waiting on Colima install to run User checks.**
+- **Current state: Task -1 static checks passed. Docker runtime checks pending (Colima not yet installed).**
 
 ### Decisions made this session (2026-05-07)
 
@@ -254,7 +248,7 @@ design-to-code/chee-portfolio/
 |------|----------|
 | Container runtime | **Colima** (free, CLI-only, no Docker Desktop needed) |
 | Local dev | Docker via Colima — `brew install colima docker docker-compose && colima start` |
-| Task checkpoint model | [AI] static checks run in session; [User] runtime checks via Docker/WP-CLI/browser |
+| Task checkpoint model | Static checks + Docker/WP-CLI runtime checks run in session |
 | E2E | Playwright in `theme/e2e/`, runs in GHA against stg with prod data |
 
 ## How to Resume
@@ -277,4 +271,4 @@ design-to-code/chee-portfolio/
    docker compose run --rm cli wp eval 'echo "ok";' --allow-root
    ```
    Confirm `ok` is returned, then mark Task -1 `[x]` and proceed to Task 0.
-5. For each subsequent task: AI runs [AI] checks, then hand off [User] checks with exact commands.
+5. For each subsequent task: run all checkpoints in order.
