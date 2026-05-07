@@ -20,11 +20,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.6"}},"fontFamily":"noto-sans-jp","fontSize":"sm","textColor":"text-secondary"} -->
-<p class="has-noto-sans-jp-font-family has-sm-font-size has-text-secondary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.6">感情が動く、クリック される。</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"jost","fontSize":"hero","textColor":"text-primary"} -->
-<p class="has-jost-font-family has-hero-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Design</p>
+<p class="has-noto-sans-jp-font-family has-sm-font-size has-text-secondary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.6">提案も、デザインも、運用も</p>
 <!-- /wp:paragraph -->
 
 </div>
@@ -63,6 +59,10 @@
 
 </div>
 <!-- /wp:group -->
+
+<!-- wp:html -->
+<p class="fv-deco-text" aria-hidden="true">Chee Design</p>
+<!-- /wp:html -->
 
 </section>
 <!-- /wp:group -->
