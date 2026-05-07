@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', function () {
       drag:       'free',
       arrows:     false,
       pagination: false,
-      perPage:    3,
-      gap:        '1rem',
+      perPage:    5,
+      gap:        '1.5rem',
       autoScroll: reducedMotion ? false : {
         speed:        1,
         pauseOnHover: true,
         pauseOnFocus: true,
       },
       breakpoints: {
-        781:  { perPage: 1 },
-        1024: { perPage: 2 },
+        781:  { perPage: 2 },
+        1024: { perPage: 3 },
       },
     }).mount(Extensions);
   }
