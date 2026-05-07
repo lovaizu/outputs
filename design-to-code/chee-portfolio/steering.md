@@ -246,16 +246,35 @@ design-to-code/chee-portfolio/
 - PR: https://github.com/lovaizu/outputs/pull/13
 - Input committed at: `design-to-code/chee-portfolio/input/`
 - Design spec: `design-to-code/chee-portfolio/design.md`
-- **Resume from: Task -1 (local dev environment — Docker)**
+- **Current state: Task -1 AI checks passed. Waiting on Colima install to run User checks.**
+
+### Decisions made this session (2026-05-07)
+
+| Item | Decision |
+|------|----------|
+| Container runtime | **Colima** (free, CLI-only, no Docker Desktop needed) |
+| Local dev | Docker via Colima — `brew install colima docker docker-compose && colima start` |
+| Task checkpoint model | [AI] static checks run in session; [User] runtime checks via Docker/WP-CLI/browser |
+| E2E | Playwright in `theme/e2e/`, runs in GHA against stg with prod data |
 
 ## How to Resume
 
-1. Read this file.
-2. Check git log to confirm last commit.
-3. Start Task -1: set up Docker local environment in `wp-dev/`.
-   - Write `wp-dev/docker-compose.yml` (wordpress:php8.2-apache + MariaDB)
-   - Bind-mount `theme/` into container at `/var/www/html/wp-content/themes/chee-portfolio`
-   - Add `wp-dev/` to `.gitignore`
-   - `docker compose up -d` and install WP via WP-CLI
-   - Validate: `docker compose exec wordpress wp eval 'echo "ok";' --allow-root`
-4. Proceed through tasks in order, running the ✔ checkpoint after each one.
+1. Read `design.md` for architecture decisions.
+2. Read this file — current state is in "Session Context" above.
+3. **If Colima not yet installed:**
+   ```bash
+   brew install colima docker docker-compose
+   colima start
+   ```
+4. **Run Task -1 User checkpoints:**
+   ```bash
+   cd design-to-code/chee-portfolio/wp-dev
+   docker compose up -d
+   docker compose run --rm cli wp core install \
+     --url=http://localhost:8080 --title="Chee Portfolio" \
+     --admin_user=admin --admin_password=admin \
+     --admin_email=admin@example.com --allow-root
+   docker compose run --rm cli wp eval 'echo "ok";' --allow-root
+   ```
+   Confirm `ok` is returned, then mark Task -1 `[x]` and proceed to Task 0.
+5. For each subsequent task: AI runs [AI] checks, then hand off [User] checks with exact commands.
