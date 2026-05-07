@@ -11,7 +11,7 @@ services:
       - db_data:/var/lib/mysql
 
   wordpress:
-    image: wordpress:php8.2-apache
+    image: wordpress:6.9.4-php8.2-apache
     restart: unless-stopped
     depends_on:
       - db
