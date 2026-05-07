@@ -1,17 +1,34 @@
 # /bk — Resume work (back)
 
-Pick up exactly where the previous session left off.
+You are resuming a paused session. Reconstruct the exact state before executing anything.
 
-## Steps
+## Step 1 — Handle uncommitted changes
 
-1. **Locate steering.md** — Find the active work directory. If ambiguous (multiple work dirs), ask the user which one. Read `steering.md` in full.
-2. **Review commit history** — Run `git log --oneline -20` to see recent commits and confirm what was completed.
-3. **Reconcile** — Cross-check the task list checkboxes in `steering.md` against the commit log. If they are out of sync, update the checkboxes to match reality.
-4. **Identify next task** — Find the first unchecked task in the list. State it clearly to the user: "Resuming from task #N: <description>".
-5. **Execute** — Proceed with the next task immediately, following the same 1-task-1-commit discipline. Update `steering.md` as you go.
+Run `git status` first. If the working tree is not clean:
+- Do not proceed with new work.
+- Tell the user what is uncommitted and ask: "Should I commit these as wip, or discard them?"
+- Wait for their answer, then act on it.
 
-## Notes
+If the tree is clean, continue.
 
-- Do not re-do work that is already committed, even if the checkbox was missed.
-- If the goal in `steering.md` looks stale or the scope has changed, surface that to the user before proceeding.
-- If no `steering.md` is found, suggest running `/go` to start fresh.
+## Step 2 — Locate steering.md
+
+Look for `steering.md` files under the repository. If you find exactly one, read it. If you find multiple, list them and ask the user which session to resume. If you find none, say: "No steering.md found. Run /go to start a new session."
+
+## Step 3 — Review commit history
+
+Run `git log --oneline -20`. Cross-check the commits against the task list in steering.md. If a task's commit exists in the log but the checkbox is unchecked, check it off in steering.md and commit the fix (`docs: sync steering with commits`).
+
+## Step 4 — Identify next task
+
+Find the first unchecked task (`- [ ]`). Output:
+
+```
+Resuming session: <work directory>
+Last completed: #N <description>   (or "none" if nothing is checked)
+Next: #M <description>
+```
+
+## Step 5 — Execute
+
+Begin task #M immediately. Follow the same 1-task-1-commit discipline. Update steering.md after each commit.
