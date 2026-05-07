@@ -8,271 +8,121 @@ See [`design.md`](design.md) for architecture, CI/CD pipeline, E2E strategy, and
 
 WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイトを、Figmaデザインに基づきWordPressブロックテーマ（FSE）で構築する。
 
-## Task List (workflow order)
+## Task List
 
 Complete all checkpoints before advancing to the next task.
+Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ---
 
-- [x] -1. Local dev environment — `wp-dev/docker-compose.yml` (wordpress:php8.2-apache + mariadb:10.11); theme/ bind-mounted; `wp-dev/` gitignored
-  - ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
-  - ✔ `wp-dev/.gitignore` excludes everything except docker-compose.yml
-  - `cd wp-dev && docker compose up -d` starts without error
-  - `docker compose run --rm cli wp core install --url=http://localhost:8080 --title="Chee Portfolio" --admin_user=admin --admin_password=admin --admin_email=admin@example.com --allow-root`
-  - `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → `ok`
+### Task 0 — Design spec ✅
 
-- [ ] 0. Verify Figma JSON design tokens against `theme.json` values; finalize Pods field group schema
-  - ✔ Token values in `theme.json` match Figma JSON exports
-  - ✔ Pods field group spec documented in `design.md`
+- ✔ `design.md`: environments, Git scope, release flow, CPT fields, design tokens
 
-- [ ] 1. `theme.json` complete — templateParts added after Task 4
-  - ✔ `theme.json` passes `python3 -m json.tool`
-  - ✔ All 8 color slugs, 4 font families, 7 font sizes, layout values present
-  - `docker compose run --rm cli wp theme activate chee-portfolio --allow-root` → no error
-  - `docker compose run --rm cli wp eval 'print_r(wp_get_global_settings()["color"]["palette"]["theme"]);' --allow-root` → 8 colors listed
+---
 
-- [ ] 2. `functions.php` — Works CPT + taxonomy, Pods field registration, Splide enqueue
-  - ✔ `register_post_type('works', ...)` present; `show_in_rest => true`
-  - ✔ Splide enqueue referencing `assets/js/vendor/splide.min.js`
-  - `docker compose run --rm cli wp eval 'echo "ok";' --allow-root` → no PHP fatal
-  - `docker compose run --rm cli wp post-type list --allow-root` → `works` listed
+### Task 1 — Local dev environment
 
-- [ ] 2b. Download Splide v4 core + Auto Scroll → `assets/js/vendor/` (self-hosted)
-  - ✔ `splide.min.js` and `splide-extension-auto-scroll.min.js` exist in `assets/js/vendor/`
+- ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
+- ✔ `wp-dev/.gitignore` configured
+- [ ] Colima + Docker installed (`brew install colima docker docker-compose && colima start`)
+- [ ] `docker compose up -d` starts without error
+- [ ] WP core install:
+  ```
+  docker compose run --rm cli wp core install \
+    --url=http://localhost:8080 --title="Chee Portfolio" \
+    --admin_user=admin --admin_password=admin \
+    --admin_email=admin@example.com --allow-root
+  ```
+- [ ] Theme activated: `docker compose run --rm cli wp theme activate chee-portfolio --allow-root`
+- [ ] Plugins installed and activated: Pods, Meta Field Block, Fluent Forms
+- [ ] `README.md` written — local dev startup procedure
 
-- [ ] 3. Font WOFF2 files → `assets/fonts/` (4 families, 9 files)
-  - ✔ All 9 `.woff2` files present under `assets/fonts/`
-  - ✔ Filenames match `src` paths in `theme.json` fontFace definitions
+---
 
-- [ ] 4. Template parts — `parts/header.html`, `parts/footer.html`; add `templateParts` to `theme.json`
-  - ✔ Both files exist; contain `<!-- wp:` block markup
-  - ✔ `theme.json` `templateParts` array has header and footer entries
-  - `curl -s http://localhost:8080 | grep -c 'wp-block'` → non-zero
-  - No block validation errors in browser console
+### Task 2 — Theme foundation
 
-- [ ] 4b. Copy image assets `input/chee-portforio/images/` → `theme/assets/images/`
-  - ✔ All source images present in `theme/assets/images/`
+- [ ] `theme.json` — all 8 colors, 4 font families, 7 font sizes, layout values
+- [ ] `functions.php` — Works CPT + `works-category` taxonomy + Voice CPT; Splide enqueue
+- [ ] Pods field groups registered: Works (6 fields) + Voice (5 fields) per `design.md`
+- [ ] `works-category` initial terms created: ディレクション / 広告バナー / 広告運用 / LPデザイン / HPデザイン / LP制作 / HP制作
+- [ ] Vendor assets downloaded: `splide.min.js` + `splide-extension-auto-scroll.min.js` → `assets/js/vendor/`
+- [ ] Font WOFF2 files (9 files, 4 families) → `assets/fonts/`
+- [ ] Image assets copied: `input/chee-portforio/images/` → `assets/images/`
+- [ ] Verification: `wp post-type list` → `works`, `voice` listed; no PHP fatal
 
-- [ ] 5. Templates — `front-page.html`, `archive-works.html`, `single-works.html`
-  - ✔ Each file exists; contains expected block names (query-loop in archive, etc.)
-  - `curl -s http://localhost:8080/ | grep 'wp-block-template-part'` → found
-  - `curl -s http://localhost:8080/works/ | grep 'wp-block-query'` → found
+---
 
-- [ ] 6. Block patterns × 8 (sec01–sec08)
-  - ✔ 8 `.php` files under `patterns/`; each has valid `register_block_pattern` header comment
-  - ✔ Block markup parses as valid JSON-in-comment (python3 structural check)
-  - `docker compose run --rm cli wp block-pattern list --allow-root` → 8 patterns listed
+### Task 3 — Fixture data
 
-- [ ] 7. Splide init — `assets/js/splide-init.js`
-  - ✔ File exists; references correct selectors for FV, Voice, single-works
-  - `curl -s http://localhost:8080 | grep 'splide-init.js'` → script tag present
+- [ ] 3 dummy Works posts — each with all Pods fields filled; at least 2 with `fv_featured = true`
+- [ ] 4 dummy Voice posts — all Pods fields filled (matching design samples)
+- [ ] Verification: Works and Voice visible in WP admin; browser at `localhost:8080/works/` returns posts
 
-- [ ] 8. Fluent Forms contact form — shortcode documented
-  - ✔ Shortcode placeholder in `sec08-contact` pattern present
-  - Plugin activated, form created, shortcode confirmed in pattern
+---
 
-- [ ] 9. Responsive CSS — nav 1024px breakpoint, FV mockup sizing
-  - ✔ CSS file exists; `@media` rules for 1024px and 781px present
-  - **Browser visual check** — `localhost:8080` at PC / tablet / mobile widths
+### Task 4 — Template parts
 
-- [ ] 10. Expert review — WordPress / HTML / CSS / Accessibility sub-agents → fix all findings
-  - Spawn 4 reviewer sub-agents; apply all fixes
-  - ✔ `layout.allowEditing: false` confirmed in `theme.json`
+- [ ] `parts/header.html` + `parts/footer.html` with `<!-- wp:` block markup
+- [ ] `templateParts` array added to `theme.json`
+- [ ] Verification: `localhost:8080` shows header and footer
 
-- [ ] 11. GitHub Actions workflow + handoff doc
-  - **Before starting:** hear from user — stg host/docroot, DB copy method, WP-CLI availability, GitHub Secrets key names, release branch name
-  - ✔ `.github/workflows/deploy.yml` exists with 4 jobs (sync-stg, deploy-stg, e2e, deploy-prod)
-  - ✔ `sync-stg` job is triggered only on the release branch (not every push)
-  - ✔ Playwright test files exist under `theme/e2e/`
-  - Secrets added to GitHub repository
+---
 
-> Tasks -1 to 11 complete one design cycle. Repeat from Task 0 for each new design input.
+### Task 5 — Templates
 
-## Design Policy
+- [ ] `templates/front-page.html` — assembles all sec patterns
+- [ ] `templates/archive-works.html` — Query Loop for Works CPT
+- [ ] `templates/single-works.html` — fixed header area (title, client, tags) + free block body
+- [ ] Verification: home / `/works/` / single works page all render without errors
 
-`input/figma-to-wp-guideline.md` をベースに、以下の変更を適用する。**この steering.md の記載がガイドラインより優先される。**
+---
 
-| 項目 | ガイドライン | 本プロジェクトでの採用 | 理由 |
-|------|------------|---------------------|------|
-| カスタムフィールド | ACF Free | **Pods + Meta Field Block** | ACF Freeでは Query Loop内のカスタムフィールド表示に別プラグインが必要。Podsは完全無料で CPT・タクソノミー・フィールドをすべてカバー |
-| お問合せフォーム | Contact Form 7 | **Fluent Forms** | CF7は2026年に機能フリーズ宣言。Fluent Forms無料プランはAjax送信・プライバシー同意チェックボックスを標準で含む |
-| フォントホスティング | Google Fonts CDN想定 | **WOFF2 セルフホスト** (`assets/fonts/`) | GDPR・パフォーマンス観点で外部CDN不使用（ガイドラインの意図通り、実装方法を明確化） |
-| 開発フロー | コード生成後にレビュー | **タスクごとにWP-CLIで自動検証** + ブラウザ目視確認 | WPブロックテーマの不具合はサイレント失敗が多く、後工程での手戻りが大きいため |
+### Task 6 — Block patterns × 8
 
-## User Prep
+- [ ] `sec01-fv.php` — Splide auto-scroll; queries Works with `fv_featured = true`, ordered by `fv_order`
+- [ ] `sec02-works.php` — Query Loop (Works CPT), card grid
+- [ ] `sec03-voice.php` — Splide carousel; queries Voice CPT
+- [ ] `sec04-service.php` — static pattern
+- [ ] `sec05-cta.php` — static pattern
+- [ ] `sec06-profile.php` — static pattern
+- [ ] `sec07-flow.php` — static pattern
+- [ ] `sec08-contact.php` — Fluent Forms shortcode placeholder
+- [ ] Verification: all 8 patterns listed via `wp block-pattern list`; home page renders each section
 
-開発を始める前にユーザー側で用意するもの。
+---
 
-### Task -1 開始前（ローカル環境）
+### Task 7 — Styles + JS
 
-| 項目 | コマンド / 手順 |
-|------|----------------|
-| WP-CLI インストール | `brew install wp-cli` |
-| PHP 8.x 確認 | `php -v`（macOS標準搭載、8.0以上推奨） |
+- [ ] `style.css` — `@media` breakpoints at 1024px and 781px; nav + FV mockup sizing
+- [ ] `assets/js/splide-init.js` — initializes FV carousel, Voice carousel, single-works gallery
+- [ ] Verification: responsive layout correct in browser at 375px / 768px / 1280px
 
-### Task 11 前（デプロイワークフロー構築時）
+---
 
-| 情報 | 用途 |
-|------|------|
-| Xserver サーバーID（例: sv12345） | SSH ユーザー名 / デプロイパス構築 |
-| prod ドメイン名 | デプロイパス: `/home/{server_id}/{domain}/public_html/` |
-| stg ドメイン名 または ディレクトリ | stg デプロイパス構築 |
-| prod / stg に WP-CLI インストール済みか | DB コピー手順（`wp db export/import`） |
-| テーマのデプロイ元リポジトリ（本リポジトリ or 別） | GitHub Actions trigger 設計 |
-| GitHub Secrets のキー名（命名自由） | workflow.yml のシークレット参照名 |
+### Task 8 — Code review
 
-**確定済み（Xserver調査結果）**
-- SSH ポート: **10022**、公開鍵認証のみ
-- デプロイ方式: rsync over SSH（`-e "ssh -p 10022"`）
-- ドキュメントルート: `/home/{server_id}/{domain}/public_html/`
-- WP-CLI: デフォルト非搭載 → SSH で `~/bin/` に手動インストール必要
-- DB コピー: `wp db export / wp db import`
+- [ ] Spawn 4 reviewer sub-agents: WordPress / HTML / CSS / Accessibility
+- [ ] Apply all findings
+- [ ] `layout.allowEditing: false` confirmed in `theme.json`
 
-## Local Dev Environment
+---
 
-**構成:** WP-CLI + SQLite（MySQL不要）+ `php -S localhost:8080`
+### Task 9 — CI/CD
 
-```
-design-to-code/chee-portfolio/
-├── theme/               ← Git管理（成果物）
-└── wp-dev/              ← Git管理外（.gitignoreで除外）
-    ├── wp-content/
-    │   ├── themes/
-    │   │   └── chee-portfolio → symlink to ../../theme/
-    │   └── database/    ← SQLiteファイル（gitignore）
-    └── (WP core files)  ← gitignore
-```
-
-**動作確認:** WP-CLIコマンドでプリセット存在・PHP fatal・ブロック文法を検証。Task 9以降は `localhost:8080` をブラウザで目視確認。
-
-## Decisions
-
-| Date | Decision |
-|------|----------|
-| 2026-05-06 | ACF Free → **Pods + Meta Field Block** (fully free; better Query Loop support; no Pro tier needed) |
-| 2026-05-06 | Contact Form 7 → **Fluent Forms** (CF7 entered feature-freeze in 2026; Fluent Forms free covers Ajax, conditional logic, privacy checkbox) |
-| 2026-05-06 | Fonts self-hosted as WOFF2 in `assets/fonts/`; downloaded via curl from Google Fonts API |
-| 2026-05-06 | Theme code output: `design-to-code/chee-portfolio/theme/` in this repo |
-| 2026-05-06 | Figma JSON used to verify guideline token values before generating theme.json; discrepancies flagged for user confirmation |
-| 2026-05-06 | Local dev: WP-CLI + SQLite + php -S; AI runs automated checks, user does visual browser check from Task 9 |
-| 2026-05-06 | Task 11 includes GitHub Actions workflow template; deployment-specific values left as placeholders until server info is provided |
-
-## Key Specs (from guideline)
-
-### Pages
-| Page | Template | Notes |
-|------|----------|-------|
-| Home | front-page | 8-section LP-style, single page |
-| Works archive | archive-works | Card grid, Query Loop |
-| Works single | single-works | LP detail, Splide gallery on mobile |
-
-### Home Sections
-| # | Section | Type |
-|---|---------|------|
-| 01 | FV | Static + Splide auto-scroll |
-| 02 | Works | Dynamic (Query Loop, postType: works) |
-| 03 | Voice | Static pattern + Splide carousel |
-| 04 | Service | Static pattern |
-| 05 | CTA | Static pattern |
-| 06 | Profile | Static pattern |
-| 07 | Flow | Static pattern |
-| 08 | Contact | Fluent Forms shortcode |
-| — | Header / Footer | Template parts |
-
-### Design Tokens
-| Token | Value |
-|-------|-------|
-| bg-main | #DCEFFB |
-| bg-sub | #F6F6F6 |
-| white | #FFFFFF |
-| text-primary | #111111 |
-| text-secondary | #333333 |
-| accent | #4EB0EA |
-| highlight | #FBFF92 |
-| border | #D7D7D7 |
-| contentSize | 840px |
-| wideSize | 1100px |
-
-### Fonts
-| slug | Family | Weights | Use |
-|------|--------|---------|-----|
-| noto-sans-jp | Noto Sans JP | 100/400/500/700 | Japanese body |
-| roboto-condensed | Roboto Condensed | 300/500 | EN section headings |
-| jost | Jost | 400/500 | EN subtext |
-| zen-kurenaido | Zen Kurenaido | 400 | Decorative handwritten |
-
-### Plugins / Libraries
-| Name | Use | Cost |
-|------|-----|------|
-| Pods | Works CPT + taxonomy + custom fields | Free |
-| Meta Field Block | Display custom fields in Query Loop | Free |
-| Fluent Forms | Contact form | Free |
-| Splide.js v4 + Auto Scroll | FV slider, Voice carousel, gallery | Free (MIT) |
-
-## Directory Layout
-
-```
-design-to-code/chee-portfolio/
-├── steering.md          ← this file
-├── input/               ← design files as received (do not modify)
-│   ├── figma-to-wp-guideline.md
-│   └── chee-portforio/
-│       ├── design/      ← design PNGs
-│       ├── structures/  ← Figma JSON exports
-│       └── images/      ← image assets
-├── theme/               ← WordPress block theme output (Git管理)
-│   ├── style.css
-│   ├── theme.json
-│   ├── index.php
-│   ├── functions.php
-│   ├── templates/
-│   ├── parts/
-│   ├── patterns/
-│   └── assets/
-│       ├── fonts/
-│       ├── images/
-│       └── js/
-│           └── vendor/  ← Splide (self-hosted)
-└── wp-dev/              ← ローカル開発用WP環境 (gitignore)
-```
+- **Before starting:** hear from user — stg host/docroot, DB copy method, WP-CLI on Xserver, GitHub Secrets key names, release branch name
+- [ ] `.github/workflows/deploy.yml` — 4 jobs: sync-stg (release branch only) → deploy-stg → e2e → deploy-prod
+- [ ] Playwright test files under `theme/e2e/`
+- [ ] Secrets added to GitHub repository
 
 ## Session Context
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- Input committed at: `design-to-code/chee-portfolio/input/`
-- Design spec: `design-to-code/chee-portfolio/design.md`
-- **Current state: Task -1 static checks passed. Docker runtime checks pending (Colima not yet installed).**
-
-### Decisions made this session (2026-05-07)
-
-| Item | Decision |
-|------|----------|
-| Container runtime | **Colima** (free, CLI-only, no Docker Desktop needed) |
-| Local dev | Docker via Colima — `brew install colima docker docker-compose && colima start` |
-| Task checkpoint model | Static checks + Docker/WP-CLI runtime checks run in session |
-| GHA sync-stg trigger | Release branch only (not every push) |
-| GHA Task 11 | Starts with user hearing (stg info, WP-CLI, Secrets) before writing workflow |
-| E2E | Playwright in `theme/e2e/`, runs in GHA against stg with prod data |
+- **Current state: Task 0 complete. Next: Task 1 (Colima install + WP setup).**
 
 ## How to Resume
 
-1. Read `design.md` for architecture decisions.
-2. Read this file — current state is in "Session Context" above.
-3. **If Colima not yet installed:**
-   ```bash
-   brew install colima docker docker-compose
-   colima start
-   ```
-4. **Run Task -1 User checkpoints:**
-   ```bash
-   cd design-to-code/chee-portfolio/wp-dev
-   docker compose up -d
-   docker compose run --rm cli wp core install \
-     --url=http://localhost:8080 --title="Chee Portfolio" \
-     --admin_user=admin --admin_password=admin \
-     --admin_email=admin@example.com --allow-root
-   docker compose run --rm cli wp eval 'echo "ok";' --allow-root
-   ```
-   Confirm `ok` is returned, then mark Task -1 `[x]` and proceed to Task 0.
-5. For each subsequent task: run all checkpoints in order.
+1. Read `design.md` — full architecture, CPT fields, design tokens.
+2. Read this file — find the first unchecked item in the Task List.
+3. Proceed in order. Do not skip tasks.

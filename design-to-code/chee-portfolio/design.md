@@ -160,17 +160,51 @@ theme/
 | Slug | `works` |
 | Archive | `/works/` |
 | REST API | `true` (required for Query Loop) |
-| Taxonomy | `works-category` (slugs: lp-design, ad-operation, ad-banner, direction, design, lp) |
 
-**Pods field groups** (replaces ACF schema):
+**Taxonomy: `works-category`**
 
-| Field | Type |
+Initial values (can be added/removed from WP admin later):
+
+| Label | Slug |
 |-------|------|
-| client_name | Text |
-| project_title | Text |
-| description | Textarea |
-| mockup_main | Image |
-| mockup_2 – mockup_5 | Image (×4) |
+| ディレクション | direction |
+| 広告バナー | ad-banner |
+| 広告運用 | ad-operation |
+| LPデザイン | lp-design |
+| HPデザイン | hp-design |
+| LP制作 | lp |
+| HP制作 | hp |
+
+**Pods custom fields:**
+
+| Field | Type | Use |
+|-------|------|-----|
+| client_name | Text | Client name shown on archive card and detail page |
+| category_label | Text | Free-text label (e.g., "眉毛アートメイク") shown on archive card |
+| thumbnail | Image | Archive card thumbnail |
+| mockup_image | Image | Smartphone mockup — shown in FV carousel |
+| fv_featured | Checkbox | Whether this Work appears in the FV carousel |
+| fv_order | Number | FV carousel display order (ascending) |
+
+Detail page body uses the block editor (free layout — LP and HP differ in content, not template).
+
+### Voice CPT
+
+| Setting | Value |
+|---------|-------|
+| Slug | `voice` |
+| Archive | disabled |
+| REST API | `true` |
+
+**Pods custom fields:**
+
+| Field | Type | Use |
+|-------|------|-----|
+| photo | Image | Profile photo (displayed as circle) |
+| role | Text | e.g., "セールスライター" |
+| name | Text | e.g., "Tさん" |
+| body | Textarea | Testimonial text |
+| catchphrase | Text | Pull-quote headline (hanatotyoutyo font) |
 
 ---
 
@@ -259,7 +293,7 @@ design-to-code/chee-portfolio/
 **Base image:** `wordpress:php8.2-apache` + `mariadb:10.11`
 
 Docker Compose brings up WP + DB. Theme directory is bind-mounted so edits are live.  
-AI runs WP-CLI checks; user does visual browser check from Task 9 onward.
+Theme directory is bind-mounted — file saves reflect immediately in the browser at `localhost:8080`.
 
 ---
 
