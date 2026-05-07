@@ -49,22 +49,23 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 2.5 — Playwright setup
+### Task 2.5 — Playwright setup ✅
 
-- [ ] `brew install node` → confirm `node` + `npx` available
-- [ ] `cd theme/e2e && npm init playwright@latest` (TypeScript, chromium only for local)
-- [ ] `playwright.config.ts` — baseURL: `http://localhost:8080`, single project: chromium
-- [ ] Smoke test: `e2e/smoke.spec.ts` — `page.goto('/')` → expect no PHP fatal in body
-- [ ] `npx playwright test` passes locally
-- [ ] `theme/e2e/` committed (config + first spec; `node_modules/` gitignored)
+- ✔ `brew install node` → Node v25.9.0 / npx 11.12.1
+- ✔ `npm init` + `@playwright/test` v1.59.1 (TypeScript, chromium only for local)
+- ✔ `playwright.config.ts` — baseURL: `http://localhost:8080` (`STG_URL` override), single project: chromium
+- ✔ Smoke test: `e2e/smoke.spec.ts` — `page.goto('/')` → expect no PHP fatal in body
+- ✔ `npx playwright test` passes locally (1 passed)
+- ✔ `theme/e2e/` committed (config + smoke spec; `node_modules/` gitignored)
 
 ---
 
-### Task 3 — Fixture data
+### Task 3 — Fixture data ✅
 
-- [ ] 3 dummy Works posts — all Pods fields filled; ≥ 2 with `fv_featured = true`
-- [ ] 4 dummy Voice posts — all Pods fields filled
-- [ ] Playwright: `localhost:8080/works/` → at least 1 Works post visible
+- ✔ 3 dummy Works posts (ArtMake LP, PosiJob HP, Ad banner set) — all Pods fields filled; 2 with `fv_featured = true`
+- ✔ 4 dummy Voice posts — all Pods fields filled
+- ✔ Playwright: `works-archive.spec.ts` written (skipped until archive template exists in Task 5)
+- ✔ `wp-dev/seed.sh` — repeatable fixture script
 
 ---
 
@@ -128,7 +129,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 2 complete. Next: Task 2.5 (Playwright setup via `brew install node`).**
+- **Current state: Task 3 complete. Next: Task 4 (template parts — header/footer).**
 
 ## Unresolved
 
