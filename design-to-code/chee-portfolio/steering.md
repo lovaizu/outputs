@@ -79,12 +79,14 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 5 — Templates
+### Task 5 — Templates ✅
 
-- [ ] `templates/front-page.html` — assembles all sec patterns
-- [ ] `templates/archive-works.html` — Query Loop for Works CPT
-- [ ] `templates/single-works.html` — fixed header area + free block body
-- [ ] Playwright: home renders `<h1>`; `/works/` shows card; single Works shows client field
+- ✔ `templates/front-page.html` — header + 8 pattern refs + footer (patterns created in Task 6)
+- ✔ `templates/archive-works.html` — Query Loop (3-col grid), client_name + category_label via Meta Field Block
+- ✔ `templates/single-works.html` — post-title h1, client_name + category_label meta, post-content
+- ✔ Permalink structure set to `/%postname%/`
+- ✔ Playwright: `/works/` shows card; single Works shows client field
+- ⏳ Home `<h1>` deferred to Task 6 (comes from sec01-fv pattern)
 
 ---
 
@@ -131,7 +133,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 4 complete. Next: Task 5 (templates — front-page, archive-works, single-works).**
+- **Current state: Task 5 complete. Next: Task 6 (block patterns x 8).**
 
 ## Unresolved
 

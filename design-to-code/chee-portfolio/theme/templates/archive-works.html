@@ -1,0 +1,41 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"48px","bottom":"48px","left":"24px","right":"24px"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="padding-top:48px;padding-right:24px;padding-bottom:48px;padding-left:24px">
+
+<!-- wp:heading {"level":1,"fontSize":"xl"} -->
+<h1 class="wp-block-heading has-xl-font-size">制作実績</h1>
+<!-- /wp:heading -->
+
+<!-- wp:query {"queryId":1,"query":{"postType":"works","perPage":12,"orderBy":"date","order":"desc"},"layout":{"type":"default"}} -->
+<div class="wp-block-query">
+
+<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+
+<!-- wp:group {"className":"works-card","style":{"border":{"width":"1px","color":"var:preset|color|border","radius":"8px"},"spacing":{"padding":{"top":"16px","bottom":"16px","left":"16px","right":"16px"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group works-card" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:8px;padding-top:16px;padding-right:16px;padding-bottom:16px;padding-left:16px">
+
+<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"sm"} /-->
+
+<!-- wp:mfb/meta-field-block {"fieldName":"client_name","className":"works-card__client","fontSize":"xs"} /-->
+
+<!-- wp:mfb/meta-field-block {"fieldName":"category_label","className":"works-card__label","fontSize":"xs","textColor":"accent"} /-->
+
+</div>
+<!-- /wp:group -->
+
+<!-- /wp:post-template -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p>制作実績はまだありません。</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results -->
+
+</div>
+<!-- /wp:query -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->
