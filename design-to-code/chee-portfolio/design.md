@@ -200,11 +200,11 @@ Detail page body uses the block editor (free layout — LP and HP differ in cont
 
 | Field | Type | Use |
 |-------|------|-----|
-| photo | Image | Profile photo (displayed as circle) |
-| role | Text | e.g., "セールスライター" |
-| name | Text | e.g., "Tさん" |
-| body | Textarea | Testimonial text |
-| catchphrase | Text | Pull-quote headline (hanatotyoutyo font) |
+| voice_photo | Image | Profile photo (displayed as circle) |
+| voice_role | Text | e.g., "セールスライター" |
+| voice_name | Text | e.g., "Tさん" |
+| voice_body | Textarea | Testimonial text |
+| voice_catchphrase | Text | Pull-quote headline (hanatotyoutyo font) |
 
 ---
 

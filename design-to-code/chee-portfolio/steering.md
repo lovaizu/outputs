@@ -34,16 +34,17 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ---
 
-### Task 2 — Theme foundation
+### Task 2 — Theme foundation ✅
 
-- [ ] `theme.json` — all 8 colors, 4 font families, 7 font sizes, layout values
-- [ ] `functions.php` — Works CPT + `works-category` taxonomy + Voice CPT; Splide enqueue
-- [ ] Pods field groups registered: Works (6 fields) + Voice (5 fields) per `design.md`
-- [ ] `works-category` initial terms created: ディレクション / 広告バナー / 広告運用 / LPデザイン / HPデザイン / LP制作 / HP制作
-- [ ] Vendor assets downloaded: `splide.min.js` + `splide-extension-auto-scroll.min.js` → `assets/js/vendor/`
-- [ ] Font WOFF2 files (9 files, 4 families) → `assets/fonts/`
-- [ ] Image assets copied: `input/chee-portforio/images/` → `assets/images/`
-- [ ] Verification: `wp post-type list` → `works`, `voice` listed; no PHP fatal
+- ✔ `theme.json` — all 8 colors, 4 font families, 7 font sizes, layout values
+- ✔ `functions.php` — Works CPT + `works-category` taxonomy + Voice CPT; Splide enqueue
+- ✔ Pods field groups registered: Works (6 fields) + Voice (5 fields)
+  - Note: Voice fields prefixed with `voice_` — `name` and `body` are WordPress reserved words
+- ✔ `works-category` initial terms created (7 terms)
+- ✔ Vendor assets: `splide.min.js` + `splide-extension-auto-scroll.min.js` → `assets/js/vendor/`
+- ✔ Font WOFF2 files (9 files, 4 families) → `assets/fonts/` (fontsource japanese/latin subsets)
+- ✔ Image assets copied: `input/chee-portforio/images/` → `assets/images/`
+- ✔ Verification: `works`, `voice` listed in `wp post-type list`; no PHP fatal
 
 ---
 
@@ -113,7 +114,7 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 1 complete. Next: Task 2 (theme.json + functions.php + Pods field groups).**
+- **Current state: Task 2 complete. Next: Task 3 (fixture data — dummy Works + Voice posts).**
 
 ## How to Resume
 
