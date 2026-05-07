@@ -90,17 +90,18 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 6 — Block patterns × 8
+### Task 6 — Block patterns × 8 ✅
 
-- [ ] `sec01-fv.php` — Splide auto-scroll; Works with `fv_featured = true`, ordered by `fv_order`
-- [ ] `sec02-works.php` — Query Loop (Works CPT), card grid
-- [ ] `sec03-voice.php` — Splide carousel; Voice CPT
-- [ ] `sec04-service.php` — static
-- [ ] `sec05-cta.php` — static
-- [ ] `sec06-profile.php` — static
-- [ ] `sec07-flow.php` — static
-- [ ] `sec08-contact.php` — Fluent Forms shortcode
-- [ ] Playwright: all 8 sections present on home page; no broken images
+- ✔ `sec01-fv.php` — h1 + "Design" hero text + Splide auto-scroll (Works fv_featured, fv_order)
+- ✔ `sec02-works.php` — Query Loop 2-col grid + "制作実績一覧へ" button
+- ✔ `sec03-voice.php` — Splide carousel; Voice CPT dynamic query
+- ✔ `sec04-service.php` — 3 service cards (ディレクション/LP制作/広告運用) with icons
+- ✔ `sec05-cta.php` — accent bg, "お問合せはこちら" button
+- ✔ `sec06-profile.php` — bio text + profile photo + 3 detail rows
+- ✔ `sec07-flow.php` — 7 numbered steps (PHP array)
+- ✔ `sec08-contact.php` — Fluent Forms shortcode id=1
+- ✔ Pattern cache fix: `delete_pattern_cache()` on theme switch
+- ✔ Playwright: h1 visible + all 7 section IDs attached (7 tests pass)
 
 ---
 
@@ -133,7 +134,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 5 complete. Next: Task 6 (block patterns x 8).**
+- **Current state: Task 6 complete. Next: Task 7 (styles + JS).**
 
 ## Unresolved
 

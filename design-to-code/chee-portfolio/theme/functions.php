@@ -109,4 +109,5 @@ add_action('init', function (): void {
 
 add_action('after_switch_theme', function (): void {
     flush_rewrite_rules();
+    wp_get_theme()->delete_pattern_cache();
 });
