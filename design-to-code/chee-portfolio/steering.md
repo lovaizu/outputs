@@ -157,10 +157,11 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ `parts/header.html`: Contact button → dark/pill shape; nav → noto-sans-jp
 - ✔ `parts/footer.html`: X + LinkedIn SVG social icons added
 
-#### 9.5 — Visual verification
-- [ ] Playwright screenshot each section; compare against design comp images
-- [ ] All sections match design comp → task complete
-- [ ] Update E2E specs if selectors changed
+#### 9.5 — Visual verification ✅
+- ✔ Playwright screenshot each section; compared against design comp images
+- ✔ Fixes applied: FV decorative text (Chee Design overlay), subtitle text, h1 nowrap, footer nav separators
+- ✔ All 18 E2E tests pass; visual.spec.ts committed
+- ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
 ---
 
@@ -177,7 +178,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.1–9.4 complete. Next: Task 9.5 (Visual verification — Playwright screenshots vs design comp).**
+- **Current state: Task 9 complete. Next: Task 10 (CI/CD — confirm stg host/docroot/Secrets with user first).**
 
 ## Unresolved
 
