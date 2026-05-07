@@ -17,6 +17,8 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
+<!-- paused: 2026-05-07 — next: #10 CI/CD (confirm stg host/docroot/Secrets with user before starting) -->
+
 Complete all checkpoints before advancing to the next task.
 
 ---
