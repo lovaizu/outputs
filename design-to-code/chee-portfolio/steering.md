@@ -127,7 +127,44 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 9 — CI/CD
+### Task 9 — Design fidelity (pixel-perfect match)
+
+Goal: rebuild theme CSS/patterns/theme.json from scratch based on Figma JSON + design comp images.
+Do NOT patch existing styles — start from correct architecture.
+
+#### 9.1 — Extract & audit ✅
+- ✔ Parsed `portforio.json` + section JSON files
+- ✔ Read all design comp images (sec01–sec09)
+- ✔ Design spec table produced: colors, typography, section layouts
+- ✔ Key deltas identified: section heading style, FV bg, Voice layout, Contact button, footer icons
+
+#### 9.2 — theme.json rebuild ✅
+- ✔ Colors already correct in theme.json — no changes needed
+- ✔ Font slugs confirmed against WOFF2 files (jost = Futura PT substitute; zen-kurenaido = handwritten substitute)
+
+#### 9.3 — CSS rebuild ✅
+- ✔ `style.css` rewritten from scratch (below WP header): header, FV, works, voice, service, flow, profile, contact, footer
+- ✔ Voice two-column layout (number+photo left, catchphrase+body right)
+- ✔ Flow step pentagon/hexagon number badge via clip-path
+- ✔ Responsive: mobile (≤781px), tablet (782–1024px), desktop (≥1025px)
+
+#### 9.4 — Pattern / template rebuild ✅
+- ✔ All 8 patterns: section headings → single English title, Noto Sans JP 36px w500
+- ✔ `sec01-fv.php`: bg-main → bg-sub (#F6F6F6)
+- ✔ `sec03-voice.php`: complete rewrite to two-column Figma layout
+- ✔ `sec07-flow.php`: pentagon number badge structure
+- ✔ `sec08-contact.php`: zen-kurenaido lead text
+- ✔ `parts/header.html`: Contact button → dark/pill shape; nav → noto-sans-jp
+- ✔ `parts/footer.html`: X + LinkedIn SVG social icons added
+
+#### 9.5 — Visual verification
+- [ ] Playwright screenshot each section; compare against design comp images
+- [ ] All sections match design comp → task complete
+- [ ] Update E2E specs if selectors changed
+
+---
+
+### Task 10 — CI/CD
 
 - **Before starting:** confirm with user — stg host/docroot, GitHub Secrets key names, release branch name
 - [ ] `.github/workflows/deploy.yml` — 4 jobs: sync-stg → deploy-stg → e2e → deploy-prod
@@ -140,7 +177,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 8 complete. Next: Task 9 (CI/CD) — requires user input on stg host/docroot, Secrets key names, release branch.**
+- **Current state: Task 9.1–9.4 complete. Next: Task 9.5 (Visual verification — Playwright screenshots vs design comp).**
 
 ## Unresolved
 
