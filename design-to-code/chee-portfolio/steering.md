@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6 remaining: sec01 FV layout + style.css update + screenshot diff pass -->
+<!-- paused: 2026-05-08 — next: #9.6 round 3 remaining CSS: sec02 bg+pill, sec03 voice photo/weight, sec04 label, sec06 separator/photo, sec08 contact-lead; then re-screenshot + eval -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -206,7 +206,7 @@ Known critical diffs (from 2026-05-08 comparison):
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6 in progress. Evaluation loop running — user OKs when complete.**
+- **Current state: Task 9.6 in progress — round 3 CSS changes partially committed (wip: 308df65). Remaining: sec02 bg+pills, sec03 photo/weight, sec04 label, sec06 separator/photo, sec08 contact-lead font-size. Then re-screenshot + eval loop.**
 
 ## Unresolved
 
