@@ -8,10 +8,16 @@ See [`design.md`](design.md) for architecture, CI/CD pipeline, E2E strategy, and
 
 WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイトを、Figmaデザインに基づきWordPressブロックテーマ（FSE）で構築する。
 
+## Verification Policy
+
+**All browser verification uses Playwright** (not curl).  
+Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wiring is the only remaining work by the time we reach it.
+
+---
+
 ## Task List
 
 Complete all checkpoints before advancing to the next task.
-Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ---
 
@@ -23,36 +29,42 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ### Task 1 — Local dev environment ✅
 
-- ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
-- ✔ `wp-dev/.gitignore` configured
-- ✔ Colima + Docker installed
-- ✔ `docker compose up -d` starts without error
+- ✔ `wp-dev/docker-compose.yml` + `.gitignore`
+- ✔ Colima + Docker installed; containers running
 - ✔ WP core installed at http://localhost:8080
 - ✔ Theme activated: chee-portfolio
-- ✔ Plugins installed and activated: Pods 3.3.8, Meta Field Block 1.5.3 (`display-a-meta-field-as-block`), Fluent Forms 6.2.2
-- ✔ `README.md` written — local dev startup procedure
+- ✔ Plugins: Pods 3.3.8 / Meta Field Block 1.5.3 / Fluent Forms 6.2.2
+- ✔ `README.md` — local dev quick-start
 
 ---
 
 ### Task 2 — Theme foundation ✅
 
-- ✔ `theme.json` — all 8 colors, 4 font families, 7 font sizes, layout values
-- ✔ `functions.php` — Works CPT + `works-category` taxonomy + Voice CPT; Splide enqueue
-- ✔ Pods field groups registered: Works (6 fields) + Voice (5 fields)
-  - Note: Voice fields prefixed with `voice_` — `name` and `body` are WordPress reserved words
-- ✔ `works-category` initial terms created (7 terms)
-- ✔ Vendor assets: `splide.min.js` + `splide-extension-auto-scroll.min.js` → `assets/js/vendor/`
-- ✔ Font WOFF2 files (9 files, 4 families) → `assets/fonts/` (fontsource japanese/latin subsets)
-- ✔ Image assets copied: `input/chee-portforio/images/` → `assets/images/`
-- ✔ Verification: `works`, `voice` listed in `wp post-type list`; no PHP fatal
+- ✔ `theme.json` — 8 colors / 4 font families / 7 font sizes / layout
+- ✔ `functions.php` — Works + Voice CPTs + works-category taxonomy + Splide enqueue
+- ✔ Pods: Works 6 fields + Voice 5 fields (`voice_*` prefix — `name`/`body` are WP reserved)
+- ✔ `works-category` 7 initial terms
+- ✔ Splide v4 + auto-scroll vendor JS
+- ✔ Font WOFF2 (9 files, fontsource subsets) + image assets
+
+---
+
+### Task 2.5 — Playwright setup
+
+- [ ] `brew install node` → confirm `node` + `npx` available
+- [ ] `cd theme/e2e && npm init playwright@latest` (TypeScript, chromium only for local)
+- [ ] `playwright.config.ts` — baseURL: `http://localhost:8080`, single project: chromium
+- [ ] Smoke test: `e2e/smoke.spec.ts` — `page.goto('/')` → expect no PHP fatal in body
+- [ ] `npx playwright test` passes locally
+- [ ] `theme/e2e/` committed (config + first spec; `node_modules/` gitignored)
 
 ---
 
 ### Task 3 — Fixture data
 
-- [ ] 3 dummy Works posts — each with all Pods fields filled; at least 2 with `fv_featured = true`
-- [ ] 4 dummy Voice posts — all Pods fields filled (matching design samples)
-- [ ] Verification: Works and Voice visible in WP admin; browser at `localhost:8080/works/` returns posts
+- [ ] 3 dummy Works posts — all Pods fields filled; ≥ 2 with `fv_featured = true`
+- [ ] 4 dummy Voice posts — all Pods fields filled
+- [ ] Playwright: `localhost:8080/works/` → at least 1 Works post visible
 
 ---
 
@@ -60,7 +72,7 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 - [ ] `parts/header.html` + `parts/footer.html` with `<!-- wp:` block markup
 - [ ] `templateParts` array added to `theme.json`
-- [ ] Verification: `localhost:8080` shows header and footer
+- [ ] Playwright: `localhost:8080` → header `<nav>` and footer visible
 
 ---
 
@@ -68,30 +80,30 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 - [ ] `templates/front-page.html` — assembles all sec patterns
 - [ ] `templates/archive-works.html` — Query Loop for Works CPT
-- [ ] `templates/single-works.html` — fixed header area (title, client, tags) + free block body
-- [ ] Verification: home / `/works/` / single works page all render without errors
+- [ ] `templates/single-works.html` — fixed header area + free block body
+- [ ] Playwright: home renders `<h1>`; `/works/` shows card; single Works shows client field
 
 ---
 
 ### Task 6 — Block patterns × 8
 
-- [ ] `sec01-fv.php` — Splide auto-scroll; queries Works with `fv_featured = true`, ordered by `fv_order`
+- [ ] `sec01-fv.php` — Splide auto-scroll; Works with `fv_featured = true`, ordered by `fv_order`
 - [ ] `sec02-works.php` — Query Loop (Works CPT), card grid
-- [ ] `sec03-voice.php` — Splide carousel; queries Voice CPT
-- [ ] `sec04-service.php` — static pattern
-- [ ] `sec05-cta.php` — static pattern
-- [ ] `sec06-profile.php` — static pattern
-- [ ] `sec07-flow.php` — static pattern
-- [ ] `sec08-contact.php` — Fluent Forms shortcode placeholder
-- [ ] Verification: all 8 patterns listed via `wp block-pattern list`; home page renders each section
+- [ ] `sec03-voice.php` — Splide carousel; Voice CPT
+- [ ] `sec04-service.php` — static
+- [ ] `sec05-cta.php` — static
+- [ ] `sec06-profile.php` — static
+- [ ] `sec07-flow.php` — static
+- [ ] `sec08-contact.php` — Fluent Forms shortcode
+- [ ] Playwright: all 8 sections present on home page; no broken images
 
 ---
 
 ### Task 7 — Styles + JS
 
-- [ ] `style.css` — `@media` breakpoints at 1024px and 781px; nav + FV mockup sizing
-- [ ] `assets/js/splide-init.js` — initializes FV carousel, Voice carousel, single-works gallery
-- [ ] Verification: responsive layout correct in browser at 375px / 768px / 1280px
+- [ ] `style.css` — `@media` at 1024px and 781px; nav + FV mockup sizing
+- [ ] `assets/js/splide-init.js` — FV carousel, Voice carousel, single-works gallery
+- [ ] Playwright: screenshot at 375px / 768px / 1280px — no layout overflow
 
 ---
 
@@ -105,19 +117,28 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ### Task 9 — CI/CD
 
-- **Before starting:** hear from user — stg host/docroot, DB copy method, WP-CLI on Xserver, GitHub Secrets key names, release branch name
-- [ ] `.github/workflows/deploy.yml` — 4 jobs: sync-stg (release branch only) → deploy-stg → e2e → deploy-prod
-- [ ] Playwright test files under `theme/e2e/`
+- **Before starting:** confirm with user — stg host/docroot, GitHub Secrets key names, release branch name
+- [ ] `.github/workflows/deploy.yml` — 4 jobs: sync-stg → deploy-stg → e2e → deploy-prod
+- [ ] Move Playwright config to use `STG_URL` for CI; local config stays `localhost:8080`
 - [ ] Secrets added to GitHub repository
+
+---
 
 ## Session Context
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 2 complete. Next: Task 3 (fixture data — dummy Works + Voice posts).**
+- **Current state: Task 2 complete. Next: Task 2.5 (Playwright setup via `brew install node`).**
+
+## Unresolved
+
+- `localhost:8080` returns empty body (Content-Length: 0) — root cause unknown.
+  Likely: no `templates/index.html` yet (FSE theme needs at least one template to render).
+  Confirm after Task 4 when header/footer templates are added.
 
 ## How to Resume
 
 1. Read `design.md` — full architecture, CPT fields, design tokens.
 2. Read this file — find the first unchecked item in the Task List.
 3. Proceed in order. Do not skip tasks.
+4. All browser checks use `npx playwright test` — never curl.
