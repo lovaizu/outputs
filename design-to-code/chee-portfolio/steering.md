@@ -21,22 +21,16 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 ---
 
-### Task 1 — Local dev environment
+### Task 1 — Local dev environment ✅
 
 - ✔ `wp-dev/docker-compose.yml` exists and is valid YAML
 - ✔ `wp-dev/.gitignore` configured
-- [ ] Colima + Docker installed (`brew install colima docker docker-compose && colima start`)
-- [ ] `docker compose up -d` starts without error
-- [ ] WP core install:
-  ```
-  docker compose run --rm cli wp core install \
-    --url=http://localhost:8080 --title="Chee Portfolio" \
-    --admin_user=admin --admin_password=admin \
-    --admin_email=admin@example.com --allow-root
-  ```
-- [ ] Theme activated: `docker compose run --rm cli wp theme activate chee-portfolio --allow-root`
-- [ ] Plugins installed and activated: Pods, Meta Field Block, Fluent Forms
-- [ ] `README.md` written — local dev startup procedure
+- ✔ Colima + Docker installed
+- ✔ `docker compose up -d` starts without error
+- ✔ WP core installed at http://localhost:8080
+- ✔ Theme activated: chee-portfolio
+- ✔ Plugins installed and activated: Pods 3.3.8, Meta Field Block 1.5.3 (`display-a-meta-field-as-block`), Fluent Forms 6.2.2
+- ✔ `README.md` written — local dev startup procedure
 
 ---
 
@@ -119,7 +113,7 @@ Browser verification (`localhost:8080`) is available from Task 1 onward.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 0 complete. Next: Task 1 (Colima install + WP setup).**
+- **Current state: Task 1 complete. Next: Task 2 (theme.json + functions.php + Pods field groups).**
 
 ## How to Resume
 
