@@ -80,9 +80,11 @@ Complete all checkpoints before advancing to the next task.
   - ✔ `layout.allowEditing: false` confirmed in `theme.json`
 
 - [ ] 11. GitHub Actions workflow + handoff doc
+  - **Before starting:** hear from user — stg host/docroot, DB copy method, WP-CLI availability, GitHub Secrets key names, release branch name
   - ✔ `.github/workflows/deploy.yml` exists with 4 jobs (sync-stg, deploy-stg, e2e, deploy-prod)
+  - ✔ `sync-stg` job is triggered only on the release branch (not every push)
   - ✔ Playwright test files exist under `theme/e2e/`
-  - Secrets (`STG_URL`, `server_id`, domains) added to GitHub repository
+  - Secrets added to GitHub repository
 
 > Tasks -1 to 11 complete one design cycle. Repeat from Task 0 for each new design input.
 
@@ -249,6 +251,8 @@ design-to-code/chee-portfolio/
 | Container runtime | **Colima** (free, CLI-only, no Docker Desktop needed) |
 | Local dev | Docker via Colima — `brew install colima docker docker-compose && colima start` |
 | Task checkpoint model | Static checks + Docker/WP-CLI runtime checks run in session |
+| GHA sync-stg trigger | Release branch only (not every push) |
+| GHA Task 11 | Starts with user hearing (stg info, WP-CLI, Secrets) before writing workflow |
 | E2E | Playwright in `theme/e2e/`, runs in GHA against stg with prod data |
 
 ## How to Resume
