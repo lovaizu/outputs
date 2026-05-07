@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6 design fidelity iteration loop -->
+<!-- paused: 2026-05-08 — next: #9.6 remaining: sec01 FV layout + style.css update + screenshot diff pass -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -181,18 +181,18 @@ Known critical diffs (from 2026-05-08 comparison):
 | Section | Status | Issue |
 |---|---|---|
 | sec01 FV | [ ] | Section height collapsed; blue curved area + Splide carousel (5 phone mockups) missing |
-| sec02 Works | [ ] | Cards show title/client/category only — missing description, category pill tags, work image grid |
-| sec07 Flow | [ ] | Number badge is rounded-rect; design shows pentagon (clip-path) |
-| sec03 Voice | [ ] | Splide prev/next arrows visible on sides; design shows bottom dots only |
-| sec04 Service | [ ] | LP制作 card missing tool icons row (Figma/Ps/Ai/WP/Studio) |
+| sec02 Works | [x] | PHP-driven single-column with taxonomy pills, description, image — DONE |
+| sec07 Flow | [ ] | Number badge clip-path still hexagon; need pentagon right-arrow shape + CSS update |
+| sec03 Voice | [x] | arrows:false added to Splide config — DONE |
+| sec04 Service | [x] | Tool icons row (Figma/Ps/Ai/WP/Studio) added to LP制作 card — DONE |
+| sec05 CTA | [x] | id="cta" added — DONE |
 
 **Done when**: all sections show no diff, or only values unreadable from design comp remain (reported as "Unresolved diffs").
 
-- [ ] sec01 FV: restore height + blue curved area + carousel layout
-- [ ] sec02 Works: redesign card to match comp (pill tags, description, image grid)
-- [ ] sec07 Flow: pentagon badge via clip-path
-- [ ] sec03 Voice: hide Splide arrows; show dots only
-- [ ] sec04 Service: add tool icons row to LP制作 card
+Remaining WIP (commit c6ab3f6):
+- [ ] sec01 FV: restore height + blue curved area + carousel layout (pattern + CSS)
+- [ ] sec07 Flow: pentagon badge via clip-path (CSS only)
+- [ ] style.css: comprehensive update — new FV layout, works card styles, flow badge, service tools, voice arrow hide
 - [ ] Full re-screenshot + diff pass; report any unresolved diffs
 
 ---
@@ -210,7 +210,7 @@ Known critical diffs (from 2026-05-08 comparison):
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.5 complete. Next: Task 9.6 (design fidelity iteration loop — 5 known critical diffs).**
+- **Current state: Task 9.6 WIP (commit c6ab3f6). sec02/sec03/sec04/sec05 done. sec01 FV + style.css + Flow badge remain.**
 
 ## Unresolved
 
