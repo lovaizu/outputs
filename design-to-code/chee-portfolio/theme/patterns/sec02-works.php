@@ -9,12 +9,8 @@
 <!-- wp:group {"tagName":"section","className":"sec-works","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group sec-works" style="padding-top:80px;padding-bottom:80px" id="works">
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"300","textTransform":"uppercase"}},"fontFamily":"roboto-condensed","fontSize":"2xl","textColor":"border"} -->
-<p class="has-roboto-condensed-font-family has-2xl-font-size has-border-color has-text-color" style="font-style:normal;font-weight:300;text-transform:uppercase">Works</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading {"level":2,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontFamily":"noto-sans-jp","fontSize":"lg"} -->
-<h2 class="wp-block-heading has-noto-sans-jp-font-family has-lg-font-size" style="font-style:normal;font-weight:700">制作実績</h2>
+<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
+<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Works</h2>
 <!-- /wp:heading -->
 
 <!-- wp:query {"queryId":2,"query":{"postType":"works","perPage":6,"orderBy":"date","order":"desc"},"layout":{"type":"default"}} -->

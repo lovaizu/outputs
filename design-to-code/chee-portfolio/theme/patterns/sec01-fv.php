@@ -6,8 +6,8 @@
  * Block Types: core/group
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"sec-fv","backgroundColor":"bg-main","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group sec-fv has-bg-main-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="fv">
+<!-- wp:group {"tagName":"section","className":"sec-fv","backgroundColor":"bg-sub","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
+<section class="wp-block-group sec-fv has-bg-sub-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="fv">
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group">
@@ -15,8 +15,8 @@
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
 
-<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.4"}},"fontFamily":"noto-sans-jp","fontSize":"xl"} -->
-<h1 class="wp-block-heading has-noto-sans-jp-font-family has-xl-font-size" style="font-style:normal;font-weight:700;line-height:1.4">LP制作×広告運用</h1>
+<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.3","fontSize":"clamp(40px, 5vw, 60px)"}},"fontFamily":"noto-sans-jp"} -->
+<h1 class="wp-block-heading has-noto-sans-jp-font-family" style="font-style:normal;font-weight:700;line-height:1.3;font-size:clamp(40px, 5vw, 60px)">LP制作×広告運用</h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.6"}},"fontFamily":"noto-sans-jp","fontSize":"sm","textColor":"text-secondary"} -->

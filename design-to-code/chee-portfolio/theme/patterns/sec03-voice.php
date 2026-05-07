@@ -9,12 +9,8 @@
 <!-- wp:group {"tagName":"section","className":"sec-voice","backgroundColor":"bg-main","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group sec-voice has-bg-main-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="voice">
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"300","textTransform":"uppercase"}},"fontFamily":"roboto-condensed","fontSize":"2xl","textColor":"border"} -->
-<p class="has-roboto-condensed-font-family has-2xl-font-size has-border-color has-text-color" style="font-style:normal;font-weight:300;text-transform:uppercase">Voice</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading {"level":2,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontFamily":"noto-sans-jp","fontSize":"lg"} -->
-<h2 class="wp-block-heading has-noto-sans-jp-font-family has-lg-font-size" style="font-style:normal;font-weight:700">お客様の声</h2>
+<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
+<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Voice</h2>
 <!-- /wp:heading -->
 
 <!-- wp:html -->
@@ -23,22 +19,32 @@
     <ul class="splide__list">
       <?php
       $voices = get_posts(['post_type' => 'voice', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC']);
+      $i = 1;
       foreach ($voices as $voice) {
-        $photo_id   = get_post_meta($voice->ID, 'voice_photo', true);
-        $photo_url  = $photo_id ? wp_get_attachment_image_url((int) $photo_id, 'thumbnail') : '';
-        $role       = get_post_meta($voice->ID, 'voice_role', true);
-        $name       = get_post_meta($voice->ID, 'voice_name', true);
-        $body       = get_post_meta($voice->ID, 'voice_body', true);
+        $photo_id    = get_post_meta($voice->ID, 'voice_photo', true);
+        $photo_url   = $photo_id ? wp_get_attachment_image_url((int) $photo_id, 'thumbnail') : '';
+        $role        = get_post_meta($voice->ID, 'voice_role', true);
+        $name        = get_post_meta($voice->ID, 'voice_name', true);
+        $body        = get_post_meta($voice->ID, 'voice_body', true);
         $catchphrase = get_post_meta($voice->ID, 'voice_catchphrase', true);
         echo '<li class="splide__slide">';
         echo '<div class="voice-card">';
-        if ($photo_url) echo '<img class="voice-card__photo" src="' . esc_url($photo_url) . '" alt="' . esc_attr($name) . '">';
-        if ($catchphrase) echo '<p class="voice-card__catchphrase">' . esc_html($catchphrase) . '</p>';
-        if ($body) echo '<p class="voice-card__body">' . esc_html($body) . '</p>';
-        if ($name) echo '<p class="voice-card__name">' . esc_html($name) . '</p>';
+        echo '<div class="voice-card__left">';
+        echo '<span class="voice-card__num">' . sprintf('%02d', $i) . '</span>';
+        echo '<span class="voice-card__num-label">voice</span>';
+        if ($photo_url) {
+          echo '<img class="voice-card__photo" src="' . esc_url($photo_url) . '" alt="' . esc_attr($name) . '" loading="lazy">';
+        }
         if ($role) echo '<p class="voice-card__role">' . esc_html($role) . '</p>';
+        if ($name) echo '<p class="voice-card__name">' . esc_html($name) . '</p>';
+        echo '</div>';
+        echo '<div class="voice-card__right">';
+        if ($catchphrase) echo '<p class="voice-card__catchphrase">' . esc_html($catchphrase) . '</p>';
+        if ($body) echo '<div class="voice-card__body">' . nl2br(esc_html($body)) . '</div>';
+        echo '</div>';
         echo '</div>';
         echo '</li>';
+        $i++;
       }
       ?>
     </ul>

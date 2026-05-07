@@ -124,7 +124,18 @@ img {
   top: 0;
   z-index: 100;
   background: #fff;
-  box-shadow: 0 1px 0 rgb(171 212 237 / 60%);
+  box-shadow: 0 1px 0 rgba(171, 212, 237, 0.6);
+}
+
+/* ── Section headings ────────────────────────────────────────────────────── */
+
+.sec-title {
+  text-align: center;
+  font-size: var(--wp--preset--font-size--xl);
+  font-weight: 500;
+  color: var(--wp--preset--color--text-primary);
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  margin-bottom: 48px;
 }
 
 /* ── FV section ──────────────────────────────────────────────────────────── */
@@ -142,92 +153,230 @@ img {
   width: 220px;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-/* ── Works card ──────────────────────────────────────────────────────────── */
+/* ── Works section ───────────────────────────────────────────────────────── */
 
 .works-card {
   transition: box-shadow 0.2s ease;
 }
 
 .works-card:hover {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
 }
 
 .works-card__label {
   display: inline-block;
 }
 
-/* ── Voice card ──────────────────────────────────────────────────────────── */
+/* ── Voice section ───────────────────────────────────────────────────────── */
 
 .voice-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 32px;
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+.voice-card__left {
+  flex-shrink: 0;
+  width: 160px;
   text-align: center;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.voice-card__num {
+  display: block;
+  font-size: 70px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--wp--preset--color--accent);
+  font-family: var(--wp--preset--font-family--roboto-condensed);
+}
+
+.voice-card__num-label {
+  display: block;
+  font-size: 14px;
+  color: var(--wp--preset--color--accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
 }
 
 .voice-card__photo {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 16px;
-}
-
-.voice-card__catchphrase {
-  font-size: var(--wp--preset--font-size--md);
-  font-weight: 700;
-  margin-bottom: 12px;
-  font-family: var(--wp--preset--font-family--zen-kurenaido);
-}
-
-.voice-card__body {
-  font-size: var(--wp--preset--font-size--sm);
-  line-height: 1.8;
-  color: var(--wp--preset--color--text-secondary);
-  margin-bottom: 16px;
-  text-align: left;
-}
-
-.voice-card__name {
-  font-size: var(--wp--preset--font-size--sm);
-  font-weight: 500;
-  margin-bottom: 4px;
+  margin: 0 auto 12px;
+  display: block;
 }
 
 .voice-card__role {
-  font-size: var(--wp--preset--font-size--xs);
+  font-size: 13px;
   color: var(--wp--preset--color--text-secondary);
+  margin: 0;
 }
 
-/* ── Service cards ───────────────────────────────────────────────────────── */
+.voice-card__name {
+  font-size: 13px;
+  color: var(--wp--preset--color--text-secondary);
+  margin: 0;
+}
+
+.voice-card__right {
+  flex: 1;
+}
+
+.voice-card__catchphrase {
+  border: 1px solid var(--wp--preset--color--text-secondary);
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.voice-card__body {
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* ── Service section ─────────────────────────────────────────────────────── */
+
+.service-container {
+  background: var(--wp--preset--color--bg-main);
+  border-radius: 40px;
+  padding: 48px 40px;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.service-card:last-child {
+  margin-bottom: 0;
+}
 
 .service-label {
   display: inline-flex;
   align-items: center;
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 15px;
+  font-weight: 500;
   margin-bottom: 12px;
 }
 
-/* ── Flow steps ──────────────────────────────────────────────────────────── */
+/* ── Flow section ────────────────────────────────────────────────────────── */
 
 .flow-step {
-  gap: 16px;
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  align-items: flex-start;
 }
 
 .flow-step__num {
-  min-width: 56px;
+  width: 60px;
+  height: 69px;
+  clip-path: polygon(50% 0%, 100% 18%, 100% 78%, 50% 100%, 0% 78%, 0% 18%);
+  background: var(--wp--preset--color--bg-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-/* ── Profile photo ───────────────────────────────────────────────────────── */
+.flow-step__num-text {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--wp--preset--color--accent);
+  font-family: var(--wp--preset--font-family--jost);
+}
 
-.sec-profile .wp-block-image img {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
+/* ── Profile section ─────────────────────────────────────────────────────── */
+
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px;
+  display: flex;
+  gap: 48px;
+}
+
+.profile-detail-row {
+  display: flex;
+  padding: 16px 0;
+  border-bottom: 1px dotted rgba(78, 176, 234, 0.4);
+}
+
+.profile-detail-row__label {
+  width: 180px;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--wp--preset--color--text-secondary);
+}
+
+.profile-detail-row__value {
+  font-size: 16px;
+}
+
+/* ── Contact section ─────────────────────────────────────────────────────── */
+
+.contact-lead {
+  font-family: var(--wp--preset--font-family--zen-kurenaido);
+  text-align: center;
+  margin-bottom: 48px;
+  font-size: 20px;
+  line-height: 2;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  font-size: 14px;
+  color: var(--wp--preset--color--text-primary);
+  text-decoration: none;
+}
+
+.footer-nav-sep {
+  color: var(--wp--preset--color--text-secondary);
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.footer-social a {
+  display: inline-flex;
+  color: var(--wp--preset--color--text-primary);
 }
 
 /* ── Skip-to-content link ────────────────────────────────────────────────── */
@@ -257,7 +406,7 @@ img {
   text-decoration: none;
 }
 
-/* ── Logo link ────────────────────────────────────────────────────────────── */
+/* ── Logo link ───────────────────────────────────────────────────────────── */
 
 .site-logo-link {
   display: block;
@@ -287,15 +436,6 @@ img {
   }
 }
 
-/* ── Footer nav pipe separators ──────────────────────────────────────────── */
-
-.footer-nav .wp-block-navigation__container > li + li::before {
-  content: '｜';
-  color: var(--wp--preset--color--text-secondary);
-  margin-right: 4px;
-  pointer-events: none;
-}
-
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 
 @media (max-width: 781px) {
@@ -309,6 +449,25 @@ img {
 
   .fv-splide .splide__slide img {
     width: 160px;
+  }
+
+  .voice-card {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .voice-card__left {
+    width: 100%;
+  }
+
+  .service-container {
+    border-radius: 24px;
+    padding: 32px 20px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    padding: 32px 24px;
   }
 }
 

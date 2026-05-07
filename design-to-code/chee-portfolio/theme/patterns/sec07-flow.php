@@ -18,12 +18,8 @@ $steps = [
 <!-- wp:group {"tagName":"section","className":"sec-flow","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group sec-flow" style="padding-top:80px;padding-bottom:80px" id="flow">
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"300","textTransform":"uppercase"}},"fontFamily":"roboto-condensed","fontSize":"2xl","textColor":"border"} -->
-<p class="has-roboto-condensed-font-family has-2xl-font-size has-border-color has-text-color" style="font-style:normal;font-weight:300;text-transform:uppercase">Flow</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:heading {"level":2,"style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontFamily":"noto-sans-jp","fontSize":"lg"} -->
-<h2 class="wp-block-heading has-noto-sans-jp-font-family has-lg-font-size" style="font-style:normal;font-weight:700">制作フロー</h2>
+<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
+<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Flow</h2>
 <!-- /wp:heading -->
 
 <!-- wp:group {"style":{"spacing":{"blockGap":"24px"}},"layout":{"type":"constrained"}} -->
@@ -32,13 +28,9 @@ $steps = [
 <!-- wp:group {"className":"flow-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
 <div class="wp-block-group flow-step">
 
-<!-- wp:group {"className":"flow-step__num","backgroundColor":"bg-main","style":{"border":{"radius":"4px"},"spacing":{"padding":{"top":"8px","bottom":"8px","left":"16px","right":"16px"}},"layout":{"selfStretch":"fixed","flexSize":"56px"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group flow-step__num has-bg-main-background-color has-background" style="border-radius:4px;padding-top:8px;padding-right:16px;padding-bottom:8px;padding-left:16px">
-<!-- wp:paragraph {"textAlign":"center","textColor":"accent","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"jost","fontSize":"md"} -->
-<p class="has-text-align-center has-accent-color has-text-color has-jost-font-family has-md-font-size" style="font-style:normal;font-weight:500"><?php echo esc_html($step['num']); ?></p>
-<!-- /wp:paragraph -->
-</div>
-<!-- /wp:group -->
+<!-- wp:html -->
+<div class="flow-step__num"><span class="flow-step__num-text"><?php echo esc_html($step['num']); ?></span></div>
+<!-- /wp:html -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
