@@ -69,11 +69,13 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 4 — Template parts
+### Task 4 — Template parts ✅
 
-- [ ] `parts/header.html` + `parts/footer.html` with `<!-- wp:` block markup
-- [ ] `templateParts` array added to `theme.json`
-- [ ] Playwright: `localhost:8080` → header `<nav>` and footer visible
+- ✔ `parts/header.html` — logo + Navigation (Home/Works/Voice/Service/Profile) + Contact button
+- ✔ `parts/footer.html` — logo + Japanese nav (ホーム/制作実績/お客様の声/サービス/プロフィール/お問合せ), bg-main
+- ✔ `templateParts` array added to `theme.json`
+- ✔ `templates/index.html` — fallback template (header + post-content + footer)
+- ✔ Playwright: `layout.spec.ts` — header `<nav>` and `footer.site-footer` visible
 
 ---
 
@@ -129,13 +131,11 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 3 complete. Next: Task 4 (template parts — header/footer).**
+- **Current state: Task 4 complete. Next: Task 5 (templates — front-page, archive-works, single-works).**
 
 ## Unresolved
 
-- `localhost:8080` returns empty body (Content-Length: 0) — root cause unknown.
-  Likely: no `templates/index.html` yet (FSE theme needs at least one template to render).
-  Confirm after Task 4 when header/footer templates are added.
+- ~~`localhost:8080` returns empty body~~ — resolved: `templates/index.html` added in Task 4.
 
 ## How to Resume
 

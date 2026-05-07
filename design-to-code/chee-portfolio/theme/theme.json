@@ -71,6 +71,10 @@
       ]
     }
   },
+  "templateParts": [
+    { "name": "header", "title": "Header", "area": "header" },
+    { "name": "footer", "title": "Footer", "area": "footer" }
+  ],
   "styles": {
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--noto-sans-jp)",
