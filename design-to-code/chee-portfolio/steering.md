@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-07 — next: #10 CI/CD (confirm stg host/docroot/Secrets with user before starting) -->
+<!-- paused: 2026-05-08 — next: #9.6 design fidelity iteration loop -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -165,6 +165,36 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ All 18 E2E tests pass; visual.spec.ts committed
 - ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
+#### 9.6 — Design fidelity iteration loop
+
+**Loop**: implement → screenshot (1440×900) → diff vs. design comp → fix → repeat until no diff.
+
+Diff criteria per section:
+- **Layout**: position (top/right/bottom/left offset), width/height, margin/padding, flex/grid direction
+- **Typography**: font-family, font-size, font-weight, line-height, letter-spacing, text wrapping
+- **Color**: background, text, border, box-shadow (color/direction/blur)
+- **Component detail**: border-radius, border width/style, icon size/position, image aspect-ratio/object-fit
+- **Interaction** (if applicable): hover/focus state, transition presence
+
+Known critical diffs (from 2026-05-08 comparison):
+
+| Section | Status | Issue |
+|---|---|---|
+| sec01 FV | [ ] | Section height collapsed; blue curved area + Splide carousel (5 phone mockups) missing |
+| sec02 Works | [ ] | Cards show title/client/category only — missing description, category pill tags, work image grid |
+| sec07 Flow | [ ] | Number badge is rounded-rect; design shows pentagon (clip-path) |
+| sec03 Voice | [ ] | Splide prev/next arrows visible on sides; design shows bottom dots only |
+| sec04 Service | [ ] | LP制作 card missing tool icons row (Figma/Ps/Ai/WP/Studio) |
+
+**Done when**: all sections show no diff, or only values unreadable from design comp remain (reported as "Unresolved diffs").
+
+- [ ] sec01 FV: restore height + blue curved area + carousel layout
+- [ ] sec02 Works: redesign card to match comp (pill tags, description, image grid)
+- [ ] sec07 Flow: pentagon badge via clip-path
+- [ ] sec03 Voice: hide Splide arrows; show dots only
+- [ ] sec04 Service: add tool icons row to LP制作 card
+- [ ] Full re-screenshot + diff pass; report any unresolved diffs
+
 ---
 
 ### Task 10 — CI/CD
@@ -180,7 +210,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9 complete. Next: Task 10 (CI/CD — confirm stg host/docroot/Secrets with user first).**
+- **Current state: Task 9.5 complete. Next: Task 9.6 (design fidelity iteration loop — 5 known critical diffs).**
 
 ## Unresolved
 
