@@ -29,12 +29,10 @@
 
 # Tasks
 
-<!-- paused: 2026-05-07 — next: #4 verify artifact and open PR -->
-
 - [x] #1: create /go, /zz, /bk command files in .claude/commands/
 - [x] #2: refine commands based on prompt engineering review (critical + major fixes)
 - [x] #3: rebase onto latest origin/main
-- [ ] #4: verify artifact against goal alignment and quality (action.md C), then open PR to main
+- [x] #4: verify artifact against goal alignment and quality (action.md C), then open PR to main
 
 # Verification criteria for #4
 
