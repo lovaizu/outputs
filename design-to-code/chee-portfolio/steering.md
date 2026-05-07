@@ -114,11 +114,16 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 8 — Code review
+### Task 8 — Code review ✅
 
-- [ ] Spawn 4 reviewer sub-agents: WordPress / HTML / CSS / Accessibility
-- [ ] Apply all findings
-- [ ] `layout.allowEditing: false` confirmed in `theme.json`
+- ✔ Reviewed: WordPress best practices, HTML semantics, CSS quality, Accessibility
+- ✔ Added skip-to-content link (visually hidden, visible on focus) in header
+- ✔ Logo in header + footer wrapped in `<a href="/">` link with aria-label
+- ✔ Added `id="main"` anchor to `<main>` in all 4 templates
+- ✔ Added `:focus-visible` outline using accent color
+- ✔ Added `prefers-reduced-motion` CSS (disables Splide transitions)
+- ✔ Splide JS respects `prefers-reduced-motion` (disables autoScroll / autoplay)
+- ✔ `layout.allowEditing: false` confirmed in `theme.json`
 
 ---
 
@@ -135,7 +140,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 7 complete. Next: Task 8 (code review).**
+- **Current state: Task 8 complete. Next: Task 9 (CI/CD) — requires user input on stg host/docroot, Secrets key names, release branch.**
 
 ## Unresolved
 

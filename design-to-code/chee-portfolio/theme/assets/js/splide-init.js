@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const Extensions = (window.splide && window.splide.Extensions) ? window.splide.Extensions : {};
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // FV auto-scroll carousel
   const fvEl = document.querySelector('.fv-splide');
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pagination: false,
       perPage:    3,
       gap:        '1rem',
-      autoScroll: {
+      autoScroll: reducedMotion ? false : {
         speed:        1,
         pauseOnHover: true,
         pauseOnFocus: true,
@@ -28,9 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
   if (voiceEl && typeof Splide !== 'undefined') {
     new Splide(voiceEl, {
       type:         'loop',
-      autoplay:     true,
+      autoplay:     !reducedMotion,
       interval:     8000,
-      speed:        600,
+      speed:        reducedMotion ? 0 : 600,
       perPage:      1,
       drag:         true,
       pauseOnHover: true,

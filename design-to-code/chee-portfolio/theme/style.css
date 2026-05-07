@@ -230,6 +230,63 @@ img {
   object-fit: cover;
 }
 
+/* ── Skip-to-content link ────────────────────────────────────────────────── */
+
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: var(--wp--preset--font-size--sm);
+  text-decoration: none;
+}
+
+/* ── Logo link ────────────────────────────────────────────────────────────── */
+
+.site-logo-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-logo-link:hover {
+  opacity: 0.8;
+}
+
+/* ── Focus styles ────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--wp--preset--color--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .splide__track,
+  .splide__list {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ── Footer nav pipe separators ──────────────────────────────────────────── */
 
 .footer-nav .wp-block-navigation__container > li + li::before {
