@@ -5,8 +5,258 @@ Author: Chiaki Itoh (Chee Design)
 Description: Portfolio site for web designer Chiaki Itoh. WordPress block theme (FSE).
 Version: 1.0.0
 Requires at least: 6.4
-Tested up to: 6.7
+Tested up to: 6.9
 Requires PHP: 8.2
 License: GPL-2.0-or-later
 Text Domain: chee-portfolio
 */
+
+/* ── Splide core (minimal, self-hosted) ───────────────────────────────────── */
+
+.splide { visibility: hidden; }
+.splide.is-initialized,
+.splide.is-rendered { visibility: visible; }
+.splide__track { overflow: hidden; position: relative; }
+.splide__list {
+  backface-visibility: hidden;
+  display: flex;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.splide__slide {
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  list-style-type: none !important;
+  margin: 0;
+  position: relative;
+}
+.splide__arrow {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  height: 2em;
+  justify-content: center;
+  opacity: 0.7;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2em;
+  z-index: 1;
+}
+.splide__arrow--prev { left: 1em; }
+.splide__arrow--next { right: 1em; }
+.splide__arrow svg { fill: #000; height: 1em; width: 1em; }
+.splide__arrow--prev svg { transform: scaleX(-1); }
+.splide__pagination {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  pointer-events: none;
+}
+.splide__pagination li { display: inline-flex; pointer-events: auto; }
+.splide__pagination__page {
+  background: #ccc;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  height: 8px;
+  margin: 3px;
+  opacity: 0.7;
+  padding: 0;
+  position: relative;
+  transition: transform 0.2s linear;
+  width: 8px;
+}
+.splide__pagination__page.is-active {
+  background: var(--wp--preset--color--accent);
+  opacity: 1;
+  transform: scale(1.4);
+}
+
+/* ── Reset / Base ─────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Navigation: force hamburger at ≤ 1024px ─────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__responsive-container-content {
+    display: none;
+  }
+  .wp-block-navigation__responsive-container-open {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .wp-block-navigation__responsive-container-open {
+    display: none !important;
+  }
+  .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__responsive-container-content {
+    display: flex !important;
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  box-shadow: 0 1px 0 rgb(171 212 237 / 60%);
+}
+
+/* ── FV section ──────────────────────────────────────────────────────────── */
+
+.sec-fv {
+  overflow: hidden;
+}
+
+.fv-carousel-wrap {
+  width: 45%;
+  flex-shrink: 0;
+}
+
+.fv-splide .splide__slide img {
+  width: 220px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+/* ── Works card ──────────────────────────────────────────────────────────── */
+
+.works-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.works-card:hover {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+}
+
+.works-card__label {
+  display: inline-block;
+}
+
+/* ── Voice card ──────────────────────────────────────────────────────────── */
+
+.voice-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.voice-card__photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+}
+
+.voice-card__catchphrase {
+  font-size: var(--wp--preset--font-size--md);
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: var(--wp--preset--font-family--zen-kurenaido);
+}
+
+.voice-card__body {
+  font-size: var(--wp--preset--font-size--sm);
+  line-height: 1.8;
+  color: var(--wp--preset--color--text-secondary);
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.voice-card__name {
+  font-size: var(--wp--preset--font-size--sm);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.voice-card__role {
+  font-size: var(--wp--preset--font-size--xs);
+  color: var(--wp--preset--color--text-secondary);
+}
+
+/* ── Service cards ───────────────────────────────────────────────────────── */
+
+.service-label {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* ── Flow steps ──────────────────────────────────────────────────────────── */
+
+.flow-step {
+  gap: 16px;
+}
+
+.flow-step__num {
+  min-width: 56px;
+  flex-shrink: 0;
+}
+
+/* ── Profile photo ───────────────────────────────────────────────────────── */
+
+.sec-profile .wp-block-image img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* ── Footer nav pipe separators ──────────────────────────────────────────── */
+
+.footer-nav .wp-block-navigation__container > li + li::before {
+  content: '｜';
+  color: var(--wp--preset--color--text-secondary);
+  margin-right: 4px;
+  pointer-events: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 781px) {
+  .fv-carousel-wrap {
+    width: 100%;
+  }
+
+  .sec-fv .wp-block-group.is-layout-flex {
+    flex-direction: column;
+  }
+
+  .fv-splide .splide__slide img {
+    width: 160px;
+  }
+}
+
+@media (min-width: 782px) and (max-width: 1024px) {
+  .fv-splide .splide__slide img {
+    width: 180px;
+  }
+}

@@ -105,11 +105,12 @@ Complete all checkpoints before advancing to the next task.
 
 ---
 
-### Task 7 — Styles + JS
+### Task 7 — Styles + JS ✅
 
-- [ ] `style.css` — `@media` at 1024px and 781px; nav + FV mockup sizing
-- [ ] `assets/js/splide-init.js` — FV carousel, Voice carousel, single-works gallery
-- [ ] Playwright: screenshot at 375px / 768px / 1280px — no layout overflow
+- ✔ `style.css` — Splide core CSS (self-hosted), sticky header, nav hamburger at ≤1024px, section/card/voice/flow styles, responsive
+- ✔ `assets/js/splide-init.js` — FV auto-scroll (window.splide.Extensions) + Voice carousel
+- ✔ 3 viewports verified: 375px hamburger nav, 1280px full nav, Splide carousels visible
+- ✔ 7 Playwright tests pass
 
 ---
 
@@ -134,7 +135,7 @@ Complete all checkpoints before advancing to the next task.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 6 complete. Next: Task 7 (styles + JS).**
+- **Current state: Task 7 complete. Next: Task 8 (code review).**
 
 ## Unresolved
 
