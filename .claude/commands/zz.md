@@ -11,7 +11,7 @@ Find the `steering.md` that was being worked on this session. If unclear, run `f
 Run `git status`. For any staged, unstaged, or untracked files (except `steering.md`):
 - If the current task is complete: commit with a normal message.
 - If the task is partially done: commit with a `wip: ` prefix (e.g., `wip: auth middleware half-done`).
-- For untracked files: either include them in the commit or add to `.gitignore`. Do not leave them floating.
+- For untracked files: either include them in the commit or delete them. Do not leave them floating.
 
 If there is nothing to commit, skip to Step 3.
 
