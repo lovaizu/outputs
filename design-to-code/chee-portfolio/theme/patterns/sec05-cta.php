@@ -7,7 +7,7 @@
  */
 ?>
 <!-- wp:group {"tagName":"section","className":"sec-cta","backgroundColor":"accent","style":{"spacing":{"padding":{"top":"64px","bottom":"64px"}}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group sec-cta has-accent-background-color has-background" style="padding-top:64px;padding-bottom:64px">
+<section class="wp-block-group sec-cta has-accent-background-color has-background" id="cta" style="padding-top:64px;padding-bottom:64px">
 
 <!-- wp:heading {"level":2,"textAlign":"center","textColor":"white","style":{"typography":{"fontStyle":"normal","fontWeight":"700"}},"fontFamily":"noto-sans-jp","fontSize":"lg"} -->
 <h2 class="wp-block-heading has-text-align-center has-white-color has-text-color has-noto-sans-jp-font-family has-lg-font-size" style="font-style:normal;font-weight:700">まずはお気軽にご相談ください</h2>

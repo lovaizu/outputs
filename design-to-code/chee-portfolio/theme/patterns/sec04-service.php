@@ -59,6 +59,20 @@
 <!-- wp:paragraph {"fontSize":"sm"} -->
 <p class="has-sm-font-size">広告運用の経験を活かし、伝わる・クリックされる "反応率"を意識したデザインを提供します。LPデザイン、広告バナー、各種画像制作。</p>
 <!-- /wp:paragraph -->
+<!-- wp:html -->
+<div class="service-tools">
+  <span class="service-tools-label">利用ツール</span>
+  <span class="tool-badge tool-figma" title="Figma">
+    <svg viewBox="0 0 28 28" width="28" height="28"><rect width="28" height="28" rx="6" fill="#1E1E1E"/><circle cx="10" cy="10" r="4" fill="#F24E1E"/><circle cx="18" cy="10" r="4" fill="#FF7262"/><circle cx="10" cy="18" r="4" fill="#0ACF83"/><circle cx="18" cy="18" r="4" fill="#A259FF"/></svg>
+  </span>
+  <span class="tool-badge tool-ps" title="Photoshop">Ps</span>
+  <span class="tool-badge tool-ai" title="Illustrator">Ai</span>
+  <span class="tool-badge tool-wp" title="WordPress">
+    <svg viewBox="0 0 28 28" width="28" height="28"><circle cx="14" cy="14" r="13" fill="#21759B"/><text x="50%" y="68%" text-anchor="middle" fill="#fff" font-size="14" font-weight="900" font-family="Georgia,serif">W</text></svg>
+  </span>
+  <span class="tool-badge tool-studio" title="Studio">/Studio</span>
+</div>
+<!-- /wp:html -->
 </div>
 <!-- /wp:group -->
 </div>

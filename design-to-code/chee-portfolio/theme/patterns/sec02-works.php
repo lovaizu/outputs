@@ -13,42 +13,54 @@
 <h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Works</h2>
 <!-- /wp:heading -->
 
-<!-- wp:query {"queryId":2,"query":{"postType":"works","perPage":6,"orderBy":"date","order":"desc"},"layout":{"type":"default"}} -->
-<div class="wp-block-query">
-
-<!-- wp:post-template {"layout":{"type":"grid","columnCount":2}} -->
-
-<!-- wp:group {"className":"works-card","style":{"border":{"width":"1px","color":"var:preset|color|border","radius":"8px"},"spacing":{"padding":{"top":"16px","bottom":"16px","left":"16px","right":"16px"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group works-card" style="border-color:var(--wp--preset--color--border);border-width:1px;border-radius:8px;padding-top:16px;padding-right:16px;padding-bottom:16px;padding-left:16px">
-
-<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"sm"} /-->
-
-<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
-<div class="wp-block-group">
-<!-- wp:mfb/meta-field-block {"fieldName":"client_name","className":"works-card__client","fontSize":"xs"} /-->
-<!-- wp:mfb/meta-field-block {"fieldName":"category_label","className":"works-card__label","fontSize":"xs","textColor":"accent"} /-->
+<!-- wp:html -->
+<?php
+$works = get_posts([
+  'post_type'      => 'works',
+  'posts_per_page' => 6,
+  'orderby'        => 'date',
+  'order'          => 'DESC',
+]);
+?>
+<div class="works-list">
+<?php foreach ($works as $work):
+  $client    = get_post_meta($work->ID, 'client_name', true);
+  $img_id    = get_post_meta($work->ID, 'mockup_image', true);
+  $img_url   = $img_id ? wp_get_attachment_image_url((int) $img_id, 'large') : '';
+  $terms     = get_the_terms($work->ID, 'works-category');
+  $excerpt   = has_excerpt($work->ID) ? get_the_excerpt($work->ID) : wp_trim_words($work->post_content, 40, '');
+?>
+<div class="work-card">
+  <div class="work-card-body">
+    <div class="work-card-header">
+      <h3 class="work-card-title">
+        <a href="<?php echo get_permalink($work->ID); ?>"><?php echo esc_html($work->post_title); ?></a>
+        <?php if ($client): ?><span class="work-card-client"><?php echo esc_html($client); ?>様</span><?php endif; ?>
+      </h3>
+    </div>
+    <?php if ($terms && ! is_wp_error($terms)): ?>
+    <div class="work-card-pills">
+      <?php foreach ($terms as $term): ?>
+      <span class="work-pill"><?php echo esc_html($term->name); ?></span>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+    <?php if ($excerpt): ?>
+    <p class="work-card-desc"><?php echo esc_html($excerpt); ?></p>
+    <?php endif; ?>
+  </div>
+  <?php if ($img_url): ?>
+  <div class="work-card-image">
+    <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr($work->post_title); ?>" loading="lazy">
+  </div>
+  <?php endif; ?>
 </div>
-<!-- /wp:group -->
-
+<?php endforeach; ?>
 </div>
-<!-- /wp:group -->
-
-<!-- /wp:post-template -->
-
+<div class="works-more-wrap">
+  <a href="/works/" class="works-more-link">制作実績の一覧へ <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="9"/><path d="M8 10h5m-2-2 2 2-2 2"/></svg></a>
 </div>
-<!-- /wp:query -->
-
-<!-- wp:group {"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-group">
-<!-- wp:buttons -->
-<div class="wp-block-buttons">
-<!-- wp:button {"backgroundColor":"accent","textColor":"white","fontSize":"xs","style":{"border":{"radius":"4px"}}} -->
-<div class="wp-block-button has-custom-font-size has-xs-font-size"><a class="wp-block-button__link has-white-color has-accent-background-color has-text-color has-background wp-element-button" style="border-radius:4px" href="/works/">制作実績一覧へ</a></div>
-<!-- /wp:button -->
-</div>
-<!-- /wp:buttons -->
-</div>
-<!-- /wp:group -->
+<!-- /wp:html -->
 
 </section>
 <!-- /wp:group -->
