@@ -448,6 +448,10 @@ img {
 
 /* ── Flow section ────────────────────────────────────────────────────────── */
 
+.sec-flow .sec-title {
+  font-size: 32px;
+}
+
 .flow-step {
   display: flex;
   gap: 24px;
@@ -464,6 +468,7 @@ img {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  filter: drop-shadow(0 1px 0 rgb(171, 212, 237));
 }
 
 .flow-step__num-text {
@@ -471,6 +476,21 @@ img {
   font-weight: 500;
   color: var(--wp--preset--color--accent);
   font-family: var(--wp--preset--font-family--jost);
+}
+
+.flow-step__title--lg {
+  font-size: 24px !important;
+}
+
+.flow-step h3:not(.flow-step__title--lg),
+.flow-step p {
+  font-size: 16px;
+}
+
+.flow-step__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 8px;
 }
 
 /* ── Profile section ─────────────────────────────────────────────────────── */
