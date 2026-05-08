@@ -17,6 +17,8 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
+<!-- paused: 2026-05-08 — next: #9.6 round 4 — user rejected current state; must do exhaustive full-page diff (all sections, every element) until complete pixel-perfect match -->
+
 Complete all checkpoints before advancing to the next task.
 
 ---
@@ -163,7 +165,7 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ All 18 E2E tests pass; visual.spec.ts committed
 - ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
-#### 9.6 — Design fidelity iteration loop ✅
+#### 9.6 — Design fidelity iteration loop — **IN PROGRESS (user rejected)**
 
 **Loop**: implement → screenshot (1440×900) → diff vs. design comp → fix → repeat until no diff.
 
@@ -171,13 +173,12 @@ Completed rounds:
 - Round 1: sec01 FV blue area + sec07 pentagon badge
 - Round 2: sec02 works card layout, sec04 container radius, sec06 name size, sec09 footer
 - Round 3: sec02 bg-sub, sec03 voice num/label/photo/catchphrase/body sizes, sec04 label→left column+weight, sec06 separator dotted+photo 145px, sec08 contact-lead 24px; + eval fixes: sec06 bio 18px + photo explicit 145×145
-- Evaluation: 3 independent evaluators confirmed all findings resolved (quorum 3/3)
 
-**Unresolved diffs (environment only, not code):**
-- Fluent Forms contact form not rendered (plugin not installed in Playwright test env)
-- Placeholder images / dummy content (content gap, not CSS/layout)
+**User verdict (2026-05-08)**: "デザインカンプと違うところいっぱいある" — NOT approved. Must continue exhaustive diff across ALL sections until 隅々まで完全一致 (complete pixel-perfect match).
 
-**Task 9.6 DONE — 2026-05-08**
+**Next round strategy**: take full-page screenshot + compare EVERY section element by element (not just flagged ones) against design comp images. Fix every visible diff. Repeat until user approves.
+
+**Done when**: user explicitly OKs the result.
 
 ---
 
@@ -194,7 +195,7 @@ Completed rounds:
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6 complete. Next: Task 10 — CI/CD (confirm stg host/docroot + GitHub Secrets before starting).**
+- **Current state: Task 9.6 REJECTED by user — needs exhaustive round 4 diff across all sections. Do NOT proceed to Task 10 until user explicitly approves 9.6.**
 
 ## Unresolved
 
