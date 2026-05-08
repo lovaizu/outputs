@@ -449,7 +449,7 @@ img {
 /* ── Flow section ────────────────────────────────────────────────────────── */
 
 .sec-flow .sec-title {
-  font-size: 32px;
+  font-size: 32px !important;
 }
 
 .flow-step {
