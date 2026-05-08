@@ -1,4 +1,4 @@
-# /zz — Suspend work cleanly
+# /sv — Suspend work cleanly
 
 You are pausing the current session. The goal is a clean git state and an up-to-date steering.md so the next session can resume without confusion.
 
