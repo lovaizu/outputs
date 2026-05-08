@@ -509,6 +509,19 @@ img {
   border-bottom-style: dotted !important;
 }
 
+/* Profile bio text: 18px per Figma */
+.sec-profile .profile-bio p {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* Profile photo: explicit 145×145 circle per Figma */
+.sec-profile .profile-photo-col img {
+  width: 145px;
+  height: 145px;
+  object-fit: cover;
+}
+
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 
 .footer-inner {
