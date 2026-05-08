@@ -2,7 +2,7 @@
 
 ## Principles
 
-`action.md` governs all work. `evaluation.md` governs any evaluation activity — triggered independently per its own conditions, not only as a sub-step of `action.md` C.
+`action.md` governs all work.
 
 ## Hard constraint: repository boundary
 
