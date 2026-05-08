@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6 round 4 — user rejected current state; must do exhaustive full-page diff (all sections, every element) until complete pixel-perfect match -->
+<!-- paused: 2026-05-08 — next: #9.6.1 — Layout diff (全セクション：余白・サイズ・flex/grid方向) -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -165,20 +165,35 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ All 18 E2E tests pass; visual.spec.ts committed
 - ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
-#### 9.6 — Design fidelity iteration loop — **IN PROGRESS (user rejected)**
+#### 9.6 — Design fidelity iteration (観点別タスク) — **IN PROGRESS**
 
-**Loop**: implement → screenshot (1440×900) → diff vs. design comp → fix → repeat until no diff.
+**方針**: 一観点ずつタスクを切り、全セクションで完全一致するまで繰り返す。まとめて直すと漏れる。
 
-Completed rounds:
-- Round 1: sec01 FV blue area + sec07 pentagon badge
-- Round 2: sec02 works card layout, sec04 container radius, sec06 name size, sec09 footer
-- Round 3: sec02 bg-sub, sec03 voice num/label/photo/catchphrase/body sizes, sec04 label→left column+weight, sec06 separator dotted+photo 145px, sec08 contact-lead 24px; + eval fixes: sec06 bio 18px + photo explicit 145×145
+**ルール**:
+- 1タスク = 1観点（下記）× 全セクション(sec01–sec09)
+- 各タスク: screenshot → 全セクション比較 → 差分をすべて修正 → 再screenshot → 差分ゼロを確認 → 完了
+- 観点間の混入禁止（Layoutタスク中にColorを直さない等）
+- 最後に全観点総合チェック(9.6.5)
 
-**User verdict (2026-05-08)**: "デザインカンプと違うところいっぱいある" — NOT approved. Must continue exhaustive diff across ALL sections until 隅々まで完全一致 (complete pixel-perfect match).
+**観点タスク一覧**:
 
-**Next round strategy**: take full-page screenshot + compare EVERY section element by element (not just flagged ones) against design comp images. Fix every visible diff. Repeat until user approves.
+##### 9.6.1 — [ ] Layout（全セクション）
+対象: セクション間の余白、コンテンツ幅、padding/margin、flex/grid方向・gap、要素の並び順、左右バランス
 
-**Done when**: user explicitly OKs the result.
+##### 9.6.2 — [ ] Typography（全セクション）
+対象: font-family、font-size、font-weight、line-height、letter-spacing、text-align、テキスト折り返し位置
+
+##### 9.6.3 — [ ] Color（全セクション）
+対象: 背景色、文字色、ボーダー色、box-shadow色・方向・blur
+
+##### 9.6.4 — [ ] Component detail（全セクション）
+対象: border-radius、ボーダー太さ・スタイル(solid/dotted)、アイコンサイズ・位置、画像アスペクト比・object-fit、ボタン形状
+
+##### 9.6.5 — [ ] Final check（全観点・全セクション）
+全観点を同時に確認。残差ゼロで完了。ユーザー承認を得る。
+
+**既完了ラウンド** (参考):
+- Round 1–3: FV/Flow/Works/Voice/Service/Profile/Contact の主要差分修正済み
 
 ---
 
@@ -195,7 +210,7 @@ Completed rounds:
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6 REJECTED by user — needs exhaustive round 4 diff across all sections. Do NOT proceed to Task 10 until user explicitly approves 9.6.**
+- **Current state: Task 9.6.1 (Layout) から開始。観点別タスクで進める。Task 10 はユーザー承認後。**
 
 ## Unresolved
 
