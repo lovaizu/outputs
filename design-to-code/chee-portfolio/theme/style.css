@@ -253,8 +253,9 @@ img {
 }
 
 .work-card-client {
-  font-size: var(--wp--preset--font-size--xs);
-  color: var(--wp--preset--color--text-secondary);
+  font-size: var(--wp--preset--font-size--md);
+  font-weight: 500;
+  color: var(--wp--preset--color--text-primary);
 }
 
 .work-card-pills {
@@ -270,14 +271,14 @@ img {
   background: var(--wp--preset--color--accent);
   color: #fff;
   border-radius: 4px;
-  padding: 3px 10px;
-  font-size: 13px;
+  padding: 4px 12px;
+  font-size: 15px;
   font-weight: 500;
 }
 
 .work-card-desc {
   font-size: var(--wp--preset--font-size--sm);
-  color: var(--wp--preset--color--text-secondary);
+  color: var(--wp--preset--color--text-primary);
   margin-bottom: 16px;
   line-height: 1.8;
 }
@@ -304,6 +305,8 @@ img {
   padding: 12px 32px;
   text-decoration: none;
   font-size: var(--wp--preset--font-size--sm);
+  font-weight: 500;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
   transition: background 0.2s, color 0.2s;
 }
 
