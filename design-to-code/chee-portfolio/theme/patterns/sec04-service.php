@@ -6,11 +6,11 @@
  * Block Types: core/group
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"sec-service","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group sec-service" style="padding-top:80px;padding-bottom:80px" id="service">
+<!-- wp:group {"tagName":"section","className":"sec-service","backgroundColor":"white","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
+<section class="wp-block-group sec-service has-white-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="service">
 
-<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
-<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Service</h2>
+<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-secondary"} -->
+<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-secondary-color has-text-color" style="font-style:normal;font-weight:500">Service</h2>
 <!-- /wp:heading -->
 
 <!-- wp:group {"backgroundColor":"bg-main","style":{"border":{"radius":"40px"},"spacing":{"padding":{"top":"48px","bottom":"48px","left":"32px","right":"32px"},"blockGap":"24px"}},"layout":{"type":"constrained"}} -->
@@ -32,8 +32,8 @@
 <!-- /wp:group -->
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
-<!-- wp:paragraph {"fontSize":"sm"} -->
-<p class="has-sm-font-size">お客様のお困りごとを解決するための、対応を整理していきます。ユーザーがクリックするまでの感情の流れに沿って、LP（ランディングページ）の設計と構成を行います。各業務担当者とも連携し、品質チェックを行い納品致します。</p>
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-primary"} -->
+<p class="has-sm-font-size has-text-primary-color has-text-color">お客様のお困りごとを解決するための、対応を整理していきます。ユーザーがクリックするまでの感情の流れに沿って、LP（ランディングページ）の設計と構成を行います。各業務担当者とも連携し、品質チェックを行い納品致します。</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -56,8 +56,8 @@
 <!-- /wp:group -->
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
-<!-- wp:paragraph {"fontSize":"sm"} -->
-<p class="has-sm-font-size">広告運用の経験を活かし、伝わる・クリックされる "反応率"を意識したデザインを提供します。LPデザイン、広告バナー、各種画像制作。</p>
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-primary"} -->
+<p class="has-sm-font-size has-text-primary-color has-text-color">広告運用の経験を活かし、伝わる・クリックされる "反応率"を意識したデザインを提供します。LPデザイン、広告バナー、各種画像制作。</p>
 <!-- /wp:paragraph -->
 <!-- wp:html -->
 <div class="service-tools">
@@ -98,8 +98,8 @@
 <!-- /wp:group -->
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
-<!-- wp:paragraph {"fontSize":"sm"} -->
-<p class="has-sm-font-size">LPデザイン・広告バナー制作から設定・運用まで一貫して担当するため、データを見ながらすぐに修正・改善に動けます。複数の業者に分けて依頼するより、コストとスピードの両面でメリットがあります。</p>
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-primary"} -->
+<p class="has-sm-font-size has-text-primary-color has-text-color">LPデザイン・広告バナー制作から設定・運用まで一貫して担当するため、データを見ながらすぐに修正・改善に動けます。複数の業者に分けて依頼するより、コストとスピードの両面でメリットがあります。</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
