@@ -15,5 +15,5 @@ reはカレントブランチとコミット履歴を見てどの作業を再開
 
 # Tasks
 
-- [ ] #1: rename zz.md to sv.md and update command name/references
-- [ ] #2: rename bk.md to re.md, update command name, add auto-detect logic from branch + log
+- [x] #1: rename zz.md to sv.md and update command name/references
+- [x] #2: rename bk.md to re.md, update command name, add auto-detect logic from branch + log
