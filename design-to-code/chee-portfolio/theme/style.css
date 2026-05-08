@@ -530,6 +530,106 @@ img {
   line-height: 2;
 }
 
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form__field {
+  margin-bottom: 24px;
+}
+
+.contact-form__label {
+  display: block;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--wp--preset--color--text-primary);
+  margin-bottom: 8px;
+}
+
+.contact-form__input,
+.contact-form__textarea {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 16px;
+  color: var(--wp--preset--color--text-primary);
+  box-sizing: border-box;
+}
+
+.contact-form__input {
+  height: 80px;
+  padding: 0 16px;
+}
+
+.contact-form__textarea {
+  height: 300px;
+  padding: 16px;
+  resize: vertical;
+}
+
+.contact-form__privacy-box {
+  height: 222px;
+  overflow-y: scroll;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 15px;
+  color: var(--wp--preset--color--text-primary);
+  line-height: 1.8;
+  box-sizing: border-box;
+}
+
+.contact-form__checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.contact-form__checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.contact-form__checkbox-row label {
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 14px;
+  color: var(--wp--preset--color--text-primary);
+}
+
+.contact-form__submit-wrap {
+  text-align: center;
+}
+
+.contact-form__submit {
+  display: inline-block;
+  width: 280px;
+  height: 55px;
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 2px 2px rgb(153, 153, 153);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.contact-form__submit:hover {
+  opacity: 0.85;
+}
+
 /* ── Profile detail rows — dotted separator per Figma ───────────────────── */
 
 .sec-profile .profile-row-sep {
