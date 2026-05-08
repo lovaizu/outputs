@@ -486,13 +486,13 @@ img {
 .profile-detail-row {
   display: flex;
   padding: 16px 0;
-  border-bottom: 1px dotted rgba(78, 176, 234, 0.4);
+  border-bottom: 1px dotted rgb(153, 153, 153);
 }
 
 .profile-detail-row__label {
   width: 180px;
   flex-shrink: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--wp--preset--color--text-secondary);
 }
 
@@ -513,8 +513,7 @@ img {
 /* ── Profile detail rows — dotted separator per Figma ───────────────────── */
 
 .sec-profile .profile-row-sep {
-  border-bottom: 1px dotted rgba(78, 176, 234, 0.4) !important;
-  border-bottom-style: dotted !important;
+  border-bottom: 1px dotted rgb(153, 153, 153) !important;
 }
 
 /* Profile bio text: 18px per Figma */

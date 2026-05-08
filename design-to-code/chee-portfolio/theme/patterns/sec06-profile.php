@@ -24,8 +24,8 @@
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"18px"}}} -->
 <p style="font-size:18px">以前から関心のあったWebデザインを軸に在宅での独立を決意。LP制作から広告運用に携わり、クライアントの集客に貢献します。</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500","fontSize":"18px"}}} -->
-<p style="font-style:normal;font-weight:500;font-size:18px">「感情が動く」「クリックされる」ことを起点に、デザイン制作も運用も考えています。</p>
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"18px"}}} -->
+<p style="font-size:18px">「感情が動く」「クリックされる」ことを起点に、デザイン制作も運用も考えています。</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
@@ -35,7 +35,7 @@
 <!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/sec06-Profile.jpg'); ?>","alt":"伊藤 千晶","style":{"border":{"radius":"100%"}}} -->
 <figure class="wp-block-image" style="border-radius:100%"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/sec06-Profile.jpg'); ?>" alt="伊藤 千晶" style="border-radius:100%"/></figure>
 <!-- /wp:image -->
-<!-- wp:paragraph {"textAlign":"center","fontSize":"xs","textColor":"text-secondary"} --><p class="has-text-align-center has-text-secondary-color has-text-color has-xs-font-size">WEBデザイナー</p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"md"} --><p class="has-text-align-center has-md-font-size" style="font-style:normal;font-weight:500">WEBデザイナー</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"sm"} --><p class="has-text-align-center has-sm-font-size" style="font-style:normal;font-weight:500">伊藤 千晶</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"textAlign":"center","fontSize":"xs","textColor":"accent","fontFamily":"jost"} --><p class="has-text-align-center has-accent-color has-text-color has-jost-font-family has-xs-font-size">Chiaki Itoh</p><!-- /wp:paragraph -->
 </div>
@@ -49,21 +49,21 @@
 
 <!-- wp:group {"className":"profile-row-sep","style":{"spacing":{"padding":{"top":"16px","bottom":"16px"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group profile-row-sep" style="padding-top:16px;padding-bottom:16px">
-<!-- wp:paragraph {"fontSize":"xs","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-xs-font-size">ご提供できること</p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-sm-font-size">ご提供できること</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"fontSize":"sm"} --><p class="has-sm-font-size">LP（ランディングページ）制作、広告バナー制作<br>Meta広告運用<br>HP（ホームページ）制作</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
 
 <!-- wp:group {"className":"profile-row-sep","style":{"spacing":{"padding":{"top":"16px","bottom":"16px"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group profile-row-sep" style="padding-top:16px;padding-bottom:16px">
-<!-- wp:paragraph {"fontSize":"xs","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-xs-font-size">居住地</p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-sm-font-size">居住地</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"fontSize":"sm"} --><p class="has-sm-font-size">神奈川県</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"16px","bottom":"16px"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group" style="padding-top:16px;padding-bottom:16px">
-<!-- wp:paragraph {"fontSize":"xs","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-xs-font-size">趣味</p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"fontSize":"sm","textColor":"text-secondary","style":{"layout":{"selfStretch":"fixed","flexSize":"180px"}}} --><p class="has-text-secondary-color has-text-color has-sm-font-size">趣味</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"fontSize":"sm"} --><p class="has-sm-font-size">漫画 / 映画鑑賞 / 岩盤浴 / 温泉</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
