@@ -18,14 +18,14 @@
 
 <!-- wp:group {"className":"profile-bio","layout":{"type":"constrained"}} -->
 <div class="wp-block-group profile-bio">
-<!-- wp:paragraph -->
-<p>百貨店の販売職でお客様との関わり方を学び、2005年にWeb制作会社へ転職。通販部門の立ち上げから運営・プロジェクトの横展開まで幅広く携わりました。</p>
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"18px"}}} -->
+<p style="font-size:18px">百貨店の販売職でお客様との関わり方を学び、2005年にWeb制作会社へ転職。通販部門の立ち上げから運営・プロジェクトの横展開まで幅広く携わりました。</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph -->
-<p>以前から関心のあったWebデザインを軸に在宅での独立を決意。LP制作から広告運用に携わり、クライアントの集客に貢献します。</p>
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"18px"}}} -->
+<p style="font-size:18px">以前から関心のあったWebデザインを軸に在宅での独立を決意。LP制作から広告運用に携わり、クライアントの集客に貢献します。</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500"}}} -->
-<p style="font-style:normal;font-weight:500">「感情が動く」「クリックされる」ことを起点に、デザイン制作も運用も考えています。</p>
+<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500","fontSize":"18px"}}} -->
+<p style="font-style:normal;font-weight:500;font-size:18px">「感情が動く」「クリックされる」ことを起点に、デザイン制作も運用も考えています。</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
