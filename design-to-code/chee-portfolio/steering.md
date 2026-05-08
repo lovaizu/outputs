@@ -192,7 +192,7 @@ Do NOT patch existing styles — start from correct architecture.
 - [x] 9.6.9 — sec08 Contact: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.10 — sec09 Footer: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.11 — Playwright computed style vs Figma JSON 数値照合 → 差分リスト生成 → CSS修正
-- [ ] 9.6.12 — スクリーンショット vs デザインカンプ 全セクション目視比較 → 差分リスト全件列挙 → ユーザー確認 → 全修正
+- [x] 9.6.12 — スクリーンショット vs デザインカンプ 全セクション目視比較 → 差分リスト全件列挙 → ユーザー確認 → 全修正
 
 **既完了ラウンド** (参考):
 - Round 1–3: FV/Flow/Works/Voice/Service/Profile/Contact の主要差分修正済み（ただし未承認）
@@ -214,7 +214,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: 9.6.11 完了。9.6.12 未着手。ユーザーから「目視レベルの差分が多数残っている、全件洗い出してから修正せよ」との指示。次セッションで 9.6.12 を実施する。**
+- **Current state: 9.6.12 完了。全差分修正済み（Header余白・FV角丸・Works青線位置・タイトル重複・Voice矢印・写真placeholder）。次: Task 10 CI/CD。**
 
 ## Unresolved
 
