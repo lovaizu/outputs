@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — 9.6.11完了。Task 9.6 全セクション完了。次: #10 CI/CD (ユーザーにstgホスト・GitHub Secrets確認が必要) -->
+<!-- paused: 2026-05-08 — 次: #9.6.12 スクリーンショットとデザインカンプを全セクション目視比較 → 差分リスト全件列挙 → ユーザー確認 → 修正 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -191,10 +191,13 @@ Do NOT patch existing styles — start from correct architecture.
 - [x] 9.6.8 — sec07 Flow: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.9 — sec08 Contact: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.10 — sec09 Footer: チェック表生成→実装→レビュー→完全一致
-- [x] 9.6.11 — Playwright computed style vs Figma JSON 数値照合 → 差分リスト生成 → CSS修正 → ユーザー最終承認
+- [x] 9.6.11 — Playwright computed style vs Figma JSON 数値照合 → 差分リスト生成 → CSS修正
+- [ ] 9.6.12 — スクリーンショット vs デザインカンプ 全セクション目視比較 → 差分リスト全件列挙 → ユーザー確認 → 全修正
 
 **既完了ラウンド** (参考):
 - Round 1–3: FV/Flow/Works/Voice/Service/Profile/Contact の主要差分修正済み（ただし未承認）
+- 9.6.11: CSS数値差分2件修正済み（Flow見出し32px, Contact lead 24px）
+- ユーザー指摘: まだ目視レベルの差分が多数残存。9.6.12で全件洗い出し→修正が必要。
 
 ---
 
@@ -211,7 +214,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: 9.6.11 完了。fidelity.spec.ts（50チェック）で差分2件検出・修正済み（Flow見出し32px、Contact lead 24px）。Task 9.6 全セクション完了。次: Task 10 CI/CD（ユーザーに stgホスト・GitHub Secrets確認要）。**
+- **Current state: 9.6.11 完了。9.6.12 未着手。ユーザーから「目視レベルの差分が多数残っている、全件洗い出してから修正せよ」との指示。次セッションで 9.6.12 を実施する。**
 
 ## Unresolved
 
