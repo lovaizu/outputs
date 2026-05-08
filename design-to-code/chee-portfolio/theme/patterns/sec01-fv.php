@@ -20,12 +20,12 @@ $fv_works = get_posts([
 <!-- wp:group {"className":"fv-text-area","layout":{"type":"constrained"}} -->
 <div class="wp-block-group fv-text-area">
 
-<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.3","fontSize":"clamp(40px, 5vw, 60px)"}},"fontFamily":"noto-sans-jp"} -->
-<h1 class="wp-block-heading has-noto-sans-jp-font-family" style="font-style:normal;font-weight:700;line-height:1.3;font-size:clamp(40px, 5vw, 60px)">LP制作×広告運用</h1>
+<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.3","fontSize":"clamp(40px, 5vw, 60px)"}},"fontFamily":"noto-sans-jp","textColor":"text-secondary"} -->
+<h1 class="wp-block-heading has-noto-sans-jp-font-family has-text-secondary-color has-text-color" style="font-style:normal;font-weight:700;line-height:1.3;font-size:clamp(40px, 5vw, 60px)">LP制作×広告運用</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"clamp(20px, 2vw, 24px)"}},"fontFamily":"noto-sans-jp","textColor":"text-secondary"} -->
-<p class="has-noto-sans-jp-font-family has-text-secondary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:clamp(20px, 2vw, 24px)">提案も、デザインも、運用も</p>
+<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"clamp(24px, 2.5vw, 28px)"}},"fontFamily":"noto-sans-jp","textColor":"text-primary"} -->
+<p class="has-noto-sans-jp-font-family has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:clamp(24px, 2.5vw, 28px)">提案も、デザインも、運用も</p>
 <!-- /wp:paragraph -->
 
 </div>

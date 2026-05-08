@@ -190,8 +190,8 @@ img {
 }
 
 .fv-splide .splide__slide img {
-  width: 160px;
-  height: 320px;
+  width: 150px;
+  height: 300px;
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
