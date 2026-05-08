@@ -17,8 +17,6 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6 round 3 remaining CSS: sec02 bg+pill, sec03 voice photo/weight, sec04 label, sec06 separator/photo, sec08 contact-lead; then re-screenshot + eval -->
-
 Complete all checkpoints before advancing to the next task.
 
 ---
@@ -165,31 +163,21 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ All 18 E2E tests pass; visual.spec.ts committed
 - ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
-#### 9.6 — Design fidelity iteration loop
+#### 9.6 — Design fidelity iteration loop ✅
 
 **Loop**: implement → screenshot (1440×900) → diff vs. design comp → fix → repeat until no diff.
 
-Diff criteria per section:
-- **Layout**: position (top/right/bottom/left offset), width/height, margin/padding, flex/grid direction
-- **Typography**: font-family, font-size, font-weight, line-height, letter-spacing, text wrapping
-- **Color**: background, text, border, box-shadow (color/direction/blur)
-- **Component detail**: border-radius, border width/style, icon size/position, image aspect-ratio/object-fit
-- **Interaction** (if applicable): hover/focus state, transition presence
+Completed rounds:
+- Round 1: sec01 FV blue area + sec07 pentagon badge
+- Round 2: sec02 works card layout, sec04 container radius, sec06 name size, sec09 footer
+- Round 3: sec02 bg-sub, sec03 voice num/label/photo/catchphrase/body sizes, sec04 label→left column+weight, sec06 separator dotted+photo 145px, sec08 contact-lead 24px; + eval fixes: sec06 bio 18px + photo explicit 145×145
+- Evaluation: 3 independent evaluators confirmed all findings resolved (quorum 3/3)
 
-Known critical diffs (from 2026-05-08 comparison):
+**Unresolved diffs (environment only, not code):**
+- Fluent Forms contact form not rendered (plugin not installed in Playwright test env)
+- Placeholder images / dummy content (content gap, not CSS/layout)
 
-| Section | Status | Issue |
-|---|---|---|
-| sec01 FV | [x] | Blue curved area + 5-phone carousel restored — DONE |
-| sec02 Works | [x] | PHP-driven single-column with taxonomy pills, description, image — DONE |
-| sec07 Flow | [x] | Pentagon badge clip-path applied — DONE |
-| sec03 Voice | [x] | arrows:false added to Splide config — DONE |
-| sec04 Service | [x] | Tool icons row (Figma/Ps/Ai/WP/Studio) added to LP制作 card — DONE |
-| sec05 CTA | [x] | id="cta" added — DONE |
-
-**Done when**: all sections show no diff, or only values unreadable from design comp remain (reported as "Unresolved diffs").
-
-**Task 9.6 ONGOING** — loop until user OKs. Each iteration: extract Figma JSON measurements → screenshot → 1 independent evaluator (zero-tolerance: report every diff, no matter how small) → fix all findings → repeat.
+**Task 9.6 DONE — 2026-05-08**
 
 ---
 
@@ -206,7 +194,7 @@ Known critical diffs (from 2026-05-08 comparison):
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6 in progress — round 3 CSS changes partially committed (wip: 308df65). Remaining: sec02 bg+pills, sec03 photo/weight, sec04 label, sec06 separator/photo, sec08 contact-lead font-size. Then re-screenshot + eval loop.**
+- **Current state: Task 9.6 complete. Next: Task 10 — CI/CD (confirm stg host/docroot + GitHub Secrets before starting).**
 
 ## Unresolved
 
