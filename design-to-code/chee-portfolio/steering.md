@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6.9 sec08 Contact — Figma JSONから全チェック項目生成→実装→レビュー→完全一致 -->
+<!-- paused: 2026-05-08 — next: #9.6.10 sec09 Footer — Figma JSONから全チェック項目生成→実装→レビュー→完全一致 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -189,7 +189,7 @@ Do NOT patch existing styles — start from correct architecture.
 - [x] 9.6.6 — sec05 CTA: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.7 — sec06 Profile: チェック表生成→実装→レビュー→完全一致
 - [x] 9.6.8 — sec07 Flow: チェック表生成→実装→レビュー→完全一致
-- [ ] 9.6.9 — sec08 Contact: チェック表生成→実装→レビュー→完全一致
+- [x] 9.6.9 — sec08 Contact: チェック表生成→実装→レビュー→完全一致
 - [ ] 9.6.10 — sec09 Footer: チェック表生成→実装→レビュー→完全一致
 - [ ] 9.6.11 — 全セクション総合チェック → ユーザー最終承認
 
@@ -211,7 +211,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: 9.6.8 完了。次: 9.6.9 sec08 Contact。**
+- **Current state: 9.6.9 完了。次: 9.6.10 sec09 Footer。**
 
 ## Unresolved
 
