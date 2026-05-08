@@ -1,5 +1,5 @@
 ---
-description: Evaluate an artifact or workflow against Action Principles and Evaluation Principles. Reports violations with principle references and improvement suggestions. Use when producing or reviewing any artifact, plan, or workflow.
+description: Evaluate an artifact or workflow against Action Principles. Reports violations with principle references and improvement suggestions. Use when producing or reviewing any artifact, plan, or workflow.
 allowed-tools:
   - Read
   - Agent
@@ -7,9 +7,9 @@ allowed-tools:
 
 # /assay — Principle Evaluation
 
-**Goal**: Evaluate the target artifact or workflow against Action Principles and Evaluation Principles. Report violations by principle reference and suggest concrete improvements.
+**Goal**: Evaluate the target artifact or workflow against Action Principles. Report violations by principle reference and suggest concrete improvements.
 
-**Evaluation goal (confirmed)**: Assess compliance with Action Principles and Evaluation Principles. Criteria that are not applicable to a given target type will yield no findings for that criterion.
+**Evaluation goal (confirmed)**: Assess compliance with Action Principles. Criteria that are not applicable to a given target type will yield no findings for that criterion.
 
 **End state**: A report with a PASS/FAIL verdict, valid findings (quorum: 2 of 3 evaluators agree), and informational findings (1 evaluator only).
 
@@ -28,7 +28,7 @@ Take `$ARGUMENTS` as the evaluation target:
 
 ### 2. Read the principles
 
-Read `.claude/rules/action.md` and `.claude/rules/evaluation.md`. If either file cannot be read, stop and report which file is missing — do not proceed to spawn evaluators.
+Read `.claude/rules/action.md`. If the file cannot be read, stop and report it missing — do not proceed to spawn evaluators.
 
 ### 3. Spawn 3 independent evaluators
 
@@ -36,7 +36,7 @@ Spawn 3 subagents in parallel using the Agent tool. Each evaluator prompt must c
 
 1. The full text of the evaluation target
 2. The full text of action.md and evaluation.md
-3. This instruction verbatim: "You are an independent evaluator. First, write out all evaluation criteria you will use, derived from the Action Principles and Evaluation Principles provided. These are the only valid criteria — do not add post-hoc criteria. Then evaluate the artifact against each criterion. For each violation, quote the specific sentence or phrase from the artifact, state the criterion code (e.g. A.2, EA.1), describe the violation concretely, and suggest a specific improvement. List each concrete issue as a separate finding even if it shares a criterion code with another. For each criterion with no violation, explicitly state PASS."
+3. This instruction verbatim: "You are an independent evaluator. First, write out all evaluation criteria you will use, derived from the Action Principles provided. These are the only valid criteria — do not add post-hoc criteria. Then evaluate the artifact against each criterion. For each violation, quote the specific sentence or phrase from the artifact, state the criterion code (e.g. A.2, B.1), describe the violation concretely, and suggest a specific improvement. List each concrete issue as a separate finding even if it shares a criterion code with another. For each criterion with no violation, explicitly state PASS."
 
 If the execution environment does not support spawning evaluators as structurally isolated subagents with no access to the parent conversation context, stop and report this inability to the user — do not proceed, per EA.2.
 
