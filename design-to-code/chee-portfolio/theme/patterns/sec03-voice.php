@@ -34,6 +34,8 @@
         echo '<span class="voice-card__num-label">voice</span>';
         if ($photo_url) {
           echo '<img class="voice-card__photo" src="' . esc_url($photo_url) . '" alt="' . esc_attr($name) . '" loading="lazy">';
+        } else {
+          echo '<div class="voice-card__photo voice-card__photo--placeholder" aria-hidden="true"></div>';
         }
         if ($role) echo '<p class="voice-card__role">' . esc_html($role) . '</p>';
         if ($name) echo '<p class="voice-card__name">' . esc_html($name) . '</p>';

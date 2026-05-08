@@ -34,7 +34,7 @@ $works = get_posts([
   <div class="work-card-body">
     <div class="work-card-header">
       <h3 class="work-card-title">
-        <a href="<?php echo get_permalink($work->ID); ?>"><?php echo esc_html($work->post_title); ?><?php if ($client): ?><span class="work-card-client"><?php echo esc_html($client); ?>様</span><?php endif; ?></a>
+        <a href="<?php echo get_permalink($work->ID); ?>"><?php echo esc_html($work->post_title); ?></a>
         <svg class="work-card-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="#4EB0EA" stroke-width="1.5"/><path d="M10 12h5m-2-2 2 2-2 2" stroke="#4EB0EA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </h3>
     </div>

@@ -125,6 +125,8 @@ img {
   z-index: 100;
   background: #fff;
   box-shadow: none;
+  padding-left: 80px !important;
+  padding-right: 80px !important;
 }
 
 .site-header .wp-block-button__link {
@@ -161,24 +163,17 @@ img {
   white-space: nowrap;
 }
 
-/* Blue lower area — elliptical top edge */
+/* Blue lower area — rounded top-right corner, left-anchored */
 .fv-lower {
   position: relative;
   z-index: 1;
   padding-top: 80px;
+  background: var(--wp--preset--color--bg-main);
+  border-radius: 0 240px 0 0;
 }
 
 .fv-lower::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 130%;
-  height: 100%;
-  background: var(--wp--preset--color--bg-main);
-  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
-  z-index: -1;
+  display: none;
 }
 
 .fv-lower__inner {
@@ -216,10 +211,19 @@ img {
 
 /* ── Works section ───────────────────────────────────────────────────────── */
 
+#main > * {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+}
+
 .work-card {
-  border-top: 1px solid var(--wp--preset--color--accent);
-  padding-top: 32px;
+  padding-top: 0;
   margin-bottom: 48px;
+}
+
+.work-card-header {
+  border-bottom: 1px solid var(--wp--preset--color--accent);
+  padding-bottom: 12px;
 }
 
 .work-card:last-child {
@@ -230,7 +234,7 @@ img {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .work-card-title {
@@ -370,6 +374,10 @@ img {
   margin: 0 auto 12px;
   display: block;
   border: 3px solid #fff;
+}
+
+.voice-card__photo--placeholder {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .voice-card__role {

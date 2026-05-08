@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
       speed:        reducedMotion ? 0 : 600,
       perPage:      1,
       drag:         true,
-      arrows:       false,
+      arrows:       true,
       pauseOnHover: true,
       pauseOnFocus: true,
     }).mount();
