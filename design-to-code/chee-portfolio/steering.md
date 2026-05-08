@@ -201,7 +201,40 @@ Do NOT patch existing styles — start from correct architecture.
 
 ---
 
-### Task 10 — CI/CD
+### Task 10 — リファクタリング（不要ファイル整理）
+
+ユーザー指示に従い進める。WP初心者向けに説明しながら作業する。
+
+- [ ] 10.1 — 不要な画像・アセットを洗い出してリスト提示（ユーザー確認後に削除）
+- [ ] 10.2 — 使用中のアセット整理（ファイル名・ディレクトリ構成の見直し）
+- [ ] 10.3 — 未使用CSS・PHP・JSコードの削除
+- [ ] 10.4 — `seed.sh` / fixture data の整合性確認
+
+---
+
+### Task 11 — 最終状態整理（git管理・WP管理画面データ）
+
+ユーザー指示に従い進める。何をコードで管理し、何を管理画面から入力するかを整理する。
+
+- [ ] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
+- [ ] 11.2 — WP管理画面から入力するデータの整理（Works/Voice投稿、メニュー、フォーム設定など）
+- [ ] 11.3 — 初期データ（`seed.sh`）を本番用コンテンツに近い状態に更新
+- [ ] 11.4 — ローカル → 本番への移行手順を `README.md` に追記
+
+---
+
+### Task 12 — デザインカンプ完全一致（最終修正）
+
+ユーザー指示に従い進める。スクリーンショット vs デザインカンプを繰り返し確認しながら修正する。
+
+- [ ] 12.1 — 全セクション現状スクリーンショット撮影 → デザインカンプと照合 → 差分リスト作成
+- [ ] 12.2 — 差分リストをユーザーに提示・確認
+- [ ] 12.3 — 確認済み差分を全件修正
+- [ ] 12.4 — 修正後スクリーンショット撮影 → 再照合 → 完全一致を確認
+
+---
+
+### Task 13 — CI/CD
 
 - **Before starting:** confirm with user — stg host/docroot, GitHub Secrets key names, release branch name
 - [ ] `.github/workflows/deploy.yml` — 4 jobs: sync-stg → deploy-stg → e2e → deploy-prod
@@ -214,7 +247,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: 9.6.12 完了。全差分修正済み（Header余白・FV角丸・Works青線位置・タイトル重複・Voice矢印・写真placeholder）。次: Task 10 CI/CD。**
+- **Current state: 9.6.12 完了。Task 10〜12（リファクタリング・最終整理・デザイン完全一致）を追加。次: Task 10.1 不要アセット洗い出し。**
 
 ## Unresolved
 
