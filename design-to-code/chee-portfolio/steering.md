@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6.1 — Layout diff (全セクション：余白・サイズ・flex/grid方向) -->
+<!-- paused: 2026-05-08 — next: #9.6.1 Header — Figma JSONから全チェック項目生成→実装→レビュー→完全一致 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -165,35 +165,36 @@ Do NOT patch existing styles — start from correct architecture.
 - ✔ All 18 E2E tests pass; visual.spec.ts committed
 - ✔ Remaining differences are content/data only (placeholder images, unregistered contact form)
 
-#### 9.6 — Design fidelity iteration (観点別タスク) — **IN PROGRESS**
+#### 9.6 — Design fidelity (セクション別完全一致) — **IN PROGRESS**
 
-**方針**: 一観点ずつタスクを切り、全セクションで完全一致するまで繰り返す。まとめて直すと漏れる。
+**確定プロセス**（このセッションで決定）:
+1. Figma JSON（portforio.json + 各セクションJSON）を全パース → 全要素・全プロパティをチェック項目として列挙
+2. デザインカンプ画像で補完（JSONにない視覚情報: セクション間余白・全体バランス等）
+3. チェック表に基づき実装（実装者: Claude）
+4. チェック表に基づきレビュー（レビュアー: 別Claude。差分あり→即修正、判断なし）
+5. ユーザーは最終「OK/NG」のみ。品質保証は全てClaude責任。
 
-**ルール**:
-- 1タスク = 1観点（下記）× 全セクション(sec01–sec09)
-- 各タスク: screenshot → 全セクション比較 → 差分をすべて修正 → 再screenshot → 差分ゼロを確認 → 完了
-- 観点間の混入禁止（Layoutタスク中にColorを直さない等）
-- 最後に全観点総合チェック(9.6.5)
+**チェック表フォーマット**:
+```
+| # | 要素 | プロパティ | 期待値(Figma) | 実装 | レビュー |
+```
 
-**観点タスク一覧**:
+**セクション別タスク（1セクション = 1タスク）**:
 
-##### 9.6.1 — [ ] Layout（全セクション）
-対象: セクション間の余白、コンテンツ幅、padding/margin、flex/grid方向・gap、要素の並び順、左右バランス
-
-##### 9.6.2 — [ ] Typography（全セクション）
-対象: font-family、font-size、font-weight、line-height、letter-spacing、text-align、テキスト折り返し位置
-
-##### 9.6.3 — [ ] Color（全セクション）
-対象: 背景色、文字色、ボーダー色、box-shadow色・方向・blur
-
-##### 9.6.4 — [ ] Component detail（全セクション）
-対象: border-radius、ボーダー太さ・スタイル(solid/dotted)、アイコンサイズ・位置、画像アスペクト比・object-fit、ボタン形状
-
-##### 9.6.5 — [ ] Final check（全観点・全セクション）
-全観点を同時に確認。残差ゼロで完了。ユーザー承認を得る。
+- [ ] 9.6.1 — Header: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.2 — sec01 FV: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.3 — sec02 Works: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.4 — sec03 Voice: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.5 — sec04 Service: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.6 — sec05 CTA: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.7 — sec06 Profile: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.8 — sec07 Flow: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.9 — sec08 Contact: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.10 — sec09 Footer: チェック表生成→実装→レビュー→完全一致
+- [ ] 9.6.11 — 全セクション総合チェック → ユーザー最終承認
 
 **既完了ラウンド** (参考):
-- Round 1–3: FV/Flow/Works/Voice/Service/Profile/Contact の主要差分修正済み
+- Round 1–3: FV/Flow/Works/Voice/Service/Profile/Contact の主要差分修正済み（ただし未承認）
 
 ---
 
@@ -210,7 +211,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 9.6.1 (Layout) から開始。観点別タスクで進める。Task 10 はユーザー承認後。**
+- **Current state: 9.6.1 Header から開始。JSON全パース→チェック表→実装→レビュー。品質保証はClaude責任。Task 10 はユーザー最終承認後。**
 
 ## Unresolved
 
