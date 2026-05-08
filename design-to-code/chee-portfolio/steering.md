@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — next: #9.6.1 Header — Figma JSONから全チェック項目生成→実装→レビュー→完全一致 -->
+<!-- paused: 2026-05-08 — next: #9.6.2 sec01 FV — Figma JSONから全チェック項目生成→実装→レビュー→完全一致 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -181,7 +181,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 **セクション別タスク（1セクション = 1タスク）**:
 
-- [ ] 9.6.1 — Header: チェック表生成→実装→レビュー→完全一致
+- [x] 9.6.1 — Header: チェック表生成→実装→レビュー→完全一致
 - [ ] 9.6.2 — sec01 FV: チェック表生成→実装→レビュー→完全一致
 - [ ] 9.6.3 — sec02 Works: チェック表生成→実装→レビュー→完全一致
 - [ ] 9.6.4 — sec03 Voice: チェック表生成→実装→レビュー→完全一致
