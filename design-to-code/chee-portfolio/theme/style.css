@@ -341,7 +341,7 @@ img {
 .voice-card__num {
   display: block;
   font-size: 70px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1;
   color: var(--wp--preset--color--accent);
   font-family: var(--wp--preset--font-family--roboto-condensed);
@@ -349,19 +349,20 @@ img {
 
 .voice-card__num-label {
   display: block;
-  font-size: 14px;
+  font-size: 24px;
   color: var(--wp--preset--color--accent);
   letter-spacing: 0.05em;
   margin-bottom: 16px;
 }
 
 .voice-card__photo {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto 12px;
   display: block;
+  border: 3px solid #fff;
 }
 
 .voice-card__role {
@@ -384,13 +385,13 @@ img {
   border: 1px solid var(--wp--preset--color--text-secondary);
   border-radius: 4px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 24px;
   display: inline-block;
   margin-bottom: 24px;
 }
 
 .voice-card__body {
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.9;
 }
 
@@ -423,9 +424,18 @@ img {
   color: #fff;
   border-radius: 4px;
   padding: 5px 10px;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 700;
   margin-bottom: 12px;
+}
+
+.service-card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 150px;
+  flex-shrink: 0;
 }
 
 /* ── Flow section ────────────────────────────────────────────────────────── */
@@ -488,8 +498,15 @@ img {
   font-family: var(--wp--preset--font-family--zen-kurenaido);
   text-align: center;
   margin-bottom: 48px;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 2;
+}
+
+/* ── Profile detail rows — dotted separator per Figma ───────────────────── */
+
+.sec-profile .profile-row-sep {
+  border-bottom: 1px dotted rgba(78, 176, 234, 0.4) !important;
+  border-bottom-style: dotted !important;
 }
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */

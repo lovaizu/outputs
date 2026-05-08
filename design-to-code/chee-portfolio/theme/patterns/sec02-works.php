@@ -6,8 +6,8 @@
  * Block Types: core/group
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"sec-works","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group sec-works" style="padding-top:80px;padding-bottom:80px" id="works">
+<!-- wp:group {"tagName":"section","className":"sec-works","backgroundColor":"bg-sub","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
+<section class="wp-block-group sec-works has-bg-sub-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="works">
 
 <!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
 <h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Works</h2>
