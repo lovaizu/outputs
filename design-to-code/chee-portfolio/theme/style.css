@@ -124,7 +124,11 @@ img {
   top: 0;
   z-index: 100;
   background: #fff;
-  box-shadow: 0 1px 0 rgba(171, 212, 237, 0.6);
+  box-shadow: none;
+}
+
+.site-header .wp-block-button__link {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Section headings ────────────────────────────────────────────────────── */
