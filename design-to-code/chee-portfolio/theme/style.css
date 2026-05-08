@@ -350,14 +350,14 @@ img {
   font-size: 70px;
   font-weight: 500;
   line-height: 1;
-  color: var(--wp--preset--color--accent);
+  color: #fff;
   font-family: var(--wp--preset--font-family--roboto-condensed);
 }
 
 .voice-card__num-label {
   display: block;
   font-size: 24px;
-  color: var(--wp--preset--color--accent);
+  color: #fff;
   letter-spacing: 0.05em;
   margin-bottom: 16px;
 }
@@ -373,14 +373,14 @@ img {
 }
 
 .voice-card__role {
-  font-size: 13px;
-  color: var(--wp--preset--color--text-secondary);
+  font-size: 14px;
+  color: var(--wp--preset--color--text-primary);
   margin: 0;
 }
 
 .voice-card__name {
-  font-size: 13px;
-  color: var(--wp--preset--color--text-secondary);
+  font-size: 14px;
+  color: var(--wp--preset--color--text-primary);
   margin: 0;
 }
 
@@ -389,12 +389,13 @@ img {
 }
 
 .voice-card__catchphrase {
-  border: 1px solid var(--wp--preset--color--text-secondary);
+  background: #fff;
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 24px;
   display: inline-block;
   margin-bottom: 24px;
+  color: var(--wp--preset--color--text-primary);
 }
 
 .voice-card__body {
