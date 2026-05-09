@@ -256,12 +256,6 @@ img {
   flex-shrink: 0;
 }
 
-.work-card-client {
-  font-size: var(--wp--preset--font-size--md);
-  font-weight: 500;
-  color: var(--wp--preset--color--text-primary);
-}
-
 .work-card-pills {
   display: flex;
   flex-wrap: wrap;
@@ -413,26 +407,6 @@ img {
 
 /* ── Service section ─────────────────────────────────────────────────────── */
 
-.service-container {
-  background: var(--wp--preset--color--bg-main);
-  border-radius: 40px;
-  padding: 48px 40px;
-}
-
-.service-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 32px;
-  margin-bottom: 24px;
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
-.service-card:last-child {
-  margin-bottom: 0;
-}
-
 .service-label {
   display: inline-flex;
   align-items: center;
@@ -499,33 +473,6 @@ img {
   font-size: 16px;
   font-weight: 400;
   margin-left: 8px;
-}
-
-/* ── Profile section ─────────────────────────────────────────────────────── */
-
-.profile-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 48px;
-  display: flex;
-  gap: 48px;
-}
-
-.profile-detail-row {
-  display: flex;
-  padding: 16px 0;
-  border-bottom: 1px dotted rgb(153, 153, 153);
-}
-
-.profile-detail-row__label {
-  width: 180px;
-  flex-shrink: 0;
-  font-size: 16px;
-  color: var(--wp--preset--color--text-secondary);
-}
-
-.profile-detail-row__value {
-  font-size: 16px;
 }
 
 /* ── Contact section ─────────────────────────────────────────────────────── */
@@ -659,14 +606,6 @@ img {
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
 .footer-nav {
   display: flex;
   align-items: center;
@@ -691,10 +630,6 @@ img {
   font-size: 14px;
   color: var(--wp--preset--color--text-primary);
   text-decoration: none;
-}
-
-.footer-nav-sep {
-  color: var(--wp--preset--color--text-secondary);
 }
 
 .footer-social {
