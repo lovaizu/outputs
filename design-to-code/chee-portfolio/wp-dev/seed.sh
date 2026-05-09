@@ -5,10 +5,9 @@ CLI="docker compose run --rm cli wp --allow-root"
 THEME_IMG=/var/www/html/wp-content/themes/chee-portfolio/assets/images
 
 echo "=== Importing media ==="
-IMG_ARTMAKE=$($CLI media import "$THEME_IMG/下層ページ_LP詳細_アートメイク.png" --title="ArtMake LP mockup" --porcelain)
-IMG_POSIJOB=$($CLI media import "$THEME_IMG/下層ページ_LP詳細_ポジジョブ.png" --title="PosiJob LP mockup" --porcelain)
-IMG_FV=$($CLI media import "$THEME_IMG/sec01-fv.jpg" --title="FV carousel" --porcelain)
-echo "  Media IDs: ArtMake=$IMG_ARTMAKE PosiJob=$IMG_POSIJOB FV=$IMG_FV"
+IMG_ARTMAKE=$($CLI media import "$THEME_IMG/works-mockup-dummy.svg" --title="ArtMake LP mockup" --porcelain)
+IMG_POSIJOB=$($CLI media import "$THEME_IMG/works-mockup-dummy.svg" --title="PosiJob LP mockup" --porcelain)
+echo "  Media IDs: ArtMake=$IMG_ARTMAKE PosiJob=$IMG_POSIJOB"
 
 echo "=== Creating Works posts ==="
 # W1: ArtMake LP — created first (older date) so it appears second in DESC order
