@@ -205,8 +205,8 @@ Do NOT patch existing styles — start from correct architecture.
 
 ユーザー指示に従い進める。WP初心者向けに説明しながら作業する。
 
-- [ ] 10.1 — 不要な画像・アセットを洗い出してリスト提示（ユーザー確認後に削除）
-- [ ] 10.2 — 使用中のアセット整理（ファイル名・ディレクトリ構成の見直し）
+- [x] 10.1 — 不要な画像・アセットを洗い出してリスト提示（ユーザー確認後に削除）
+- [x] 10.2 — 使用中のアセット整理（ファイル名・ディレクトリ構成の見直し）
 - [ ] 10.3 — 未使用CSS・PHP・JSコードの削除
 - [ ] 10.4 — `seed.sh` / fixture data の整合性確認
 
@@ -247,7 +247,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: 9.6.12 完了。Task 10〜12（リファクタリング・最終整理・デザイン完全一致）を追加。次: Task 10.1 不要アセット洗い出し。**
+- **Current state: Task 10.1〜10.2 完了。不要アセット18ファイル削除・profile-dummy.svg追加・screenshots gitignore追加。次: Task 10.3 未使用CSS/PHP/JS削除。**
 
 ## Unresolved
 
