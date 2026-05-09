@@ -41,6 +41,7 @@ services:
     volumes:
       - wp_core:/var/www/html
       - ../theme:/var/www/html/wp-content/themes/chee-portfolio
+      - ./seed:/var/www/html/seed
     user: "33:33"
 
 volumes:

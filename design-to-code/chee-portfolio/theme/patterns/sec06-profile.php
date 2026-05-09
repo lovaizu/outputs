@@ -32,8 +32,8 @@
 
 <!-- wp:group {"className":"profile-photo-col","style":{"spacing":{"blockGap":"8px"}},"layout":{"type":"constrained","contentSize":"145px"}} -->
 <div class="wp-block-group profile-photo-col">
-<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/profile-dummy.svg'); ?>","alt":"伊藤 千晶","style":{"border":{"radius":"100%"}}} -->
-<figure class="wp-block-image" style="border-radius:100%"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/profile-dummy.svg'); ?>" alt="伊藤 千晶" style="border-radius:100%"/></figure>
+<!-- wp:image {"url":"<?php echo esc_url(wp_get_attachment_image_url((int) get_option('chee_profile_photo_id'), 'full') ?: get_template_directory_uri() . '/assets/images/profile-placeholder.svg'); ?>","alt":"伊藤 千晶","style":{"border":{"radius":"100%"}}} -->
+<figure class="wp-block-image" style="border-radius:100%"><img src="<?php echo esc_url(wp_get_attachment_image_url((int) get_option('chee_profile_photo_id'), 'full') ?: get_template_directory_uri() . '/assets/images/profile-placeholder.svg'); ?>" alt="伊藤 千晶" style="border-radius:100%"/></figure>
 <!-- /wp:image -->
 <!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"md"} --><p class="has-text-align-center has-md-font-size" style="font-style:normal;font-weight:500">WEBデザイナー</p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"sm"} --><p class="has-text-align-center has-sm-font-size" style="font-style:normal;font-weight:500">伊藤 千晶</p><!-- /wp:paragraph -->
