@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-09 — 次: #10.3 未使用CSS・PHP・JSコードの削除 -->
+<!-- paused: 2026-05-09 — 次: #11.2 WP管理画面から入力するデータの整理 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -247,7 +247,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 10.1〜10.2・10.4・11.1 完了。seed/ 構造整理（IDベース命名・webpダミー・jq方式）完了。次: Task 10.3 未使用CSS/PHP/JS削除。**
+- **Current state: Task 10.1〜10.4・11.1 完了。Task 10.3: style.cssから未使用セレクタ65行削除済み。次: Task 11.2 WP管理画面から入力するデータの整理。**
 
 ## Unresolved
 
