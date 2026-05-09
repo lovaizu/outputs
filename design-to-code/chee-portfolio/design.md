@@ -153,6 +153,19 @@ theme/
 | **Fluent Forms** | Contact Form 7 | CF7 entered feature-freeze 2026; Fluent Forms free tier includes Ajax, conditional logic, privacy checkbox |
 | Splide.js v4 (self-hosted) | — | FV auto-scroll, Voice carousel, single-works gallery |
 
+### Page Hierarchy
+
+```
+トップ (front-page)
+├── sec01 FV — カルーセル（Works モックアップ画像）
+├── sec02 Works — トップ掲載2件（カード表示）
+│   └── 制作詳細 (single-works)
+└── ...他セクション
+
+制作一覧 (archive-works) — 全件
+└── 制作詳細 (single-works)
+```
+
 ### Works CPT
 
 | Setting | Value |
@@ -160,6 +173,15 @@ theme/
 | Slug | `works` |
 | Archive | `/works/` |
 | REST API | `true` (required for Query Loop) |
+
+**画像の使われ方（セクション別）:**
+
+| セクション | 使用フィールド | 表示件数 |
+|---|---|---|
+| sec01 FV カルーセル | `mockup_image` | ?要確認（全件 or 特定） |
+| sec02 トップ制作実績 | `thumbnail` | 2件（`top_featured` フラグで選択） |
+| archive-works 制作一覧 | `thumbnail` | 全件 |
+| single-works 制作詳細 | `mockup_image` + 本文 | — |
 
 **Taxonomy: `works-category`**
 
@@ -179,12 +201,12 @@ Initial values (can be added/removed from WP admin later):
 
 | Field | Type | Use |
 |-------|------|-----|
-| client_name | Text | Client name shown on archive card and detail page |
-| category_label | Text | Free-text label (e.g., "眉毛アートメイク") shown on archive card |
-| thumbnail | Image | Archive card thumbnail |
-| mockup_image | Image | Smartphone mockup — shown in FV carousel |
-| fv_featured | Checkbox | Whether this Work appears in the FV carousel |
-| fv_order | Number | FV carousel display order (ascending) |
+| client_name | Text | クライアント名（一覧カード・詳細ページ） |
+| category_label | Text | 自由記述ラベル（例: "眉毛アートメイク"）（一覧カード） |
+| thumbnail | Image | 制作一覧カード・トップsec02カードのサムネイル |
+| mockup_image | Image | スマホモックアップ — FVカルーセル・詳細ページ用 |
+| top_featured | Checkbox | トップsec02に表示するか（2件のみ true）?要確認（旧: fv_featured） |
+| top_order | Number | トップsec02の表示順?要確認（旧: fv_order） |
 
 Detail page body uses the block editor (free layout — LP and HP differ in content, not template).
 
