@@ -17,7 +17,7 @@ Write E2E tests incrementally — one assertion per task — so Task 9 CI/CD wir
 
 ## Task List
 
-<!-- paused: 2026-05-08 — 次: #9.6.12 スクリーンショットとデザインカンプを全セクション目視比較 → 差分リスト全件列挙 → ユーザー確認 → 修正 -->
+<!-- paused: 2026-05-09 — 次: #10.3 未使用CSS・PHP・JSコードの削除 -->
 
 Complete all checkpoints before advancing to the next task.
 
@@ -208,7 +208,7 @@ Do NOT patch existing styles — start from correct architecture.
 - [x] 10.1 — 不要な画像・アセットを洗い出してリスト提示（ユーザー確認後に削除）
 - [x] 10.2 — 使用中のアセット整理（ファイル名・ディレクトリ構成の見直し）
 - [ ] 10.3 — 未使用CSS・PHP・JSコードの削除
-- [ ] 10.4 — `seed.sh` / fixture data の整合性確認
+- [x] 10.4 — `seed.sh` / fixture data の整合性確認
 
 ---
 
@@ -216,7 +216,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 ユーザー指示に従い進める。何をコードで管理し、何を管理画面から入力するかを整理する。
 
-- [ ] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
+- [x] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
 - [ ] 11.2 — WP管理画面から入力するデータの整理（Works/Voice投稿、メニュー、フォーム設定など）
 - [ ] 11.3 — 初期データ（`seed.sh`）を本番用コンテンツに近い状態に更新
 - [ ] 11.4 — ローカル → 本番への移行手順を `README.md` に追記
@@ -247,7 +247,7 @@ Do NOT patch existing styles — start from correct architecture.
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 10.1〜10.2 完了。不要アセット18ファイル削除・profile-dummy.svg追加・screenshots gitignore追加。次: Task 10.3 未使用CSS/PHP/JS削除。**
+- **Current state: Task 10.1〜10.2・10.4・11.1 完了。seed/ 構造整理（IDベース命名・webpダミー・jq方式）完了。次: Task 10.3 未使用CSS/PHP/JS削除。**
 
 ## Unresolved
 
