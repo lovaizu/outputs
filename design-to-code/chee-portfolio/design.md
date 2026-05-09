@@ -153,17 +153,21 @@ theme/
 | **Fluent Forms** | Contact Form 7 | CF7 entered feature-freeze 2026; Fluent Forms free tier includes Ajax, conditional logic, privacy checkbox |
 | Splide.js v4 (self-hosted) | — | FV auto-scroll, Voice carousel, single-works gallery |
 
-### Page Hierarchy
+### Page Hierarchy & Transitions
 
 ```
 トップ (front-page)
-├── sec01 FV — カルーセル（Works モックアップ画像）
-├── sec02 Works — トップ掲載2件（カード表示）
-│   └── 制作詳細 (single-works)
-└── ...他セクション
+├── sec01 FV カルーセル
+│   └── 各スライド（Works mockup_image） → クリック → 制作詳細 (single-works)
+├── sec02 制作実績（フィールドで選択した2件、thumbnail表示）
+│   ├── 各カード → クリック → 制作詳細 (single-works)
+│   └── "制作実績一覧へ" ボタン → 制作一覧 (archive-works)
+└── ヘッダーナビ "Works" → 制作一覧 (archive-works)
 
-制作一覧 (archive-works) — 全件
-└── 制作詳細 (single-works)
+制作一覧 (archive-works) — 全件、thumbnail表示
+└── 各カード → クリック → 制作詳細 (single-works)
+
+制作詳細 (single-works) — thumbnail + 本文
 ```
 
 ### Works CPT
@@ -176,12 +180,12 @@ theme/
 
 **画像の使われ方（セクション別）:**
 
-| セクション | 使用フィールド | 表示件数 |
-|---|---|---|
-| sec01 FV カルーセル | `mockup_image` | ?要確認（全件 or 特定） |
-| sec02 トップ制作実績 | `thumbnail` | 2件（`top_featured` フラグで選択） |
-| archive-works 制作一覧 | `thumbnail` | 全件 |
-| single-works 制作詳細 | `mockup_image` + 本文 | — |
+| セクション | 使用画像フィールド | 表示件数 | 遷移先 |
+|---|---|---|---|
+| sec01 FV カルーセル | `mockup_image` | フィールドで指定した件数 | 制作詳細 |
+| sec02 トップ制作実績 | `thumbnail` | フィールドで指定した2件 | 制作詳細 |
+| archive-works 制作一覧 | `thumbnail` | 全件 | 制作詳細 |
+| single-works 制作詳細 | `thumbnail` | — | — |
 
 **Taxonomy: `works-category`**
 
@@ -203,12 +207,18 @@ Initial values (can be added/removed from WP admin later):
 |-------|------|-----|
 | client_name | Text | クライアント名（一覧カード・詳細ページ） |
 | category_label | Text | 自由記述ラベル（例: "眉毛アートメイク"）（一覧カード） |
-| thumbnail | Image | 制作一覧カード・トップsec02カードのサムネイル |
-| mockup_image | Image | スマホモックアップ — FVカルーセル・詳細ページ用 |
-| top_featured | Checkbox | トップsec02に表示するか（2件のみ true）?要確認（旧: fv_featured） |
-| top_order | Number | トップsec02の表示順?要確認（旧: fv_order） |
+| thumbnail | Image | トップsec02・制作一覧・詳細ページのサムネイル |
+| mockup_image | Image | スマホモックアップ — FVカルーセル専用 |
+| fv_show | Checkbox | FVカルーセルに表示するか |
+| top_show | Number | トップsec02の表示位置（0=非表示, 1=1枚目, 2=2枚目） |
+| list_order | Number | FVカルーセル・制作一覧の並び順（昇順） |
+| work_purpose | Text | 目的（詳細ページ） |
+| work_scope | Text | 担当範囲（詳細ページ） |
+| work_duration | Text | 制作期間（詳細ページ） |
+| work_points | Textarea | 制作のポイント・箇条書き（詳細ページ） |
+| work_tools | Text | 制作ツール（詳細ページ） |
 
-Detail page body uses the block editor (free layout — LP and HP differ in content, not template).
+?要確認: 詳細ページの制作物画像が複数必要（現状未設計）
 
 ### Voice CPT
 

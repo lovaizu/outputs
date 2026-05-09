@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-09 — 次: #10.1 不要な画像・アセットを洗い出してリスト提示 -->
+<!-- paused: 2026-05-10 — 次: #10.1 Works CPTフィールド設計確定（詳細画像・フィールド確認）→ design.md更新 → Pods設定 → seed更新 -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -82,7 +82,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task 10.1 洗い出し済み・ユーザー確認待ち（削除候補: RobotoCondensed-Light.woff2 / input/chee-portforio/ 以下）**
+- **Current state: Works CPTフィールド設計を議論中。フィールド案は design.md に記載（?要確認: 詳細ページの複数画像）。次: フィールド設計確定 → Pods設定変更 → seed更新 → 画像マッピング。**
 
 ## How to Resume
 
