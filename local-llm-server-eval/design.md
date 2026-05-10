@@ -6,10 +6,14 @@
 
 ## 0. モデル
 
-| モデル | MLX版（4bit） | 備考 |
+モデルの実体は **safetensors 形式のウェイトファイル群**（数GB〜数十GB）＋設定ファイル・トークナイザーのセット。HuggingFace からダウンロードしてローカルに置くだけで使える。インストール不要、ダウンロードのみ。
+
+サーバー（vllm-mlx / oMLX）が起動時にこのディレクトリを読み込んでモデルをメモリに展開し、API リクエストを受け付ける。
+
+| モデル | MLX版（4bit） | ダウンロードサイズ目安 |
 |--------|-------|------|
-| Qwen3.5-27B | mlx-community/Qwen3.5-27B-4bit | dense |
-| Qwen3.5-35B-A3B | mlx-community/Qwen3.5-35B-A3B-4bit | MoE, active params ~3B |
+| Qwen3.5-27B | mlx-community/Qwen3.5-27B-4bit | ~14GB |
+| Qwen3.5-35B-A3B | mlx-community/Qwen3.5-35B-A3B-4bit | ~20GB（全パラメータ分。推論時のメモリ消費は少ない） |
 
 ---
 
