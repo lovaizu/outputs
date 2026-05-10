@@ -68,11 +68,12 @@ Rapid-MLX は CC 直接接続不可のため対象外。
 
 ```bash
 # ターミナル1：サーバーをバックグラウンドで起動
+# --reasoning-parser は除外。CC は reasoning_content を使わず、
+# thinking トークン生成（数百〜数千トークン）が応答前に発生して数分の遅延になる（実機確認済み）。
 vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
   --port 8000 \
   --continuous-batching --enable-metrics \
-  --enable-auto-tool-choice --tool-call-parser qwen3_coder \
-  --reasoning-parser qwen3 &
+  --enable-auto-tool-choice --tool-call-parser qwen3_coder &
 
 # ターミナル2：CC を起動
 # CC 側でモデル名をサーバーの実際のモデル名に合わせる。
@@ -138,7 +139,6 @@ vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
   --port 8000 \
   --continuous-batching \
   --enable-metrics \
-  --reasoning-parser qwen3 \
   --enable-auto-tool-choice \
   --tool-call-parser qwen3_coder
 ```
@@ -252,11 +252,20 @@ cat /tmp/llm_tool_test.txt
 
 ---
 
-## 7. 未確認事項（実機確認が必要なもの）
+## 7. 未確認事項・確認済み事項
+
+### 確認済み（実機）
+
+| 項目 | 結果 |
+|------|------|
+| vllm-mlx `/metrics` が TTFT を含むか | ✓ 含む（`--enable-metrics` + streaming リクエストが必要） |
+| `--reasoning-parser qwen3` の CC への影響 | ✗ 不要。CC は reasoning_content を使わず、thinking トークンの生成待ち（数分）が発生する。起動オプションから除外済み |
+
+### 未確認（実機確認が必要）
 
 | 不明点 | 影響 | 確認方法 |
 |--------|------|---------|
-| vllm-mlx の `/metrics` が実際に TTFT を含むか | 計測手順の修正 | 起動後に `curl /metrics` して確認 |
+| Rapid-MLX の CC 直接接続可否 | 対象外判断の根拠なし（公式ドキュメントに記載なし） | Rapid-MLX GitHub を確認 |
 | oMLX の server.log のフォーマット（tok/s が読み取れるか） | oMLX の計測方法 | 起動後に `tail -f server.log` して確認 |
 | 35B-A3B 4bit の実際のメモリ使用量 | フェーズ2の実行可否 | 起動時の `vm_stat` or Activity Monitor |
 
@@ -264,14 +273,15 @@ cat /tmp/llm_tool_test.txt
 
 ## 8. タスク構成（steering.md との対応）
 
-| タスク | 内容 |
-|--------|------|
-| #2 setup vllm-mlx | インストール・モデルDL・起動（私が実行） |
-| #3 test vllm-mlx | `/metrics` の実動作確認 → 取れなければ手順修正。CC セッションであなたが tool_use 確認 |
-| #4 setup oMLX | インストール・起動（私が実行） |
-| #5 test oMLX | `server.log` の実動作確認 → 取れなければ手順修正。CC セッションであなたが tool_use 確認 |
-
-**各 test タスクの中に「計測手順が実際に動くか確認し、動かなければ修正する」が含まれる。**
+| タスク | 内容 | 状態 |
+|--------|------|------|
+| #2 setup vllm-mlx | インストール・モデルDL・起動（Claude が実行） | ✓ 完了 |
+| #3 verify vllm-mlx | `/metrics`・TTFT・usage の実動作確認 → 動かなければ修正 | ✓ 完了 |
+| #4 test vllm-mlx | CC セッションであなたが tool_use・速度・安定性を確認 | → 現在 |
+| #5 setup oMLX | インストール・起動（Claude が実行） | - |
+| #6 verify oMLX | `server.log` の実動作確認 → 動かなければ修正 | - |
+| #7 test oMLX | CC セッションであなたが tool_use 確認 | - |
+| #8 decide | フェーズ1結果を results/phase1.md にまとめてサーバーを選定 | - |
 
 ---
 
