@@ -10,6 +10,8 @@
 
 サーバー（vllm-mlx / oMLX）が起動時にこのディレクトリを読み込んでモデルをメモリに展開し、API リクエストを受け付ける。
 
+**保存先**: `~/.cache/huggingface/hub/`（HF のデフォルト）。各サーバーが HF repo 名を受け取って自動解決するのが標準的な使い方。
+
 | モデル | MLX版（4bit） | ダウンロードサイズ目安 |
 |--------|-------|------|
 | Qwen3.5-27B | mlx-community/Qwen3.5-27B-4bit | ~14GB |
@@ -109,12 +111,12 @@ kill %1   # バックグラウンドジョブを終了
 
 ### 5-1. vllm-mlx
 
+HF repo 名を渡すと HF キャッシュから自動解決する（未キャッシュなら自動ダウンロード）。
+
 ```bash
 pip install vllm-mlx
 
-vllm-mlx model acquire mlx-community/Qwen3.5-27B-4bit --target-dir ./models/qwen3.5-27b-4bit
-
-vllm-mlx serve ./models/qwen3.5-27b-4bit \
+vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
   --port 8000 \
   --continuous-batching \
   --metrics \
@@ -122,6 +124,8 @@ vllm-mlx serve ./models/qwen3.5-27b-4bit \
 ```
 
 ### 5-2. oMLX
+
+oMLX は `--model-dir` にローカルパスが必要なため、事前に HF からダウンロードしておく。
 
 ```bash
 brew tap jundot/omlx https://github.com/jundot/omlx
