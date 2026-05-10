@@ -78,11 +78,18 @@ vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
 # CC 側でモデル名をサーバーの実際のモデル名に合わせる。
 # vllm-mlx は _validate_model_name() でリクエストの model フィールドと
 # 登録済みモデル名の完全一致を要求するため、CC 側から正しい名前を送る必要がある。
+#
+# ANTHROPIC_DEFAULT_*_MODEL の3つが必要な理由：
+#   - メインセッション: Sonnet または設定に応じて Opus
+#   - Explore サブエージェント: デフォルトで Haiku を使用
+#   - statusline-setup サブエージェント: Sonnet を使用
+# CLAUDE_CODE_SUBAGENT_MODEL で全サブエージェントを一括上書きできる。
 export ANTHROPIC_BASE_URL=http://localhost:8000
 export ANTHROPIC_API_KEY=not-needed
 export ANTHROPIC_DEFAULT_SONNET_MODEL=mlx-community/Qwen3.5-27B-4bit
 export ANTHROPIC_DEFAULT_OPUS_MODEL=mlx-community/Qwen3.5-27B-4bit
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=mlx-community/Qwen3.5-27B-4bit
+export CLAUDE_CODE_SUBAGENT_MODEL=mlx-community/Qwen3.5-27B-4bit
 claude
 ```
 
