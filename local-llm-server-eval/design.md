@@ -68,7 +68,10 @@ Rapid-MLX は CC 直接接続不可のため対象外。
 
 ```bash
 # ターミナル1：サーバーをバックグラウンドで起動
-vllm-mlx serve mlx-community/Qwen3.5-27B-4bit --port 8000 --continuous-batching --metrics &
+vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
+  --port 8000 --continuous-batching --enable-metrics \
+  --enable-auto-tool-choice --tool-call-parser qwen3_coder \
+  --reasoning-parser qwen3 &
 
 # ターミナル2：CC を起動
 export ANTHROPIC_BASE_URL=http://localhost:8000
@@ -120,8 +123,10 @@ pip install vllm-mlx
 vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
   --port 8000 \
   --continuous-batching \
-  --metrics \
-  --reasoning-parser qwen3
+  --enable-metrics \
+  --reasoning-parser qwen3 \
+  --enable-auto-tool-choice \
+  --tool-call-parser qwen3_coder
 ```
 
 ### 5-2. oMLX
