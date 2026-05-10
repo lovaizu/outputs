@@ -150,14 +150,18 @@ omlx serve --model-dir ~/models
 ### 6-1. tok/s・TTFT（vllm-mlx：Prometheus から取得）
 
 ```bash
-# サーバーを --metrics フラグ付きで起動した場合
-curl -s http://localhost:8000/metrics | grep -E "e2e_request_latency|generation_tokens|prompt_tokens"
+# サーバーを --enable-metrics フラグ付きで起動した場合
+curl -s http://localhost:8000/metrics | grep -E "vllm_mlx_(inference_ttft|completion_tokens_total|prompt_tokens_total|inference_request_duration|cache_utilization)"
 ```
 
-取得できる主なメトリクス：
-- `vllm:e2e_request_latency_seconds` → TTFT を含むリクエスト全体のレイテンシ
-- `vllm:generation_tokens_total` → 累積生成トークン数（時間で割れば tok/s）
-- `vllm:gpu_cache_usage_perc` → KVキャッシュ使用率
+取得できる主なメトリクス（実機確認済み）：
+- `vllm_mlx_inference_request_duration_seconds` → リクエスト全体のレイテンシ（histogram）
+- `vllm_mlx_inference_ttft_seconds` → TTFT（**streaming リクエストのみ**記録される）
+- `vllm_mlx_completion_tokens_total` → 累積生成トークン数（時間で割れば tok/s）
+- `vllm_mlx_prompt_tokens_total` → 累積プロンプトトークン数
+- `vllm_mlx_cache_utilization_ratio` → KVキャッシュ使用率
+
+**TTFT を取得するには `"stream": true` でリクエストする必要がある。**
 
 ### 6-2. tok/s・トークン数（oMLX：streaming usage で取得）
 
