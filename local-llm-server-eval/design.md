@@ -1,226 +1,252 @@
 # ローカルLLM × Claude Code 構成設計書
 
-> 公式 README（waybarrios/vllm-mlx、jundot/omlx、raullenchai/Rapid-MLX）を直接読んで確認した内容を記載。
-
-## 0. 前提確認
-
-### モデル
-| モデル | HuggingFace | MLX版（4bit） | 備考 |
-|--------|-------------|-------|------|
-| Qwen3.5-27B | Qwen/Qwen3.5-27B | mlx-community/Qwen3.5-27B-4bit | dense |
-| Qwen3.5-35B-A3B | Qwen/Qwen3.5-35B-A3B | mlx-community/Qwen3.5-35B-A3B-4bit | MoE, active params ~3B → 推論メモリは dense 27B より軽い見込み |
+> 公式 README（waybarrios/vllm-mlx、jundot/omlx）および CC 公式ドキュメント（code.claude.com/docs）を直接読んで確認した内容を記載。
 
 ---
 
-## 1. サーバー比較
+## 0. モデル
 
-| 項目 | vllm-mlx | oMLX | Rapid-MLX |
-|------|----------|------|-----------|
-| GitHub | waybarrios/vllm-mlx | jundot/omlx | raullenchai/Rapid-MLX |
-| インストール | `pip install vllm-mlx` | `brew install omlx` | `pip install rapid-mlx` |
-| OpenAI /v1/chat/completions | ✓ | ✓ | ✓ |
-| Anthropic /v1/messages | ✓ | ✓ | ✗ |
-| Claude Code 直接接続 | ✓ `ANTHROPIC_BASE_URL` | ✓ `ANTHROPIC_BASE_URL` | ✗ |
-| tool_use | MCP tool calling 12 parsers（Qwen含む） | OpenAI互換 function calling | 100% tool calling, 17 parsers |
-| KV キャッシュ | paged KV + prefix cache + SSD tier | RAM hot + SSD cold 2層 | prompt cache |
-| CLI 運用 | ✓ | ✓（`omlx serve --model-dir ~/models`） | ✓ |
-| Qwen3 reasoning分離 | ✓ `--reasoning-parser qwen3` | 未記載 | ✓ `--no-thinking` |
-
-### 評価対象
-
-| サーバー | CC接続 | 評価 |
-|---------|--------|------|
-| vllm-mlx | ✓ | 対象 |
-| oMLX | ✓ | 対象 |
-| Rapid-MLX | ✗（OpenAI互換のみ、CC本体と接続不可） | 対象外 |
+| モデル | MLX版（4bit） | 備考 |
+|--------|-------|------|
+| Qwen3.5-27B | mlx-community/Qwen3.5-27B-4bit | dense |
+| Qwen3.5-35B-A3B | mlx-community/Qwen3.5-35B-A3B-4bit | MoE, active params ~3B |
 
 ---
 
-## 2. Claude Code 接続方式
+## 1. サーバー選定
 
-vllm-mlx・oMLX 共通：
+| 項目 | vllm-mlx | oMLX |
+|------|----------|------|
+| GitHub | waybarrios/vllm-mlx | jundot/omlx |
+| インストール | `pip install vllm-mlx` | `brew install omlx` |
+| Anthropic /v1/messages | ✓ | ✓ |
+| CC 直接接続 | ✓ | ✓ |
+| tool_use | MCP tool calling, 12 parsers | mlx-lm の built-in parsers |
+| KV キャッシュ | paged KV + prefix cache + SSD tier | RAM hot + SSD cold 2層 |
+| Prometheus `/metrics` | ✓（`--metrics` フラグ） | ✗ |
+| サーバーログ | stdout | `~/.omlx/logs/server.log` |
+| streaming usage stats | `stream_options.include_usage` | `stream_options.include_usage` |
+| Qwen3 reasoning分離 | ✓ `--reasoning-parser qwen3` | 未記載 |
+
+Rapid-MLX は CC 直接接続不可のため対象外。
+
+---
+
+## 2. 全体像（データフロー）
+
+```
+┌──────────────────────────────────────────────────────┐
+│  Claude Code（`claude` コマンド）                     │
+│  └─ ~/.claude/projects/{proj}/{session}.jsonl に記録  │
+│     トークン数・ツールコール・各ターンの内容           │
+└──────────────────────────┬───────────────────────────┘
+                           │ ANTHROPIC_BASE_URL=http://localhost:8000
+                           ▼
+┌──────────────────────────────────────────────────────┐
+│  ローカルサーバー（vllm-mlx or oMLX）                 │
+│  ├─ vllm-mlx: GET /metrics → Prometheus 形式          │
+│  │   tok/s・TTFT・KVキャッシュ使用率                  │
+│  └─ oMLX: ~/.omlx/logs/server.log                    │
+│           + streaming の usage フィールド             │
+└──────────────────────────┬───────────────────────────┘
+                           │ MLX（Apple Silicon）
+                           ▼
+                      モデル推論
+```
+
+---
+
+## 3. UX・使い方
+
+### セッションの起動
 
 ```bash
+# ターミナル1：サーバーをバックグラウンドで起動
+vllm-mlx serve mlx-community/Qwen3.5-27B-4bit --port 8000 --continuous-batching --metrics &
+
+# ターミナル2：CC を起動
 export ANTHROPIC_BASE_URL=http://localhost:8000
 export ANTHROPIC_API_KEY=not-needed
 claude
 ```
 
+CC を起動すると通常の CC と同じ操作感で使える。ファイル編集・コマンド実行・会話すべてローカルモデルが処理する。
+
+### 1セッション = 1サーバー
+
+- CC は起動時の `ANTHROPIC_BASE_URL` に固定される。セッション中に変えても反映されない
+- サーバーを切り替えるには CC を終了 → サーバー再起動 → CC 再起動
+- 同時に複数のサーバーを立てることは可能（ポートを変える）
+
+### セッション終了
+
+```bash
+# CC を終了（Ctrl+C または /exit）
+# サーバーを停止
+kill %1   # バックグラウンドジョブを終了
+```
+
 ---
 
-## 3. 作業フロー
+## 4. 役割分担
 
-| ステップ | 担当 | 内容 |
-|---------|------|------|
-| モデルダウンロード | あなた | `huggingface-cli download` |
-| サーバーインストール | あなた | pip / brew |
-| サーバー起動 | あなた | CLIコマンド |
-| 計測 | あなた | curl + タイムスタンプ |
-| CC 接続テスト | あなた | 実際に CC を起動して操作 |
-| 結果記録 | あなた → 私 | results/phase1.md に記入、私が整理 |
+| ステップ | 担当 |
+|---------|------|
+| モデルダウンロード | Claude（`vllm-mlx model acquire` or `huggingface-cli download`） |
+| サーバーインストール | Claude（pip / brew） |
+| サーバー起動 | Claude |
+| メトリクス取得（curl /metrics・ログ確認） | Claude |
+| CC セッション（実際の操作・tool_use 発火確認） | あなた |
+| 主観的な速度・UX 評価 | あなた |
 
 ---
 
-## 4. インストール・起動手順
+## 5. インストール・起動手順
 
-### 4-1. vllm-mlx
+### 5-1. vllm-mlx
 
 ```bash
 pip install vllm-mlx
 
-huggingface-cli download mlx-community/Qwen3.5-27B-4bit
+vllm-mlx model acquire mlx-community/Qwen3.5-27B-4bit --target-dir ./models/qwen3.5-27b-4bit
 
-vllm-mlx serve mlx-community/Qwen3.5-27B-4bit --port 8000 --continuous-batching
-
-export ANTHROPIC_BASE_URL=http://localhost:8000
-export ANTHROPIC_API_KEY=not-needed
-claude
+vllm-mlx serve ./models/qwen3.5-27b-4bit \
+  --port 8000 \
+  --continuous-batching \
+  --metrics \
+  --reasoning-parser qwen3
 ```
 
-### 4-2. oMLX
+### 5-2. oMLX
 
 ```bash
 brew tap jundot/omlx https://github.com/jundot/omlx
 brew install omlx
 
-mkdir -p ~/models
-huggingface-cli download mlx-community/Qwen3.5-27B-4bit --local-dir ~/models/Qwen3.5-27B-4bit
+huggingface-cli download mlx-community/Qwen3.5-27B-4bit \
+  --local-dir ~/models/Qwen3.5-27B-4bit
 
 omlx serve --model-dir ~/models
-
-export ANTHROPIC_BASE_URL=http://localhost:8000
-export ANTHROPIC_API_KEY=not-needed
-claude
 ```
 
 ---
 
-## 5. 計測方法
+## 6. 計測方法
 
-### 5-1. tok/s
+### 6-1. tok/s・TTFT（vllm-mlx：Prometheus から取得）
 
 ```bash
-MODEL="mlx-community/Qwen3.5-27B-4bit"
-PROMPT="Write a 500-word essay about the history of computing."
+# サーバーを --metrics フラグ付きで起動した場合
+curl -s http://localhost:8000/metrics | grep -E "e2e_request_latency|generation_tokens|prompt_tokens"
+```
 
+取得できる主なメトリクス：
+- `vllm:e2e_request_latency_seconds` → TTFT を含むリクエスト全体のレイテンシ
+- `vllm:generation_tokens_total` → 累積生成トークン数（時間で割れば tok/s）
+- `vllm:gpu_cache_usage_perc` → KVキャッシュ使用率
+
+### 6-2. tok/s・トークン数（oMLX：streaming usage で取得）
+
+oMLX は Prometheus を持たないため、レスポンスの `usage` フィールドから取得する。
+
+```bash
 time curl -s http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer not-needed" \
-  -d "{
-    \"model\": \"$MODEL\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"$PROMPT\"}],
-    \"stream\": false
-  }" | python3 -c "
+  -d '{
+    "model": "default",
+    "messages": [{"role": "user", "content": "Write a 300-word summary of the history of computing."}],
+    "stream": false,
+    "stream_options": {"include_usage": true}
+  }' | python3 -c "
 import json, sys
 r = json.load(sys.stdin)
 u = r.get('usage', {})
 print('prompt_tokens:', u.get('prompt_tokens'))
 print('completion_tokens:', u.get('completion_tokens'))
 "
+# tok/s = completion_tokens ÷ time の実測秒数
 ```
 
-> tok/s = completion_tokens ÷ `time` の実測秒数
+サーバーログも確認：
+```bash
+tail -f ~/.omlx/logs/server.log
+```
 
-### 5-2. TTFT
+### 6-3. CC セッションのトークン記録（CC JSONL）
+
+CC は各セッションをローカルに記録している：
 
 ```bash
-MODEL="mlx-community/Qwen3.5-27B-4bit"
-
-START=$(date +%s%N)
-curl -s http://localhost:8000/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer not-needed" \
-  -d "{
-    \"model\": \"$MODEL\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}],
-    \"stream\": true
-  }" | while IFS= read -r line; do
-    if [[ "$line" == data:* ]] && [[ "$line" != "data: [DONE]" ]]; then
-      END=$(date +%s%N)
-      echo "TTFT: $(( (END - START) / 1000000 )) ms"
-      break
-    fi
-  done
+# 最新セッションの JSONL を確認
+ls -t ~/.claude/projects/$(echo $PWD | sed 's|/|-|g')/*.jsonl | head -1 | xargs cat | \
+  python3 -c "
+import json, sys
+for line in sys.stdin:
+    r = json.loads(line)
+    if 'usage' in str(r):
+        print(json.dumps(r, indent=2, ensure_ascii=False))
+" 2>/dev/null | head -100
 ```
 
-### 5-3. KV キャッシュ（prefix cache ヒット確認）
-
-同一の長いプロンプトを2回送信して TTFT を比較。2回目が大幅に短縮されれば prefix cache が効いている。
+CC の OTel テレメトリを有効にすることで、より詳細な計測も可能：
 
 ```bash
-MODEL="mlx-community/Qwen3.5-27B-4bit"
-LONG_PROMPT="$(python3 -c "print('Please summarize the following: ' + 'word ' * 2000)")"
-
-for i in 1 2; do
-  echo "=== Request $i ==="
-  START=$(date +%s%N)
-  curl -s http://localhost:8000/v1/chat/completions \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer not-needed" \
-    -d "{
-      \"model\": \"$MODEL\",
-      \"messages\": [{\"role\": \"user\", \"content\": \"$LONG_PROMPT\"}],
-      \"stream\": true
-    }" | while IFS= read -r line; do
-      if [[ "$line" == data:* ]] && [[ "$line" != "data: [DONE]" ]]; then
-        END=$(date +%s%N)
-        echo "TTFT: $(( (END - START) / 1000000 )) ms"
-        break
-      fi
-    done
-done
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export OTEL_METRICS_EXPORTER=prometheus
+claude
 ```
 
-### 5-4. tool_use 動作確認
+### 6-4. KVキャッシュ確認（vllm-mlx）
 
-CC を起動して以下を指示する：
+```bash
+# セッション中に KVキャッシュ使用率を監視
+watch -n 2 'curl -s http://localhost:8000/metrics | grep gpu_cache_usage_perc'
+```
+
+### 6-5. tool_use 動作確認（あなたが実施）
+
+CC セッション内で：
 
 ```
 Create a file /tmp/llm_tool_test.txt with the content 'tool_use OK'
 ```
 
-確認：
+確認（私が実行）：
 
 ```bash
 cat /tmp/llm_tool_test.txt
 ```
 
-"tool_use OK" が出力されれば tool_use が実際に発火している。
+---
+
+## 7. 未確認事項（実機確認が必要なもの）
+
+| 不明点 | 影響 | 確認方法 |
+|--------|------|---------|
+| vllm-mlx の `/metrics` が実際に TTFT を含むか | 計測手順の修正 | 起動後に `curl /metrics` して確認 |
+| oMLX の server.log のフォーマット（tok/s が読み取れるか） | oMLX の計測方法 | 起動後に `tail -f server.log` して確認 |
+| 35B-A3B 4bit の実際のメモリ使用量 | フェーズ2の実行可否 | 起動時の `vm_stat` or Activity Monitor |
 
 ---
 
-## 6. 記録フォーマット（results/phase1.md）
+## 8. タスク構成（steering.md との対応）
 
-```markdown
-## [サーバー名]
-
-| 項目 | 結果 |
-|------|------|
-| CC 接続 | ✓ / ✗ |
-| tool_use 動作 | ✓ / ✗ |
-| tok/s | XX tok/s |
-| TTFT（初回） | XX ms |
-| TTFT（キャッシュヒット） | XX ms |
-| KV キャッシュ維持 | ✓ / ✗ |
-| 安定性メモ | （クラッシュ・スワップ等） |
-```
-
----
-
-## 7. 未確認事項
-
-| 不明点 | 影響 |
+| タスク | 内容 |
 |--------|------|
-| 35B-A3B 4bit の実際のメモリ使用量 | フェーズ2の実行可否（実機確認） |
+| #2 setup vllm-mlx | インストール・モデルDL・起動（私が実行） |
+| #3 test vllm-mlx | `/metrics` の実動作確認 → 取れなければ手順修正。CC セッションであなたが tool_use 確認 |
+| #4 setup oMLX | インストール・起動（私が実行） |
+| #5 test oMLX | `server.log` の実動作確認 → 取れなければ手順修正。CC セッションであなたが tool_use 確認 |
+
+**各 test タスクの中に「計測手順が実際に動くか確認し、動かなければ修正する」が含まれる。**
 
 ---
 
-## 8. フェーズ2の判断基準
+## 9. フェーズ2の判断基準
 
 | 判断軸 | 合格基準 |
 |--------|---------|
 | 安定性 | 30分以上のセッションでクラッシュ・スワップなし |
 | 速度 | 27B比で tok/s が 80% 以上を維持 |
 | tool_use | 27B と同様に確実に動作 |
-
-上記を満たせば 35B-A3B を採用、満たさなければ 27B に戻す。
