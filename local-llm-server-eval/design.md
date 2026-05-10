@@ -68,12 +68,17 @@ Rapid-MLX は CC 直接接続不可のため対象外。
 
 ```bash
 # ターミナル1：サーバーをバックグラウンドで起動
+# --served-model-name は必須。vllm-mlx の _validate_model_name() が
+# リクエストの model フィールドと完全一致を要求するため、
+# CC が送る "claude-sonnet-4-6" と一致させる必要がある（server.py 参照）。
 vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
-  --port 8000 --continuous-batching --enable-metrics \
+  --port 8000 \
+  --served-model-name claude-sonnet-4-6 \
+  --continuous-batching --enable-metrics \
   --enable-auto-tool-choice --tool-call-parser qwen3_coder \
   --reasoning-parser qwen3 &
 
-# ターミナル2：CC を起動
+# ターミナル2：CC を起動（追加フラグ不要）
 export ANTHROPIC_BASE_URL=http://localhost:8000
 export ANTHROPIC_API_KEY=not-needed
 claude
@@ -122,6 +127,7 @@ pip install vllm-mlx
 
 vllm-mlx serve mlx-community/Qwen3.5-27B-4bit \
   --port 8000 \
+  --served-model-name claude-sonnet-4-6 \
   --continuous-batching \
   --enable-metrics \
   --reasoning-parser qwen3 \
