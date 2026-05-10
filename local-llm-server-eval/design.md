@@ -19,8 +19,8 @@
 | GitHub | waybarrios/vllm-mlx | jundot/omlx | raullenchai/Rapid-MLX |
 | インストール | `pip install vllm-mlx` | `brew install omlx` | `pip install rapid-mlx` |
 | OpenAI /v1/chat/completions | ✓ | ✓ | ✓ |
-| Anthropic /v1/messages | ✓（README明示） | **未記載**（OpenAI互換のみ明示） | **✗**（OpenAI互換のみ） |
-| Claude Code 直接接続 | ✓ `ANTHROPIC_BASE_URL` | **未確認**（CC Optimization機能はあるが接続方法不明） | **✗**（CC本体とは接続不可） |
+| Anthropic /v1/messages | ✓（README明示） | ✓（README "API Compatibility" セクションに明示） | **✗**（OpenAI互換のみ） |
+| Claude Code 直接接続 | ✓ `ANTHROPIC_BASE_URL` | ✓ `ANTHROPIC_BASE_URL`（vllm-mlx と同様の方式で動作するはず） | **✗**（CC本体とは接続不可） |
 | tool_use | MCP tool calling 12 parsers（Qwen含む） | OpenAI互換 function calling（詳細未記載） | 100% tool calling, 17 parsers（OpenAI互換） |
 | KV キャッシュ | paged KV + prefix cache + SSD tier | RAM hot + SSD cold 2層 | prompt cache |
 | CLI 運用 | ✓ | ✓（`omlx serve --model-dir ~/models` でGUI不要） | ✓ |
@@ -38,10 +38,11 @@ OpenAI互換 API のみのため、`ANTHROPIC_BASE_URL` は使えない。
 
 → **CC × Rapid-MLX の組み合わせは評価対象から外すか、代替接続方法を別途検討が必要。**
 
-### oMLX の CC 接続について
+### oMLX の CC 接続（確認済み）
 
-README に「Claude Code Optimization」という機能名はあるが、`ANTHROPIC_BASE_URL` や Anthropic API エンドポイントの記載はない。
-OpenAI互換 API（`http://localhost:8000/v1`）のみ明示。CC接続方法は実機確認が必要。
+README "API Compatibility" セクションに `POST /v1/messages`（Anthropic endpoint）が明示されている。
+また公式サイト（omlx.ai）にも "Native /v1/messages Anthropic endpoint" と記載あり。
+接続方式は vllm-mlx と同様に `ANTHROPIC_BASE_URL=http://localhost:8000` で動作するはず。
 
 ---
 
@@ -54,11 +55,9 @@ export ANTHROPIC_API_KEY=not-needed
 claude
 ```
 
-### oMLX（接続方法は未確認、試行が必要）
+### oMLX
 ```bash
-# まず OpenAI 互換で接続できるか確認
-# CC が OPENAI_BASE_URL を受け付けるかどうかも確認
-export ANTHROPIC_BASE_URL=http://localhost:8000   # → 動くか不明
+export ANTHROPIC_BASE_URL=http://localhost:8000
 export ANTHROPIC_API_KEY=not-needed
 claude
 ```
@@ -127,8 +126,7 @@ export ANTHROPIC_API_KEY=not-needed
 claude
 ```
 
-> **実機確認事項**: oMLX の `/v1/messages`（Anthropic形式）対応有無。
-> 対応していなければ CC から接続できないため、vllm-mlx のみで評価することになる。
+> `/v1/messages` 対応は公式 README と omlx.ai で確認済み。
 
 ### 4-3. Rapid-MLX（参考：CC接続不可のため評価保留）
 
@@ -259,12 +257,11 @@ cat /tmp/llm_tool_test.txt
 
 ## 7. 残存する未確認事項
 
-| # | 不明点 | 公式README確認 | 影響 |
-|---|--------|--------------|------|
-| 1 | oMLX が Anthropic /v1/messages に対応しているか | **未記載** | CC接続の可否。対応なければ評価不可 |
-| 2 | 35B-A3B 4bit の実際のメモリ使用量 | 未記載 | フェーズ2の実行可否 |
+| # | 不明点 | 影響 |
+|---|--------|------|
+| 1 | 35B-A3B 4bit の実際のメモリ使用量 | フェーズ2の実行可否 |
 
-※ 以下は公式 README で解消済み：
+※ 以下は解消済み：
 
 | # | 結論 |
 |---|------|
@@ -282,7 +279,7 @@ cat /tmp/llm_tool_test.txt
 | サーバー | CC接続 | 評価可否 |
 |---------|--------|---------|
 | vllm-mlx | ✓ 確認済み | **評価対象** |
-| oMLX | 未確認 | oMLX の Anthropic API 対応が確認できれば評価対象 |
+| oMLX | ✓（公式 README + omlx.ai で確認） | **評価対象** |
 | Rapid-MLX | ✗ 不可 | **評価対象外**（CC本体と接続できないため） |
 
 → **Rapid-MLX を除外してよいか、あるいは代替接続方法（LiteLLMプロキシ等）を試すか、判断をお願いします。**
