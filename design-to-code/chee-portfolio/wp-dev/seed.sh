@@ -5,32 +5,15 @@ CLI="docker compose run --rm cli wp --allow-root"
 SEED_DIR=/var/www/html/seed
 SEED_JSON="$(dirname "$0")/seed"
 
-echo "=== Importing media ==="
+img_id_for() {
+  local filename="$1"
+  $CLI media import "$SEED_DIR/images/$filename" --title="$filename" --porcelain
+}
 
-# Profile photo
-IMG_PROFILE=$($CLI media import "$SEED_DIR/images/profile.webp" --title="プロフィール写真" --porcelain)
+echo "=== Importing profile ==="
+IMG_PROFILE=$(img_id_for "profile.webp")
 $CLI option update chee_profile_photo_id "$IMG_PROFILE"
 echo "  Profile photo ID: $IMG_PROFILE"
-
-# Works images — collect all unique filenames from thumbnail + mockup_image
-declare -A IMG_MAP
-while IFS= read -r filename; do
-  [ -z "$filename" ] && continue
-  id=$($CLI media import "$SEED_DIR/images/$filename" --title="$filename" --porcelain)
-  IMG_MAP["$filename"]="$id"
-  echo "  Imported $filename → ID $id"
-done < <(jq -r '.[].thumbnail, .[].mockup_image | select(. != "")' "$SEED_JSON/works.json" | sort -u)
-
-# Voice photos
-declare -A VOICE_IMG_MAP
-while IFS= read -r filename; do
-  [ -z "$filename" ] && continue
-  if [ -z "${VOICE_IMG_MAP[$filename]+x}" ]; then
-    id=$($CLI media import "$SEED_DIR/images/$filename" --title="$filename" --porcelain)
-    VOICE_IMG_MAP["$filename"]="$id"
-    echo "  Imported $filename → ID $id"
-  fi
-done < <(jq -r '.[].voice_photo | select(. != "")' "$SEED_JSON/voice.json" | sort -u)
 
 echo "=== Creating Works posts ==="
 
@@ -45,6 +28,7 @@ for ((i=0; i<count; i++)); do
   mockup_image=$(jq -r ".[$i].mockup_image" "$SEED_JSON/works.json")
   fv_featured=$(jq -r ".[$i].fv_featured" "$SEED_JSON/works.json")
   fv_order=$(jq -r ".[$i].fv_order" "$SEED_JSON/works.json")
+  top_show=$(jq -r ".[$i].top_show // \"0\"" "$SEED_JSON/works.json")
 
   PID=$($CLI post create \
     --post_type=works \
@@ -56,10 +40,22 @@ for ((i=0; i<count; i++)); do
   $CLI post update "$PID" --post_content="$post_content"
   [ -n "$client_name" ]    && $CLI post meta update "$PID" client_name "$client_name"
   [ -n "$category_label" ] && $CLI post meta update "$PID" category_label "$category_label"
-  [ -n "$thumbnail" ]      && $CLI post meta update "$PID" thumbnail "${IMG_MAP[$thumbnail]}"
-  [ -n "$mockup_image" ]   && $CLI post meta update "$PID" mockup_image "${IMG_MAP[$mockup_image]}"
+
+  if [ -n "$thumbnail" ]; then
+    tid=$(img_id_for "$thumbnail")
+    $CLI post meta update "$PID" thumbnail "$tid"
+    echo "    thumbnail: $thumbnail → ID $tid"
+  fi
+
+  if [ -n "$mockup_image" ]; then
+    mid=$(img_id_for "$mockup_image")
+    $CLI post meta update "$PID" mockup_image "$mid"
+    echo "    mockup: $mockup_image → ID $mid"
+  fi
+
   $CLI post meta update "$PID" fv_featured "$fv_featured"
   $CLI post meta update "$PID" fv_order "$fv_order"
+  $CLI post meta update "$PID" top_show "$top_show"
 
   categories=$(jq -r ".[$i].categories[]" "$SEED_JSON/works.json" | tr '\n' ' ')
   # shellcheck disable=SC2086
@@ -70,7 +66,6 @@ done
 
 echo "=== Creating Voice posts ==="
 
-# Create in reverse order so posts display V1→V4 in DESC date order
 count=$(jq 'length' "$SEED_JSON/voice.json")
 for ((i=count-1; i>=0; i--)); do
   post_title=$(jq -r ".[$i].post_title" "$SEED_JSON/voice.json")
@@ -88,7 +83,12 @@ for ((i=count-1; i>=0; i--)); do
     --post_date="$post_date" \
     --porcelain)
 
-  [ -n "$voice_photo" ] && $CLI post meta update "$PID" voice_photo "${VOICE_IMG_MAP[$voice_photo]}"
+  if [ -n "$voice_photo" ]; then
+    vid=$(img_id_for "$voice_photo")
+    $CLI post meta update "$PID" voice_photo "$vid"
+    echo "    photo: $voice_photo → ID $vid"
+  fi
+
   $CLI post meta update "$PID" voice_role "$voice_role"
   $CLI post meta update "$PID" voice_name "$voice_name"
   $CLI post meta update "$PID" voice_catchphrase "$voice_catchphrase"

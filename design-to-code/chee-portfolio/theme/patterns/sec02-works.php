@@ -17,15 +17,17 @@
 <?php
 $works = get_posts([
   'post_type'      => 'works',
-  'posts_per_page' => 6,
-  'orderby'        => 'date',
-  'order'          => 'DESC',
+  'posts_per_page' => 2,
+  'meta_key'       => 'top_show',
+  'orderby'        => 'meta_value_num',
+  'order'          => 'ASC',
+  'meta_query'     => [['key' => 'top_show', 'value' => '0', 'compare' => '>']],
 ]);
 ?>
 <div class="works-list">
 <?php foreach ($works as $work):
   $client    = get_post_meta($work->ID, 'client_name', true);
-  $img_id    = get_post_meta($work->ID, 'mockup_image', true);
+  $img_id    = get_post_meta($work->ID, 'thumbnail', true);
   $img_url   = $img_id ? wp_get_attachment_image_url((int) $img_id, 'large') : '';
   $terms     = get_the_terms($work->ID, 'works-category');
   $excerpt   = has_excerpt($work->ID) ? get_the_excerpt($work->ID) : wp_trim_words($work->post_content, 40, '');

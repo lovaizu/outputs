@@ -205,20 +205,16 @@ Initial values (can be added/removed from WP admin later):
 
 | Field | Type | Use |
 |-------|------|-----|
-| client_name | Text | クライアント名（一覧カード・詳細ページ） |
+| client_name | Text | クライアント名（一覧カード） |
 | category_label | Text | 自由記述ラベル（例: "眉毛アートメイク"）（一覧カード） |
-| thumbnail | Image | トップsec02・制作一覧・詳細ページのサムネイル |
+| thumbnail | Image | トップsec02・制作一覧のサムネイル |
 | mockup_image | Image | スマホモックアップ — FVカルーセル専用 |
-| fv_show | Checkbox | FVカルーセルに表示するか |
+| fv_featured | Checkbox | FVカルーセルに表示するか（1=表示） |
+| fv_order | Number | FVカルーセルの並び順（昇順） |
 | top_show | Number | トップsec02の表示位置（0=非表示, 1=1枚目, 2=2枚目） |
-| list_order | Number | FVカルーセル・制作一覧の並び順（昇順） |
-| work_purpose | Text | 目的（詳細ページ） |
-| work_scope | Text | 担当範囲（詳細ページ） |
-| work_duration | Text | 制作期間（詳細ページ） |
-| work_points | Textarea | 制作のポイント・箇条書き（詳細ページ） |
-| work_tools | Text | 制作ツール（詳細ページ） |
+| list_order | Number | 制作一覧の並び順（昇順） |
 
-?要確認: 詳細ページの制作物画像が複数必要（現状未設計）
+詳細ページの本文（目的・担当範囲・制作期間・ポイント・ツール・制作物画像）はすべてブロックエディタ（`post_content`）で入力する。
 
 ### Voice CPT
 
