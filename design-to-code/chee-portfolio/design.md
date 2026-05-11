@@ -161,13 +161,15 @@ theme/
 │   └── 各スライド（Works mockup_image） → クリック → 制作詳細 (single-works)
 ├── sec02 制作実績（フィールドで選択した2件、thumbnail表示）
 │   ├── 各カード → クリック → 制作詳細 (single-works)
-│   └── "制作実績一覧へ" ボタン → 制作一覧 (archive-works)
-└── ヘッダーナビ "Works" → 制作一覧 (archive-works)
+│   └── "制作実績の一覧へ" ボタン → 制作一覧 (archive-works)
+├── ヘッダーナビ — 全項目がトップページ内アンカー（/#works, /#voice 等）
+│   └── "Works" → /#works（トップ sec02 へスクロール、/works/ ではない）
+└── フッターナビ "制作実績" → /works/（制作一覧ページ）
 
-制作一覧 (archive-works) — 全件、thumbnail表示
+制作一覧 (archive-works) — パンくず + 全件カード（category_label + client_name + thumbnail） + 下部CTA
 └── 各カード → クリック → 制作詳細 (single-works)
 
-制作詳細 (single-works) — thumbnail + 本文
+制作詳細 (single-works) — パンくず + title + meta + post_content + 下部CTA
 ```
 
 ### Works CPT

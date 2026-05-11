@@ -312,17 +312,58 @@ img {
   color: #fff;
 }
 
-/* legacy class — keep for archive template */
-.works-card {
-  transition: box-shadow 0.2s ease;
+/* ── Breadcrumb ─────────────────────────────────────────────────────────── */
+
+.breadcrumb {
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  font-size: 13px;
+  color: var(--wp--preset--color--text-primary);
+  margin-bottom: 32px;
 }
 
-.works-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+.breadcrumb a {
+  color: var(--wp--preset--color--text-primary);
+  text-decoration: none;
 }
 
-.works-card__label {
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb__sep {
+  margin: 0 4px;
+}
+
+/* ── Page CTA (下層ページ共通) ──────────────────────────────────────────── */
+
+.page-cta {
+  text-align: center;
+  margin-top: 64px;
+}
+
+.page-cta__link {
   display: inline-block;
+  border: 1px solid var(--wp--preset--color--accent);
+  color: var(--wp--preset--color--accent);
+  border-radius: 999px;
+  padding: 14px 40px;
+  text-decoration: none;
+  font-size: var(--wp--preset--font-size--sm);
+  font-weight: 500;
+  font-family: var(--wp--preset--font-family--noto-sans-jp);
+  transition: background 0.2s, color 0.2s;
+}
+
+.page-cta__link:hover {
+  background: var(--wp--preset--color--accent);
+  color: #fff;
+}
+
+/* ── Archive card category label ────────────────────────────────────────── */
+
+.work-card-catlabel {
+  color: var(--wp--preset--color--text-primary);
+  margin-right: 4px;
 }
 
 /* ── Voice section ───────────────────────────────────────────────────────── */
