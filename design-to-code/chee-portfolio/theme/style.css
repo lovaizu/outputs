@@ -366,6 +366,20 @@ img {
   margin-right: 4px;
 }
 
+/* ── Single-works meta: pill styling for category_label ─────────────────── */
+
+.works-meta__label .mfb-field-value,
+.works-meta__label {
+  display: inline-flex;
+  align-items: center;
+  background: var(--wp--preset--color--accent);
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
 /* ── Voice section ───────────────────────────────────────────────────────── */
 
 .voice-card {
