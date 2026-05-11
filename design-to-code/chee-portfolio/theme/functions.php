@@ -111,3 +111,9 @@ add_action('after_switch_theme', function (): void {
     flush_rewrite_rules();
     wp_get_theme()->delete_pattern_cache();
 });
+
+if (defined('WORDPRESS_DEBUG') || (defined('WP_DEBUG') && WP_DEBUG)) {
+    add_action('init', function (): void {
+        wp_get_theme()->delete_pattern_cache();
+    }, 0);
+}

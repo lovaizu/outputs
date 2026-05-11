@@ -21,9 +21,8 @@
 $works = get_posts([
   'post_type'      => 'works',
   'posts_per_page' => -1,
-  'meta_key'       => 'list_order',
-  'orderby'        => 'meta_value_num',
-  'order'          => 'ASC',
+  'orderby'        => 'date',
+  'order'          => 'DESC',
 ]);
 ?>
 <div class="works-list">
