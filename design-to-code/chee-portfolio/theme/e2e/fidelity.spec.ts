@@ -14,10 +14,10 @@ const CHECKS: Check[] = [
   // ── Header ────────────────────────────────────────────────────────────────
   {
     id: "H01",
-    description: "Header background — white (Figma frame bg is canvas, actual design is white)",
+    description: "Header background — #D7D7D7 (Figma header frame bg)",
     selector: ".site-header",
     property: "background-color",
-    expected: "rgb(255, 255, 255)",
+    expected: "rgb(215, 215, 215)",
   },
   {
     id: "H02",

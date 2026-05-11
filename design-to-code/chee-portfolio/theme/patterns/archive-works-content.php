@@ -7,16 +7,6 @@
  */
 ?>
 <!-- wp:html -->
-<nav class="breadcrumb" aria-label="パンくずリスト">
-  <a href="/">HOME</a><span class="breadcrumb__sep">&gt;</span><span class="breadcrumb__current">制作実績一覧</span>
-</nav>
-<!-- /wp:html -->
-
-<!-- wp:heading {"level":1,"fontSize":"xl"} -->
-<h1 class="wp-block-heading has-xl-font-size">制作実績一覧</h1>
-<!-- /wp:heading -->
-
-<!-- wp:html -->
 <?php
 $works = get_posts([
   'post_type'      => 'works',
