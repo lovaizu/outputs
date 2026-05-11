@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-12 — next: #11 最終状態整理（git管理・WP管理画面データ） -->
+<!-- paused: 2026-05-12 — next: #12 デザインカンプ完全一致（最終修正） -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -51,10 +51,10 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ユーザー指示に従い進める。何をコードで管理し、何を管理画面から入力するかを整理する。
 
-- [ ] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
-- [ ] 11.2 — WP管理画面から入力するデータの整理（Works/Voice投稿、メニュー、フォーム設定など）
+- [x] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
+- [x] 11.2 — WP管理画面から入力するデータの整理（Works/Voice投稿、メニュー、フォーム設定など）
 - [x] 11.3 — 初期データ（`seed.sh`）を本番用コンテンツに近い状態に更新（post_title/client_name/post_excerpt/構造化post_content修正済み）
-- [ ] 11.4 — ローカル → 本番への移行手順を `README.md` に追記
+- [x] 11.4 — ローカル → 本番への移行手順を `README.md` に追記
 
 ---
 
@@ -97,7 +97,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task10完了（アセット整理・未使用CSS削除・seed統合）。25 E2E tests pass。次はTask11（git管理・WP管理画面データ整理）。**
+- **Current state: Task11完了（.gitignore整理・管理画面データ方針整理・README本番移行手順追記）。次はTask12（デザインカンプ完全一致）。**
 
 ## How to Resume
 
