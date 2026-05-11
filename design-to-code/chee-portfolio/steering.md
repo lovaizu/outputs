@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-11 — 次: #10.1 ブラウザ確認後のFB対応（トップWorks 2件表示済み、FV/Voice画像反映済み、残りFB待ち） -->
+<!-- paused: 2026-05-11 — 次: #10.1 ブラウザ確認FB対応中。レイアウト760px統一済み（align:full+constrained）、seed全画像反映済み、ユーザーFB待ち -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -82,7 +82,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: CPTフィールド整理完了（詳細ページ→post_content一本化、fv_featured/fv_order統一）。seed全画像IDベース命名で反映済み（Works 11件・Voice 4件）。sec02はtop_showで2件のみ表示に修正済み。ユーザーがブラウザ確認中 → FB待ち。**
+- **Current state: レイアウト設計見直し完了（contentSize 760px、全セクション align:full + constrained 統一）。CPTフィールド整理済み（詳細→post_content一本化）。seed全画像IDベース命名（Works 11件・Voice 4件）。sec02はtop_show 2件表示。ユーザーFB待ち。**
 
 ## How to Resume
 
