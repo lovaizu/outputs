@@ -366,18 +366,66 @@ img {
   margin-right: 4px;
 }
 
-/* ── Single-works meta: pill styling for category_label ─────────────────── */
+/* ── Archive card arrow link ────────────────────────────────────────────── */
 
-.works-meta__label .mfb-field-value,
-.works-meta__label {
+.work-card-arrow-link {
+  flex-shrink: 0;
   display: inline-flex;
+  line-height: 0;
+}
+
+/* ── Single-works detail card ──────────────────────────────────────────── */
+
+.single-works-card {
+  margin-bottom: 40px;
+}
+
+.single-works-card__title-row {
+  display: flex;
   align-items: center;
-  background: var(--wp--preset--color--accent);
-  color: #fff !important;
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-size: 15px;
+  gap: 8px;
+  font-size: var(--wp--preset--font-size--md);
   font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.single-works-card__label {
+  color: var(--wp--preset--color--text-primary);
+}
+
+.single-works-card__client {
+  color: var(--wp--preset--color--text-primary);
+}
+
+.single-works-card__arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.single-works-card__line {
+  border: none;
+  border-top: 1px solid var(--wp--preset--color--accent);
+  margin: 0 0 16px;
+}
+
+.single-works-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.single-works-card__desc {
+  font-size: var(--wp--preset--font-size--sm);
+  color: var(--wp--preset--color--text-primary);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.single-works-card__thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 
 /* ── Voice section ───────────────────────────────────────────────────────── */

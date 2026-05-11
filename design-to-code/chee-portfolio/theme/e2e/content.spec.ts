@@ -21,7 +21,7 @@ test.describe("front-page sections", () => {
   test("sec02 work cards have required elements", async ({ page }) => {
     await page.goto("/");
     const card = page.locator(".sec-works .work-card").first();
-    await expect(card.locator(".work-card-title a")).toBeVisible();
+    await expect(card.locator(".work-card-title a").first()).toBeVisible();
     await expect(card.locator(".work-card-pills")).toBeVisible();
     await expect(card.locator(".work-card-image img")).toBeVisible();
   });
@@ -50,12 +50,16 @@ test.describe("archive-works content", () => {
     for (let i = 0; i < Math.min(count, 3); i++) {
       const card = cards.nth(i);
       await expect(
-        card.locator(".work-card-title a"),
+        card.locator(".work-card-title a").first(),
         `card ${i}: title link`
       ).toBeVisible();
       await expect(
-        card.locator(".work-card-image img"),
-        `card ${i}: thumbnail image`
+        card.locator(".work-card-arrow-link"),
+        `card ${i}: arrow link`
+      ).toBeVisible();
+      await expect(
+        card.locator(".work-card-image a img"),
+        `card ${i}: thumbnail image link`
       ).toBeVisible();
       const imgSrc = await card
         .locator(".work-card-image img")
@@ -89,8 +93,8 @@ test.describe("single-works content", () => {
   test("shows client_name and category_label", async ({ page }) => {
     await page.goto("/works/");
     await page.locator(".work-card-title a").first().click();
-    await expect(page.locator(".works-meta__client")).toBeVisible();
-    await expect(page.locator(".works-meta__label")).toBeVisible();
+    await expect(page.locator(".single-works-card__client")).toBeVisible();
+    await expect(page.locator(".single-works-card__label")).toBeVisible();
   });
 
   test("has post content", async ({ page }) => {

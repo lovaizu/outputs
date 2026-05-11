@@ -42,7 +42,9 @@ $works = get_posts([
           <?php if ($cat_label): ?><span class="work-card-catlabel">[<?php echo esc_html($cat_label); ?>]</span><?php endif; ?>
           <?php echo esc_html($client ?: $work->post_title); ?>
         </a>
-        <svg class="work-card-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="#4EB0EA" stroke-width="1.5"/><path d="M10 12h5m-2-2 2 2-2 2" stroke="#4EB0EA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="<?php echo get_permalink($work->ID); ?>" class="work-card-arrow-link" aria-label="<?php echo esc_attr($work->post_title); ?>の詳細">
+          <svg class="work-card-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="#4EB0EA" stroke-width="1.5"/><path d="M10 12h5m-2-2 2 2-2 2" stroke="#4EB0EA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </h3>
     </div>
     <?php if ($terms && ! is_wp_error($terms)): ?>
@@ -58,7 +60,9 @@ $works = get_posts([
   </div>
   <?php if ($img_url): ?>
   <div class="work-card-image">
-    <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr($work->post_title); ?>" loading="lazy">
+    <a href="<?php echo get_permalink($work->ID); ?>">
+      <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr($work->post_title); ?>" loading="lazy">
+    </a>
   </div>
   <?php endif; ?>
 </div>
