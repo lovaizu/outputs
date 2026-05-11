@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-11 — 次: #10.1 ブラウザ確認FB対応中。レイアウト760px統一済み（align:full+constrained）、seed全画像反映済み、ユーザーFB待ち -->
+<!-- paused: 2026-05-11 — next: #12.1 残デザインカンプ差分の系統的照合（トップページ全セクション） -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -53,7 +53,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - [ ] 11.1 — git対象 / 対象外の整理（`.gitignore` 見直し・方針説明）
 - [ ] 11.2 — WP管理画面から入力するデータの整理（Works/Voice投稿、メニュー、フォーム設定など）
-- [ ] 11.3 — 初期データ（`seed.sh`）を本番用コンテンツに近い状態に更新
+- [x] 11.3 — 初期データ（`seed.sh`）を本番用コンテンツに近い状態に更新（post_title/client_name/post_excerpt/構造化post_content修正済み）
 - [ ] 11.4 — ローカル → 本番への移行手順を `README.md` に追記
 
 ---
@@ -62,7 +62,17 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ユーザー指示に従い進める。スクリーンショット vs デザインカンプを繰り返し確認しながら修正する。
 
-- [ ] 12.1 — 全セクション現状スクリーンショット撮影 → デザインカンプと照合 → 差分リスト作成
+**このセッションで対応済みのFB（ユーザー指摘）:**
+- [x] ヘッダーナビ — 全項目をトップページ内アンカー（/#works 等）に修正
+- [x] archive-works — カード完全再構築（[category_label] + client_name + 矢印 + 青線 + pills + 説明文 + サムネイル）
+- [x] single-works — パンくず・カードヘッダー・CTA追加。デザインカンプ画像と照合済み
+- [x] シードデータ修正 — post_title（プロジェクト名のみ）、client_name（様）、post_excerpt（説明文）、post_content（◆目的/担当範囲/制作期間/ポイント/ツール 構造化）
+- [x] FVカルーセル — モックアップ画像クリックで詳細ページへ遷移
+- [x] sec02 — 矢印アイコン・サムネイル画像クリックで詳細ページへ遷移
+- [x] archive-works — 矢印アイコン・サムネイル画像クリックで詳細ページへ遷移
+
+**残タスク:**
+- [ ] 12.1 — トップページ全セクション（sec01〜sec08）のデザインカンプ画像照合 → 差分リスト作成
 - [ ] 12.2 — 差分リストをユーザーに提示・確認
 - [ ] 12.3 — 確認済み差分を全件修正
 - [ ] 12.4 — 修正後スクリーンショット撮影 → 再照合 → 完全一致を確認
@@ -82,7 +92,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: レイアウト設計見直し完了（contentSize 760px、全セクション align:full + constrained 統一）。CPTフィールド整理済み（詳細→post_content一本化）。seed全画像IDベース命名（Works 11件・Voice 4件）。sec02はtop_show 2件表示。ユーザーFB待ち。**
+- **Current state: デザインカンプ画像照合FBを複数対応済み。archive-works・single-works・FV・sec02のリンク・レイアウト修正完了。シードデータ（post_title/excerpt/content構造化）修正済み。37 E2E tests pass（smoke/navigation/content/fidelity/visual）。次はトップページ全セクションの系統的照合。**
 
 ## How to Resume
 
