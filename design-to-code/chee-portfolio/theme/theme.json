@@ -28,10 +28,10 @@
           "name": "Noto Sans JP",
           "fontFamily": "'Noto Sans JP', sans-serif",
           "fontFace": [
-            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "100", "src": ["file:./assets/fonts/NotoSansJP-Thin.woff2"] },
-            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/NotoSansJP-Regular.woff2"] },
-            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/NotoSansJP-Medium.woff2"] },
-            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "700", "src": ["file:./assets/fonts/NotoSansJP-Bold.woff2"] }
+            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "100", "src": ["file:./assets/fonts/noto-sans-jp/NotoSansJP-Thin.woff2"] },
+            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/noto-sans-jp/NotoSansJP-Regular.woff2"] },
+            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/noto-sans-jp/NotoSansJP-Medium.woff2"] },
+            { "fontFamily": "Noto Sans JP", "fontStyle": "normal", "fontWeight": "700", "src": ["file:./assets/fonts/noto-sans-jp/NotoSansJP-Bold.woff2"] }
           ]
         },
         {
@@ -39,8 +39,8 @@
           "name": "Roboto Condensed",
           "fontFamily": "'Roboto Condensed', sans-serif",
           "fontFace": [
-            { "fontFamily": "Roboto Condensed", "fontStyle": "normal", "fontWeight": "300", "src": ["file:./assets/fonts/RobotoCondensed-Light.woff2"] },
-            { "fontFamily": "Roboto Condensed", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/RobotoCondensed-Medium.woff2"] }
+            { "fontFamily": "Roboto Condensed", "fontStyle": "normal", "fontWeight": "300", "src": ["file:./assets/fonts/roboto-condensed/RobotoCondensed-Light.woff2"] },
+            { "fontFamily": "Roboto Condensed", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/roboto-condensed/RobotoCondensed-Medium.woff2"] }
           ]
         },
         {
@@ -48,8 +48,8 @@
           "name": "Jost",
           "fontFamily": "'Jost', sans-serif",
           "fontFace": [
-            { "fontFamily": "Jost", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/Jost-Regular.woff2"] },
-            { "fontFamily": "Jost", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/Jost-Medium.woff2"] }
+            { "fontFamily": "Jost", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/jost/Jost-Regular.woff2"] },
+            { "fontFamily": "Jost", "fontStyle": "normal", "fontWeight": "500", "src": ["file:./assets/fonts/jost/Jost-Medium.woff2"] }
           ]
         },
         {
@@ -57,7 +57,7 @@
           "name": "Zen Kurenaido",
           "fontFamily": "'Zen Kurenaido', cursive",
           "fontFace": [
-            { "fontFamily": "Zen Kurenaido", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/ZenKurenaido-Regular.woff2"] }
+            { "fontFamily": "Zen Kurenaido", "fontStyle": "normal", "fontWeight": "400", "src": ["file:./assets/fonts/zen-kurenaido/ZenKurenaido-Regular.woff2"] }
           ]
         }
       ],

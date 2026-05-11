@@ -25,8 +25,8 @@
 <!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"700"}},"fontSize":"sm"} --><p class="has-white-color has-text-color has-sm-font-size" style="font-weight:700">ディレクション</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/plan.png'); ?>","alt":"ディレクション","style":{"layout":{"selfStretch":"fixed","flexSize":"64px"}}} -->
-<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plan.png'); ?>" alt="ディレクション"/></figure>
+<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/plan.webp'); ?>","alt":"ディレクション","style":{"layout":{"selfStretch":"fixed","flexSize":"64px"}}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/plan.webp'); ?>" alt="ディレクション"/></figure>
 <!-- /wp:image -->
 </div>
 <!-- /wp:group -->
@@ -49,8 +49,8 @@
 <!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"700"}},"fontSize":"sm"} --><p class="has-white-color has-text-color has-sm-font-size" style="font-weight:700">LP制作</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/do.png'); ?>","alt":"LP制作"} -->
-<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/do.png'); ?>" alt="LP制作"/></figure>
+<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/do.webp'); ?>","alt":"LP制作"} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/do.webp'); ?>" alt="LP制作"/></figure>
 <!-- /wp:image -->
 </div>
 <!-- /wp:group -->
@@ -91,8 +91,8 @@
 <!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"700"}},"fontSize":"sm"} --><p class="has-white-color has-text-color has-sm-font-size" style="font-weight:700">広告運用</p><!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
-<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/action.png'); ?>","alt":"広告運用"} -->
-<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/action.png'); ?>" alt="広告運用"/></figure>
+<!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri() . '/assets/images/action.webp'); ?>","alt":"広告運用"} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/action.webp'); ?>" alt="広告運用"/></figure>
 <!-- /wp:image -->
 </div>
 <!-- /wp:group -->
