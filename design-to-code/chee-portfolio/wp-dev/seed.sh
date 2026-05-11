@@ -10,6 +10,34 @@ img_id_for() {
   $CLI media import "$SEED_DIR/images/$filename" --title="$filename" --porcelain
 }
 
+# sections JSON配列 → WPブロックマークアップ文字列を生成する
+build_post_content() {
+  local sections="$1"
+  local output=""
+  local sec_count
+  sec_count=$(echo "$sections" | jq 'length')
+
+  for ((k=0; k<sec_count; k++)); do
+    local title body_count
+    title=$(echo "$sections" | jq -r ".[$k].title")
+    body_count=$(echo "$sections" | jq ".[$k].body | length")
+
+    output+="<!-- wp:heading {\"level\":3,\"className\":\"works-section-title\"} -->"$'\n'
+    output+="<h3 class=\"wp-block-heading works-section-title\">${title}</h3>"$'\n'
+    output+="<!-- /wp:heading -->"$'\n'$'\n'
+
+    for ((l=0; l<body_count; l++)); do
+      local line
+      line=$(echo "$sections" | jq -r ".[$k].body[$l]")
+      output+="<!-- wp:paragraph -->"$'\n'
+      output+="<p>${line}</p>"$'\n'
+      output+="<!-- /wp:paragraph -->"$'\n'$'\n'
+    done
+  done
+
+  echo "$output"
+}
+
 echo "=== Importing profile ==="
 IMG_PROFILE=$(img_id_for "profile.webp")
 $CLI option update chee_profile_photo_id "$IMG_PROFILE"
@@ -21,7 +49,8 @@ count=$(jq 'length' "$SEED_JSON/works.json")
 for ((i=0; i<count; i++)); do
   post_title=$(jq -r ".[$i].post_title" "$SEED_JSON/works.json")
   post_date=$(jq -r ".[$i].post_date" "$SEED_JSON/works.json")
-  post_content=$(jq -r ".[$i].post_content" "$SEED_JSON/works.json")
+  post_excerpt=$(jq -r ".[$i].post_excerpt" "$SEED_JSON/works.json")
+  sections=$(jq -c ".[$i].sections" "$SEED_JSON/works.json")
   client_name=$(jq -r ".[$i].client_name" "$SEED_JSON/works.json")
   category_label=$(jq -r ".[$i].category_label" "$SEED_JSON/works.json")
   thumbnail=$(jq -r ".[$i].thumbnail" "$SEED_JSON/works.json")
@@ -30,11 +59,14 @@ for ((i=0; i<count; i++)); do
   fv_order=$(jq -r ".[$i].fv_order" "$SEED_JSON/works.json")
   top_show=$(jq -r ".[$i].top_show // \"0\"" "$SEED_JSON/works.json")
 
+  post_content=$(build_post_content "$sections")
+
   PID=$($CLI post create \
     --post_type=works \
     --post_title="$post_title" \
     --post_status=publish \
     --post_date="$post_date" \
+    --post_excerpt="$post_excerpt" \
     --porcelain)
 
   $CLI post update "$PID" --post_content="$post_content"
@@ -51,6 +83,19 @@ for ((i=0; i<count; i++)); do
     mid=$(img_id_for "$mockup_image")
     $CLI post meta update "$PID" mockup_image "$mid"
     echo "    mockup: $mockup_image → ID $mid"
+  fi
+
+  # 詳細画像（detail_images）をインポートしてIDをカンマ区切りで保存
+  detail_count=$(jq ".[$i].detail_images | length" "$SEED_JSON/works.json")
+  if [ "$detail_count" -gt 0 ]; then
+    detail_ids=""
+    for ((j=0; j<detail_count; j++)); do
+      dimg=$(jq -r ".[$i].detail_images[$j]" "$SEED_JSON/works.json")
+      did=$(img_id_for "$dimg")
+      detail_ids="${detail_ids:+${detail_ids},}${did}"
+      echo "    detail: $dimg → ID $did"
+    done
+    $CLI post meta update "$PID" detail_images "$detail_ids"
   fi
 
   $CLI post meta update "$PID" fv_featured "$fv_featured"

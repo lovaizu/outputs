@@ -456,6 +456,28 @@ img {
   border-radius: 4px;
 }
 
+/* ── Single-works detail image gallery ──────────────────────────────────── */
+
+.works-detail-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.works-detail-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+}
+
+@media (max-width: 781px) {
+  .works-detail-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Single-works structured content (◆ section titles) ────────────────── */
 
 .works-section-title {
