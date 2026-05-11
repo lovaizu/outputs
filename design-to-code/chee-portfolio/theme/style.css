@@ -428,6 +428,26 @@ img {
   border-radius: 4px;
 }
 
+/* ── Single-works structured content (◆ section titles) ────────────────── */
+
+.works-section-title {
+  font-size: var(--wp--preset--font-size--md) !important;
+  font-weight: 700;
+  margin-top: 40px !important;
+  margin-bottom: 8px !important;
+}
+
+.works-section-title::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: var(--wp--preset--color--accent);
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 /* ── Voice section ───────────────────────────────────────────────────────── */
 
 .voice-card {
