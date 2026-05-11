@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-11 — next: #12.1 残デザインカンプ差分の系統的照合（トップページ全セクション） -->
+<!-- paused: 2026-05-11 — next: #12.1 トップページ全セクション（sec01〜sec08）のデザインカンプ画像照合 → 差分リスト作成（ユーザー承認待ち） -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -70,6 +70,11 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 - [x] FVカルーセル — モックアップ画像クリックで詳細ページへ遷移
 - [x] sec02 — 矢印アイコン・サムネイル画像クリックで詳細ページへ遷移
 - [x] archive-works — 矢印アイコン・サムネイル画像クリックで詳細ページへ遷移
+- [x] ヘッダー背景 — トップ・一覧=白、詳細=グレー(#DEE3EC)（ページ別に body.single-works で切り替え）
+- [x] ページタイトルエリア — 一覧=水色(#DCEFFB)全幅背景 + パンくず + h1(32px)追加。詳細=グレー(#DEE3EC)全幅背景
+- [x] 本文 works-section-title — 青四角(12×12px)::before追加
+- [x] FVセクション背景 — bg-sub(#F6F6F6)を削除→ボディと同じ白に修正
+- [x] 詳細ページグレー — #D7D7D7から#DEE3EC(Figmaカラー)に修正。bg-singleトークン追加
 
 **残タスク:**
 - [ ] 12.1 — トップページ全セクション（sec01〜sec08）のデザインカンプ画像照合 → 差分リスト作成
@@ -92,7 +97,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: デザインカンプ画像照合FBを複数対応済み。archive-works・single-works・FV・sec02のリンク・レイアウト修正完了。シードデータ（post_title/excerpt/content構造化）修正済み。37 E2E tests pass（smoke/navigation/content/fidelity/visual）。次はトップページ全セクションの系統的照合。**
+- **Current state: FV白背景・詳細ページグレー(#DEE3EC)修正済み。25 E2E tests pass。次はトップページ全セクション（sec01〜sec08）のデザインカンプ照合（Task 12.1）。**
 
 ## How to Resume
 
