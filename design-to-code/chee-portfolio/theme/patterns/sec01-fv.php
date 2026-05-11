@@ -42,8 +42,11 @@ $fv_works = get_posts([
             $img_id  = get_post_meta($work->ID, 'mockup_image', true);
             $img_url = $img_id ? wp_get_attachment_image_url((int) $img_id, 'medium') : '';
             if (!$img_url) continue;
+            $link = get_permalink($work->ID);
             echo '<li class="splide__slide">';
+            echo '<a href="' . esc_url($link) . '">';
             echo '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($work->post_title) . '" loading="lazy">';
+            echo '</a>';
             echo '</li>';
           }
           ?>
