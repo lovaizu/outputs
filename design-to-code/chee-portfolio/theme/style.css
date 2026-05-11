@@ -129,13 +129,13 @@ img {
   padding-right: 80px !important;
 }
 
-/* 詳細ページのみヘッダーとページタイトルエリアをグレーに */
+/* 詳細ページのみヘッダーとページタイトルエリアを bg-single に */
 .single-works .site-header {
-  background: var(--wp--preset--color--border);
+  background: var(--wp--preset--color--bg-single);
 }
 
 .single-works .page-title-area {
-  background: var(--wp--preset--color--border);
+  background: var(--wp--preset--color--bg-single);
 }
 
 .site-header .wp-block-button__link {

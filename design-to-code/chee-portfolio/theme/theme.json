@@ -17,7 +17,8 @@
         { "slug": "text-secondary", "color": "#333333", "name": "Text Secondary" },
         { "slug": "accent",         "color": "#4EB0EA", "name": "Accent" },
         { "slug": "highlight",      "color": "#FBFF92", "name": "Highlight" },
-        { "slug": "border",         "color": "#D7D7D7", "name": "Border" }
+        { "slug": "border",         "color": "#D7D7D7", "name": "Border" },
+        { "slug": "bg-single",      "color": "#DEE3EC", "name": "Background Single" }
       ]
     },
     "typography": {

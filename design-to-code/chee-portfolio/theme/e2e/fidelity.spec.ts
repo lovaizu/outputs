@@ -94,10 +94,10 @@ const CHECKS: Check[] = [
   // ── FV section ────────────────────────────────────────────────────────────
   {
     id: "FV01",
-    description: "FV section background — bg-sub #F6F6F6",
+    description: "FV section background — white (no explicit bg, inherits body white)",
     selector: ".sec-fv",
     property: "background-color",
-    expected: "rgb(246, 246, 246)",
+    expected: "rgba(0, 0, 0, 0)",
   },
   {
     id: "FV02",

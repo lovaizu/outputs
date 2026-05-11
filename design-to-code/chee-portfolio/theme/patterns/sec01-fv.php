@@ -14,8 +14,8 @@ $fv_works = get_posts([
   'order'          => 'ASC',
 ]);
 ?>
-<!-- wp:group {"tagName":"section","align":"full","className":"sec-fv","backgroundColor":"bg-sub","layout":{"type":"constrained"}} -->
-<section class="wp-block-group alignfull sec-fv has-bg-sub-background-color has-background" id="fv">
+<!-- wp:group {"tagName":"section","align":"full","className":"sec-fv","layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull sec-fv" id="fv">
 
 <!-- wp:group {"className":"fv-text-area","layout":{"type":"default"}} -->
 <div class="wp-block-group fv-text-area">
