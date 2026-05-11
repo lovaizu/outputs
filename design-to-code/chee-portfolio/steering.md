@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-10 — 次: #10.1 Works CPTフィールド設計確定（詳細画像・フィールド確認）→ design.md更新 → Pods設定 → seed更新 -->
+<!-- paused: 2026-05-11 — 次: #10.1 ブラウザ確認後のFB対応（トップWorks 2件表示済み、FV/Voice画像反映済み、残りFB待ち） -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -82,7 +82,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Works CPTフィールド設計を議論中。フィールド案は design.md に記載（?要確認: 詳細ページの複数画像）。次: フィールド設計確定 → Pods設定変更 → seed更新 → 画像マッピング。**
+- **Current state: CPTフィールド整理完了（詳細ページ→post_content一本化、fv_featured/fv_order統一）。seed全画像IDベース命名で反映済み（Works 11件・Voice 4件）。sec02はtop_showで2件のみ表示に修正済み。ユーザーがブラウザ確認中 → FB待ち。**
 
 ## How to Resume
 
