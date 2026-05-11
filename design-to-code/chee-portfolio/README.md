@@ -91,13 +91,69 @@ cd wp-dev && docker compose up -d
 
 The `theme/` directory is bind-mounted into the container at runtime. PHP and JSON changes are reflected immediately; no rebuild needed.
 
-## TODO
+## Seed Data (local / staging only)
 
-- [ ] Task 2: theme.json tokens, functions.php CPT registration, Pods field groups
-- [ ] Task 3: fixture data
-- [ ] Task 4: template parts (header / footer)
-- [ ] Task 5: page templates
-- [ ] Task 6: block patterns × 8
-- [ ] Task 7: styles + JS
-- [ ] Task 8: code review
-- [ ] Task 9: CI/CD (GHA deploy workflow + Playwright)
+`seed.sh` populates sample Works and Voice posts for development. **Do not run on production** — enter real content via the admin dashboard instead.
+
+```bash
+cd wp-dev
+bash seed.sh
+```
+
+## Deploy to Production
+
+### 1. Server requirements
+
+| Item | Requirement |
+|------|-------------|
+| PHP | 8.1 or later |
+| MySQL / MariaDB | 5.7 / 10.4 or later |
+| WordPress | 6.4 or later |
+
+### 2. Upload the theme
+
+Copy the `theme/` directory to the server's `wp-content/themes/chee-portfolio/`.
+
+Using rsync (replace placeholders):
+
+```bash
+rsync -avz --exclude 'e2e/' --exclude 'test-results/' \
+  theme/ user@your-server:/path/to/wp-content/themes/chee-portfolio/
+```
+
+### 3. Activate the theme and plugins
+
+Log in to **WP Admin > Appearance > Themes** and activate **Chee Portfolio**.
+
+Install and activate the following plugins via **Plugins > Add New**:
+
+| Plugin | Purpose |
+|--------|---------|
+| Pods | Custom post types (Works, Voice) and custom fields |
+| Meta Field Block | Display custom fields in block editor |
+| Fluent Forms | Contact form (sec08) |
+
+### 4. Configure WordPress
+
+- **Settings > General**: Set site title, tagline, and URL
+- **Settings > Permalinks**: Select **Post name** (`/%postname%/`) and save
+- **Settings > Reading**: Set front page to **Your latest posts** (the theme uses `front-page.html`)
+
+### 5. Enter content
+
+Enter all real content through the admin dashboard:
+
+| Content | Location |
+|---------|----------|
+| Works posts | Posts > Works — title, thumbnail, detail images, category, client name, excerpt, post content |
+| Voice posts | Posts > Voice — quote text, photo, star rating |
+| Profile photo | Media — upload and replace the placeholder in sec06-profile pattern |
+| Contact form | Fluent Forms — set destination email address |
+
+### 6. Verify
+
+Open the site in a browser and confirm:
+
+- Front page loads with all 8 sections
+- Works archive and detail pages display correctly
+- Contact form submits successfully
