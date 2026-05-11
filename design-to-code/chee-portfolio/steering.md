@@ -34,16 +34,16 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-11 — next: #12.1 トップページ全セクション（sec01〜sec08）のデザインカンプ画像照合 → 差分リスト作成（ユーザー承認待ち） -->
+<!-- paused: 2026-05-12 — next: #11 最終状態整理（git管理・WP管理画面データ） -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
 ユーザー指示に従い進める。WP初心者向けに説明しながら作業する。
 
-- [ ] 10.1 — 不要な画像・アセットを洗い出してリスト提示（ユーザー確認後に削除）
-- [ ] 10.2 — 使用中のアセット整理（ファイル名・ディレクトリ構成の見直し）
-- [ ] 10.3 — 未使用CSS・PHP・JSコードの削除
-- [ ] 10.4 — `seed.sh` / fixture data の整合性確認
+- [x] 10.1 — 不要な画像・アセットを洗い出してリスト提示（不要ファイルなし）
+- [x] 10.2 — 使用中のアセット整理（フォントサブディレクトリ化・PNG→WebP変換）
+- [x] 10.3 — 未使用CSS・PHP・JSコードの削除（43行削除）
+- [x] 10.4 — seed.sh / fixture data 整合性確認・統合（fix-works-data.php削除・works.json構造化・detail_images対応・w12新規追加）
 
 ---
 
@@ -97,7 +97,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: FV白背景・詳細ページグレー(#DEE3EC)修正済み。25 E2E tests pass。次はトップページ全セクション（sec01〜sec08）のデザインカンプ照合（Task 12.1）。**
+- **Current state: Task10完了（アセット整理・未使用CSS削除・seed統合）。25 E2E tests pass。次はTask11（git管理・WP管理画面データ整理）。**
 
 ## How to Resume
 
