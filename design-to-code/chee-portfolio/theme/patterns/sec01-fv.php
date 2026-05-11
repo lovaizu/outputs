@@ -14,10 +14,10 @@ $fv_works = get_posts([
   'order'          => 'ASC',
 ]);
 ?>
-<!-- wp:group {"tagName":"section","className":"sec-fv","backgroundColor":"bg-sub","layout":{"type":"default"}} -->
-<section class="wp-block-group sec-fv has-bg-sub-background-color has-background" id="fv">
+<!-- wp:group {"tagName":"section","align":"full","className":"sec-fv","backgroundColor":"bg-sub","layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull sec-fv has-bg-sub-background-color has-background" id="fv">
 
-<!-- wp:group {"className":"fv-text-area","layout":{"type":"constrained"}} -->
+<!-- wp:group {"className":"fv-text-area","layout":{"type":"default"}} -->
 <div class="wp-block-group fv-text-area">
 
 <!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.3","fontSize":"clamp(40px, 5vw, 60px)"}},"fontFamily":"noto-sans-jp","textColor":"text-secondary"} -->

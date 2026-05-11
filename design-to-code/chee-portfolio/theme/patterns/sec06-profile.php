@@ -6,8 +6,8 @@
  * Block Types: core/group
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"sec-profile","backgroundColor":"bg-main","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group sec-profile has-bg-main-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="profile">
+<!-- wp:group {"tagName":"section","align":"full","className":"sec-profile","backgroundColor":"bg-main","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull sec-profile has-bg-main-background-color has-background" style="padding-top:80px;padding-bottom:80px" id="profile">
 
 <!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-primary"} -->
 <h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Profile</h2>

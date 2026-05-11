@@ -255,9 +255,11 @@ Initial values (can be added/removed from WP admin later):
 
 | Setting | Value |
 |---------|-------|
-| contentSize | `840px` |
+| contentSize | `760px` |
 | wideSize | `1100px` |
 | allowEditing | `false` |
+
+**Layout pattern:** All sections use `align: full` (full-width background) + `layout: constrained` (children at contentSize). `wp:html` blocks use CSS variable `var(--wp--style--global--content-size)` for width.
 
 ### Font families
 
