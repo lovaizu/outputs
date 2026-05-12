@@ -21,15 +21,34 @@ AIYA files issue #42, creates branch `aiya/42`, and creates `.aiya/42/`.
 
 ---
 
-## Goal phase
+## Goal phase — ACC Turns
 
-Expert authors `.aiya/42/goal.md`:
+**Planning Gate (Goal):** AI presents its understanding of the hearing. Expert reads.
+Types `/ty`. Drafting begins.
+
+One Turn handles the AI's contribution: extract Situation and Pain from the hearing.
+
+### Goal Turn 1 — draft Situation and Pain
+
+Input: CCS_g0 (initialized from hearing transcript) + "Draft Situation and Pain for goal.md."
+
+```
+semantic_gist:
+  draft(Situation Pain) from(hearing #42)
+
+goal_orientation:
+  produce(goal.md Situation Pain sections)
+
+retrieved_artifacts:
+  log(hearing transcript #42)
+```
+
+Turn writes the draft. Expert reads, then authors Benefit and Acceptance Scenarios
+directly into `goal.md`.
+
+**G1:** Expert reads the completed `goal.md`. Types `/ty`. File committed.
 
 ```markdown
-## Plan
-AI will draft Situation and Pain based on the hearing. Expert authors Benefit and
-Acceptance Scenarios. Planning Gate review before drafting.
-
 ## Situation
 A user opens a team chat app after a two-hour meeting. Dozens of threads are visible
 in the sidebar.
@@ -48,16 +67,84 @@ attention is directed, not scattered.
 - AS-3: Badge count updates when a new message arrives (no page reload required)
 ```
 
-**Planning Gate (Goal):** AI summarizes its understanding of the goal. Expert reads.
-Types `/ty`. Drafting begins.
-
-**G1:** Expert reads the completed `goal.md`. Types `/ty`. File committed.
-
 ---
 
-## Approach phase
+## Approach phase — ACC Turns
 
-AI drafts `.aiya/42/approach.md`:
+**Planning Gate (Approach):** AI presents its investigation plan. Expert reads.
+Types `/ty`. Investigation begins.
+
+Three Turns: investigate the codebase → evaluate technology → draft approach.md.
+Without ACC here, Turn 3 drafts against assumptions instead of verified facts.
+
+### Approach Turn 1 — investigate existing stack
+
+Input: CCS_a0 (initialized from goal.md) + "Investigate messaging infrastructure,
+DB schema, and existing WebSocket usage."
+
+Turn reads `server/`, `db/schema.sql`, `package.json`. Produces CCS_a1:
+
+```
+episodic_trace:
+  observed(WebSocket server exists: server/ws.js — used for presence only)
+  observed(DB has messages table; no unread tracking column)
+  observed(Redis not in stack: package.json has no redis dependency)
+  observed(Playwright in devDependencies — E2E runner available)
+
+semantic_gist:
+  investigate(unread badge implementation options)
+
+goal_orientation:
+  produce(approach.md grounded in actual stack)
+
+constraints:
+  follow(goal.md Acceptance Scenarios AS-1 AS-2 AS-3)
+
+uncertainty_signal:
+  level(medium)
+  gap(WebSocket broadcast pattern unknown — can it push badge updates?)
+  gap(DB migration tooling not confirmed)
+
+retrieved_artifacts:
+  code(server/ws.js)
+  code(db/schema.sql)
+  config(package.json)
+```
+
+### Approach Turn 2 — evaluate technology options
+
+Input: CCS_a1 + "Evaluate WebSocket vs polling for badge updates given findings."
+
+Turn reads `server/ws.js` broadcast pattern in detail. Produces CCS_a2:
+
+```
+episodic_trace:
+  observed(WebSocket broadcasts to room — badge push requires per-user channel)
+  observed(per-user WebSocket channel not implemented — significant new work)
+  observed(migration tooling: db-migrate in package.json — confirmed)
+
+semantic_gist:
+  investigate(unread badge implementation options)
+
+goal_orientation:
+  produce(approach.md grounded in actual stack)
+
+constraints:
+  follow(goal.md Acceptance Scenarios AS-1 AS-2 AS-3)
+
+uncertainty_signal:
+  level(low)
+  assumption(AS-3 real-time requires per-user WebSocket — non-trivial scope)
+
+retrieved_artifacts:
+  code(server/ws.js — broadcast pattern detail)
+```
+
+### Approach Turn 3 — draft approach.md
+
+Input: CCS_a2 + "Draft Testing, Technology, and Design for approach.md."
+
+Turn writes the draft using verified facts from CCS_a2. Produces approach.md:
 
 ```markdown
 ## Plan
@@ -69,26 +156,34 @@ to technology. Planning Gate review before investigation begins.
 - E2E (Playwright): open thread → verify badge disappears
 
 ## Technology
-- WebSocket: already in stack — use for real-time badge updates (AS-3)
-- Redis: unread count per user per thread
+- WebSocket: exists but broadcast-only; per-user push requires new channel work
+- Redis: not in stack — adding it would be significant scope
+- Proposal: load badge count on page load (no real-time); AS-3 deferred
 
 ## Design
-- DB: unread_counts(user_id, thread_id, count)
+- DB: unread_counts(user_id, thread_id, count) via db-migrate
 - Server: increment on message insert, reset to 0 on thread open
-- Client: UnreadCountBadge component on ThreadListItem; WebSocket subscription
+- Client: UnreadCountBadge component on ThreadListItem; count fetched on load
 ```
 
-**Planning Gate (Approach):** AI presents the plan. Expert reads and types:
+**Planning Gate (Approach):** Expert reads. The draft already surfaces the WebSocket
+scope problem — not as a surprise, but as a verified finding. Expert types:
 
 ```
-/gm Real-time is out of scope for now. Remove AS-3 and the WebSocket work.
-    Start with polling or page-load refresh — we can promote AS-3 later.
+/gm Real-time is out of scope for now. Remove AS-3 explicitly.
+    The current proposal is correct — ship it without WebSocket.
 ```
 
-AI updates `approach.md` — removes WebSocket, Redis, and AS-3 reference.
+AI updates `approach.md` — marks AS-3 as deferred, removes the proposal hedge.
 Expert reads the update. Types `/ty`.
 
 **G2:** Expert reads the final `approach.md`. Types `/ty`. File committed.
+
+> **Without ACC in Approach:** Turn 3 would draft against guesses ("WebSocket might
+> work", "Redis might be available"). The expert would discover the real constraints
+> only after reading the draft — requiring a deeper redirect or a research loop.
+> With ACC: the investigation is verified first; the draft reflects reality; the
+> Planning Gate conversation is about scope, not surprises.
 
 ---
 
@@ -249,10 +344,12 @@ Expert types `/ty`. PR is opened. Branch merged.
 
 | Question | Answer |
 |---|---|
-| Where does `goal_orientation` come from? | TC Benefit + Acceptance Scenarios |
+| Where does `goal_orientation` come from? | TC Benefit + Acceptance Scenarios (Goal phase) |
 | Where do `constraints` come from? | TC Approach phase + `/gm` redirects |
-| Where does `predictive_cue` come from? | Current Step in delivery.md |
-| What persists across all Turns? | `goal_orientation` and `constraints` — the expert's judgment |
+| Where does `predictive_cue` come from? | Current Step in delivery.md (Delivery); current investigation target (Goal/Approach) |
+| What persists across all Turns within a phase? | `goal_orientation` and `constraints` — the expert's judgment |
 | What changes per Turn? | `episodic_trace`, `predictive_cue`, `uncertainty_signal` |
 | When does expert judgment enter? | At each Steering Gate — not at every Turn |
-| How does a redirect propagate? | `/gm` updates the TC file; TC flows into CCS_0; every Turn inherits it |
+| How does a redirect propagate? | `/gm` updates the TC file; TC flows into the next phase's CCS_0; every Turn inherits it |
+| Why does Approach need ACC? | Investigation spans multiple Turns; without CCS, Turn 3 drafts against assumptions rather than verified facts — producing surprises at the gate instead of decisions |
+| What is each phase's CCS for? | Goal: carry hearing → draft. Approach: carry investigation → draft. Delivery: carry steps → implementation. |
