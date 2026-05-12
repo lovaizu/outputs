@@ -13,9 +13,11 @@
 <h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Contact</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"className":"contact-lead","textAlign":"center","fontFamily":"zen-kurenaido"} -->
-<p class="contact-lead has-text-align-center has-zen-kurenaido-font-family">まずはご相談だけでも構いません。お気軽にお問合せください。<br>1〜2営業日以内にご返信いたします。</p>
-<!-- /wp:paragraph -->
+<!-- wp:html -->
+<div class="contact-yellow-highlight">
+  <p class="contact-lead">まずはご相談だけでも構いません。お気軽にお問合せください。</p>
+</div>
+<!-- /wp:html -->
 
 <!-- wp:html -->
 <form class="contact-form" action="#" method="post">

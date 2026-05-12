@@ -168,6 +168,20 @@ img {
   z-index: 2;
 }
 
+.fv-catchcopy {
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  margin-bottom: 8px !important;
+}
+
+.fv-identity-divider {
+  width: 24px;
+  height: 1px;
+  background-color: #333333;
+  margin: 16px 0;
+}
+
 .sec-fv h1 {
   white-space: nowrap;
 }
@@ -650,10 +664,22 @@ img {
 
 /* ── Contact section ─────────────────────────────────────────────────────── */
 
+.contact-yellow-highlight {
+  background: #FBFF92;
+  max-width: 760px;
+  height: 84px;
+  margin: 0 auto 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
 .contact-lead {
   font-family: var(--wp--preset--font-family--zen-kurenaido);
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 0;
   font-size: 24px;
   line-height: 2;
 }

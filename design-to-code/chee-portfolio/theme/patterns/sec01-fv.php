@@ -20,12 +20,24 @@ $fv_works = get_posts([
 <!-- wp:group {"className":"fv-text-area","layout":{"type":"default"}} -->
 <div class="wp-block-group fv-text-area">
 
-<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","lineHeight":"1.3","fontSize":"clamp(40px, 5vw, 60px)"}},"fontFamily":"noto-sans-jp","textColor":"text-secondary"} -->
-<h1 class="wp-block-heading has-noto-sans-jp-font-family has-text-secondary-color has-text-color" style="font-style:normal;font-weight:700;line-height:1.3;font-size:clamp(40px, 5vw, 60px)">LP制作×広告運用</h1>
+<!-- wp:paragraph {"className":"fv-catchcopy","style":{"typography":{"fontStyle":"normal","fontWeight":"400","fontSize":"16px"}},"textColor":"text-primary"} -->
+<p class="fv-catchcopy has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;font-size:16px">LP制作×広告運用</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"28px"}},"fontFamily":"noto-sans-jp","textColor":"text-primary"} -->
+<h1 class="wp-block-heading has-noto-sans-jp-font-family has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:28px">提案も、デザインも、運用も</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"clamp(24px, 2.5vw, 28px)"}},"fontFamily":"noto-sans-jp","textColor":"text-primary"} -->
-<p class="has-noto-sans-jp-font-family has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:clamp(24px, 2.5vw, 28px)">提案も、デザインも、運用も</p>
+<!-- wp:html -->
+<div class="fv-identity-divider" aria-hidden="true"></div>
+<!-- /wp:html -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500","lineHeight":"1.3","fontSize":"20px"}},"textColor":"accent","fontFamily":"jost"} -->
+<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:500;line-height:1.3;font-size:20px">Chiaki Itoh</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.3","fontSize":"14px"}},"textColor":"accent","fontFamily":"jost"} -->
+<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:400;line-height:1.3;font-size:14px">LP Design,Meta Ads</p>
 <!-- /wp:paragraph -->
 
 </div>
