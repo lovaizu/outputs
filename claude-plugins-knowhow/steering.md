@@ -1,6 +1,6 @@
 # Plugin Knowhow Smith — Steering
 
-<!-- next: #4 Step 3.1 — Port checklist-items.md into smith-knowhow skill -->
+<!-- paused: 2026-05-12 — next: #4 Port checklist-items.md into smith-knowhow skill (clarify deploy target first) -->
 
 ## Goal
 
@@ -15,7 +15,7 @@ Build `smith` — a Claude Code hybrid plugin (Archetype C) that evaluates and i
   - Automation Engineer: [auto] implementability, check description precision for scripts
   - Prompt Quality Expert: PRM domain checks, fix actionability
   Fix all findings, re-review until clean.
-- [ ] **#4 Step 3.1** — Port `checklist-items.md` into `smith-knowhow` skill at `agents-in-your-area/.claude/plugins/smith/skills/smith-knowhow/`.
+- [ ] **#4 Step 3.1** — Port `checklist-items.md` into `smith-knowhow` skill at `agents-in-your-area/.claude/plugins/smith/skills/smith-knowhow/`. **Note**: confirm whether `agents-in-your-area` is the correct deploy target or if there is a separate aiya monorepo (open question from session).
 - [ ] **#5 Step 3.2** — Write `/smith` command, 3 inspector agents, 3 scripts per `smith-design.md`.
 - [ ] **#6 Step 3.3** — Dogfood smith on the `claude-plugins-knowhow` repo itself.
 
