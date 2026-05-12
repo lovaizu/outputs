@@ -28,16 +28,16 @@ Branch: `claude/check-aiya-status-quShQ`
 
 ## Remaining tasks
 
-<!-- paused: 2026-05-12 — next: #1 Approach phase step design (apply same review process as Goal phase) -->
+<!-- paused: 2026-05-12 — next: #2 Delivery phase step design -->
 
 ### Design (blocks the remaining Open questions)
 
-Goal phase step sequence is complete (v3, 27 steps + G-REDIRECT). Approach and Delivery need the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
+Goal and Approach phase step sequences are complete (both v3, dual-expert-review). Delivery needs the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
 
-- [ ] **#1 Approach phase step design** — apply same dual expert review process as Goal phase. Elements: Testing, Technology, Design. Key decisions: investigation Turn structure, how Technology choice is validated, how Design is scoped before implementation.
+- [x] **#1 Approach phase step design** — A0–A19 + A-REDIRECT + A-NOFIT (v3). Key decisions: Testing-First enforced sequentially; A6b expert confirmation after codebase research; lock-step closure rule in A-REDIRECT; A17 sole coverage authority; A-NOFIT escalation for no-viable-technology.
 - [ ] **#2 Delivery phase step design** — Steps authoring, Turn execution, Verification, PR → merge. Key decisions: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
 
-Recommended next tactical step: Approach phase (#1).
+Recommended next tactical step: Delivery phase (#2).
 
 ### Open questions — per document
 
