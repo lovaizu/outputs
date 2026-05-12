@@ -108,9 +108,9 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-EI`  | example-inclusion | **Recommended** | |
 | `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (presence only); adequacy is out of scope. |
 | `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
-| `PRM-DPE` | default-plus-escape | **Optional** | Applies only when the prompt governs a choice with ≥ 2 valid approaches. Not applicable to single-path procedures or open-ended research tasks. |
-| `PRM-SAC` | single-approach-commitment | **Optional** | Applies only when the prompt governs a structured, reproducible task. Not applicable to exploration, research, or open-ended generation tasks. |
-| `PRM-TIC` | time-independent-content | **Recommended** for command/agent; **Quality** for skill | Silent failures from stale dates/release references are higher-impact in agent prompts than in skill bodies. |
+| `PRM-DPE` | default-plus-escape | **Quality** | Conditional: only when prompt governs choice with ≥2 valid approaches. Not for single-path or open-ended tasks. |
+| `PRM-SAC` | single-approach-commitment | **Quality** | Conditional: only when prompt governs structured, reproducible task. Not for exploration or open-ended tasks. |
+| `PRM-TIC` | time-independent-content | **Recommended** | Stale dates/release refs cause silent failures. Treat as Quality when applies_to = skill only. |
 
 #### `applies_to` constraints (apply in Step 2)
 
@@ -132,7 +132,11 @@ Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure trigger
 | `PRM-IR`  | Binary check only: does the prompt contain ≥ 1 sentence explaining *why* the instruction matters? Adequacy is out of scope. |
 | `PRM-CWF` | Structural proxy: no paragraph exceeds 60 tokens; no phrase repeated within 200 tokens of itself. `[auto]` for repetition; `[judgment]` for paragraph density. |
 | `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome. Examples — OK: "Analyzes PR diffs and returns structured findings"; NG: "A tool for PR analysis". Applies to the `description` field only; not the SKILL.md body. |
-| `PRM-FLD` | Check: does the prompt contain an explicit statement of intended freedom level using one of these exact terms or clear paraphrases — open-ended ("Claude chooses the approach," "explore freely"), parameterized ("approach is fixed, inputs vary," "follow this template"), or procedural ("step-by-step," "do not deviate," "follow phases in order"). A vague preamble (e.g., "This command helps with X") does not qualify. The statement must be present in the prompt body, not inferred from surrounding structure. |
+| `PRM-FLD` | Check: does the prompt contain an explicit statement of intended freedom level using one of these exact terms or clear paraphrases — open-ended ("Claude chooses the approach," "explore freely"), parameterized ("approach is fixed, inputs vary," "follow this template"), or procedural ("step-by-step," "do not deviate," "follow phases in order"). A vague preamble does not qualify. Examples — NG: "This command helps you create features." OK: "This is a procedural workflow — follow phases in order, do not deviate." The statement must be present in the prompt body, not inferred from surrounding structure. |
+| `PRM-SMC` | Check: does the prompt include a directive to complete the task in a single response without requesting clarification or issuing follow-up messages? (e.g., "Do not send any other text or messages besides these tool calls", "Complete in one turn without asking for confirmation"). Applies to commands where back-and-forth would break the workflow. |
+| `PRM-OSD` | Defines the *structure* of the output: what sections, fields, or format the response must contain (e.g., "Return a JSON array with fields X, Y, Z", "Output a markdown table with columns A and B"). Check: does the prompt specify what the output must look like structurally? |
+| `PRM-OFD` | Defines the *discipline* of output format rules: rules are precise, complete, and internally consistent (e.g., brevity enforced by word limit, no emojis stated explicitly, every finding must include a code link). Check: are the format rules stated with enough precision that two different Claude instances would produce equivalent output format? Distinct from PRM-OSD (structure) — OFD is about the *quality* of format instructions, not their existence. |
+| `PRM-APE` | Check: when the prompt prohibits certain behaviors, are those prohibitions collected into a named anti-pattern list (e.g., "Do not do any of the following: …") rather than scattered throughout the prompt body? A single consolidated list enables Claude to reference it at any phase. |
 
 #### `related` links (apply in Step 2)
 
@@ -147,6 +151,7 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 | Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
 | Output specification | `PRM-OSD` ↔ `PRM-OFD` |
 | Example quality | `PRM-SBS` ↔ `PRM-EI` |
+| Silent failure | `PRM-TIC` ↔ `PRM-VSC` |
 
 Note: `PRM-FPE` appears in two clusters (scope/specificity and negative-instruction-removal). This is intentional — a false-positive list fix simultaneously tightens scope and removes negative framing. Both `related` links must be recorded on the PRM-FPE entry.
 
