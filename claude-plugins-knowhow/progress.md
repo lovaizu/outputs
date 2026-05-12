@@ -104,11 +104,12 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-PIF` | positive-instruction-form | **Mandatory** | |
 | `PRM-VSC` | verifiable-success-criteria | **Mandatory** | |
 | `PRM-IS`  | instruction-specificity | **Mandatory** | |
-| `PRM-TC`  | terminology-consistency | **Mandatory** | |
+| `PRM-TC`  | terminology-consistency | **Mandatory** | [auto] FP guard: do not flag intentional paired synonyms (e.g., "command" / "slash command" used together explicitly). Flag only when the same concept has two names without an explicit pairing statement. |
 | `PRM-EI`  | example-inclusion | **Recommended** | `auto` is conditional by component: skill → `[auto]` (presence-only); command/agent → `[judgment]`. Schema implementation: if a single `auto` field cannot hold both, split into PRM-EI-S (skill, auto) and PRM-EI-CA (command/agent, judgment). |
 | `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (presence only); adequacy is out of scope. |
 | `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
-| `PRM-SMC` | single-message-completion | **Mandatory** | Absence in a command that requires single-turn completion is workflow-breaking, not advisory. |
+| `PRM-SMC` | single-message-completion | **Mandatory** | Absence in a command that requires single-turn completion is workflow-breaking, not advisory. `[auto]` — phrase-presence detectable. |
+| `PRM-NRP` | null-result-protocol | **Mandatory** | Same failure mode as PRM-VSC (no terminal condition specified). Absence causes silent failure or undefined behavior when zero results occur. |
 | `PRM-DPE` | default-plus-escape | **Quality** | Conditional: only when prompt governs choice with ≥2 valid approaches. Not for single-path or open-ended tasks. |
 | `PRM-SAC` | single-approach-commitment | **Quality** | Conditional: only when prompt governs structured, reproducible task. Not for exploration or open-ended tasks. |
 | `PRM-TIC` | time-independent-content | **Recommended** | Stale dates/release refs cause silent failures. Schema implementation: severity is Recommended for command/agent; Quality for skill. If a single severity field cannot represent both, record Recommended and handle the skill-only downgrade in the `applies_to` filter logic at inspection time. |
@@ -119,9 +120,13 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 |---|---|
 | `PRM-CPM` | command, agent only (multi-phase workflows) |
 | `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
-| `PRM-CD`  | command, agent — orchestrator-type only; inapplicable to tool-level prompts |
-| `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter |
+| `PRM-CD`  | command, agent — orchestrator-type only. Orchestrator = a command or agent that dispatches ≥1 other agent or invokes ≥1 skill via the Skill tool. Non-dispatching commands are excluded. |
+| `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter. `[judgment]`: active verb + concrete outcome requires human/LLM assessment. |
 | `PRM-EI`  | skill (`[auto]` for presence only; adequacy is out of scope), command, agent (`[judgment]`) |
+| `PRM-FPE` | inspection-class prompts only — commands or agents whose output is a list of findings, issues, or recommendations. Not applicable to prompts that produce code, files, or non-finding outputs. |
+| `PRM-NRP` | prompts containing action verbs: find, list, search, scan, match, return, collect, detect — or any prompt that can complete with zero results by design. |
+| `PRM-DPE` | content-conditional (not component-conditional): apply only when the prompt contains a choice gateway — a branch point where ≥2 approaches are valid and Claude must select one. |
+| `PRM-SAC` | content-conditional: apply only when the prompt governs a structured, reproducible task with a defined completion state. |
 
 Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure triggers PRM-MSS but never PRM-CPM. This is intentional — critical phase markers (DO NOT SKIP, DO NOT START WITHOUT APPROVAL) are a command/agent construct. Agents must not flag the asymmetry as inconsistency.
 
@@ -134,11 +139,11 @@ Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure trigger
 | `PRM-CWF` | Structural proxy: no paragraph exceeds 60 words (~80 tokens at 4 chars/token); no phrase of 4+ words repeated within 150 words of itself. Word-count used throughout to avoid tokenizer ambiguity. `[auto]` for repetition; `[judgment]` for paragraph density. |
 | `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome. Examples — OK: "Analyzes PR diffs and returns structured findings"; NG: "A tool for PR analysis". Applies to the `description` field only; not the SKILL.md body. |
 | `PRM-FLD` | Check: does the prompt contain an explicit statement of intended freedom level using one of these exact terms or clear paraphrases — open-ended ("Claude chooses the approach," "explore freely"), parameterized ("approach is fixed, inputs vary," "follow this template"), or procedural ("step-by-step," "do not deviate," "follow phases in order"). A vague preamble does not qualify. Examples — NG: "This command helps you create features." OK: "This is a procedural workflow — follow phases in order, do not deviate." The statement must be present in the prompt body, not inferred from surrounding structure. |
-| `PRM-SMC` | Check: does the prompt include a directive to complete the task in a single response without requesting clarification or issuing follow-up messages? (e.g., "Do not send any other text or messages besides these tool calls", "Complete in one turn without asking for confirmation"). Applies to commands where back-and-forth would break the workflow. |
+| `PRM-SMC` | Check `[auto]`: does the prompt include a directive to complete the task in a single response without requesting clarification or issuing follow-up messages? Detectable by presence of phrases such as "do not send any other text," "complete in one turn," "do not ask for confirmation." Absence = NG. |
 | `PRM-OSD` | Defines the *structure* of the output: what sections, fields, or format the response must contain (e.g., "Return a JSON array with fields X, Y, Z", "Output a markdown table with columns A and B"). Check: does the prompt specify what the output must look like structurally? |
 | `PRM-OFD` | Defines the *discipline* of output format rules: each rule is precise, complete, and internally consistent. Check (structural, agent-observable): does every format rule in the prompt name (a) what must appear, (b) what must not appear, and (c) any quantity/ordering constraint? e.g., "Every finding must include a link to the file and line range" is OFD-compliant; "Keep it brief" is not. Distinct from PRM-OSD (structure of output) — OFD is about the *precision* of format instructions. |
-| `PRM-APE` | Check: when the prompt prohibits ≥2 behaviors, are those prohibitions collected into a named anti-pattern list (e.g., "Do not do any of the following: …") rather than appearing in separate sections of the prompt body? Threshold: ≥2 prohibitions not co-located = scattered = NG. A single prohibition anywhere in the prompt is not subject to this check. |
-| `PRM-NRP` | Check: does the prompt specify what to output when no result is found — one of: explicit empty marker (e.g., "Return an empty array"), silence with rationale, or escalation path (e.g., "Report 'no findings' and exit")? Absence = NG. Applies to any prompt that can legitimately produce zero results. |
+| `PRM-APE` | Check: when the prompt prohibits ≥2 behaviors, are those prohibitions co-located in a named anti-pattern list (e.g., "Do not do any of the following: …")? Co-located = within the same markdown section (delimited by the same heading level). Prohibitions under different headings = not co-located = NG. Threshold: ≥2 prohibitions not co-located = NG. Single prohibition anywhere = out of scope. |
+| `PRM-NRP` | Check: does the prompt specify what to output when no result is found — one of: explicit empty marker (e.g., "Return an empty array"), silence with rationale, or escalation path (e.g., "Report 'no findings' and exit")? Absence = NG. Trigger: prompt contains action verbs find / list / search / scan / match / return / collect / detect, or otherwise can complete with zero results by design. |
 | `PRM-SC`  | Check: does the prompt bound its operating scope — explicitly stating what inputs, domains, or file types are in-scope and/or excluded? (e.g., "Only review files changed in this PR", "Do not check build signal"). Absence means Claude must infer scope, risking over-reach. |
 | `PRM-FPE` | Check: does the prompt include an explicit enumeration of false-positive categories — findings that look valid but must not be reported (e.g., "Do not report pre-existing issues", "Do not flag issues lint will catch")? Absence causes systematic false positives in inspection-type prompts. |
 
@@ -148,6 +153,7 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 
 | Cluster | Members |
 |---|---|
+| Explanatory content | `PRM-IR` ↔ `PRM-IS` |
 | Scope / specificity | `PRM-IS` ↔ `PRM-SC` ↔ `PRM-FPE` ↔ `PRM-DPE` |
 | Prompt length | `PRM-CWF` ↔ `PRM-SMC` |
 | Negative instruction removal | `PRM-PIF` ↔ `PRM-APE` ↔ `PRM-FPE` |
