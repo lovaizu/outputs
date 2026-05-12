@@ -1,6 +1,6 @@
 # Plugin Knowhow Smith — Steering
 
-<!-- paused: 2026-05-12 — next: #3 Expert review of checklist-items.md (3 parallel subagents) -->
+<!-- next: #4 Step 3.1 — Port checklist-items.md into smith-knowhow skill -->
 
 ## Goal
 
@@ -10,7 +10,7 @@ Build `smith` — a Claude Code hybrid plugin (Archetype C) that evaluates and i
 
 - [x] **#1 Step 1** — Scrub all 7 source docs, collect knowhow into `docs/taxonomy.md` (107 items across ARC/SPC/PRM/FLW/CTX). Commit 4a5d54b.
 - [x] **#2 Step 2** — Generate `docs/checklist-items.md` from taxonomy: 108 entries (107 + PRM-EI split), 10 fields each (id, slug, domain, applies_to, severity, auto, check, fix, related, example). Sanity review passed. Commits 6e430ab, 203ec00, 3cba887.
-- [ ] **#3 Step 2 refinement** — Expert review of `checklist-items.md` with 3 independent parallel subagents:
+- [x] **#3 Step 2 refinement** — Expert review of `checklist-items.md` with 3 independent parallel subagents:
   - Plugin Practitioner: high-signal vs. noise, applies_to correctness, OOS realism
   - Automation Engineer: [auto] implementability, check description precision for scripts
   - Prompt Quality Expert: PRM domain checks, fix actionability
