@@ -154,7 +154,8 @@ Example: `three-layer-separation` → initials `TLS` → ID `ARC-TLS`.
 | `PRM-DPE` | default-plus-escape | `checklists.md` §Skill §3 Content |
 | `PRM-SAC` | single-approach-commitment | `case-studies.md` §feature-dev §Agent design notes (code-architect) |
 | `PRM-NRP` | null-result-protocol | `case-studies.md` §feature-dev §Agent design notes (code-reviewer) |
-| `PRM-EI`  | example-inclusion | `checklists.md` §Skill §3 Content + §Prompt §2 Specificity |
+| `PRM-EI-S`  | example-inclusion-skill | `checklists.md` §Skill §3 Content (split from PRM-EI; applies_to: skill, [auto]) |
+| `PRM-EI-CA` | example-inclusion-command-agent | `checklists.md` §Prompt §2 Specificity (split from PRM-EI; applies_to: command/agent, [judgment]) |
 
 ## FLW — Flow (29 items)
 
