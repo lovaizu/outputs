@@ -251,8 +251,8 @@
 | **applies_to** | command |
 | **severity** | Recommended |
 | **auto** | `[auto]` |
-| **check** | When the command accepts user-supplied arguments, does it use the standard expansion variables (`$ARGUMENTS`, `$1`, `$2`, or `@$1` for file paths)? |
-| **fix** | Replace ad-hoc argument handling with the standard variables; document expected argument format in the command description. |
+| **check** | When the command accepts user-supplied arguments, does the command body use the standard expansion variables (`$ARGUMENTS`, `$1`, `$2`, or `@$1` for file paths) wherever those arguments are referenced? |
+| **fix** | Scan the command body for any reference to user-supplied values; replace ad-hoc handling with the standard variables; document expected argument format in the command description. |
 | **related** | — |
 | **example** | NG: "The user will supply the PR number. Use it to run `gh pr view`." OK: `gh pr view $1`. |
 
@@ -272,8 +272,8 @@
 | **applies_to** | agent |
 | **severity** | Recommended |
 | **auto** | `[auto]` |
-| **check** | Does the agent's front matter include: `name` (kebab-case, 3–50 characters), `description` with 2–4 `<example>` blocks, and a deliberate `model` choice? |
-| **fix** | Add or correct the `name` field; add `<example>` blocks to `description`; set `model` explicitly (use `inherit` if no specific reason for a tier). |
+| **check** | Does the agent's front matter include: `name` (kebab-case), `description` with 2–4 `<example>` tags, and a deliberate `model` choice? |
+| **fix** | Add or correct the `name` field (kebab-case); add `<example>` tag blocks to `description`; set `model` explicitly (use `inherit` if no specific reason for a tier). |
 | **related** | `SPC-EBT`, `SPC-CA` |
 | **example** | NG: `name: myAgent` (camelCase). OK: `name: code-reviewer` with `model: sonnet` and two `<example>` blocks. |
 
@@ -288,9 +288,9 @@
 | **domain** | SPC |
 | **applies_to** | agent |
 | **severity** | Recommended |
-| **auto** | `[auto]` |
-| **check** | Does the agent's `description` contain 2–4 `<example>` blocks, and do they cover both explicit-request dispatch and proactive-dispatch scenarios? |
-| **fix** | Add `<example>` blocks representing when a user or command explicitly invokes the agent AND when it should be auto-selected; aim for 2 blocks minimum. |
+| **auto** | `[judgment]` |
+| **check** | Do the agent's `<example>` blocks cover both explicit-request dispatch (a user or command explicitly names the agent) and proactive-dispatch scenarios (the agent should be auto-selected based on context)? |
+| **fix** | Add or revise `<example>` blocks so at least one covers explicit invocation and at least one covers proactive dispatch; aim for 2 blocks minimum. |
 | **related** | `SPC-AFM`, `SPC-CA` |
 | **example** | NG: description with no `<example>` blocks. OK: two blocks — one "when the user says 'review my PR'" and one "when a command dispatches `code-reviewer` after collecting diff". |
 
@@ -396,7 +396,7 @@
 | **severity** | Quality |
 | **auto** | `[auto]` |
 | **check** | Do all reference files under `skills/<name>/references/` that exceed 100 lines include a table of contents? |
-| **fix** | Add a markdown table of contents to any reference file longer than 100 lines. |
+| **fix** | Add a markdown heading labeled `## Contents` or `## Table of Contents` followed by a list of links or anchors to each major section. |
 | **related** | — |
 | **example** | NG: `references/patterns.md` at 180 lines with no TOC. OK: same file with `## Contents` section listing headings and line anchors. |
 
@@ -501,8 +501,8 @@
 | **applies_to** | hook |
 | **severity** | Mandatory |
 | **auto** | `[auto]` |
-| **check** | Do all plugin-internal file references in hook scripts use `${CLAUDE_PLUGIN_ROOT}` rather than hard-coded absolute paths? |
-| **fix** | Replace every absolute path with `${CLAUDE_PLUGIN_ROOT}/relative/path`; verify with `grep -r '/home\|/Users\|/root'` in the hooks-handlers directory. |
+| **check** | Do all references to files within the plugin itself (i.e., plugin-internal paths) in hook scripts use `${CLAUDE_PLUGIN_ROOT}` rather than hard-coded absolute paths? System binary paths (e.g., `/usr/bin/jq`, `/bin/bash`) are not plugin-internal and are excluded. |
+| **fix** | Replace every plugin-internal absolute path with `${CLAUDE_PLUGIN_ROOT}/relative/path`; verify with `grep -r '/home\|/Users\|/root'` in the hooks-handlers directory; exclude system binary paths from this scan. |
 | **related** | `SPC-HJF` |
 | **example** | NG: `source /home/user/.claude/plugins/my-plugin/lib/utils.sh`. OK: `source "${CLAUDE_PLUGIN_ROOT}/scripts/utils.sh"`. |
 
@@ -608,7 +608,7 @@
 | **severity** | Recommended |
 | **auto** | `[auto]` |
 | **check** | When a plugin uses `.local.md` state files, do the hook scripts read and write them using the YAML front-matter pattern (sed/awk extraction of the `---` block) rather than custom ad-hoc parsing? |
-| **fix** | Replace custom state-file parsing with the canonical front-matter shell pattern: `sed -n '/^---$/,/^---$/{ /^---$/d; p; }` for extraction, `awk '/^---$/{i++; next} i>=2'` for body. |
+| **fix** | Replace fragile custom parsing with a consistent front-matter extraction approach; the canonical pattern is `sed -n '/^---$/,/^---$/{ /^---$/d; p; }` for the YAML block and `awk '/^---$/{i++; next} i>=2'` for the body — any equivalent approach that reliably handles the `---` delimiters without ad-hoc grepping is acceptable. |
 | **related** | `CTX-LMS` |
 | **example** | NG: `cat state.md \| grep "enabled"` (fragile). OK: `ENABLED=$(sed -n '/^---$/,/^---$/{ /^---$/d; p; }' state.md \| grep '^enabled:' \| sed 's/enabled: *//')`. |
 
@@ -679,8 +679,8 @@
 | **applies_to** | all (content-conditional: plugin uses MCP servers) |
 | **severity** | Quality |
 | **auto** | `[auto]` |
-| **check** | When the plugin uses MCP servers, does `.mcp.json` exist at the plugin root and is it valid JSON with the correct server definitions? |
-| **fix** | Create `.mcp.json` at the plugin root; validate JSON; ensure each server entry has the required fields (`command` or `url`). |
+| **check** | When the plugin uses MCP servers, does `.mcp.json` exist at the plugin root, is it valid JSON, and does each server entry include at least `command` (for local servers) or `url` (for remote servers)? |
+| **fix** | Create `.mcp.json` at the plugin root; validate JSON; ensure each server entry has at minimum a `command` field (local) or `url` field (remote). |
 | **related** | `ARC-SDL` |
 | **example** | NG: plugin that references an MCP tool in its commands but has no `.mcp.json`. OK: `.mcp.json` with `{"mcpServers": {"my-server": {"command": "npx my-mcp"}}}`. |
 
@@ -791,8 +791,8 @@
 | **applies_to** | all |
 | **severity** | Recommended |
 | **auto** | `[judgment]` |
-| **check** | Is the entire prompt written in the imperative form — direct commands ("Do X", "Return Y") rather than descriptions ("This command does X") or questions? |
-| **fix** | Rewrite descriptive or passive sentences as imperative directives; remove any "This command will…" or "You can…" framing. |
+| **check** | Are the primary directives (instructions to Claude) written in imperative form — direct commands ("Do X", "Return Y") rather than descriptions ("This command does X") or questions? Rationale sentences, contextual descriptions, and examples are exempt. |
+| **fix** | Rewrite descriptive or passive directive sentences as imperative commands; remove "This command will…" or "You can…" framing from instruction lines. |
 | **related** | `PRM-LFD` |
 | **example** | NG: "This command helps you review PRs." OK: "Review the PR diff and return a list of issues." |
 
@@ -805,7 +805,7 @@
 | **id** | `PRM-CPM` |
 | **slug** | `critical-phase-markers` |
 | **domain** | PRM |
-| **applies_to** | command, agent |
+| **applies_to** | command, agent (content-conditional: prompt contains ≥2 explicitly numbered phases) |
 | **severity** | Recommended |
 | **auto** | `[judgment]` |
 | **check** | In multi-phase prompts, are critical phases explicitly labeled with hard markers (`**CRITICAL**: DO NOT SKIP`, `**DO NOT START WITHOUT USER APPROVAL**`) to prevent Claude from skipping them? |
@@ -911,7 +911,7 @@
 | **severity** | Recommended |
 | **auto** | `[judgment]` |
 | **check** | After PRM-OSD passes (structure defined), does each format rule name (a) what must appear, (b) what must not appear, and (c) any quantity or ordering constraint? Evaluate OFD only after OSD passes. |
-| **fix** | Replace vague directives like "Keep it brief" with precise rules: "Each finding must include one file link. No emojis. Findings ordered by severity descending." |
+| **fix** | Starting from a defined output structure (PRM-OSD must pass first), replace vague directives like "Keep it brief" with precise rules: "Each finding must include one file link. No emojis. Findings ordered by severity descending." |
 | **related** | `PRM-OSD` |
 | **example** | NG: "Be concise and clear." OK: "Every finding must link to the file with full SHA and line range. No short SHAs. No emojis." |
 
@@ -928,7 +928,7 @@
 | **severity** | Recommended |
 | **auto** | `[judgment]` |
 | **check** | When the orchestrator delegates code writing to the user, does it delegate only genuinely important decisions (business logic, algorithm choice, error handling strategy) and retain boilerplate, configuration, and obvious implementations? |
-| **fix** | Move boilerplate and CRUD to automated generation; keep only 5–10 lines of decision-heavy code for user input per interaction. |
+| **fix** | Move boilerplate and CRUD to automated generation; reserve user input for genuine business-logic decisions (branching conditions, error-handling strategy, algorithm choice). |
 | **related** | — |
 | **example** | NG: asking user to write a standard CRUD endpoint. OK: asking user to write the business-logic branching condition inside a handler. |
 
@@ -961,7 +961,7 @@
 | **applies_to** | command, agent, skill |
 | **severity** | Recommended |
 | **auto** | `[auto]` |
-| **check** | Count prohibition-opener sentences/bullets ("Do not", "Never", "Avoid", "Don't") in the prompt. If ≥2 are found in different markdown sections (different heading levels) AND not within a shared inline list, the check is NG — co-locate them. If ≥2 in the same section or list, OK. If count = 1, OOS. |
+| **check** | Count prohibition-opener sentences/bullets ("Do not", "Never", "Avoid", "Don't") in the prompt. "Different sections" means appearing under different markdown heading blocks (##, ###, etc.). A "shared inline list" means a markdown bullet or numbered list where all prohibition items appear consecutively under the same heading. If ≥2 are found in different sections AND not within a shared inline list, the check is NG — co-locate them. If ≥2 in the same section or list, OK. If count = 1, OOS. |
 | **fix** | Consolidate scattered prohibition directives into a single "Do not" or "Avoid" section/list so they are co-located and easy to scan. |
 | **related** | `PRM-PIF` |
 | **example** | NG: "Do not use emojis." in Phase 1 and "Never include pre-existing issues." in Phase 3 (scattered). OK: a single "Exclusions" bullet list containing both. |
@@ -978,7 +978,7 @@
 | **applies_to** | all |
 | **severity** | Quality |
 | **auto** | `[auto]` for both mechanical rules; `[judgment]` for subjective density |
-| **check** | (1) No paragraph in the prompt exceeds 60 words. (2) No 4+-word phrase is repeated within a 150-word window. Both rules are `[auto]`. |
+| **check** | (1) No paragraph in the prompt exceeds 60 words. (2) No identical 4+-word phrase (exact string match, case-insensitive) is repeated within a 150-word window — common structural phrases (e.g., "the following", "in this case", "one of the") are excluded from this rule. Both rules are `[auto]`. |
 | **fix** | Split paragraphs longer than 60 words into shorter ones; deduplicate repeated phrases. |
 | **related** | `PRM-SMC` |
 | **example** | NG: 80-word paragraph. NG: phrase "return structured findings" appearing 3 times within 100 words. OK: all paragraphs ≤60 words, no phrase over-repeated. |
@@ -1029,8 +1029,8 @@
 | **applies_to** | all |
 | **severity** | Recommended |
 | **auto** | `[judgment]` |
-| **check** | Does the prompt include ≥1 sentence that connects a reason to the instruction it justifies (e.g., "This is required because…" or "Without this, Claude will…")? A standalone fact not tied to an instruction does not count. |
-| **fix** | Add a rationale sentence immediately after the instruction it supports; use "because" or "otherwise" connectors to make the link explicit. |
+| **check** | Does the prompt include ≥1 sentence that connects a reason to the instruction it justifies (e.g., "This is required because…" or "Without this, Claude will…")? The rationale may precede or follow its instruction. A standalone fact not tied to any instruction does not count. |
+| **fix** | Add a rationale sentence adjacent to the instruction it supports; use "because" or "otherwise" connectors to make the link explicit. |
 | **related** | `PRM-IS` |
 | **example** | NG: "Use the full SHA1." (no rationale). OK: "Use the full SHA1, because short SHAs can match multiple commits and cause incorrect links." |
 
@@ -1097,7 +1097,7 @@
 | **applies_to** | all |
 | **severity** | Mandatory |
 | **auto** | `[judgment]` |
-| **check** | Is the same term used for the same concept throughout the prompt — no mixing of "API endpoint", "URL", "route", and "path" for the same thing? Intentional paired synonyms are excluded from this check. |
+| **check** | Is the same term used for the same concept throughout the prompt — no mixing of "API endpoint", "URL", "route", and "path" for the same thing? A synonym is intentional only when the prompt itself explicitly documents the equivalence (e.g., "endpoint (also called route)"). Undocumented synonym variation is NG. |
 | **fix** | Pick one canonical term per concept; do a find-replace pass to unify all occurrences; document intentional synonyms explicitly if needed. |
 | **related** | — |
 | **example** | NG: "Call the endpoint… fetch the URL… hit the route…" all referring to the same API path. OK: "Call the endpoint" consistently throughout. |
@@ -1183,7 +1183,7 @@
 | **severity** | Recommended |
 | **auto** | `[auto]` |
 | **check** | Does the skill body (SKILL.md) contain at least one concrete example? Presence-only check — quality of the example is evaluated separately by PRM-SBS. |
-| **fix** | Add at least one example to the SKILL.md body; any concrete example (even brief) satisfies this check. |
+| **fix** | Add at least one example to the SKILL.md body; a concrete example is a markdown code block, a table, or a labeled input/output pair — prose description alone does not qualify. |
 | **related** | `PRM-SBS`, `PRM-EI-CA` |
 | **example** | NG: skill body with only prose description and no example. OK: skill body with at least one code block, table, or labeled input/output pair. |
 
@@ -1748,7 +1748,7 @@
 | **applies_to** | hook (content-conditional: plugin uses `.local.md` state files) |
 | **severity** | Recommended |
 | **auto** | `[auto]` |
-| **check** | Do `.local.md` state files use the YAML front matter + markdown body pattern — structured data in the `---` block, free text in the body — and live under `.claude/`? |
+| **check** | Do `.local.md` state files use the YAML front matter + markdown body pattern — structured data in the `---` block (with at least one key-value pair), free text in the body — and live under `.claude/`? |
 | **fix** | Convert custom state formats to the `.local.md` pattern; move the file to `.claude/`; use front matter for key-value state and the body for task description or notes. |
 | **related** | `SPC-FMS`, `CTX-FFL` |
 | **example** | NG: plain JSON state file at project root. OK: `.claude/task.local.md` with `---\nenabled: true\niteration: 3\n---\n\n# Task\nFix linting errors.` |
