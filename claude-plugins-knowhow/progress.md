@@ -86,6 +86,69 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 - Automation stance: `[auto]` / `[judgment]` per item.
 - All 7 source files in taxonomy scope (no exclusions by file).
 
+### PRM domain pre-decisions (Step 2 input — from expert review 2026-05-12)
+
+#### Taxonomy changes already applied
+
+| Change | Detail |
+|---|---|
+| `PRM-SBS` renamed | `skill-body-style` → `concrete-example-shape`. Check: skill body examples are concrete in I/O shape (input format + expected output shown). |
+| `PRM-IFL` renamed | `instruction-freedom-level` → `PRM-FLD` (`freedom-level-declaration`). Check: prompt explicitly declares intended freedom level (open-ended / parameterized / procedural). `[auto]` — presence detectable. |
+| `PRM-NT` removed | Not an inspectable file property. Moved to Excluded with rationale. |
+| `PRM-EI` added | `example-inclusion` — at least one concrete example is present. `[judgment]` for commands/agents; `[auto]` for skills (SKILL.md §3 examples rule). |
+
+#### Severity upgrades (apply in Step 2)
+
+| ID | Name | Severity |
+|---|---|---|
+| `PRM-PIF` | positive-instruction-form | **Mandatory** |
+| `PRM-VSC` | verifiable-success-criteria | **Mandatory** |
+| `PRM-IS`  | instruction-specificity | **Mandatory** |
+| `PRM-TC`  | terminology-consistency | **Mandatory** |
+
+#### Context-dependent items — demote to Optional (apply in Step 2)
+
+| ID | Name | Reason |
+|---|---|---|
+| `PRM-DPE` | default-plus-escape | Product design pattern, not universal PE principle. Harmful in exploration tasks. |
+| `PRM-SAC` | single-approach-commitment | Correct for structured tasks; harmful in research/open-ended tasks. |
+
+#### Low-severity items (apply in Step 2)
+
+| ID | Reason |
+|---|---|
+| `PRM-TIC` | Time-independent content. Near-zero hit rate on most plugins; contributes noise if weighted equally. |
+
+#### `applies_to` constraints (apply in Step 2)
+
+| ID | Constraint |
+|---|---|
+| `PRM-CPM` | command, agent only (multi-phase workflows) |
+| `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
+| `PRM-CD`  | command, agent — orchestrator-type only; inapplicable to tool-level prompts |
+
+#### Item redefinitions (apply in Step 2)
+
+| ID | Redefinition |
+|---|---|
+| `PRM-IV`  | Imperative form throughout: direct commands ("Do X"), not descriptions ("This command does X") or questions. All `.md` files in a plugin. |
+| `PRM-IR`  | Binary check only: does the prompt contain ≥ 1 sentence explaining *why* the instruction matters? Adequacy is out of scope. |
+| `PRM-CWF` | Structural proxy: no paragraph exceeds 60 tokens; no phrase repeated within 200 tokens of itself. `[auto]` for repetition; `[judgment]` for paragraph density. |
+| `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome (e.g., "Analyzes PR diffs and returns structured findings" not "A tool for PR analysis"). |
+
+#### `related` links (apply in Step 2)
+
+These clusters must be linked so `expected_effect` is correctly computed. A fix to any item in a cluster will cause all others in the cluster to change state.
+
+| Cluster | Members |
+|---|---|
+| Scope / specificity | `PRM-IS` ↔ `PRM-SC` |
+| Prompt length | `PRM-CWF` ↔ `PRM-SMC` |
+| Negative instruction removal | `PRM-PIF` ↔ `PRM-APE` ↔ `PRM-FPE` |
+| Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` (CPM is a subset; MSS is parent) |
+| Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
+| Output specification | `PRM-OSD` ↔ `PRM-OFD` |
+
 ## Decisions deferred
 
 - Single-file vs per-domain split for the Step 2 checklist output.
