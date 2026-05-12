@@ -136,7 +136,7 @@ Example: `three-layer-separation` → initials `TLS` → ID `ARC-TLS`.
 | `PRM-OSD` | output-shape-directives | `concepts.md` §Design Principles |
 | `PRM-SC`  | scope-constraint | `concepts.md` §Design Principles |
 | `PRM-SMC` | single-message-completion | `components.md` §Commands |
-| `PRM-SBS` | skill-body-style | `components.md` §Skills |
+| `PRM-SBS` | concrete-example-shape | `checklists.md` §Skill §3 Content (examples are concrete in I/O shape) |
 | `PRM-FPE` | false-positive-enumeration | `patterns.md` §Quality Control |
 | `PRM-OFD` | output-format-discipline | `patterns.md` §Quality Control |
 | `PRM-CD`  | code-delegation | `patterns.md` §Advanced Patterns |
@@ -146,7 +146,7 @@ Example: `three-layer-separation` → initials `TLS` → ID `ARC-TLS`.
 | `PRM-IS`  | instruction-specificity | `checklists.md` §Prompt §2 Specificity |
 | `PRM-PIF` | positive-instruction-form | `checklists.md` §Prompt §3 Positive form |
 | `PRM-IR`  | instruction-rationale | `checklists.md` §Prompt §4 Motivation |
-| `PRM-IFL` | instruction-freedom-level | `checklists.md` §Prompt §5 Degree of freedom |
+| `PRM-FLD` | freedom-level-declaration | `checklists.md` §Prompt §5 Degree of freedom |
 | `PRM-VSC` | verifiable-success-criteria | `checklists.md` §Prompt §6 Verification |
 | `PRM-MSS` | multi-step-structuring | `checklists.md` §Prompt §7 Workflow structure |
 | `PRM-TC`  | terminology-consistency | `checklists.md` §Prompt §8 Terminology |
@@ -154,7 +154,8 @@ Example: `three-layer-separation` → initials `TLS` → ID `ARC-TLS`.
 | `PRM-DPE` | default-plus-escape | `checklists.md` §Skill §3 Content |
 | `PRM-SAC` | single-approach-commitment | `case-studies.md` §feature-dev §Agent design notes (code-architect) |
 | `PRM-NRP` | null-result-protocol | `case-studies.md` §feature-dev §Agent design notes (code-reviewer) |
-| `PRM-NT`  | necessity-test | `checklists.md` §CLAUDE.md §2 Conciseness |
+| `PRM-EI-S`  | example-inclusion-skill | `checklists.md` §Skill §3 Content (split from PRM-EI; applies_to: skill, [auto]) |
+| `PRM-EI-CA` | example-inclusion-command-agent | `checklists.md` §Prompt §2 Specificity (split from PRM-EI; applies_to: command/agent, [judgment]) |
 
 ## FLW — Flow (29 items)
 
@@ -247,6 +248,8 @@ Items considered and deliberately excluded from this pass.
 | `feature-vs-component-scope` — smith's Feature vs Component two-layer model | Specific to improvement-class plugins. Too narrow for the general taxonomy. Remains in `smith-design.md`. |
 | `concepts.md` §Component inventory table (17 plugins) | Reference data. Not authoring knowhow. |
 | `components.md` §Representative specialized agents (bullets) | Exemplars of `SPC-AFM`, `FLW-PPS`, `FLW-MTP`. Not standalone items. |
+| `PRM-NT` — necessity-test | Not an inspectable file property. "Would removing this line cause mistakes?" is an authoring process step, not a check an agent can execute on a prompt file. |
+| `PRM-IFL` — instruction-freedom-level (original) | Renamed to `PRM-FLD` (freedom-level-declaration). The check is now whether the plugin explicitly declares its intended freedom level, not whether the level "matches" the task (which requires external ground truth). |
 
 ## Totals
 
