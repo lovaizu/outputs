@@ -26,6 +26,7 @@ $works = get_posts([
 ?>
 <div class="works-list">
 <?php foreach ($works as $work):
+  $cat_label = get_post_meta($work->ID, 'category_label', true);
   $client    = get_post_meta($work->ID, 'client_name', true);
   $img_id    = get_post_meta($work->ID, 'thumbnail', true);
   $img_url   = $img_id ? wp_get_attachment_image_url((int) $img_id, 'large') : '';
@@ -36,7 +37,10 @@ $works = get_posts([
   <div class="work-card-body">
     <div class="work-card-header">
       <h3 class="work-card-title">
-        <a href="<?php echo get_permalink($work->ID); ?>"><?php echo esc_html($work->post_title); ?></a>
+        <a href="<?php echo get_permalink($work->ID); ?>">
+          <?php if ($cat_label): ?><span class="work-card-catlabel">[<?php echo esc_html($cat_label); ?>]</span><?php endif; ?>
+          <?php echo esc_html($client ?: $work->post_title); ?>
+        </a>
         <a href="<?php echo get_permalink($work->ID); ?>" class="work-card-arrow-link" aria-label="<?php echo esc_attr($work->post_title); ?>の詳細">
           <svg class="work-card-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="#4EB0EA" stroke-width="1.5"/><path d="M10 12h5m-2-2 2 2-2 2" stroke="#4EB0EA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>

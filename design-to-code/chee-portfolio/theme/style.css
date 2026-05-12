@@ -582,6 +582,8 @@ img {
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 24px;
+  font-family: var(--wp--preset--font-family--zen-kurenaido);
+  font-weight: 400;
   display: inline-block;
   margin-bottom: 24px;
   color: var(--wp--preset--color--text-primary);
