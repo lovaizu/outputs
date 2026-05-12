@@ -104,7 +104,7 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-PIF` | positive-instruction-form | **Mandatory** | |
 | `PRM-VSC` | verifiable-success-criteria | **Mandatory** | |
 | `PRM-IS`  | instruction-specificity | **Mandatory** | |
-| `PRM-TC`  | terminology-consistency | **Mandatory** | [auto] FP guard: do not flag intentional paired synonyms (e.g., "command" / "slash command" used together explicitly). Flag only when the same concept has two names without an explicit pairing statement. |
+| `PRM-TC`  | terminology-consistency | **Mandatory** | `[judgment]`: mechanical detection can surface candidates (same string used for different concepts), but the FP guard (intentional paired synonyms) requires judgment to apply correctly. Auto-pass candidate detection is acceptable; FP filtering is not automatable. |
 | `PRM-EI`  | example-inclusion | **Recommended** | `auto` is conditional by component: skill → `[auto]` (presence-only); command/agent → `[judgment]`. Schema implementation: if a single `auto` field cannot hold both, split into PRM-EI-S (skill, auto) and PRM-EI-CA (command/agent, judgment). |
 | `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (minimum bar): the rationale sentence must connect to the instruction it justifies (e.g., "This is required because…" or "Without this, Claude will…"). A standalone fact that does not reference its instruction does not count. |
 | `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
@@ -172,6 +172,9 @@ Note: `PRM-FPE` appears in two clusters (scope/specificity and negative-instruct
 
 - **`self_confidence`**: Inspector agents self-report on a 0–100 integer scale. Definition and scoring table are in `smith-design.md §Interfaces §Convergence score formula`. The checklist schema does not need to store this field — it is emitted by agents at inspection time, not stored per checklist item.
 - **Conditional auto/severity**: PRM-TIC and PRM-EI have `applies_to`-dependent auto/severity. If the schema supports only one value per field, split into two items at generation time (e.g., PRM-EI-S for skill, PRM-EI-CA for command/agent). Record the split decision in Step 2.6 sanity review.
+- **`related` → `expected_effect` data flow**: The checklist item's `related` field lists sibling IDs resolved by the same fix. When an inspector agent emits a Finding with `verdict = NG`, it reads the corresponding checklist entry's `related` field and populates `finding.expected_effect` with that list (plus the item's own ID). The `expected_effect` field in the Finding schema is the runtime projection of `related`; the two fields are not duplicate — `related` is stored, `expected_effect` is computed at inspection time.
+- **Architecture-lens singleton risk**: `smith-inspector-architecture` runs once per Feature (not per-file parallel). PRM items that are holistic in nature (e.g., PRM-SC, PRM-FLD, PRM-MSS) may only be caught by the architecture lens — making convergence structurally impossible (single-lens score ≤ 60, always dropped). Mitigation: the conventions lens should be primed to also check these holistic items by including them in `smith-knowhow/references/` so all three lenses can independently evaluate them. Revisit in Step 3 implementation.
+- **checklist_item_id authority**: The authoritative enumeration of `checklist_item_id` values (needed for `expected_effect` and `finding_type`) does not exist until Step 2 is complete. Smith cannot be deployed before Step 2 finalizes all IDs and slugs.
 
 ## Decisions deferred
 
