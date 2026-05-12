@@ -12,7 +12,7 @@
 
 ## Current phase
 
-**Goal + Approach phase step design complete (v4).** Both step lists refined to v4 via Action Principles assay (3 evaluators each, quorum 2/3). Next: Delivery phase step design.
+**Goal + Approach phase step design complete (v9).** Both step lists refined to v9 via Action Principles assay (6 iterations, 3 evaluators each, quorum 2/3). Assay loop deliberately stopped after iteration 6 — marginal returns confirmed; final slim pass (v9) removed bloat. Next: Delivery phase step design.
 
 Branch: `claude/check-aiya-status-quShQ`
 
@@ -29,7 +29,7 @@ Branch: `claude/check-aiya-status-quShQ`
 
 ## Remaining tasks
 
-<!-- paused: 2026-05-12 — next: #2 Delivery phase step design -->
+<!-- paused: 2026-05-12 — next: #2 Delivery phase step design (Goal/Approach are v9, clean) -->
 
 ### Design (blocks the remaining Open questions)
 
@@ -37,6 +37,7 @@ Goal and Approach phase step sequences are complete (both v4, dual-expert-review
 
 - [x] **#1 Approach phase step design** — A0–A19 + A-REDIRECT + A-NOFIT (v3). Key decisions: Testing-First enforced sequentially; A6b expert confirmation after codebase research; lock-step closure rule in A-REDIRECT; A17 sole coverage authority; A-NOFIT escalation for no-viable-technology.
 - [x] **#1a Assay + v4 refinement** — Valid findings addressed: Conventions (D.2), phase completion state (A.2), research hypotheses on G5a/G5b/G11/G14/A5/A7 (C.3), gate 2-pass structure on G27/A19 (C.4/D.3), A0 required sections (B.1), A1 provisional labels (B.1), A3 verification method + completeness (C.1/B.2), A2 adequacy criteria (C.1), A14 pre-work checklist (C.1), A4 G21 deadlock path (C.5), A6 deferral rationale + runner-confirmed definition (B.1/C.5).
+- [x] **#1b Assay iterations 5–6 + v5→v9** — v5: G27 quality pass rewrite. v6: G13 causal hop citation, G6b presentation structure, G4/G9/G17/G22 circuit-breaker goal-tied rationale, A5 pre-investigation scope, A2 provisional-names note, A6 runner confirmation strengthened, A4b/A6c/A11b/A15b escalation patterns. v7: G5a/G5b pre-search population, G6b BLOCK/PASS restructure, G4 abort sequencing, G27 hop-citation quality criterion, A7 pre-research population, A2 Rationale/Supporting-material separation, A-NOFIT option sequencing, A12 loop termination. v8: same as v7 (commits a4a7e5e). v9 (slim): compressed research Notes (G5a/G5b/G11/G14/A5/A7), removed changelogs v2–v6, A11 quantitative evidence requirement added. Assay loop stopped — marginal returns confirmed at iteration 6.
 - [ ] **#2 Delivery phase step design** — Steps authoring, Turn execution, Verification, PR → merge. Key decisions: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
 
 Recommended next tactical step: Delivery phase (#2).
@@ -106,5 +107,5 @@ agents-in-your-area/
 ## Next session entry point
 
 1. Read this file.
-2. Pick up **Approach phase flow design** — use Goal phase as the template.
-3. Once Approach + Delivery flows are set, walk each Open questions list one document at a time.
+2. Pick up **#2 Delivery phase step design** — use Goal phase as the template (G0–G27 pattern). Key scope: Steps authoring, Turn execution, Verification, PR → merge.
+3. Once Delivery flow is set, walk each Open questions list one document at a time.
