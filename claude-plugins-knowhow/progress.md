@@ -124,7 +124,8 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
 | `PRM-CD`  | command, agent — orchestrator-type only. Orchestrator = a command or agent that dispatches ≥1 other agent or invokes ≥1 skill via the Skill tool. Non-dispatching commands are excluded. |
 | `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter. `[judgment]`: active verb + concrete outcome requires human/LLM assessment. |
-| `PRM-EI`  | skill (`[auto]` for presence only; adequacy is out of scope), command, agent (`[judgment]`) |
+| `PRM-EI-S`  | skill only. `[auto]` presence-only. |
+| `PRM-EI-CA` | command, agent. `[judgment]`. |
 | `PRM-FPE` | inspection-class prompts only — commands or agents whose output is a list of findings, issues, or recommendations. Not applicable to prompts that produce code, files, or non-finding outputs. |
 | `PRM-NRP` | inspection-class prompts (output = findings/issues/recommendations), AND any other prompt where zero results is a valid outcome — determined by `[judgment]`. Verb filtering is removed; agents apply judgment to assess whether zero-result is a plausible completion state. |
 | `PRM-DPE` | content-conditional (not component-conditional): apply only when the prompt contains a choice gateway — a branch point where ≥2 approaches are valid and Claude must select one. |
@@ -145,7 +146,7 @@ Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure trigger
 | `PRM-OFD` | Defines the *precision* of output format rules: each rule names (a) what must appear, (b) what must not appear, (c) any quantity/ordering constraint. e.g., "Every finding must include a link to the file and line range" = compliant; "Keep it brief" = not. Distinct from PRM-OSD (structure). Evaluate OFD only after OSD passes — an OSD failure is more fundamental. |
 | `PRM-SMC` | Check `[auto]` for known phrases; `[judgment]` for paraphrases. Known phrases: "do not send any other text," "complete in one turn," "do not ask for confirmation," "respond in a single message," "no follow-up." Any directive whose semantic content prohibits mid-task clarification or follow-up requests qualifies — the list is illustrative, not exhaustive. Absence = NG. |
 | `PRM-APE` | Check: when the prompt prohibits ≥2 behaviors, are those prohibitions co-located in a named anti-pattern list (e.g., "Do not do any of the following: …")? Co-located = within the same markdown section (same heading level) OR within the same inline list (single paragraph containing a bullet/numbered list). Prohibitions under different headings AND not in a shared inline list = not co-located = NG. Single prohibition anywhere = out of scope. |
-| `PRM-NRP` | Check: does the prompt specify what to output when no result is found — one of: explicit empty marker (e.g., "Return an empty array"), silence with rationale, or escalation path (e.g., "Report 'no findings' and exit")? Absence = NG. Trigger: prompt contains action verbs find / list / search / scan / match / return / collect / detect, or otherwise can complete with zero results by design. |
+| `PRM-NRP` | Check: does the prompt specify what to output when no result is found — one of: explicit empty marker (e.g., "Return an empty array"), silence with rationale, or escalation path (e.g., "Report 'no findings' and exit")? Absence = NG. Applicability determined by `[judgment]`: applies when zero-result is a plausible completion state for the prompt. |
 | `PRM-SC`  | Check: does the prompt bound its operating scope — explicitly stating what inputs, domains, or file types are in-scope and/or excluded? (e.g., "Only review files changed in this PR", "Do not check build signal"). Absence means Claude must infer scope, risking over-reach. |
 | `PRM-FPE` | Check: does the prompt include an explicit enumeration of false-positive categories — findings that look valid but must not be reported (e.g., "Do not report pre-existing issues", "Do not flag issues lint will catch")? Absence causes systematic false positives in inspection-type prompts. |
 
@@ -164,7 +165,7 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 | Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` ↔ `PRM-SAC` (CPM and SAC are subsets; MSS is parent) |
 | Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
 | Output specification | `PRM-OSD` ↔ `PRM-OFD` |
-| Example quality | `PRM-SBS` ↔ `PRM-EI` |
+| Example quality | `PRM-SBS` ↔ `PRM-EI-S` ↔ `PRM-EI-CA` |
 | Silent failure | `PRM-TIC` ↔ `PRM-VSC` |
 
 Note: `PRM-FPE` appears in one cluster only (scope/specificity). The previous link to the negative-instruction-removal cluster has been removed — a fix to APE (co-locating prohibitions) does not cause FPE (enumerating false-positive categories) to pass. They are independent checks.
