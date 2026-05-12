@@ -107,7 +107,7 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-TC`  | terminology-consistency | **Mandatory** | `[judgment]`: mechanical detection can surface candidates (same string used for different concepts), but the FP guard (intentional paired synonyms) requires judgment to apply correctly. Auto-pass candidate detection is acceptable; FP filtering is not automatable. |
 | `PRM-EI-S`  | example-inclusion (skill) | **Recommended** | Split from PRM-EI. `[auto]` presence-only. applies_to: skill. |
 | `PRM-EI-CA` | example-inclusion (command/agent) | **Recommended** | Split from PRM-EI. `[judgment]`. applies_to: command, agent. |
-| `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (minimum bar): the rationale sentence must connect to the instruction it justifies (e.g., "This is required because…" or "Without this, Claude will…"). A standalone fact that does not reference its instruction does not count. |
+| `PRM-IR`  | instruction-rationale | **Recommended** | `[judgment]`. Binary check (minimum bar): the rationale sentence must connect to the instruction it justifies (e.g., "This is required because…" or "Without this, Claude will…"). A standalone fact that does not reference its instruction does not count. Presence of any explanatory sentence is insufficient — the sentence must semantically connect a reason to its corresponding instruction. |
 | `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
 | `PRM-SMC` | single-message-completion | **Mandatory** | Absence in a command that requires single-turn completion is workflow-breaking, not advisory. `[auto]` — phrase-presence detectable. |
 | `PRM-NRP` | null-result-protocol | **Mandatory** | Same failure mode as PRM-VSC (no terminal condition specified). Absence causes silent failure or undefined behavior when zero results occur. |
@@ -120,7 +120,7 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 
 | ID | Constraint |
 |---|---|
-| `PRM-CPM` | command, agent only (multi-phase workflows) |
+| `PRM-CPM` | command, agent only (multi-phase workflows). Skills are excluded because they execute in a subagent context — the invoking command holds responsibility for user-approval gates; a skill cannot issue its own gate to the calling user. Architecture-lens inspectors must mark CPM as OOS for all skill files. |
 | `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
 | `PRM-CD`  | command, agent — orchestrator-type only. Orchestrator = a command or agent that dispatches ≥1 other agent or invokes ≥1 skill via the Skill tool. Non-dispatching commands are excluded. |
 | `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter. `[judgment]`: active verb + concrete outcome requires human/LLM assessment. |
@@ -134,6 +134,8 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure triggers PRM-MSS but never PRM-CPM. This is intentional — critical phase markers (DO NOT SKIP, DO NOT START WITHOUT APPROVAL) are a command/agent construct. Agents must not flag the asymmetry as inconsistency.
 
 Note on content-conditional OOS: PRM-DPE and PRM-SAC are content-conditional, not file-type-conditional. When the content precondition is absent (no choice gateway for DPE; no defined completion state for SAC), the verdict is OOS — not NG. This is an exception to the general OOS rule ("logically inapplicable to the file type"). Content-conditional items where the precondition is absent must resolve OOS, never NG. Smith-knowhow SKILL.md must include this carve-out explicitly.
+
+Note on content-conditional precondition variance: For DPE and SAC, the precondition check (choice gateway present? structured reproducible task?) is judgment-based. Lenses may disagree — one marks OOS, another marks NG. Under the convergence formula, a single-lens NG (score ≤ 60) will be dropped. This is the intended behavior for Quality-severity items: findings that only one lens detects are treated as low-confidence. Implementers must not treat dropped DPE/SAC findings as a scoring bug.
 
 #### Item redefinitions (apply in Step 2)
 
@@ -167,22 +169,27 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 | Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` ↔ `PRM-SAC` (CPM and SAC are subsets; MSS is parent) |
 | Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
 | Output specification | `PRM-OSD` ↔ `PRM-OFD` |
-| Example quality | `PRM-SBS` ↔ `PRM-EI-S` ↔ `PRM-EI-CA` |
+| Example quality | `PRM-SBS` ↔ `PRM-EI-S` ↔ `PRM-EI-CA` (see prerequisite note below) |
 | Silent failure | `PRM-TIC` ↔ `PRM-VSC` |
 
 Note: `PRM-FPE` appears in one cluster only (scope/specificity). The previous link to the negative-instruction-removal cluster has been removed — a fix to APE (co-locating prohibitions) does not cause FPE (enumerating false-positive categories) to pass. They are independent checks.
+
+Note on Example quality cluster: `PRM-EI-S` is a prerequisite gate (presence-only `[auto]` check). `PRM-SBS` evaluates quality conditional on presence. `PRM-EI-S` OK does not reduce confidence on `PRM-SBS` NG — they check different things. A fix to `PRM-SBS` does not change `PRM-EI-S`'s verdict (it already passes). `PRM-EI-S` must not appear in `expected_effect` of `PRM-SBS` or `PRM-EI-CA` findings. The cluster link reflects that all three concern the example domain, not that they share a common fix path.
 
 #### Schema notes (apply in Step 2)
 
 - **`self_confidence`**: Inspector agents self-report on a 0–100 integer scale. Definition and scoring table are in `smith-design.md §Interfaces §Convergence score formula`. The checklist schema does not need to store this field — it is emitted by agents at inspection time, not stored per checklist item.
 - **PRM-EI split (decided)**: PRM-EI is split into PRM-EI-S (skill, `[auto]`, presence-only) and PRM-EI-CA (command/agent, `[judgment]`). These are two distinct checklist rows. PRM-EI as a single item is retired. Update taxonomy.md at Step 2 generation.
 - **PRM-TIC conditional severity (abandoned)**: Conditional severity is not expressible in the single-field schema. PRM-TIC is set to Recommended for all component types.
-- **PRM-LFD definition authority**: The taxonomy pre-decision definition ("active verbs + concrete outcome") overrides `checklists.md §Skill §1` ("states both 'what' and 'when'") for this item. The generated checklist-items.md entry will use the taxonomy definition. **Conventions-lens guard**: when PRM-LFD is in scope, `checklists.md §Skill §1 items 3 and 4` (description third-person, states what-and-when) are superseded and must NOT be checked separately. Smith-knowhow SKILL.md must include this override note explicitly.
+- **PRM-LFD definition authority**: The taxonomy pre-decision definition ("active verbs + concrete outcome") defines PRM-LFD's check. The generated checklist-items.md entry will use this definition. **PRM-LFD is additive — it does not replace SPC items**: `checklists.md §Skill §1 items 3 and 4` (description third-person; states what-and-when) belong to the SPC domain and remain as separate SPC checklist rows. PRM-LFD covers a distinct dimension (active verb + concrete outcome language style) and does not subsume person check or trigger check. Inspectors must not double-report the same sentence as both a PRM-LFD finding and a SPC finding — if a description violates both, report under the most specific (SPC) item. Smith-knowhow SKILL.md must include this clarification.
 - **PRM-CWF threshold authority**: The 60-word paragraph cap and 150-word repetition window are defined in these pre-decisions. The generated checklist-items.md entry will carry these thresholds. `smith-autocheck.sh` must implement them.
-- **finding_type slug discipline**: Agents must use identical `finding_type` slugs for the same logical issue. A known-slugs validation list must be included in `smith-knowhow/SKILL.md` before Step 3 implementation. Flag for Step 3.
+- **finding_type slug discipline**: Agents must use identical `finding_type` slugs for the same logical issue. The slug is the item's kebab-case name (second column of taxonomy, e.g. `concrete-example-shape`), never the ID (e.g., `PRM-SBS`). All lenses must derive `finding_type` from the slug column — never from the ID. A known-slugs validation list must be included in `smith-knowhow/SKILL.md` before Step 3 implementation. Flag for Step 3.
 - **`related` → `expected_effect` data flow**: The `related` clusters defined in these pre-decisions will be embedded as `related` field values in each checklist-items.md row at Step 2 generation. Agents read `related` from the checklist-items.md entry (not from this doc) and populate `finding.expected_effect` at inspection time. The clusters in this doc are the authoritative source; Step 2 must faithfully transfer them into the generated rows. Do not consider the clusters accessible to agents until Step 2 is complete.
 - **Architecture-lens singleton risk**: `smith-inspector-architecture` runs once per Feature (not per-file parallel). PRM items that are holistic in nature (e.g., PRM-SC, PRM-FLD, PRM-MSS) may only be caught by the architecture lens — making convergence structurally impossible (single-lens score ≤ 60, always dropped). Mitigation: the conventions lens should be primed to also check these holistic items by including them in `smith-knowhow/references/` so all three lenses can independently evaluate them. Revisit in Step 3 implementation.
 - **checklist_item_id authority**: The authoritative enumeration of `checklist_item_id` values (needed for `expected_effect` and `finding_type`) does not exist until Step 2 is complete. Smith cannot be deployed before Step 2 finalizes all IDs and slugs.
+- **PRM-TC automation stance**: `[judgment]` is the canonical stance for PRM-TC (reflected in the severity table). Mechanical string-scanning (detecting the same term used for semantically different concepts) is an acceptable first pass inside an inspector agent but must be followed by a judgment filter before marking NG. Do not tag PRM-TC as `[auto]` — the `[auto]` bypass would skip the FP filter that is required for a Mandatory item.
+- **PRM-FLD sub-item 2**: `checklists.md §Prompt §5` contains two items. Item 2 ("Applies the narrow-bridge vs. open-field analogy") is subsumed into PRM-FLD. It is not a separate checklist row. PRM-FLD's binary presence check implicitly covers the intent of item 2 (requiring an explicit freedom declaration is the operationalization of the narrow-bridge/open-field principle). Agents must not generate a separate `finding_type` for item 2.
+- **Mandatory + judgment-gated applicability (PRM-NRP)**: PRM-NRP applicability is `[judgment]` — lenses may disagree on whether zero-result is a plausible completion state. If one lens marks NG and another marks OOS, the single-lens convergence score (≤ 60) would normally drop the finding. For Mandatory items, this is unacceptable. Rule: **NG beats OOS for Mandatory items in the merge step**. If any lens marks NG for a Mandatory item, the finding is promoted to the report regardless of OOS votes from other lenses. Smith-evaluate.sh must implement this promotion rule. Applies to all Mandatory items that have `[judgment]`-gated applicability.
 
 ## Decisions deferred
 
