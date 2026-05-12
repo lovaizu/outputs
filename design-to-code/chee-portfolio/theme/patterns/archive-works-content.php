@@ -10,7 +10,7 @@
 <?php
 $works = get_posts([
   'post_type'      => 'works',
-  'posts_per_page' => -1,
+  'posts_per_page' => 6,
   'orderby'        => 'date',
   'order'          => 'DESC',
 ]);
