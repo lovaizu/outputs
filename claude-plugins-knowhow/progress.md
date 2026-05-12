@@ -105,12 +105,13 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-VSC` | verifiable-success-criteria | **Mandatory** | |
 | `PRM-IS`  | instruction-specificity | **Mandatory** | |
 | `PRM-TC`  | terminology-consistency | **Mandatory** | |
-| `PRM-EI`  | example-inclusion | **Recommended** | |
+| `PRM-EI`  | example-inclusion | **Recommended** | `auto` is conditional by component: skill → `[auto]` (presence-only); command/agent → `[judgment]`. Schema implementation: if a single `auto` field cannot hold both, split into PRM-EI-S (skill, auto) and PRM-EI-CA (command/agent, judgment). |
 | `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (presence only); adequacy is out of scope. |
 | `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
+| `PRM-SMC` | single-message-completion | **Mandatory** | Absence in a command that requires single-turn completion is workflow-breaking, not advisory. |
 | `PRM-DPE` | default-plus-escape | **Quality** | Conditional: only when prompt governs choice with ≥2 valid approaches. Not for single-path or open-ended tasks. |
 | `PRM-SAC` | single-approach-commitment | **Quality** | Conditional: only when prompt governs structured, reproducible task. Not for exploration or open-ended tasks. |
-| `PRM-TIC` | time-independent-content | **Recommended** | Stale dates/release refs cause silent failures. Treat as Quality when applies_to = skill only. |
+| `PRM-TIC` | time-independent-content | **Recommended** | Stale dates/release refs cause silent failures. Schema implementation: severity is Recommended for command/agent; Quality for skill. If a single severity field cannot represent both, record Recommended and handle the skill-only downgrade in the `applies_to` filter logic at inspection time. |
 
 #### `applies_to` constraints (apply in Step 2)
 
@@ -130,13 +131,16 @@ Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure trigger
 |---|---|
 | `PRM-IV`  | Imperative form throughout: direct commands ("Do X"), not descriptions ("This command does X") or questions. All `.md` files in a plugin. |
 | `PRM-IR`  | Binary check only: does the prompt contain ≥ 1 sentence explaining *why* the instruction matters? Adequacy is out of scope. |
-| `PRM-CWF` | Structural proxy: no paragraph exceeds 60 tokens; no phrase repeated within 200 tokens of itself. `[auto]` for repetition; `[judgment]` for paragraph density. |
+| `PRM-CWF` | Structural proxy: no paragraph exceeds 60 words (~80 tokens at 4 chars/token); no phrase of 4+ words repeated within 150 words of itself. Word-count used throughout to avoid tokenizer ambiguity. `[auto]` for repetition; `[judgment]` for paragraph density. |
 | `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome. Examples — OK: "Analyzes PR diffs and returns structured findings"; NG: "A tool for PR analysis". Applies to the `description` field only; not the SKILL.md body. |
 | `PRM-FLD` | Check: does the prompt contain an explicit statement of intended freedom level using one of these exact terms or clear paraphrases — open-ended ("Claude chooses the approach," "explore freely"), parameterized ("approach is fixed, inputs vary," "follow this template"), or procedural ("step-by-step," "do not deviate," "follow phases in order"). A vague preamble does not qualify. Examples — NG: "This command helps you create features." OK: "This is a procedural workflow — follow phases in order, do not deviate." The statement must be present in the prompt body, not inferred from surrounding structure. |
 | `PRM-SMC` | Check: does the prompt include a directive to complete the task in a single response without requesting clarification or issuing follow-up messages? (e.g., "Do not send any other text or messages besides these tool calls", "Complete in one turn without asking for confirmation"). Applies to commands where back-and-forth would break the workflow. |
 | `PRM-OSD` | Defines the *structure* of the output: what sections, fields, or format the response must contain (e.g., "Return a JSON array with fields X, Y, Z", "Output a markdown table with columns A and B"). Check: does the prompt specify what the output must look like structurally? |
-| `PRM-OFD` | Defines the *discipline* of output format rules: rules are precise, complete, and internally consistent (e.g., brevity enforced by word limit, no emojis stated explicitly, every finding must include a code link). Check: are the format rules stated with enough precision that two different Claude instances would produce equivalent output format? Distinct from PRM-OSD (structure) — OFD is about the *quality* of format instructions, not their existence. |
-| `PRM-APE` | Check: when the prompt prohibits certain behaviors, are those prohibitions collected into a named anti-pattern list (e.g., "Do not do any of the following: …") rather than scattered throughout the prompt body? A single consolidated list enables Claude to reference it at any phase. |
+| `PRM-OFD` | Defines the *discipline* of output format rules: each rule is precise, complete, and internally consistent. Check (structural, agent-observable): does every format rule in the prompt name (a) what must appear, (b) what must not appear, and (c) any quantity/ordering constraint? e.g., "Every finding must include a link to the file and line range" is OFD-compliant; "Keep it brief" is not. Distinct from PRM-OSD (structure of output) — OFD is about the *precision* of format instructions. |
+| `PRM-APE` | Check: when the prompt prohibits ≥2 behaviors, are those prohibitions collected into a named anti-pattern list (e.g., "Do not do any of the following: …") rather than appearing in separate sections of the prompt body? Threshold: ≥2 prohibitions not co-located = scattered = NG. A single prohibition anywhere in the prompt is not subject to this check. |
+| `PRM-NRP` | Check: does the prompt specify what to output when no result is found — one of: explicit empty marker (e.g., "Return an empty array"), silence with rationale, or escalation path (e.g., "Report 'no findings' and exit")? Absence = NG. Applies to any prompt that can legitimately produce zero results. |
+| `PRM-SC`  | Check: does the prompt bound its operating scope — explicitly stating what inputs, domains, or file types are in-scope and/or excluded? (e.g., "Only review files changed in this PR", "Do not check build signal"). Absence means Claude must infer scope, risking over-reach. |
+| `PRM-FPE` | Check: does the prompt include an explicit enumeration of false-positive categories — findings that look valid but must not be reported (e.g., "Do not report pre-existing issues", "Do not flag issues lint will catch")? Absence causes systematic false positives in inspection-type prompts. |
 
 #### `related` links (apply in Step 2)
 
@@ -144,16 +148,21 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 
 | Cluster | Members |
 |---|---|
-| Scope / specificity | `PRM-IS` ↔ `PRM-SC` ↔ `PRM-FPE` |
+| Scope / specificity | `PRM-IS` ↔ `PRM-SC` ↔ `PRM-FPE` ↔ `PRM-DPE` |
 | Prompt length | `PRM-CWF` ↔ `PRM-SMC` |
 | Negative instruction removal | `PRM-PIF` ↔ `PRM-APE` ↔ `PRM-FPE` |
-| Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` (CPM is a subset; MSS is parent) |
+| Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` ↔ `PRM-SAC` (CPM and SAC are subsets; MSS is parent) |
 | Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
 | Output specification | `PRM-OSD` ↔ `PRM-OFD` |
 | Example quality | `PRM-SBS` ↔ `PRM-EI` |
 | Silent failure | `PRM-TIC` ↔ `PRM-VSC` |
 
 Note: `PRM-FPE` appears in two clusters (scope/specificity and negative-instruction-removal). This is intentional — a false-positive list fix simultaneously tightens scope and removes negative framing. Both `related` links must be recorded on the PRM-FPE entry.
+
+#### Schema notes (apply in Step 2)
+
+- **`self_confidence`**: Inspector agents self-report on a 0–100 integer scale. Definition and scoring table are in `smith-design.md §Interfaces §Convergence score formula`. The checklist schema does not need to store this field — it is emitted by agents at inspection time, not stored per checklist item.
+- **Conditional auto/severity**: PRM-TIC and PRM-EI have `applies_to`-dependent auto/severity. If the schema supports only one value per field, split into two items at generation time (e.g., PRM-EI-S for skill, PRM-EI-CA for command/agent). Record the split decision in Step 2.6 sanity review.
 
 ## Decisions deferred
 
