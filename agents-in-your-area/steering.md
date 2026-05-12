@@ -12,9 +12,9 @@
 
 ## Current phase
 
-**Design consolidation.** Planning-session decisions have been reflected into the docs (commit `b4a4265`). Remaining work is per-document **Open questions** hearings and two outstanding phase-flow designs (Approach, Delivery).
+**Goal phase step design complete.** Goal phase ACC Turn sequence (v3) produced via dual expert review + re-review cycle. Next: apply same pattern to Approach and Delivery phases.
 
-Branch: `claude/aiya-documentation-polish-LLxbp`
+Branch: `claude/check-aiya-status-quShQ`
 
 ## Completed
 
@@ -23,17 +23,21 @@ Branch: `claude/aiya-documentation-polish-LLxbp`
 - [x] tc-x-gates.md: added Pain/Benefit writing discipline — Benefit is strategic impact, not Pain's inverse
 - [x] aiya-jam.md: full rewrite with conversational commands (`/hi /go /ty /gm /bb`), up.sh/dn.sh lifecycle, Chain directory layout, Quickstart
 - [x] acc.md: CCS lowercase filename convention (`t001.md`, `t002.md`) documented; physical-location open question resolved
+- [x] docs/scenario.md: concrete end-to-end scenario (unread badge) showing TC→CCS linkage across all three phases with ACC Turns
+- [x] docs/goal-phase-steps.md: Goal phase ACC Turn sequence v3 (G0–G27 + G-REDIRECT) — dual expert review (product discovery + AI agent design), re-review, full integration of all High/Medium/Low findings
 
 ## Remaining tasks
 
+<!-- paused: 2026-05-12 — next: #1 Approach phase step design (apply same review process as Goal phase) -->
+
 ### Design (blocks the remaining Open questions)
 
-Goal-phase pattern is set. Approach and Delivery need the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
+Goal phase step sequence is complete (v3, 27 steps + G-REDIRECT). Approach and Delivery need the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
 
-- [ ] **Approach phase flow** — apply the Goal pattern (Plan section + Planning Gate → drafting → Output Gate G2). Decide: AI-drafted vs expert-authored per element; how Technology choice is recorded; how Design shape is recorded.
-- [ ] **Delivery phase flow** — Steps authoring, Turn execution, Verification, PR → merge. Decide: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
+- [ ] **#1 Approach phase step design** — apply same dual expert review process as Goal phase. Elements: Testing, Technology, Design. Key decisions: investigation Turn structure, how Technology choice is validated, how Design is scoped before implementation.
+- [ ] **#2 Delivery phase step design** — Steps authoring, Turn execution, Verification, PR → merge. Key decisions: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
 
-Recommended next tactical step: Approach phase flow (pattern already exists, low cost, closes the whole picture).
+Recommended next tactical step: Approach phase (#1).
 
 ### Open questions — per document
 
@@ -79,6 +83,8 @@ Recommended next tactical step: Approach phase flow (pattern already exists, low
 - Key constraint: the expert's judgment must be structurally embedded, not bolted on. Gates exist because drift is structurally detectable only when there is something concrete to compare against.
 - Pain/Benefit discipline matters: Pain is observable symptom; Benefit is strategic downstream impact. Users often collapse them — the doc now enforces the distinction.
 - Command naming: conversational phrases over functional labels (`/ty` not `/approve`, `/gm` not `/feedback`).
+- Goal phase step design process: start with a concrete scenario (TC→CCS linkage), enumerate steps, run dual independent expert subagent review, integrate, re-review, fix all findings. This process works and should be reused for Approach and Delivery phases.
+- Goal phase v3 key structural decisions: G0 Goal Intake initializes CCS; parallel research (G5a‖G5b) requires a merge Turn (G5c); Root Cause Analysis (G13) must follow Pain Lock (G12); Similar Cases Research (G14) precedes Benefit Scoping (G15); all revision loops have N=5 circuit-breakers; G-REDIRECT invalidates stale CCS components on re-entry; G27 is the only step that authorizes inter-phase transition.
 
 ## Document layout
 
