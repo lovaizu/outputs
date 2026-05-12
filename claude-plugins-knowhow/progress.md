@@ -106,6 +106,8 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-IS`  | instruction-specificity | **Mandatory** | |
 | `PRM-TC`  | terminology-consistency | **Mandatory** | |
 | `PRM-EI`  | example-inclusion | **Recommended** | |
+| `PRM-IR`  | instruction-rationale | **Recommended** | Binary check (presence only); adequacy is out of scope. |
+| `PRM-FLD` | freedom-level-declaration | **Recommended** | Governs agent autonomy scoping; absence leaves freedom level implicit. |
 | `PRM-DPE` | default-plus-escape | **Optional** | Applies only when the prompt governs a choice with ≥ 2 valid approaches. Not applicable to single-path procedures or open-ended research tasks. |
 | `PRM-SAC` | single-approach-commitment | **Optional** | Applies only when the prompt governs a structured, reproducible task. Not applicable to exploration, research, or open-ended generation tasks. |
 | `PRM-TIC` | time-independent-content | **Recommended** for command/agent; **Quality** for skill | Silent failures from stale dates/release references are higher-impact in agent prompts than in skill bodies. |
@@ -118,7 +120,7 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
 | `PRM-CD`  | command, agent — orchestrator-type only; inapplicable to tool-level prompts |
 | `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter |
-| `PRM-EI`  | skill (`[auto]`), command, agent (`[judgment]`) |
+| `PRM-EI`  | skill (`[auto]` for presence only; adequacy is out of scope), command, agent (`[judgment]`) |
 
 Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure triggers PRM-MSS but never PRM-CPM. This is intentional — critical phase markers (DO NOT SKIP, DO NOT START WITHOUT APPROVAL) are a command/agent construct. Agents must not flag the asymmetry as inconsistency.
 
@@ -130,7 +132,7 @@ Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure trigger
 | `PRM-IR`  | Binary check only: does the prompt contain ≥ 1 sentence explaining *why* the instruction matters? Adequacy is out of scope. |
 | `PRM-CWF` | Structural proxy: no paragraph exceeds 60 tokens; no phrase repeated within 200 tokens of itself. `[auto]` for repetition; `[judgment]` for paragraph density. |
 | `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome. Examples — OK: "Analyzes PR diffs and returns structured findings"; NG: "A tool for PR analysis". Applies to the `description` field only; not the SKILL.md body. |
-| `PRM-FLD` | Check: does the prompt contain an explicit statement of its intended freedom level — one of: open-ended (Claude chooses the approach), parameterized (approach is fixed, inputs vary), or procedural (step-by-step, no deviation). The analogy of "narrow bridge vs. open field" is paraphrased here as: procedural = narrow bridge (one path); open-ended = open field (Claude decides). No external document reference is required. |
+| `PRM-FLD` | Check: does the prompt contain an explicit statement of intended freedom level using one of these exact terms or clear paraphrases — open-ended ("Claude chooses the approach," "explore freely"), parameterized ("approach is fixed, inputs vary," "follow this template"), or procedural ("step-by-step," "do not deviate," "follow phases in order"). A vague preamble (e.g., "This command helps with X") does not qualify. The statement must be present in the prompt body, not inferred from surrounding structure. |
 
 #### `related` links (apply in Step 2)
 
