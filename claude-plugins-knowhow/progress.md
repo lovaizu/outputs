@@ -97,27 +97,18 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-NT` removed | Not an inspectable file property. Moved to Excluded with rationale. |
 | `PRM-EI` added | `example-inclusion` — at least one concrete example is present. `[judgment]` for commands/agents; `[auto]` for skills (SKILL.md §3 examples rule). |
 
-#### Severity upgrades (apply in Step 2)
+#### Severity (apply in Step 2)
 
-| ID | Name | Severity |
-|---|---|---|
-| `PRM-PIF` | positive-instruction-form | **Mandatory** |
-| `PRM-VSC` | verifiable-success-criteria | **Mandatory** |
-| `PRM-IS`  | instruction-specificity | **Mandatory** |
-| `PRM-TC`  | terminology-consistency | **Mandatory** |
-
-#### Context-dependent items — demote to Optional (apply in Step 2)
-
-| ID | Name | Reason |
-|---|---|---|
-| `PRM-DPE` | default-plus-escape | Product design pattern, not universal PE principle. Harmful in exploration tasks. |
-| `PRM-SAC` | single-approach-commitment | Correct for structured tasks; harmful in research/open-ended tasks. |
-
-#### Low-severity items (apply in Step 2)
-
-| ID | Reason |
-|---|---|
-| `PRM-TIC` | Time-independent content. Near-zero hit rate on most plugins; contributes noise if weighted equally. |
+| ID | Name | Severity | Note |
+|---|---|---|---|
+| `PRM-PIF` | positive-instruction-form | **Mandatory** | |
+| `PRM-VSC` | verifiable-success-criteria | **Mandatory** | |
+| `PRM-IS`  | instruction-specificity | **Mandatory** | |
+| `PRM-TC`  | terminology-consistency | **Mandatory** | |
+| `PRM-EI`  | example-inclusion | **Recommended** | |
+| `PRM-DPE` | default-plus-escape | **Optional** | Applies only when the prompt governs a choice with ≥ 2 valid approaches. Not applicable to single-path procedures or open-ended research tasks. |
+| `PRM-SAC` | single-approach-commitment | **Optional** | Applies only when the prompt governs a structured, reproducible task. Not applicable to exploration, research, or open-ended generation tasks. |
+| `PRM-TIC` | time-independent-content | **Recommended** for command/agent; **Quality** for skill | Silent failures from stale dates/release references are higher-impact in agent prompts than in skill bodies. |
 
 #### `applies_to` constraints (apply in Step 2)
 
@@ -126,6 +117,10 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-CPM` | command, agent only (multi-phase workflows) |
 | `PRM-MSS` | command, agent, skill — only when prompt contains multi-step procedure |
 | `PRM-CD`  | command, agent — orchestrator-type only; inapplicable to tool-level prompts |
+| `PRM-LFD` | skill only — applies to the `description` field in SKILL.md front matter |
+| `PRM-EI`  | skill (`[auto]`), command, agent (`[judgment]`) |
+
+Note on PRM-MSS / PRM-CPM asymmetry: a skill with a multi-step procedure triggers PRM-MSS but never PRM-CPM. This is intentional — critical phase markers (DO NOT SKIP, DO NOT START WITHOUT APPROVAL) are a command/agent construct. Agents must not flag the asymmetry as inconsistency.
 
 #### Item redefinitions (apply in Step 2)
 
@@ -134,7 +129,8 @@ Output: a structured checklist file that smith's `smith-knowhow` skill can load 
 | `PRM-IV`  | Imperative form throughout: direct commands ("Do X"), not descriptions ("This command does X") or questions. All `.md` files in a plugin. |
 | `PRM-IR`  | Binary check only: does the prompt contain ≥ 1 sentence explaining *why* the instruction matters? Adequacy is out of scope. |
 | `PRM-CWF` | Structural proxy: no paragraph exceeds 60 tokens; no phrase repeated within 200 tokens of itself. `[auto]` for repetition; `[judgment]` for paragraph density. |
-| `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome (e.g., "Analyzes PR diffs and returns structured findings" not "A tool for PR analysis"). |
+| `PRM-LFD` | Skill description uses forward-leaning language: active verbs + concrete outcome. Examples — OK: "Analyzes PR diffs and returns structured findings"; NG: "A tool for PR analysis". Applies to the `description` field only; not the SKILL.md body. |
+| `PRM-FLD` | Check: does the prompt contain an explicit statement of its intended freedom level — one of: open-ended (Claude chooses the approach), parameterized (approach is fixed, inputs vary), or procedural (step-by-step, no deviation). The analogy of "narrow bridge vs. open field" is paraphrased here as: procedural = narrow bridge (one path); open-ended = open field (Claude decides). No external document reference is required. |
 
 #### `related` links (apply in Step 2)
 
@@ -142,12 +138,15 @@ These clusters must be linked so `expected_effect` is correctly computed. A fix 
 
 | Cluster | Members |
 |---|---|
-| Scope / specificity | `PRM-IS` ↔ `PRM-SC` |
+| Scope / specificity | `PRM-IS` ↔ `PRM-SC` ↔ `PRM-FPE` |
 | Prompt length | `PRM-CWF` ↔ `PRM-SMC` |
 | Negative instruction removal | `PRM-PIF` ↔ `PRM-APE` ↔ `PRM-FPE` |
 | Multi-step structure | `PRM-MSS` ↔ `PRM-CPM` (CPM is a subset; MSS is parent) |
 | Terminal conditions | `PRM-VSC` ↔ `PRM-NRP` |
 | Output specification | `PRM-OSD` ↔ `PRM-OFD` |
+| Example quality | `PRM-SBS` ↔ `PRM-EI` |
+
+Note: `PRM-FPE` appears in two clusters (scope/specificity and negative-instruction-removal). This is intentional — a false-positive list fix simultaneously tightens scope and removes negative framing. Both `related` links must be recorded on the PRM-FPE entry.
 
 ## Decisions deferred
 
