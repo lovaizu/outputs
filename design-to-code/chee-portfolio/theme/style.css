@@ -503,6 +503,10 @@ img {
   gap: 8px;
 }
 
+.works-section-title--tool {
+  font-weight: 500 !important;
+}
+
 .works-section-title::before {
   content: "";
   display: inline-block;
@@ -511,6 +515,24 @@ img {
   height: 12px;
   background: var(--wp--preset--color--accent);
   border-radius: 2px;
+}
+
+/* D-T6: section body text 18px */
+.entry-content p {
+  font-size: 18px;
+}
+
+/* D-I1: detail image gallery */
+.works-detail-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.works-detail-gallery img {
+  max-width: 100%;
+  height: auto;
 }
 
 

@@ -22,8 +22,13 @@ build_post_content() {
     title=$(echo "$sections" | jq -r ".[$k].title")
     body_count=$(echo "$sections" | jq ".[$k].body | length")
 
-    output+="<!-- wp:heading {\"level\":3,\"className\":\"works-section-title\"} -->"$'\n'
-    output+="<h3 class=\"wp-block-heading works-section-title\">${title}</h3>"$'\n'
+    if [ "$title" = "制作ツール" ]; then
+      output+="<!-- wp:heading {\"level\":3,\"className\":\"works-section-title works-section-title--tool\"} -->"$'\n'
+      output+="<h3 class=\"wp-block-heading works-section-title works-section-title--tool\">${title}</h3>"$'\n'
+    else
+      output+="<!-- wp:heading {\"level\":3,\"className\":\"works-section-title\"} -->"$'\n'
+      output+="<h3 class=\"wp-block-heading works-section-title\">${title}</h3>"$'\n'
+    fi
     output+="<!-- /wp:heading -->"$'\n'$'\n'
 
     for ((l=0; l<body_count; l++)); do
