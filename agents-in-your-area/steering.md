@@ -12,9 +12,9 @@
 
 ## Current phase
 
-**Design consolidation.** Planning-session decisions have been reflected into the docs (commit `b4a4265`). Remaining work is per-document **Open questions** hearings and two outstanding phase-flow designs (Approach, Delivery).
+**Goal + Approach phase step design complete (v9).** Both step lists refined to v9 via Action Principles assay (6 iterations, 3 evaluators each, quorum 2/3). Assay loop deliberately stopped after iteration 6 — marginal returns confirmed; final slim pass (v9) removed bloat. Next: Delivery phase step design.
 
-Branch: `claude/aiya-documentation-polish-LLxbp`
+Branch: `claude/check-aiya-status-quShQ`
 
 ## Completed
 
@@ -23,17 +23,24 @@ Branch: `claude/aiya-documentation-polish-LLxbp`
 - [x] tc-x-gates.md: added Pain/Benefit writing discipline — Benefit is strategic impact, not Pain's inverse
 - [x] aiya-jam.md: full rewrite with conversational commands (`/hi /go /ty /gm /bb`), up.sh/dn.sh lifecycle, Chain directory layout, Quickstart
 - [x] acc.md: CCS lowercase filename convention (`t001.md`, `t002.md`) documented; physical-location open question resolved
+- [x] docs/scenario.md: concrete end-to-end scenario (unread badge) showing TC→CCS linkage across all three phases with ACC Turns
+- [x] docs/goal-phase-steps.md: Goal phase ACC Turn sequence v3 (G0–G27 + G-REDIRECT) — dual expert review (product discovery + AI agent design), re-review, full integration of all High/Medium/Low findings
+- [x] docs/goal-phase-steps.md + approach-phase-steps.md: v4 refinement — Action Principles assay (6 evaluators total); Conventions section, research step hypotheses, gate 2-pass structure, fact-grounding fixes
 
 ## Remaining tasks
 
+<!-- paused: 2026-05-12 — next: #2 Delivery phase step design (Goal/Approach are v9, clean) -->
+
 ### Design (blocks the remaining Open questions)
 
-Goal-phase pattern is set. Approach and Delivery need the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
+Goal and Approach phase step sequences are complete (both v4, dual-expert-review + assay-refined). Delivery needs the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
 
-- [ ] **Approach phase flow** — apply the Goal pattern (Plan section + Planning Gate → drafting → Output Gate G2). Decide: AI-drafted vs expert-authored per element; how Technology choice is recorded; how Design shape is recorded.
-- [ ] **Delivery phase flow** — Steps authoring, Turn execution, Verification, PR → merge. Decide: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
+- [x] **#1 Approach phase step design** — A0–A19 + A-REDIRECT + A-NOFIT (v3). Key decisions: Testing-First enforced sequentially; A6b expert confirmation after codebase research; lock-step closure rule in A-REDIRECT; A17 sole coverage authority; A-NOFIT escalation for no-viable-technology.
+- [x] **#1a Assay + v4 refinement** — Valid findings addressed: Conventions (D.2), phase completion state (A.2), research hypotheses on G5a/G5b/G11/G14/A5/A7 (C.3), gate 2-pass structure on G27/A19 (C.4/D.3), A0 required sections (B.1), A1 provisional labels (B.1), A3 verification method + completeness (C.1/B.2), A2 adequacy criteria (C.1), A14 pre-work checklist (C.1), A4 G21 deadlock path (C.5), A6 deferral rationale + runner-confirmed definition (B.1/C.5).
+- [x] **#1b Assay iterations 5–6 + v5→v9** — v5: G27 quality pass rewrite. v6: G13 causal hop citation, G6b presentation structure, G4/G9/G17/G22 circuit-breaker goal-tied rationale, A5 pre-investigation scope, A2 provisional-names note, A6 runner confirmation strengthened, A4b/A6c/A11b/A15b escalation patterns. v7: G5a/G5b pre-search population, G6b BLOCK/PASS restructure, G4 abort sequencing, G27 hop-citation quality criterion, A7 pre-research population, A2 Rationale/Supporting-material separation, A-NOFIT option sequencing, A12 loop termination. v8: same as v7 (commits a4a7e5e). v9 (slim): compressed research Notes (G5a/G5b/G11/G14/A5/A7), removed changelogs v2–v6, A11 quantitative evidence requirement added. Assay loop stopped — marginal returns confirmed at iteration 6.
+- [ ] **#2 Delivery phase step design** — Steps authoring, Turn execution, Verification, PR → merge. Key decisions: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
 
-Recommended next tactical step: Approach phase flow (pattern already exists, low cost, closes the whole picture).
+Recommended next tactical step: Delivery phase (#2).
 
 ### Open questions — per document
 
@@ -79,6 +86,8 @@ Recommended next tactical step: Approach phase flow (pattern already exists, low
 - Key constraint: the expert's judgment must be structurally embedded, not bolted on. Gates exist because drift is structurally detectable only when there is something concrete to compare against.
 - Pain/Benefit discipline matters: Pain is observable symptom; Benefit is strategic downstream impact. Users often collapse them — the doc now enforces the distinction.
 - Command naming: conversational phrases over functional labels (`/ty` not `/approve`, `/gm` not `/feedback`).
+- Goal phase step design process: start with a concrete scenario (TC→CCS linkage), enumerate steps, run dual independent expert subagent review, integrate, re-review, fix all findings. This process works and should be reused for Approach and Delivery phases.
+- Goal phase v3 key structural decisions: G0 Goal Intake initializes CCS; parallel research (G5a‖G5b) requires a merge Turn (G5c); Root Cause Analysis (G13) must follow Pain Lock (G12); Similar Cases Research (G14) precedes Benefit Scoping (G15); all revision loops have N=5 circuit-breakers; G-REDIRECT invalidates stale CCS components on re-entry; G27 is the only step that authorizes inter-phase transition.
 
 ## Document layout
 
@@ -98,5 +107,5 @@ agents-in-your-area/
 ## Next session entry point
 
 1. Read this file.
-2. Pick up **Approach phase flow design** — use Goal phase as the template.
-3. Once Approach + Delivery flows are set, walk each Open questions list one document at a time.
+2. Pick up **#2 Delivery phase step design** — use Goal phase as the template (G0–G27 pattern). Key scope: Steps authoring, Turn execution, Verification, PR → merge.
+3. Once Delivery flow is set, walk each Open questions list one document at a time.
