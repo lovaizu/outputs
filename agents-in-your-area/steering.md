@@ -12,7 +12,7 @@
 
 ## Current phase
 
-**Goal phase step design complete.** Goal phase ACC Turn sequence (v3) produced via dual expert review + re-review cycle. Next: apply same pattern to Approach and Delivery phases.
+**Goal + Approach phase step design complete (v4).** Both step lists refined to v4 via Action Principles assay (3 evaluators each, quorum 2/3). Next: Delivery phase step design.
 
 Branch: `claude/check-aiya-status-quShQ`
 
@@ -25,6 +25,7 @@ Branch: `claude/check-aiya-status-quShQ`
 - [x] acc.md: CCS lowercase filename convention (`t001.md`, `t002.md`) documented; physical-location open question resolved
 - [x] docs/scenario.md: concrete end-to-end scenario (unread badge) showing TC→CCS linkage across all three phases with ACC Turns
 - [x] docs/goal-phase-steps.md: Goal phase ACC Turn sequence v3 (G0–G27 + G-REDIRECT) — dual expert review (product discovery + AI agent design), re-review, full integration of all High/Medium/Low findings
+- [x] docs/goal-phase-steps.md + approach-phase-steps.md: v4 refinement — Action Principles assay (6 evaluators total); Conventions section, research step hypotheses, gate 2-pass structure, fact-grounding fixes
 
 ## Remaining tasks
 
@@ -32,9 +33,10 @@ Branch: `claude/check-aiya-status-quShQ`
 
 ### Design (blocks the remaining Open questions)
 
-Goal and Approach phase step sequences are complete (both v3, dual-expert-review). Delivery needs the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
+Goal and Approach phase step sequences are complete (both v4, dual-expert-review + assay-refined). Delivery needs the same treatment so the whole lifecycle is closed before individual Open questions can be answered with confidence.
 
 - [x] **#1 Approach phase step design** — A0–A19 + A-REDIRECT + A-NOFIT (v3). Key decisions: Testing-First enforced sequentially; A6b expert confirmation after codebase research; lock-step closure rule in A-REDIRECT; A17 sole coverage authority; A-NOFIT escalation for no-viable-technology.
+- [x] **#1a Assay + v4 refinement** — Valid findings addressed: Conventions (D.2), phase completion state (A.2), research hypotheses on G5a/G5b/G11/G14/A5/A7 (C.3), gate 2-pass structure on G27/A19 (C.4/D.3), A0 required sections (B.1), A1 provisional labels (B.1), A3 verification method + completeness (C.1/B.2), A2 adequacy criteria (C.1), A14 pre-work checklist (C.1), A4 G21 deadlock path (C.5), A6 deferral rationale + runner-confirmed definition (B.1/C.5).
 - [ ] **#2 Delivery phase step design** — Steps authoring, Turn execution, Verification, PR → merge. Key decisions: who authors Steps (expert / AI); how Verification ties back to Acceptance Scenarios; what lands in the PR vs in `delivery.md`.
 
 Recommended next tactical step: Delivery phase (#2).
