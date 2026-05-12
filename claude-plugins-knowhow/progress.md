@@ -59,22 +59,41 @@ Reconciliation complete (commit 4489a96). taxonomy.md: **107 items** across 5 do
 
 Excluded 2 items with reasons (see taxonomy.md §Excluded).
 
-### Step 2 — Generate checklists from taxonomy ❌ NOT STARTED
+### Step 2 — Generate checklists from taxonomy ✅ COMPLETE
 
-For each taxonomy item, define:
+Output: `docs/checklist-items.md` (1,927 lines, 108 entries).
+
+**Schema** (agreed with user 2026-05-12):
 
 | Field | Description |
 |---|---|
 | `id` | taxonomy ID (e.g. `PRM-IV`) |
+| `slug` | kebab-case name — used in `finding_type` strings |
+| `domain` | ARC / SPC / PRM / FLW / CTX |
+| `applies_to` | component types (command / agent / skill / hook / all); content-conditional items noted |
 | `severity` | Mandatory / Recommended / Quality |
-| `auto` | `[auto]` (machine-verifiable) or `[judgment]` (requires LLM/human) |
+| `auto` | `[auto]` or `[judgment]` |
 | `check` | What to verify (one sentence) |
-| `fix` | How to improve when NG (one sentence) |
-| `example` | Before/after illustration (optional but preferred) |
+| `fix` | How to correct a NG finding (one sentence) |
+| `related` | convergence cluster members (comma-separated IDs) |
+| `example` | Before/after illustration |
 
-Output: a structured checklist file that smith's `smith-knowhow` skill can load at runtime. One entry per taxonomy ID.
+**Counts**: 108 entries (107 taxonomy + 1 from PRM-EI split).
 
-**Before starting Step 2**: agree on the output format and file structure with the user. Do not generate 107 entries without alignment.
+| Domain | Entries | Mandatory | Recommended | Quality | [auto] |
+|---|---|---|---|---|---|
+| ARC | 10 | 2 | 7 | 1 | 2 |
+| SPC | 32 | 12 | 15 | 5 | 10 |
+| PRM | 25 | 6 | 16 | 3 | 8 |
+| FLW | 29 | 8 | 19 | 2 | 4 |
+| CTX | 12 | 1 | 10 | 1 | 1 |
+| **Total** | **108** | **29** | **67** | **12** | **25** |
+
+**Sanity review** (Step 2.6): ✅ passed — 108/108 IDs covered, no duplicates, no missing; all [auto] items machine-verifiable; all fix fields actionable; no domain exceeds 50% Mandatory.
+
+**Step 2.7** (checklists.md retirement): `docs/checklists.md` is retained as narrative overview. `docs/checklist-items.md` is the machine-readable source of truth for smith. No deletion.
+
+Commits: 6e430ab (ARC), 203ec00 (SPC+PRM+FLW+CTX).
 
 ## Decisions made
 
