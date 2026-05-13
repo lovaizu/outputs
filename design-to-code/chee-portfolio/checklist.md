@@ -1,64 +1,28 @@
 # デザインカンプ完全一致チェックリスト
 
-ソース: カンプ画像（2x PNG）のみ。Figma JSONは参照しない。  
+ソース: Figmaエクスポートデータ（portforio.json / 下層ページ_制作実績一覧.json / 下層ページ_LP詳細_ポジジョブ.json）＋カンプ画像5枚  
 採点方式: 各項目 ✅合格 / ❌不合格 / ⚠️要確認
 
 ---
 
-## Task 12.1 — Header（画像ベース再検証）
+## 共通（全ページ）
 
-カンプ画像: `portforio.png` 上端 0–160px（2x）  
-現実装スクショ: `test-results/header-current.png`
+### ヘッダー
 
-### 目視確認（カンプ vs スクショの見た目比較）
-
-| # | 観点 | カンプの見え方 |
+| # | 観点 | 正解値 |
 |---|---|---|
-| H-V1 | 全体レイアウト | ロゴ左 / ナビ中央寄り / Contactボタン右 の3ゾーン構成 |
-| H-V2 | ロゴテキスト色 | 水色（accent blue） |
-| H-V3 | ナビリンクテキスト色 | 濃い黒〜ダークグレー |
-| H-V4 | ナビリンクhover/active表現 | 「Works」にテキスト幅程度の短い下線あり |
-| H-V5 | Contactボタン形状 | ダーク背景のpill型、白テキスト |
-| H-V6 | Contactボタンの影 | 微細なdrop shadow |
-| H-V7 | ヘッダー背景色（トップ・一覧） | 白 |
-| H-V8 | 垂直方向の中央揃え | ロゴ・ナビ・ボタンがヘッダー高さの中央に揃っている |
-
-### 実装値確認（PlaywrightのgetComputedStyleで検証）
-
-| # | 観点 | 期待値（カンプ2x÷2で算出） | 現在値 | 判定 |
-|---|---|---|---|---|
-| H-C1 | ヘッダー padding-top / bottom | ~19px | 19px | ✅ |
-| H-C2 | ヘッダー padding-left / right | ~80px | 80px | ✅ |
-| H-C3 | ロゴ名 font-size | 20px | 20px | ✅ |
-| H-C4 | ロゴ名 font-weight | 500 | 500 | ✅ |
-| H-C5 | ロゴ名 font-family | Jost | Jost, sans-serif | ✅ |
-| H-C6 | ロゴ名 color | #4EB0EA | rgb(78,176,234) | ✅ |
-| H-C7 | ロゴサブ font-size | 14px | 14px | ✅ |
-| H-C8 | ロゴサブ font-weight | 400 | 400 | ✅ |
-| H-C9 | ロゴサブ color | #4EB0EA | rgb(78,176,234) | ✅ |
-| H-C10 | ナビリンク font-size | 14px | 14px | ✅ |
-| H-C11 | ナビリンク font-weight | 400 | 400 | ✅ |
-| H-C12 | ナビリンク font-family | Noto Sans JP | "Noto Sans JP", sans-serif | ✅ |
-| H-C13 | ナビリンク color | #111111 | rgb(17,17,17) | ✅ |
-| H-C14 | ナビリンク gap | ~24px | 24px | ✅ |
-| H-C15 | ナビリンク hover時 underline | text-decoration: underline | underline, 1px solid, offset 4px | ✅ |
-| H-C16 | Contact font-size | 15px | 15px | ✅ |
-| H-C17 | Contact font-weight | 700 | 700 | ✅ |
-| H-C18 | Contact background-color | #111111 | rgb(17,17,17) | ✅ |
-| H-C19 | Contact color | #FFFFFF | rgb(255,255,255) | ✅ |
-| H-C20 | Contact border-radius | 50px | 50px | ✅ |
-| H-C21 | Contact padding | 8px 24px | 8px 24px | ✅ |
-| H-C22 | Contact box-shadow | 0 2px 2px rgba(0,0,0,0.2) | 0px 2px 2px rgba(0,0,0,0.2) | ✅ |
-
-### 採点サマリ
-
-- 目視: 8/8 ✅
-- 実装値: 22/22 ✅
-- **全項目合格** — hover underline 追加済み（style.css）
-
----
-
-## 共通（全ページ）— 旧チェックリスト（参考・JSON依存方式は無効）
+| H-1 | ヘッダー高さ | 82px |
+| H-2 | ロゴ「Chiaki Itoh」フォント・サイズ・ウェイト | Futura PT / 20px / 500 |
+| H-3 | ロゴ「LP Design,Meta Ads」フォント・サイズ・ウェイト | Futura PT / 14px / 400 |
+| H-4 | ヘッダーロゴ色（トップ・一覧） | #4EB0EA（rgb(78,176,234)） |
+| H-5 | ヘッダーロゴ色（詳細ページ） | #4EB0EA（rgb(78,176,234)）※同じ |
+| H-6 | ナビ項目テキスト: Home / Works / Voice / Service / Profile / Contact | 全6項目存在すること |
+| H-7 | ナビ項目フォント・サイズ・ウェイト・色 | Noto Sans JP / 14px / 400 / #111111 |
+| H-8 | Contact ボタン: 背景色・テキスト色 | bg #111111 / テキスト white |
+| H-9 | Contact ボタン: 形状・padding・radius | pill形（radius:50）/ padding 8px 24px |
+| H-10 | Contact ボタン: テキストフォント・サイズ・ウェイト | Noto Sans JP / 15px / 700 |
+| H-11 | ヘッダー背景色（トップ・一覧） | white (#FFFFFF) |
+| H-12 | ヘッダー背景色（詳細ページ） | #D7D7D7（Figma実測値）/ 現実装値は #DEE3EC（ユーザー指示で変更済み） |
 
 ### フッター
 
