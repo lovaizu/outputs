@@ -142,6 +142,16 @@ img {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
+.site-header .wp-block-navigation-item__content {
+  text-decoration: none;
+}
+
+.site-header .wp-block-navigation-item__content:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
 /* ── Section headings ────────────────────────────────────────────────────── */
 
 .sec-title {
