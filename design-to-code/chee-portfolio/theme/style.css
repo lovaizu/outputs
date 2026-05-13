@@ -131,6 +131,10 @@ img {
   padding-right: 80px !important;
 }
 
+.admin-bar .site-header {
+  top: 32px;
+}
+
 .wp-site-blocks {
   padding-top: 83px;
 }
