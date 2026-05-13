@@ -9,8 +9,8 @@
 <!-- wp:group {"tagName":"section","align":"full","className":"sec-service","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull sec-service" style="padding-top:80px;padding-bottom:80px" id="service">
 
-<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"noto-sans-jp","fontSize":"xl","textColor":"text-secondary"} -->
-<h2 class="wp-block-heading sec-title has-text-align-center has-noto-sans-jp-font-family has-xl-font-size has-text-secondary-color has-text-color" style="font-style:normal;font-weight:500">Service</h2>
+<!-- wp:heading {"level":2,"className":"sec-title","textAlign":"center","style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontFamily":"roboto-condensed","fontSize":"xl","textColor":"text-primary"} -->
+<h2 class="wp-block-heading sec-title has-text-align-center has-roboto-condensed-font-family has-xl-font-size has-text-primary-color has-text-color" style="font-style:normal;font-weight:500">Service</h2>
 <!-- /wp:heading -->
 
 <!-- wp:group {"backgroundColor":"bg-main","style":{"border":{"radius":"40px"},"spacing":{"padding":{"top":"48px","bottom":"48px","left":"32px","right":"32px"},"blockGap":"24px"}},"layout":{"type":"constrained"}} -->
