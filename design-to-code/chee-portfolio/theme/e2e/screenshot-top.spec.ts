@@ -3,10 +3,7 @@ import path from "path";
 import fs from "fs";
 
 const outDir = path.join(__dirname, "screenshots/task12");
-
-test.beforeAll(() => {
-  fs.mkdirSync(outDir, { recursive: true });
-});
+fs.mkdirSync(outDir, { recursive: true });
 
 test("top page full screenshot", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });

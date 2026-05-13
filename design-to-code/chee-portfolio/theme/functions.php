@@ -35,6 +35,13 @@ add_action('wp_enqueue_scripts', function (): void {
         wp_get_theme()->get('Version'),
         true
     );
+    wp_enqueue_script(
+        'chee-scroll-spy',
+        get_template_directory_uri() . '/assets/js/scroll-spy.js',
+        [],
+        wp_get_theme()->get('Version'),
+        true
+    );
 });
 
 // ── Custom Post Types ────────────────────────────────────────────────────────
