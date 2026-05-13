@@ -34,7 +34,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 ## Task List
 
-<!-- paused: 2026-05-13 — next: #12.1 Header（画像ベース再検証） -->
+<!-- paused: 2026-05-13 — next: #12.1 ステップ1 チェックリスト作成 -->
 
 ### Task 10 — リファクタリング（不要ファイル整理）
 
@@ -231,7 +231,7 @@ WEBデザイナー・伊藤千晶（Chee Design）のポートフォリオサイ
 
 - Branch: `worktree-design-coding`
 - PR: https://github.com/lovaizu/outputs/pull/13
-- **Current state: Task12を画像ベースで再構築。旧JSON依存チェックリスト方式は無効。次は12.1 Header。**
+- **Current state: タスクリストを4ステップ展開に書き直し済み。12.1は未着手（revert済み）。次は12.1 ステップ1。**
 
 ## How to Resume
 
