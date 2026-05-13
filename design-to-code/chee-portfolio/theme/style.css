@@ -145,7 +145,7 @@ img {
 [id="profile"],
 [id="flow"],
 [id="contact"] {
-  scroll-margin-top: 83px;
+  scroll-margin-top: 80px;
 }
 
 /* 詳細ページのみヘッダーとページタイトルエリアを bg-single に */
