@@ -5,15 +5,15 @@ document.addEventListener('DOMContentLoaded', function () {
   // FV auto-scroll carousel
   const fvEl = document.querySelector('.fv-splide');
   if (fvEl && typeof Splide !== 'undefined') {
-    new Splide(fvEl, {
+    var fvSplide = new Splide(fvEl, {
       type:       'loop',
       drag:       'free',
       arrows:     false,
       pagination: false,
       perPage:    5,
-      gap:        '1.5rem',
+      gap:        '3rem',
       autoScroll: reducedMotion ? false : {
-        speed:        1,
+        speed:        0.5,
         pauseOnHover: true,
         pauseOnFocus: true,
       },
@@ -21,7 +21,13 @@ document.addEventListener('DOMContentLoaded', function () {
         781:  { perPage: 2 },
         1024: { perPage: 3 },
       },
-    }).mount(Extensions);
+    });
+    fvSplide.on('mounted', function () {
+      fvEl.querySelectorAll('.splide__slide').forEach(function (slide, i) {
+        if (i % 2 === 0) slide.classList.add('fv-stagger');
+      });
+    });
+    fvSplide.mount(Extensions);
   }
 
   // Voice carousel

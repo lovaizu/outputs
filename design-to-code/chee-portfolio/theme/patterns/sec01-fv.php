@@ -28,17 +28,6 @@ $fv_works = get_posts([
 <h1 class="wp-block-heading has-noto-sans-jp-font-family has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;line-height:1.4;font-size:28px">提案も、デザインも、運用も</h1>
 <!-- /wp:heading -->
 
-<!-- wp:html -->
-<div class="fv-identity-divider" aria-hidden="true"></div>
-<!-- /wp:html -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"500","lineHeight":"1.3","fontSize":"20px"}},"textColor":"accent","fontFamily":"jost"} -->
-<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:500;line-height:1.3;font-size:20px">Chiaki Itoh</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.3","fontSize":"14px"}},"textColor":"accent","fontFamily":"jost"} -->
-<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:400;line-height:1.3;font-size:14px">LP Design, Meta Ads</p>
-<!-- /wp:paragraph -->
 
 </div>
 <!-- /wp:group -->

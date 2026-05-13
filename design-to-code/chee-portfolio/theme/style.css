@@ -125,7 +125,7 @@ img {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: #fff;
+  background: var(--wp--preset--color--bg-sub);
   box-shadow: none;
   padding-left: 80px !important;
   padding-right: 80px !important;
@@ -210,24 +210,22 @@ img {
   margin-bottom: 8px !important;
 }
 
-.fv-identity-divider {
-  width: 24px;
-  height: 1px;
-  background-color: #333333;
-  margin: 16px 0;
-}
 
 .sec-fv h1 {
   white-space: nowrap;
 }
 
-/* Blue lower area — rounded top-right corner, left-anchored */
+/* Blue lower area — right side rounded rectangle */
 .fv-lower {
   position: relative;
   z-index: 1;
   padding-top: 80px;
   background: var(--wp--preset--color--bg-main);
-  border-radius: 0 240px 0 0;
+  border-radius: 0 240px 40px 0;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 80px !important;
+  width: calc(100% - 80px);
 }
 
 
@@ -239,9 +237,13 @@ img {
   padding: 0 20px 60px;
 }
 
+.fv-splide .splide__slide.fv-stagger img {
+  transform: translateY(30px);
+}
+
 .fv-splide .splide__slide img {
-  width: 150px;
-  height: 300px;
+  width: 100%;
+  aspect-ratio: 1 / 2;
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -249,19 +251,23 @@ img {
 
 .fv-deco-text {
   position: absolute;
-  right: -2%;
+  right: 2%;
   top: 45%;
   transform: translateY(-50%);
   font-family: var(--wp--preset--font-family--noto-sans-jp);
   font-size: clamp(72px, 10vw, 128px);
   font-weight: 100;
-  color: rgba(27, 27, 27, 0.07);
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
   z-index: 3;
   line-height: 1;
   margin: 0;
+  background: linear-gradient(to right, var(--wp--preset--color--bg-sub), rgba(27, 27, 27, 0.07));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: rgba(27, 27, 27, 0.07);
 }
 
 /* ── Works section ───────────────────────────────────────────────────────── */
