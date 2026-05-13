@@ -139,6 +139,15 @@ img {
   padding-top: 83px;
 }
 
+[id="works"],
+[id="voice"],
+[id="service"],
+[id="profile"],
+[id="flow"],
+[id="contact"] {
+  scroll-margin-top: 83px;
+}
+
 /* 詳細ページのみヘッダーとページタイトルエリアを bg-single に */
 .single-works .site-header {
   background: var(--wp--preset--color--bg-single);
