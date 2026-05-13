@@ -221,32 +221,33 @@ img {
   z-index: 1;
   padding-top: 80px;
   background: var(--wp--preset--color--bg-main);
-  border-radius: 0 240px 40px 0;
+  border-radius: 0 80px 80px 0;
   max-width: none !important;
   margin-left: 0 !important;
-  margin-right: 80px !important;
-  width: calc(100% - 80px);
+  margin-right: 250px !important;
+  width: calc(100% - 250px);
 }
 
 
 .fv-lower__inner {
   position: relative;
   z-index: 1;
-  max-width: var(--wp--style--global--content-size, 760px);
-  margin: 0 auto;
-  padding: 0 20px 60px;
+  padding: 0 0 60px;
+  width: calc(100% + 250px);
 }
 
 .fv-splide .splide__slide.fv-stagger img {
-  transform: translateY(30px);
+  margin-top: 30px;
 }
 
 .fv-splide .splide__slide img {
-  width: 100%;
+  width: 106px;
   aspect-ratio: 1 / 2;
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .fv-deco-text {
@@ -984,6 +985,7 @@ img {
     height: 240px;
   }
 
+
   .voice-card {
     flex-direction: column;
     gap: 24px;
@@ -1001,3 +1003,4 @@ img {
     height: 280px;
   }
 }
+

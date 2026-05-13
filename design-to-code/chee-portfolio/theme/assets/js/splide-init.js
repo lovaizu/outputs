@@ -10,21 +10,22 @@ document.addEventListener('DOMContentLoaded', function () {
       drag:       'free',
       arrows:     false,
       pagination: false,
-      perPage:    5,
+      autoWidth:  true,
       gap:        '3rem',
       autoScroll: reducedMotion ? false : {
-        speed:        0.5,
+        speed:        1.2,
         pauseOnHover: true,
         pauseOnFocus: true,
       },
       breakpoints: {
-        781:  { perPage: 2 },
-        1024: { perPage: 3 },
+        781:  { gap: '1.5rem' },
+        1024: { gap: '2rem' },
       },
     });
     fvSplide.on('mounted', function () {
-      fvEl.querySelectorAll('.splide__slide').forEach(function (slide, i) {
-        if (i % 2 === 0) slide.classList.add('fv-stagger');
+      fvEl.querySelectorAll('.splide__slide').forEach(function (slide) {
+        var idx = parseInt(slide.getAttribute('data-splide-index') || '0', 10);
+        if (idx % 2 === 0) slide.classList.add('fv-stagger');
       });
     });
     fvSplide.mount(Extensions);
