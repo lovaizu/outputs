@@ -20,8 +20,8 @@ $fv_works = get_posts([
 <!-- wp:group {"className":"fv-text-area","layout":{"type":"default"}} -->
 <div class="wp-block-group fv-text-area">
 
-<!-- wp:paragraph {"className":"fv-catchcopy","style":{"typography":{"fontStyle":"normal","fontWeight":"400","fontSize":"16px"}},"textColor":"text-primary"} -->
-<p class="fv-catchcopy has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;font-size:16px">LP制作×広告運用</p>
+<!-- wp:paragraph {"className":"fv-catchcopy","style":{"typography":{"fontStyle":"normal","fontWeight":"400","fontSize":"48px"}},"textColor":"text-primary"} -->
+<p class="fv-catchcopy has-text-primary-color has-text-color" style="font-style:normal;font-weight:400;font-size:48px">LP制作×広告運用</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1,"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.4","fontSize":"28px"}},"fontFamily":"noto-sans-jp","textColor":"text-primary"} -->
