@@ -49,5 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, { passive: true });
 
+  window.addEventListener('hashchange', function () {
+    setTimeout(update, 100);
+  });
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function () {
+      setTimeout(update, 100);
+    });
+  });
+
   update();
 });

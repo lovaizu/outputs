@@ -120,13 +120,19 @@ img {
 /* ── Header ──────────────────────────────────────────────────────────────── */
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 100;
   background: #fff;
   box-shadow: none;
   padding-left: 80px !important;
   padding-right: 80px !important;
+}
+
+.wp-site-blocks {
+  padding-top: 83px;
 }
 
 /* 詳細ページのみヘッダーとページタイトルエリアを bg-single に */
