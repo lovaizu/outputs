@@ -37,7 +37,7 @@ $fv_works = get_posts([
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"400","lineHeight":"1.3","fontSize":"14px"}},"textColor":"accent","fontFamily":"jost"} -->
-<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:400;line-height:1.3;font-size:14px">LP Design,Meta Ads</p>
+<p class="has-accent-color has-text-color has-jost-font-family" style="font-style:normal;font-weight:400;line-height:1.3;font-size:14px">LP Design, Meta Ads</p>
 <!-- /wp:paragraph -->
 
 </div>
