@@ -159,6 +159,10 @@ img {
 
 .site-header .wp-block-button__link {
   box-shadow: none;
+  line-height: 1.2;
+  min-width: 115px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .site-header .wp-block-navigation-item__content.is-active-nav {
@@ -197,7 +201,7 @@ img {
 }
 
 .fv-text-area {
-  padding-top: 80px;
+  padding-top: 56px;
   padding-bottom: 60px;
   position: relative;
   z-index: 2;
@@ -205,35 +209,53 @@ img {
 
 .fv-catchcopy {
   font-family: Arial, sans-serif !important;
-  font-size: 48px !important;
-  font-weight: 400 !important;
-  margin-bottom: 8px !important;
+  font-size: 49.58px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em;
+  height: 65px;
+  margin-bottom: 0 !important;
+}
+
+.fv-catchcopy-x {
+  font-size: 31.27px;
+  font-weight: 700;
 }
 
 
 .sec-fv h1 {
   white-space: nowrap;
+  margin-top: 12px !important;
+}
+
+.fv-comma {
+  letter-spacing: -0.3em;
 }
 
 /* Blue lower area — right side rounded rectangle */
 .fv-lower {
   position: relative;
   z-index: 1;
-  padding-top: 80px;
+  height: 500px;
+  display: flex;
+  align-items: center;
   background: var(--wp--preset--color--bg-main);
   border-radius: 0 80px 80px 0;
   max-width: none !important;
   margin-left: 0 !important;
-  margin-right: 250px !important;
-  width: calc(100% - 250px);
+  margin-right: 220px !important;
+  width: 1220px;
 }
 
 
 .fv-lower__inner {
   position: relative;
   z-index: 1;
-  padding: 0 0 60px;
-  width: calc(100% + 250px);
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -15px;
 }
 
 .fv-splide .splide__slide.fv-stagger img {
@@ -241,8 +263,8 @@ img {
 }
 
 .fv-splide .splide__slide img {
-  width: 106px;
-  aspect-ratio: 1 / 2;
+  width: 152px;
+  height: 300px;
   object-fit: cover;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -252,8 +274,8 @@ img {
 
 .fv-deco-text {
   position: absolute;
-  right: 2%;
-  top: 45%;
+  right: 20px;
+  top: 32%;
   transform: translateY(-50%);
   font-family: var(--wp--preset--font-family--noto-sans-jp);
   font-size: clamp(72px, 10vw, 128px);
@@ -261,10 +283,9 @@ img {
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
-  z-index: 3;
-  line-height: 1;
+  z-index: 10;
   margin: 0;
-  background: linear-gradient(to right, var(--wp--preset--color--bg-sub), rgba(27, 27, 27, 0.07));
+  background: linear-gradient(to right, #FFFFFF 0%, #CAD0D9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
