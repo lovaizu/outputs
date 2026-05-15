@@ -38,7 +38,7 @@ $works = get_posts([
     <div class="work-card-header">
       <h3 class="work-card-title">
         <a href="<?php echo get_permalink($work->ID); ?>">
-          <?php if ($cat_label): ?><span class="work-card-catlabel">[<?php echo esc_html($cat_label); ?>]</span><?php endif; ?>
+          <span class="work-card-catlabel">[<?php echo esc_html($work->post_title); ?>]</span>
           <?php echo esc_html($client ?: $work->post_title); ?>
         </a>
         <a href="<?php echo get_permalink($work->ID); ?>" class="work-card-arrow-link" aria-label="<?php echo esc_attr($work->post_title); ?>の詳細">

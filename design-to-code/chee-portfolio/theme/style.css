@@ -306,6 +306,7 @@ img {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
 }
 
 .work-card-title a {
@@ -321,7 +322,7 @@ img {
 .work-card-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
@@ -339,7 +340,8 @@ img {
 .work-card-desc {
   font-size: var(--wp--preset--font-size--sm);
   color: var(--wp--preset--color--text-primary);
-  margin-bottom: 16px;
+  margin-top: 20px;
+  margin-bottom: 24px;
   line-height: 1.8;
 }
 
@@ -451,8 +453,8 @@ img {
 
 /* ── Archive card arrow link ────────────────────────────────────────────── */
 
-.work-card-arrow-link {
-  flex-shrink: 0;
+a.work-card-arrow-link {
+  flex: 0 0 auto;
   display: inline-flex;
   line-height: 0;
 }
