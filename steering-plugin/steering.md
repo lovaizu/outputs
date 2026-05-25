@@ -30,11 +30,13 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #6: 各コマンド（hi/dn/up）の作業ステップを設計する
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
-- [ ] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
-- [ ] #10: `/steer:hi` のスキルファイル（SKILL.md）を実装する
-- [ ] #11: `/steer:dn` のスキルファイル（SKILL.md）を実装する
-- [ ] #12: `/steer:up` のスキルファイル（SKILL.md）を実装する
-- [ ] #13: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
+- [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
+- [ ] #10: steer-execution スキル（SKILL.md + references/template.md）を実装する
+- [ ] #11: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
+- [ ] #12: `/steer:dn` のコマンドファイル（commands/dn.md）を実装する
+- [ ] #13: `/steer:up` のコマンドファイル（commands/up.md）を実装する
+- [ ] #14: plugin.json + README.md を作成する
+- [ ] #15: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
 
 # Decisions
 
@@ -73,6 +75,10 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 ## D-9: 全プロンプト提案ベース
 - **Conclusion**: コマンド内のすべてのユーザー対話は質問ではなく提案にする
 - **Rationale**: action.md D原則。「どこに置きますか？」ではなく「`work/x/steering.md`に作成します」
+
+## D-10: プラグイン構成はコマンド3 + スキル1
+- **Conclusion**: Archetype A（Command-driven workflow）。`commands/` に hi.md, dn.md, up.md の3コマンド。`skills/steer-execution/` にタスク実行の共有知識。エージェントファイルは不要（Agent toolでインライン呼び出し）。フックなし
+- **Rationale**: hi/dn/upは明示的に呼ぶワークフロー→コマンド。タスク実行知識（完了プロセス・レビュー手順・チェックファイル形式）はhi・upで共有→スキルに分離（三層分離原則）。レビューサブエージェントはタスク固有の完了条件を動的に受け取るため、静的なエージェントファイルよりインライン構築が適切
 
 # Design
 
@@ -287,6 +293,50 @@ How steer enforces each action.md principle through its workflow:
 | C.5 Address every finding | Review policies | No skipping without user confirmation |
 | D.1 Always propose | All user interactions | Questions replaced with proposals (D-9) |
 | D.3 Issue-Conclusion format | Decisions section | All decisions recorded in structured format |
+
+## Plugin Structure
+
+```
+steer/
+├── .claude-plugin/
+│   └── plugin.json              # { "name": "steer" }
+├── commands/
+│   ├── hi.md                    # Procedure: create session, begin task #1
+│   ├── dn.md                    # Procedure: suspend session
+│   └── up.md                    # Procedure: resume session, begin next task
+├── skills/
+│   └── steer-execution/
+│       ├── SKILL.md             # Task execution: completion process, review dispatch, check file
+│       └── references/
+│           └── template.md      # Full steering.md template
+└── README.md
+```
+
+### Component responsibilities
+
+| Component | Layer | Content |
+|---|---|---|
+| hi.md | Procedure | Steps 1-6: hear goal, propose location, create steering.md (load template from skill reference), decompose tasks, present, begin task #1 (load steer-execution skill) |
+| dn.md | Procedure | Steps 1-6: find steering.md, commit work, write State, push, verify, report |
+| up.md | Procedure | Steps 1-7: check dirty, find steering.md, read State, sync tasks, remove State, begin next task (load steer-execution skill) |
+| steer-execution SKILL.md | Knowledge | Task completion process (3-step/5-step), review dispatch with inline Agent tool (prompt construction, iteration protocol with 3-iteration cap and escalation), review policies, coverage verification, check file format |
+| template.md | Reference | Full steering.md template — loaded by hi.md when creating a new steering.md |
+
+**Note**: The Action Principle Enforcement table in the Design section is design-time documentation. It is not included in the plugin output — it serves as a design rationale for why each command step exists.
+
+### Skill loading points
+
+- **hi.md step 3**: loads `references/template.md` to create steering.md
+- **hi.md step 6**: loads `steer-execution` skill to execute task #1
+- **up.md step 7**: loads `steer-execution` skill to execute next task
+- **dn.md**: does not load the skill (suspend-only, no task execution)
+
+### Review subagent dispatch
+
+The steer-execution skill constructs review prompts dynamically using the Agent tool. No dedicated agent files. Each dispatch includes:
+
+1. Static part: reviewer persona + checklist (from SKILL.md)
+2. Dynamic part: task purpose, completion criteria, file content/diff (from steering.md + workspace)
 
 ## Command Steps
 
