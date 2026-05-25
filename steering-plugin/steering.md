@@ -32,7 +32,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
 - [x] #10: steer-execution スキル（SKILL.md + references/template.md）を実装する
-- [ ] #11: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
+- [x] #11: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
 - [ ] #12: `/steer:dn` のコマンドファイル（commands/dn.md）を実装する
 - [ ] #13: `/steer:up` のコマンドファイル（commands/up.md）を実装する
 - [ ] #14: plugin.json + README.md を作成する
