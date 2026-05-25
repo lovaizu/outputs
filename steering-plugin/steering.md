@@ -262,8 +262,4 @@ Output to `{steering_dir}/checks/{task-id}.md`:
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-05-24
-- **Last completed**: #7 action.md原則のsteering.mdへの組み込み方を設計
-- **Next**: #8 設計書を完成させる
-- **Notes**: 設計のDecisionsは全て合意済み。Designセクションのテンプレート・コマンドステップ・タスク完了プロセスを本ファイルに記載済み。次はこの内容をレビューしてから、プラグインのディレクトリ構成設計（#9）に進む。PRはsteering.mdへのリンクのみをbodyに記載する方針。
+(written by /steer:dn, read and removed by /steer:up)
