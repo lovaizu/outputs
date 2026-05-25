@@ -29,7 +29,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #5: タスク完了プロセス（3ステップ/5ステップ）を設計する
 - [x] #6: 各コマンド（hi/dn/up）の作業ステップを設計する
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
-- [ ] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
+- [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [ ] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
 - [ ] #10: `/steer:hi` のスキルファイル（SKILL.md）を実装する
 - [ ] #11: `/steer:dn` のスキルファイル（SKILL.md）を実装する
@@ -224,6 +224,70 @@ Output to `{steering_dir}/checks/{task-id}.md`:
 - Ready for user review: Yes / No (reason)
 ```
 
+## steering.md Discovery
+
+How each command locates the steering file:
+
+| Command | Method |
+|---|---|
+| hi | Never searches. Creates a new steering.md at the proposed location |
+| dn | Uses the steering.md already known from the current session. If unknown (e.g., invoked standalone), falls back to commit history search |
+| up | Searches commit history of the current branch |
+
+### Commit history search algorithm
+
+1. Run `git log --diff-filter=AM --name-only --pretty=format: -- '*/steering.md' | head -5`
+2. Filter to files that currently exist on disk (`test -f`)
+3. If exactly one result: use it
+4. If multiple: rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date. Propose the top-ranked candidate to the user for confirmation
+5. If zero results: report "No steering.md found on this branch. Run `/steer:hi` to start." and stop
+
+## Subagent Review Guidelines
+
+Subagent reviews use the Agent tool with independent context (no conversation history).
+
+### Prompt structure for all review subagents
+
+1. **Role**: state the reviewer persona (QA engineer, language expert, or software engineer)
+2. **Artifact**: full content of the file(s) under review — subagents cannot read prior conversation
+3. **Criteria**: the specific checklist items from the Task Completion Process
+4. **Completion criteria**: the task's completion criteria from steering.md
+5. **Output format**: verdict per criterion (OK/NG) with evidence; overall pass/fail
+
+### Context to include
+
+- The task's purpose and completion criteria (from steering.md)
+- The actual file content or diff being reviewed
+- Project-specific rules (from steering.md Rules section)
+- For language expert: the project's language/framework
+- For software engineer: relevant interface contracts or API boundaries
+
+### Iteration protocol
+
+- If any finding is NG: fix the issue, then re-run the same subagent review
+- Repeat until all verdicts are OK, up to 3 iterations per reviewer
+- If still NG after 3 iterations: record remaining findings and escalate to user review with the unresolved items listed
+- Record final results in `checks/{task-id}.md`
+
+## Action Principle Enforcement
+
+How steer enforces each action.md principle through its workflow:
+
+| Principle | Enforcement point | Mechanism |
+|---|---|---|
+| A.1 Goal as starting point | hi step 1 | Goal captured verbatim before any planning |
+| A.2 Work backwards from end state | hi step 4 | Task decomposition starts from Verification criteria |
+| A.3 Means adapt, goal fixed | All commands | Goal section is read-only after creation |
+| A.4 Find alternatives before giving up | up step 5 | Blockers trigger alternative search, not task removal |
+| A.5 No reinterpretation | hi step 3 | User's exact words stored, never paraphrased |
+| B.1 Act on verified facts | Task execution | Assumptions section forces explicit declaration |
+| B.2 Verify complete population | QA review | Subagent checks edge case coverage exhaustively |
+| C.1 Define hypothesis + verification | hi step 3 | Verification section written before tasks |
+| C.4 Two-axis verification | Completion process | Goal alignment + quality as separate review passes |
+| C.5 Address every finding | Review policies | No skipping without user confirmation |
+| D.1 Always propose | All user interactions | Questions replaced with proposals (D-9) |
+| D.3 Issue-Conclusion format | Decisions section | All decisions recorded in structured format |
+
 ## Command Steps
 
 ### /steer:hi — New session
@@ -232,17 +296,17 @@ Output to `{steering_dir}/checks/{task-id}.md`:
 |---|---|
 | 1 | Hear the goal from the user (use their message if already stated) |
 | 2 | Propose steering.md location (e.g., "Creating `work/auth-refactor/steering.md`") |
-| 3 | Create steering.md — fill Goal (user's exact words), Verification, Assumptions |
-| 4 | Decompose goal into tasks (work backwards from end state per A.2) |
-| 5 | Present steering.md to user |
+| 3 | Create steering.md with all sections. Fill Goal (user's exact words), Verification, Assumptions, and Rules (default: `1 task = 1 commit`). Leave Tasks, Decisions, and State empty |
+| 4 | Decompose goal into tasks (work backwards from end state per A.2). Fill Tasks section |
+| 5 | Present complete steering.md to user |
 | 6 | Begin task #1 |
 
 ### /steer:dn — Suspend
 
 | Step | Action |
 |---|---|
-| 1 | Identify active steering.md (known from session, or find via commit history) |
-| 2 | Commit in-progress work (complete → normal commit, partial → `wip:` prefix) |
+| 1 | Identify active steering.md (known from session, or find via commit history). If not found, report error and stop |
+| 2 | If `git status` is dirty, commit in-progress work. "Complete" = all Steps checkboxes for the current task are checked → normal commit. "Partial" = some Steps unchecked → `wip:` prefix commit |
 | 3 | Update steering.md — check off done tasks, add new tasks, write State section |
 | 4 | Commit and push steering.md |
 | 5 | Verify `git status` is clean |
@@ -255,7 +319,7 @@ Output to `{steering_dir}/checks/{task-id}.md`:
 | 1 | Check `git status` — if dirty, propose: "wip commit します" or "discard します" |
 | 2 | Find steering.md from current branch commit history |
 | 3 | Read State section, restore work context |
-| 4 | Cross-check git log vs unchecked tasks, sync if needed |
+| 4 | Cross-check git log vs unchecked tasks — if a commit message matches an unchecked task, check it off in steering.md |
 | 5 | If blocker exists, find alternative means before redesigning tasks (A.4) |
 | 6 | Remove State section, commit steering.md |
 | 7 | Announce next task, begin execution |
