@@ -33,7 +33,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
 - [x] #10: steer-execution スキル（SKILL.md + references/template.md）を実装する
 - [x] #11: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
-- [ ] #12: `/steer:dn` のコマンドファイル（commands/dn.md）を実装する
+- [x] #12: `/steer:dn` のコマンドファイル（commands/dn.md）を実装する
 - [ ] #13: `/steer:up` のコマンドファイル（commands/up.md）を実装する
 - [ ] #14: plugin.json + README.md を作成する
 - [ ] #15: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
