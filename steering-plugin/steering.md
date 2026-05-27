@@ -12,8 +12,8 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 
 - 汎用ツール（どのリポジトリでも使える）
 - aiyaとの棲み分けは考えない、独立したプラグインとして設計する
-- コンテキスト閾値での自動dn→clear→upは将来課題（CCのhookがコンテキスト使用量を受け取れないため）
-- スキルから`/clear`は呼べない（CCの制約）。dn後のclearはユーザーが手動で行う
+- コンテキスト閾値での自動bb→clear→hiは将来課題（CCのhookがコンテキスト使用量を受け取れないため）
+- スキルから`/clear`は呼べない（CCの制約）。bb後のclearはユーザーが手動で行う
 
 # Rules
 
@@ -31,12 +31,8 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
-- [x] #10: rn-execution スキル（SKILL.md + references/template.md）を実装する
-- [x] #11: `/rn:gm` のコマンドファイル（commands/gm.md）を実装する
-- [x] #12: `/rn:bb` のコマンドファイル（commands/bb.md）を実装する
-- [x] #13: `/rn:hi` のコマンドファイル（commands/hi.md）を実装する
-- [x] #14: plugin.json + README.md を作成する
-- [ ] #15: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
+- [ ] #10: design.md のユーザーレビュー
+- [ ] #11: lovaizu/ccpm リポジトリにプラグインを実装してPR作成する
 
 # Decisions
 
@@ -65,8 +61,8 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Rationale**: steering.mdの場所はPJによって変わるため、相対パスで統一
 
 ## D-7: steering.mdの探索方法
-- **Conclusion**: hiは新規作成のみ（配置場所を提案）。upはカレントブランチのコミット履歴から探す。dnはupで特定済みのものを使う（不明ならコミット履歴から）
-- **Rationale**: hiで既存を使うケースはない。up/dnはgitが状態管理の権威なのでコミット履歴ベース
+- **Conclusion**: gmは新規作成のみ（配置場所を提案）。hiはカレントブランチのコミット履歴から探す。bbはhiで特定済みのものを使う（不明ならコミット履歴から）
+- **Rationale**: gmで既存を使うケースはない。hi/bbはgitが状態管理の権威なのでコミット履歴ベース
 
 ## D-8: カバレッジツールは一般化
 - **Conclusion**: JaCoCo固定ではなく、プロジェクトの言語に応じたツール（Jest, pytest, gcov等）を使う
