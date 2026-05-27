@@ -5,7 +5,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 ## Verification
 
 - プラグインが https://github.com/lovaizu/ccpm に公開されている
-- `/steer:hi`, `/steer:dn`, `/steer:up` の3コマンドが動作する
+- `/steer:gm`, `/steer:bb`, `/steer:hi` の3コマンドが動作する
 - steering.mdベースの作業管理で中断・再開が可能である
 
 # Assumptions
@@ -27,14 +27,14 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #3: steering.mdテンプレートのセクション構成を設計する
 - [x] #4: タスクフォーマットと定義ルールを設計する
 - [x] #5: タスク完了プロセス（3ステップ/5ステップ）を設計する
-- [x] #6: 各コマンド（hi/dn/up）の作業ステップを設計する
+- [x] #6: 各コマンド（gm/bb/hi）の作業ステップを設計する
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
 - [x] #10: steer-execution スキル（SKILL.md + references/template.md）を実装する
-- [x] #11: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
-- [x] #12: `/steer:dn` のコマンドファイル（commands/dn.md）を実装する
-- [x] #13: `/steer:up` のコマンドファイル（commands/up.md）を実装する
+- [x] #11: `/steer:gm` のコマンドファイル（commands/gm.md）を実装する
+- [x] #12: `/steer:bb` のコマンドファイル（commands/bb.md）を実装する
+- [x] #13: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
 - [x] #14: plugin.json + README.md を作成する
 - [ ] #15: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
 
@@ -44,13 +44,13 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Conclusion**: `steer` を採用
 - **Rationale**: 「作業の舵取り」の英語直訳。目的をそのまま名前にしている
 
-## D-2: コマンドは hi / dn / up
-- **Conclusion**: `/steer:hi`（開始）、`/steer:dn`（中断）、`/steer:up`（再開）
-- **Rationale**: 全2文字で打ちやすい。dn/upは錨の上げ下ろしの対。hiは挨拶＝セッション開始
+## D-2: コマンドは gm / bb / hi
+- **Conclusion**: `/steer:gm`（開始）、`/steer:bb`（中断）、`/steer:hi`（再開）
+- **Rationale**: 全2文字で打ちやすい。3つとも挨拶系で統一。gm=good morning（新しい一日の始まり＝開始）、bb=bye bye（またね＝中断）、hi=hello（ただいま＝再開）
 
 ## D-3: steering.mdのセクション構成
 - **Conclusion**: Goal, Verification, Assumptions, Rules, Tasks, Decisions, State の7セクション
-- **Rationale**: action.mdの4原則（A:Goal-oriented, B:Fact-oriented, C:Hypothesis-driven, D:Proposal-oriented）に対応。Goal+VerificationはC.1、AssumptionsはB.1/A.5、DecisionsはD.3形式、Stateはdn/upサイクル専用
+- **Rationale**: action.mdの4原則（A:Goal-oriented, B:Fact-oriented, C:Hypothesis-driven, D:Proposal-oriented）に対応。Goal+VerificationはC.1、AssumptionsはB.1/A.5、DecisionsはD.3形式、Stateはbb/hiサイクル専用
 
 ## D-4: タスクフォーマットはnablarch準拠
 - **Conclusion**: 各タスクに目的・前提・作業内容・完了条件を記載。定義要件として粒度・具体性・客観性・前提明示を義務づける
@@ -77,8 +77,8 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Rationale**: action.md D原則。「どこに置きますか？」ではなく「`work/x/steering.md`に作成します」
 
 ## D-10: プラグイン構成はコマンド3 + スキル1
-- **Conclusion**: Archetype A（Command-driven workflow）。`commands/` に hi.md, dn.md, up.md の3コマンド。`skills/steer-execution/` にタスク実行の共有知識。エージェントファイルは不要（Agent toolでインライン呼び出し）。フックなし
-- **Rationale**: hi/dn/upは明示的に呼ぶワークフロー→コマンド。タスク実行知識（完了プロセス・レビュー手順・チェックファイル形式）はhi・upで共有→スキルに分離（三層分離原則）。レビューサブエージェントはタスク固有の完了条件を動的に受け取るため、静的なエージェントファイルよりインライン構築が適切
+- **Conclusion**: Archetype A（Command-driven workflow）。`commands/` に gm.md, bb.md, hi.md の3コマンド。`skills/steer-execution/` にタスク実行の共有知識。エージェントファイルは不要（Agent toolでインライン呼び出し）。フックなし
+- **Rationale**: gm/bb/hiは明示的に呼ぶワークフロー→コマンド。タスク実行知識（完了プロセス・レビュー手順・チェックファイル形式）はgm・hiで共有→スキルに分離（三層分離原則）。レビューサブエージェントはタスク固有の完了条件を動的に受け取るため、静的なエージェントファイルよりインライン構築が適切
 
 # Design
 
@@ -132,7 +132,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 
 # State
 
-(written by /steer:dn, read and removed by /steer:up)
+(written by /steer:bb, read and removed by /steer:hi)
 
 - **Status**: paused
 - **Date**: YYYY-MM-DD
@@ -236,9 +236,9 @@ How each command locates the steering file:
 
 | Command | Method |
 |---|---|
-| hi | Never searches. Creates a new steering.md at the proposed location |
-| dn | Uses the steering.md already known from the current session. If unknown (e.g., invoked standalone), falls back to commit history search |
-| up | Searches commit history of the current branch |
+| gm | Never searches. Creates a new steering.md at the proposed location |
+| bb | Uses the steering.md already known from the current session. If unknown (e.g., invoked standalone), falls back to commit history search |
+| hi | Searches commit history of the current branch |
 
 ### Commit history search algorithm
 
@@ -246,7 +246,7 @@ How each command locates the steering file:
 2. Filter to files that currently exist on disk (`test -f`)
 3. If exactly one result: use it
 4. If multiple: rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date. Propose the top-ranked candidate to the user for confirmation
-5. If zero results: report "No steering.md found on this branch. Run `/steer:hi` to start." and stop
+5. If zero results: report "No steering.md found on this branch. Run `/steer:gm` to start." and stop
 
 ## Subagent Review Guidelines
 
@@ -281,14 +281,14 @@ How steer enforces each action.md principle through its workflow:
 
 | Principle | Enforcement point | Mechanism |
 |---|---|---|
-| A.1 Goal as starting point | hi step 1 | Goal captured verbatim before any planning |
-| A.2 Work backwards from end state | hi step 4 | Task decomposition starts from Verification criteria |
+| A.1 Goal as starting point | gm step 1 | Goal captured verbatim before any planning |
+| A.2 Work backwards from end state | gm step 4 | Task decomposition starts from Verification criteria |
 | A.3 Means adapt, goal fixed | All commands | Goal section is read-only after creation |
-| A.4 Find alternatives before giving up | up step 5 | Blockers trigger alternative search, not task removal |
-| A.5 No reinterpretation | hi step 3 | User's exact words stored, never paraphrased |
+| A.4 Find alternatives before giving up | hi step 5 | Blockers trigger alternative search, not task removal |
+| A.5 No reinterpretation | gm step 3 | User's exact words stored, never paraphrased |
 | B.1 Act on verified facts | Task execution | Assumptions section forces explicit declaration |
 | B.2 Verify complete population | QA review | Subagent checks edge case coverage exhaustively |
-| C.1 Define hypothesis + verification | hi step 3 | Verification section written before tasks |
+| C.1 Define hypothesis + verification | gm step 3 | Verification section written before tasks |
 | C.4 Two-axis verification | Completion process | Goal alignment + quality as separate review passes |
 | C.5 Address every finding | Review policies | No skipping without user confirmation |
 | D.1 Always propose | All user interactions | Questions replaced with proposals (D-9) |
@@ -301,9 +301,9 @@ steer/
 ├── .claude-plugin/
 │   └── plugin.json              # { "name": "steer" }
 ├── commands/
-│   ├── hi.md                    # Procedure: create session, begin task #1
-│   ├── dn.md                    # Procedure: suspend session
-│   └── up.md                    # Procedure: resume session, begin next task
+│   ├── gm.md                    # Procedure: create session, begin task #1
+│   ├── bb.md                    # Procedure: suspend session
+│   └── hi.md                    # Procedure: resume session, begin next task
 ├── skills/
 │   └── steer-execution/
 │       ├── SKILL.md             # Task execution: completion process, review dispatch, check file
@@ -316,20 +316,20 @@ steer/
 
 | Component | Layer | Content |
 |---|---|---|
-| hi.md | Procedure | Steps 1-6: hear goal, propose location, create steering.md (load template from skill reference), decompose tasks, present, begin task #1 (load steer-execution skill) |
-| dn.md | Procedure | Steps 1-6: find steering.md, commit work, write State, push, verify, report |
-| up.md | Procedure | Steps 1-7: check dirty, find steering.md, read State, sync tasks, remove State, begin next task (load steer-execution skill) |
+| gm.md | Procedure | Steps 1-6: hear goal, propose location, create steering.md (load template from skill reference), decompose tasks, present, begin task #1 (load steer-execution skill) |
+| bb.md | Procedure | Steps 1-6: find steering.md, commit work, write State, push, verify, report |
+| hi.md | Procedure | Steps 1-7: check dirty, find steering.md, read State, sync tasks, remove State, begin next task (load steer-execution skill) |
 | steer-execution SKILL.md | Knowledge | Task completion process (3-step/5-step), review dispatch with inline Agent tool (prompt construction, iteration protocol with 3-iteration cap and escalation), review policies, coverage verification, check file format |
-| template.md | Reference | Full steering.md template — loaded by hi.md when creating a new steering.md |
+| template.md | Reference | Full steering.md template — loaded by gm.md when creating a new steering.md |
 
 **Note**: The Action Principle Enforcement table in the Design section is design-time documentation. It is not included in the plugin output — it serves as a design rationale for why each command step exists.
 
 ### Skill loading points
 
-- **hi.md step 3**: loads `references/template.md` to create steering.md
-- **hi.md step 6**: loads `steer-execution` skill to execute task #1
-- **up.md step 7**: loads `steer-execution` skill to execute next task
-- **dn.md**: does not load the skill (suspend-only, no task execution)
+- **gm.md step 3**: loads `references/template.md` to create steering.md
+- **gm.md step 6**: loads `steer-execution` skill to execute task #1
+- **hi.md step 7**: loads `steer-execution` skill to execute next task
+- **bb.md**: does not load the skill (suspend-only, no task execution)
 
 ### Review subagent dispatch
 
@@ -340,7 +340,7 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 
 ## Command Steps
 
-### /steer:hi — New session
+### /steer:gm — New session
 
 | Step | Action |
 |---|---|
@@ -351,7 +351,7 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 | 5 | Present complete steering.md to user |
 | 6 | Begin task #1 |
 
-### /steer:dn — Suspend
+### /steer:bb — Suspend
 
 | Step | Action |
 |---|---|
@@ -362,7 +362,7 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 | 5 | Verify `git status` is clean |
 | 6 | Report: last completed, next task, branch name |
 
-### /steer:up — Resume
+### /steer:hi — Resume
 
 | Step | Action |
 |---|---|
@@ -376,4 +376,4 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 
 # State
 
-(written by /steer:dn, read and removed by /steer:up)
+(written by /steer:bb, read and removed by /steer:hi)
