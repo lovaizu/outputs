@@ -1,4 +1,4 @@
-# /steer:bb — Suspend session
+# /rn:bb — Suspend session
 
 Suspend the current steering session. Follow these steps exactly in order.
 
@@ -12,7 +12,7 @@ Suspend the current steering session. Follow these steps exactly in order.
 
 If the steering.md path is already known from the current conversation, use it.
 
-If not (e.g., invoked standalone), find it via the commit history shown in Context above. Filter to files that exist on disk. If exactly one result, use it. If multiple results, rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date, and propose the top-ranked candidate. If zero results, report: "No steering.md found on this branch. Run `/steer:gm` to start." and stop.
+If not (e.g., invoked standalone), find it via the commit history shown in Context above. Filter to files that exist on disk. If exactly one result, use it. If multiple results, rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date, and propose the top-ranked candidate. If zero results, report: "No steering.md found on this branch. Run `/rn:gm` to start." and stop.
 
 ## Step 2: Commit in-progress work
 
@@ -45,7 +45,7 @@ Read the current steering.md and update it:
 - **Notes**: {context needed for the next session to resume without re-reading the full conversation}
 ```
 
-The Notes field is critical — include enough context that `/steer:hi` can resume without the current conversation history. Mention: what was being worked on, any blockers encountered, decisions pending, and what the next concrete action should be.
+The Notes field is critical — include enough context that `/rn:hi` can resume without the current conversation history. Mention: what was being worked on, any blockers encountered, decisions pending, and what the next concrete action should be.
 
 ## Step 4: Commit and push
 

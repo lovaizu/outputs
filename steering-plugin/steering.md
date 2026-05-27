@@ -5,7 +5,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 ## Verification
 
 - プラグインが https://github.com/lovaizu/ccpm に公開されている
-- `/steer:gm`, `/steer:bb`, `/steer:hi` の3コマンドが動作する
+- `/rn:gm`, `/rn:bb`, `/rn:hi` の3コマンドが動作する
 - steering.mdベースの作業管理で中断・再開が可能である
 
 # Assumptions
@@ -31,21 +31,21 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
-- [x] #10: steer-execution スキル（SKILL.md + references/template.md）を実装する
-- [x] #11: `/steer:gm` のコマンドファイル（commands/gm.md）を実装する
-- [x] #12: `/steer:bb` のコマンドファイル（commands/bb.md）を実装する
-- [x] #13: `/steer:hi` のコマンドファイル（commands/hi.md）を実装する
+- [x] #10: rn-execution スキル（SKILL.md + references/template.md）を実装する
+- [x] #11: `/rn:gm` のコマンドファイル（commands/gm.md）を実装する
+- [x] #12: `/rn:bb` のコマンドファイル（commands/bb.md）を実装する
+- [x] #13: `/rn:hi` のコマンドファイル（commands/hi.md）を実装する
 - [x] #14: plugin.json + README.md を作成する
 - [ ] #15: lovaizu/ccpm リポジトリにプラグインを配置してPR作成する
 
 # Decisions
 
-## D-1: プラグイン名は steer
-- **Conclusion**: `steer` を採用
-- **Rationale**: 「作業の舵取り」の英語直訳。目的をそのまま名前にしている
+## D-1: プラグイン名は rn
+- **Conclusion**: `rn`（Right Now）を採用
+- **Rationale**: 「今すぐやる」のアメリカンネットスラング。コマンド名（gm/bb/hi）と同じカジュアルなトーンで統一
 
 ## D-2: コマンドは gm / bb / hi
-- **Conclusion**: `/steer:gm`（開始）、`/steer:bb`（中断）、`/steer:hi`（再開）
+- **Conclusion**: `/rn:gm`（開始）、`/rn:bb`（中断）、`/rn:hi`（再開）
 - **Rationale**: 全2文字で打ちやすい。3つとも挨拶系で統一。gm=good morning（新しい一日の始まり＝開始）、bb=bye bye（またね＝中断）、hi=hello（ただいま＝再開）
 
 ## D-3: steering.mdのセクション構成
@@ -77,7 +77,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Rationale**: action.md D原則。「どこに置きますか？」ではなく「`work/x/steering.md`に作成します」
 
 ## D-10: プラグイン構成はコマンド3 + スキル1
-- **Conclusion**: Archetype A（Command-driven workflow）。`commands/` に gm.md, bb.md, hi.md の3コマンド。`skills/steer-execution/` にタスク実行の共有知識。エージェントファイルは不要（Agent toolでインライン呼び出し）。フックなし
+- **Conclusion**: Archetype A（Command-driven workflow）。`commands/` に gm.md, bb.md, hi.md の3コマンド。`skills/rn-execution/` にタスク実行の共有知識。エージェントファイルは不要（Agent toolでインライン呼び出し）。フックなし
 - **Rationale**: gm/bb/hiは明示的に呼ぶワークフロー→コマンド。タスク実行知識（完了プロセス・レビュー手順・チェックファイル形式）はgm・hiで共有→スキルに分離（三層分離原則）。レビューサブエージェントはタスク固有の完了条件を動的に受け取るため、静的なエージェントファイルよりインライン構築が適切
 
 # Design
@@ -132,7 +132,7 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 
 # State
 
-(written by /steer:bb, read and removed by /steer:hi)
+(written by /rn:bb, read and removed by /rn:hi)
 
 - **Status**: paused
 - **Date**: YYYY-MM-DD
@@ -246,7 +246,7 @@ How each command locates the steering file:
 2. Filter to files that currently exist on disk (`test -f`)
 3. If exactly one result: use it
 4. If multiple: rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date. Propose the top-ranked candidate to the user for confirmation
-5. If zero results: report "No steering.md found on this branch. Run `/steer:gm` to start." and stop
+5. If zero results: report "No steering.md found on this branch. Run `/rn:gm` to start." and stop
 
 ## Subagent Review Guidelines
 
@@ -277,7 +277,7 @@ Subagent reviews use the Agent tool with independent context (no conversation hi
 
 ## Action Principle Enforcement
 
-How steer enforces each action.md principle through its workflow:
+How rn enforces each action.md principle through its workflow:
 
 | Principle | Enforcement point | Mechanism |
 |---|---|---|
@@ -297,15 +297,15 @@ How steer enforces each action.md principle through its workflow:
 ## Plugin Structure
 
 ```
-steer/
+rn/
 ├── .claude-plugin/
-│   └── plugin.json              # { "name": "steer" }
+│   └── plugin.json              # { "name": "rn" }
 ├── commands/
 │   ├── gm.md                    # Procedure: create session, begin task #1
 │   ├── bb.md                    # Procedure: suspend session
 │   └── hi.md                    # Procedure: resume session, begin next task
 ├── skills/
-│   └── steer-execution/
+│   └── rn-execution/
 │       ├── SKILL.md             # Task execution: completion process, review dispatch, check file
 │       └── references/
 │           └── template.md      # Full steering.md template
@@ -316,10 +316,10 @@ steer/
 
 | Component | Layer | Content |
 |---|---|---|
-| gm.md | Procedure | Steps 1-6: hear goal, propose location, create steering.md (load template from skill reference), decompose tasks, present, begin task #1 (load steer-execution skill) |
+| gm.md | Procedure | Steps 1-6: hear goal, propose location, create steering.md (load template from skill reference), decompose tasks, present, begin task #1 (load rn-execution skill) |
 | bb.md | Procedure | Steps 1-6: find steering.md, commit work, write State, push, verify, report |
-| hi.md | Procedure | Steps 1-7: check dirty, find steering.md, read State, sync tasks, remove State, begin next task (load steer-execution skill) |
-| steer-execution SKILL.md | Knowledge | Task completion process (3-step/5-step), review dispatch with inline Agent tool (prompt construction, iteration protocol with 3-iteration cap and escalation), review policies, coverage verification, check file format |
+| hi.md | Procedure | Steps 1-7: check dirty, find steering.md, read State, sync tasks, remove State, begin next task (load rn-execution skill) |
+| rn-execution SKILL.md | Knowledge | Task completion process (3-step/5-step), review dispatch with inline Agent tool (prompt construction, iteration protocol with 3-iteration cap and escalation), review policies, coverage verification, check file format |
 | template.md | Reference | Full steering.md template — loaded by gm.md when creating a new steering.md |
 
 **Note**: The Action Principle Enforcement table in the Design section is design-time documentation. It is not included in the plugin output — it serves as a design rationale for why each command step exists.
@@ -327,20 +327,20 @@ steer/
 ### Skill loading points
 
 - **gm.md step 3**: loads `references/template.md` to create steering.md
-- **gm.md step 6**: loads `steer-execution` skill to execute task #1
-- **hi.md step 7**: loads `steer-execution` skill to execute next task
+- **gm.md step 6**: loads `rn-execution` skill to execute task #1
+- **hi.md step 7**: loads `rn-execution` skill to execute next task
 - **bb.md**: does not load the skill (suspend-only, no task execution)
 
 ### Review subagent dispatch
 
-The steer-execution skill constructs review prompts dynamically using the Agent tool. No dedicated agent files. Each dispatch includes:
+The rn-execution skill constructs review prompts dynamically using the Agent tool. No dedicated agent files. Each dispatch includes:
 
 1. Static part: reviewer persona + checklist (from SKILL.md)
 2. Dynamic part: task purpose, completion criteria, file content/diff (from steering.md + workspace)
 
 ## Command Steps
 
-### /steer:gm — New session
+### /rn:gm — New session
 
 | Step | Action |
 |---|---|
@@ -351,7 +351,7 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 | 5 | Present complete steering.md to user |
 | 6 | Begin task #1 |
 
-### /steer:bb — Suspend
+### /rn:bb — Suspend
 
 | Step | Action |
 |---|---|
@@ -362,7 +362,7 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 | 5 | Verify `git status` is clean |
 | 6 | Report: last completed, next task, branch name |
 
-### /steer:hi — Resume
+### /rn:hi — Resume
 
 | Step | Action |
 |---|---|
@@ -376,4 +376,4 @@ The steer-execution skill constructs review prompts dynamically using the Agent 
 
 # State
 
-(written by /steer:bb, read and removed by /steer:hi)
+(written by /rn:bb, read and removed by /rn:hi)

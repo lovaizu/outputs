@@ -2,7 +2,7 @@
 argument-hint: [goal description]
 ---
 
-# /steer:gm — New steering session
+# /rn:gm — New steering session
 
 Start a new steering session. Follow these steps exactly in order. Do not skip or collapse steps.
 
@@ -32,7 +32,7 @@ Wait for user confirmation before proceeding. If the user suggests a different l
 
 ## Step 3: Create steering.md
 
-Read the template from @${CLAUDE_PLUGIN_ROOT}/skills/steer-execution/references/template.md
+Read the template from @${CLAUDE_PLUGIN_ROOT}/skills/rn-execution/references/template.md
 
 Create the steering.md file with all 7 sections:
 
@@ -71,7 +71,7 @@ Present the complete steering.md to the user. Do not begin work until the user a
 
 ## Step 6: Begin task #1
 
-Load the steer-execution skill and begin executing task #1.
+Load the rn-execution skill and begin executing task #1.
 
 Commit the steering.md file first:
 
@@ -80,4 +80,4 @@ git add {steering_path}
 git commit -m "docs: create steering.md for {goal-slug}"
 ```
 
-Then execute task #1 following the steer-execution skill's task execution process.
+Then execute task #1 following the rn-execution skill's task execution process.

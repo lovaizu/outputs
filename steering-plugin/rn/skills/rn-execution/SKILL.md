@@ -1,9 +1,9 @@
 ---
-name: steer-execution
+name: rn-execution
 description: This skill should be used when executing a task from a steering.md file,
   when completing a task with self-check and review, when dispatching QA or expert
-  review subagents, or when recording completion checks. It is loaded by /steer:gm
-  and /steer:hi when task execution begins.
+  review subagents, or when recording completion checks. It is loaded by /rn:gm
+  and /rn:hi when task execution begins.
 version: 0.1.0
 ---
 

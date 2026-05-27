@@ -1,4 +1,4 @@
-# /steer:hi — Resume session
+# /rn:hi — Resume session
 
 Resume a suspended steering session. Follow these steps exactly in order.
 
@@ -27,7 +27,7 @@ Use the steering file commits from Context above. Filter to files that currently
 
 - If exactly one result: use it.
 - If multiple results: rank by (a) has a `# State` section with `Status: paused`, (b) most recent commit date. Propose the top-ranked candidate for confirmation.
-- If zero results: report "No steering.md found on this branch. Run `/steer:gm` to start." and stop.
+- If zero results: report "No steering.md found on this branch. Run `/rn:gm` to start." and stop.
 
 ## Step 3: Restore work context
 
@@ -61,7 +61,7 @@ Remove the State section content, replacing it with the placeholder:
 ```markdown
 # State
 
-(written by /steer:bb, read and removed by /steer:hi)
+(written by /rn:bb, read and removed by /rn:hi)
 ```
 
 Commit:
@@ -81,6 +81,6 @@ Last completed: #{id} {description}   (or "none")
 Next: #{id} {description}
 ```
 
-If there is an unchecked task, load the steer-execution skill and begin executing it immediately.
+If there is an unchecked task, load the rn-execution skill and begin executing it immediately.
 
 If all tasks are checked off, report: "All tasks are complete. Propose running the verification criteria from the Goal section to confirm the overall goal is achieved."

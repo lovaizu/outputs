@@ -50,7 +50,7 @@ Use this template when creating a new steering.md. Replace placeholder text in a
 
 # State
 
-(written by /steer:bb, read and removed by /steer:hi)
+(written by /rn:bb, read and removed by /rn:hi)
 
 - **Status**: paused
 - **Date**: YYYY-MM-DD
