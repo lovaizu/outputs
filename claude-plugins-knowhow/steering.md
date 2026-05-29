@@ -1,97 +1,77 @@
 # Plugin Knowhow Smith — Steering
 
-<!-- paused: 2026-05-12 — next: #4 Port checklist-items.md into smith-knowhow skill (clarify deploy target first) -->
+<!-- paused: 2026-05-29 — next: #1 Re-color + prune checklist into A/B, drop CC-default overlaps & checker-only items -->
 
 ## Goal
 
-Build `smith` — a Claude Code hybrid plugin (Archetype C) that evaluates and improves Claude Code plugin setups via an Evaluate → Propose → Apply pipeline.
+Build `smith` — a tool that **applies best practices** to produce a Claude Code artifact (default: a plugin combining a custom slash command + skill + subagent(s)) that is **reproducible (A)** and **high quality (B)**.
+
+- **A — Reproducibility**: built artifact behaves the same every run (same trigger, same files touched, byte-stable script output).
+- **B — Quality**: built artifact beats the no-artifact baseline.
+
+## Pivot (2026-05-29)
+
+smith is **no longer a checker or converter** — it is a **best-practice-applying builder**. The old Evaluate → Propose → Apply checker (3-lens inspectors, convergence scoring, `[auto]` pre-pass, `smith-evaluate.sh`/`smith-autocheck.sh`) is **deleted**.
+
+- **Input**: a rough throwaway draft (skill-creator or AI) used only to make intent legible; smith strips it to `{goal, trigger, inputs, outputs, ≤3 scenarios}` and **discards its structure**.
+- **Pipeline position**: skill-creator drafts → **smith builds (BP applied → A + B)** → skill-creator optionally blind-A/B-compares revisions.
+- **Flow**: Requirements (P1-4) → Design from BP (5-1, 5-2) → Implementation from BP (5-3, 5-4) → Verify (P6).
+
+## Confirmed decisions
+
+- **A/B per step**: drop single-axis labels. **Every step addresses both A and B**; structure steps (5-1/5-2) have higher leverage on both. (The earlier "5-3/5-4 = A-centric" asymmetry was rejected by two experts as backwards.)
+- **Verification timing**: **evaluations-first**. Eval suite + no-artifact baseline authored at **Phase 4**; eval subsets run continuously in 5-3/5-4; Phase 6 is the final gate (A test + B test). (Matches `action.md` §C and official "evaluations first".)
+- **smith owns the baseline**; skill-creator's blind A/B measures B only, not A.
+- **Default output** = full plugin, but down-scope to the smallest archetype that meets the goal (minimum-viable).
+- **Three phase-scoped knowledge skills** (requirements / structure-patterns / prompt-patterns), not one monolith.
+- **Selective-Action governance**: Mandatory always applies; applicability by component type (mechanical); Recommended/Quality applied only if a failing eval scenario needs it; skipped items logged (not silently dropped).
+
+## Live-docs facts (verified 2026-05-29) to bake into the checklist
+
+- **🔴 Calibrated emphasis**: Opus 4.5/4.6/4.8 — dial back "CRITICAL: You MUST…" → "Use this tool when…". **Reverses PRM-CPM.** (Bigger impact than XML.)
+- **XML scope**: only for mixed-content prompts (instructions+context+examples+input), example/output envelopes, imported steering snippets. **Forbidden** on skill `name`/`description`. Not on simple procedures.
+- **Commands merged into skills**: `commands/` legacy; entry = skill with `disable-model-invocation: true`. Subagents cannot spawn subagents (all fan-out from top). Subagent `model` defaults to `inherit`.
+- **Coverage-over-conservatism** for finding-stage review prompts (modernize PRM-FPE).
 
 ## Tasks
 
-- [x] **#1 Step 1** — Scrub all 7 source docs, collect knowhow into `docs/taxonomy.md` (107 items across ARC/SPC/PRM/FLW/CTX). Commit 4a5d54b.
-- [x] **#2 Step 2** — Generate `docs/checklist-items.md` from taxonomy: 108 entries (107 + PRM-EI split), 10 fields each. Sanity review passed. Commits 6e430ab, 203ec00, 3cba887.
-- [x] **#3 Step 2 refinement** — Expert review (Plugin Practitioner / Automation Engineer / Prompt Quality Expert) × 3 parallel subagents. 17 fixes applied. All three returned VERDICT: Clean. Commits f7ca982.
-- [ ] **#4 Step 3.1** — Port `checklist-items.md` into `smith-knowhow` skill at `agents-in-your-area/.claude/plugins/smith/skills/smith-knowhow/`. **Note**: confirm whether `agents-in-your-area` in this repo is the correct deploy target or if there is a separate aiya monorepo (open question from session).
-- [ ] **#5 Step 3.2** — Write `/smith` command, 3 inspector agents, 3 scripts per `smith-design.md`.
-- [ ] **#6 Step 3.3** — Dogfood smith on the `claude-plugins-knowhow` repo itself.
+- [ ] **#1 Re-color + prune the checklist** — tag each of the 108 items A / B (or both), and **remove**: (a) CC-default format/syntax checks (old `[auto]` mechanical bucket: kebab names, required front-matter, line limits, `${CLAUDE_PLUGIN_ROOT}`, absolute paths); (b) checker-only items (FLW-CTF, FLW-CSF, FLW-AST convergence machinery). Map survivors onto the 3 pattern layers / Phase 5 steps.
+- [ ] **#2 Modernize PRM items** — invert PRM-CPM (calibrated emphasis), add role-lead / long-context-ordering / literalism-scope / content-type-XML items, reframe PRM-FPE (coverage-then-filter), demote PRM-SMC/PRM-CWF/PRM-APE.
+- [ ] **#3 Author the 3 knowledge-skill pattern libraries** from the pruned checklist (hand-authored prose, cross-linked to taxonomy IDs).
+- [ ] **#4 Implement the plugin** — orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md`.
+- [ ] **#5 Define `.smith.local.md` schema** — pinned intent, eval suite, selection log, reconcile history.
+- [ ] **#6 Dogfood** smith to build/improve itself.
 
 ## Key files
 
 | File | Role |
 |---|---|
-| `smith-design.md` | Authoritative implementation spec |
+| `smith-design.md` | **Authoritative spec** (rewritten 2026-05-29 for the builder model) |
+| `README.md` | User-facing overview (rewritten 2026-05-29) |
+| `docs/checklist-items.md` | 108-item checklist — **input** to A/B re-coloring (#1) |
 | `docs/taxonomy.md` | 108-item knowhow index |
-| `docs/checklist-items.md` | Machine-readable checklist (smith input) |
+| `docs/concepts.md`, `components.md`, `patterns.md`, `checklists.md`, `case-studies.md` | Knowhow sources for the pattern libraries |
 
 ## Assumptions / Rules
 
-- Branch: `claude/plugin-smith-status-WBa5m` (PR #20)
-- `k` / `y` / `進めて` = approve and proceed
-- One domain or one batch per turn unless user says otherwise
-- `[auto]` items bypass the convergence threshold (deterministic = always promoted)
-- Severity tiers: Mandatory / Recommended / Quality only (no "Optional")
-- `finding_type` format: `checklist:<component-type>:<slug>` (slug not ID)
-- NG beats OOS for Mandatory items in the merge step
+- `k` / `y` / `進めて` = approve and proceed.
+- One domain or one batch per turn unless the user says otherwise.
+- A = reproducibility; B = quality.
+- CC default format/syntax checks are **out of scope** — never re-implement.
+- Work only in this worktree (`.claude/worktrees/smith`); never touch the original repo root.
 
-## Convergence formula
+## Knowhow build history (pre-pivot, still valid as source material)
 
-```
-score = (num_lenses_caught × 30) + (max(self_confidence) × 0.3)
-threshold = 80
-[auto] items bypass threshold
-```
+- **Step 1** — Scanned 7 source docs → `taxonomy.md`: 107 items (ARC:10 / SPC:32 / PRM:24 / FLW:29 / CTX:12). Commit 4a5d54b.
+- **Step 2** — `checklist-items.md`: 108 entries (PRM-EI split). Commits 6e430ab, 203ec00, 3cba887.
+- **Step 2 refinement** — Expert review × 3 parallel subagents; 17 fixes; all Clean. Commit f7ca982.
 
-## Background
+These remain valid as the knowhow corpus the pattern libraries draw on. The content survives; only the framing (checker scoring → A/B builder guidance) changes.
 
-### Original intent
+## Design consultation (2026-05-29)
 
-smith + aiya-jam を aiya モノレポの `.claude/` 配下で開発。smith を使って jam を作る。
+Three expert subagents (plugin architecture / prompt engineering / agentic process & QA), each with live official docs, reviewed the builder model. Key convergent findings (all adopted): A/B asymmetry is backwards → both-axes-per-step; evaluations-first → P4 authoring + continuous run; throwaway draft must be stripped to intent (don't inherit archetype); calibrated emphasis reverses PRM-CPM; XML only for mixed-content; commands merged into skills; deterministic selective-Action governance; A test (N-run invariance) ≠ B test (baseline win), skill-creator can't own A.
 
-Knowhow workstream: taxonomy にノウハウを集め → チェックリスト化 → smith 実装。
+## Archived (checker era — do not use)
 
-### Pivots
-
-- jam は smith のスコープから除外; Create mode 削除。
-- "Consultant" → "craftsperson" に再定義。
-- ノウハウ整理が smith 実装の前提として浮上。
-- 当初49件の抽出はドメイン分類バイアスで汚染 → 全7ファイル再スキャン。
-
-## Step history
-
-### Step 1 — 完了
-
-全7ソースファイルをスキャン。taxonomy.md: **107件**（ARC:10 / SPC:32 / PRM:24 / FLW:29 / CTX:12）。除外2件（理由は taxonomy.md §Excluded）。
-
-### Step 2 — 完了
-
-checklist-items.md: **108エントリ**（PRM-EI を EI-S + EI-CA に分割して +1）。
-
-| Domain | Entries | Mandatory | Recommended | Quality | [auto] |
-|---|---|---|---|---|---|
-| ARC | 10 | 2 | 7 | 1 | 2 |
-| SPC | 32 | 12 | 15 | 5 | 10 |
-| PRM | 25 | 6 | 16 | 3 | 8 |
-| FLW | 29 | 8 | 19 | 2 | 4 |
-| CTX | 12 | 1 | 10 | 1 | 1 |
-| **Total** | **108** | **29** | **67** | **12** | **25** |
-
-## Notes for Step 3 implementers
-
-### smith-autocheck.sh
-
-- **PRM-CWF thresholds**: 60-word paragraph cap; identical 4+-word phrase repeated within 150-word window = NG. Both fully `[auto]`.
-- **PRM-TC**: `[judgment]` canonical. Mechanical string-scanning is first-pass only; must be followed by FP filter before marking NG. Do NOT tag as `[auto]`.
-- **PRM-SMC known phrases**: "do not send any other text", "complete in one turn", "do not ask for confirmation", "respond in a single message", "no follow-up".
-- **PRM-NRP known phrases**: "if no results", "return empty", "nothing to report", "no findings", "when nothing is found".
-
-### smith-evaluate.sh
-
-- **NG beats OOS for Mandatory items**: if any lens marks NG on a Mandatory item, promote regardless of OOS votes from other lenses.
-- **expected_effect ranking**: sort findings by `len(expected_effect)` descending before output.
-
-### smith-knowhow SKILL.md
-
-- **PRM-LFD is additive**: does not replace SPC items (third-person check, trigger check). If a description violates both PRM-LFD and a SPC item, report under the more specific SPC item.
-- **Content-conditional OOS carve-out**: PRM-DPE and PRM-SAC resolve OOS (not NG) when their content precondition is absent. This is intentional; divergent lens verdicts (one OOS, one NG) will drop Quality findings — by design.
-- **Architecture-lens singleton risk**: PRM-SC, PRM-FLD, PRM-MSS are holistic items only the architecture lens sees. Mitigate by including these in `references/` so conventions + patterns lenses can also evaluate them independently.
-- **finding_type slug list**: include known-slugs validation list so lenses derive `finding_type` from slug column, never from ID.
+Evaluate→Propose→Apply 10-step pipeline; 3 parallel inspector lenses; convergence formula `(num_lenses_caught × 30) + (max(self_confidence) × 0.3)` threshold 80; `[auto]` pre-pass; `smith-autocheck.sh`/`smith-evaluate.sh`/`smith-state.sh`; Finding schema / OOS rule. Superseded by the builder model.
