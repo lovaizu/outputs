@@ -82,4 +82,8 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 
 # State
 
-(written by /rn:bb, read and removed by /rn:hi)
+- **Status**: paused
+- **Date**: 2026-05-29
+- **Last completed**: #9 プラグインのディレクトリ構成を設計する
+- **Next**: #10 design.md のユーザーレビュー
+- **Notes**: design.md を再構成済み（要件→前提→ワークフロー→構造→詳細の順）。プラグイン名を steer→rn、コマンドを hi/dn/up→gm/bb/hiにリネーム済み。実装ファイルは削除済み（設計レビュー後に再作成）。checksの要否はユーザー未確認。
