@@ -93,7 +93,7 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 | id | slug | axis | note |
 |---|---|---|---|
 | SPC-ICE | inline-command-execution | A | `` !`cmd` `` to inject live context deterministically. |
-| SPC-AE | argument-expansion | A | **Modernized:** `$ARGUMENTS`/`$1`/`$N` + named args via `arguments:`; `@$1` no longer documented. |
+| SPC-AE | argument-expansion | A | **Modernized:** `$ARGUMENTS` (full string) / `$ARGUMENTS[N]` **0-based** (`$ARGUMENTS[0]` = first) / `$N` shorthand (`$0` = first, `$1` = second) / named `$name` via `arguments:`. `@$1` no longer documented. (Verified against code.claude.com/docs/en/skills, 2026-05-29 — corrects the old shell-style 1-based assumption.) |
 | SPC-PTL | pretool-two-layer | B | Fast deterministic first pass before any LLM pass. |
 | PRM-SC | scope-constraint | BOTH | State scope explicitly (reinforced by Opus-4.8 literalism). |
 | PRM-CD | code-delegation | B | Delegate genuine decisions only; keep solutions minimal. |

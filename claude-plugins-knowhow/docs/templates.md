@@ -1,6 +1,6 @@
 # Component Templates
 
-> Fill-in-the-blank skeletons for each artifact smith emits, with best practices **baked in** — frontmatter, role lead, common-rules block, Phase>Step>Action body, approval gates, output contract, safe hook scripts. smith fills the `<...>` placeholders in Phase 5; the structure is fixed.
+> Fill-in-the-blank skeletons for each artifact smith emits, with best practices **baked in** — frontmatter, role lead, common-rules block, Phase>Step>Action body, approval gates, output contract, deterministic scripts, safe hook scripts. smith fills the `<...>` placeholders in Phase 5; the structure is fixed.
 >
 > Templates are the **what** (the skeleton); `workflow-patterns.md` is the **how** (the control-flow patterns used inside). Each template notes the Actions (`actions.md`) it embodies. Feeds the `smith-prompt-patterns` / `smith-structure-patterns` skills (steering #3).
 
@@ -13,9 +13,9 @@
 
 ---
 
-## `plugin.json` (manifest)
+## `.claude-plugin/plugin.json` (manifest)
 
-Keep minimal — only `name` is strictly required; the harness validates the rest (so smith does not over-specify).
+Always emit at the exact path `.claude-plugin/plugin.json` — a manifest at the plugin root is **not** loaded (validation fails: `Plugin has an invalid manifest file at .claude-plugin/plugin.json ... name: Required`, and `name` silently falls back to the directory name). Keep minimal — only `name` is strictly required; the harness validates the rest (so smith does not over-specify).
 
 ```json
 {
@@ -29,17 +29,21 @@ Keep minimal — only `name` is strictly required; the harness validates the res
 
 ## Driver skill — `skills/<name>/SKILL.md`
 
-The user-invoked entry point (the modern slash command). Embodies: SPC-DMI, SPC-ATR, PRM-LFD/SPC-DOM (description), PRM-RLA (role lead), the Phase>Step>Action skeleton (FLW-PC), common-rules/on-failure blocks, FLW-EAG/PRM-RGC (gates), PRM-OSD (output contract).
+The user-invoked entry point (the modern slash command). Embodies: SPC-DMI, SPC-ATR, PRM-LFD/SPC-DOM (description), PRM-RLA (role lead), the Phase>Step>Action skeleton (FLW-PC), common-rules/on-failure blocks, FLW-EAG/PRM-RGC (gates), PRM-OSD (output contract), SPC-AE (argument expansion).
 
 ```markdown
 ---
 name: <kebab-name>                 # optional; defaults to directory name
 description: <Third-person, active. What it does + when to use it. e.g. "Reviews SQL migrations and reports risky changes. Use when the user asks to check or review a migration.">   # NO XML tags here (validation forbids it)
+argument-hint: <hint>              # include ONLY if the command takes user input — e.g. "<file>" or "<pr-number> [--fix]" (SPC-AE)
 disable-model-invocation: true     # user-triggered, not auto-fired
-allowed-tools: Read, Glob, Grep, Edit, Write, Bash(git:*), Task   # least privilege — trim to what's needed
+allowed-tools: Read, Glob, Grep, Edit, Write, Bash(git:*), Task, TodoWrite, Skill   # least privilege — trim to what's needed; Task only if this driver fans out (see Dispatch below); TodoWrite only for multi-phase/gated drivers (see Resumable state in workflow-patterns.md); Skill only if this driver loads knowledge skills (see Load a knowledge skill below)
 ---
 
 You are <role lead — one sentence: who this skill is and its stance>.   # PRM-RLA
+
+<!-- If the command takes input: reference the user's arguments as `$ARGUMENTS` (full string) or positionals — 0-based: `$ARGUMENTS[0]` (or the shorthand `$0`) is the FIRST positional, `$1` the second, …. Named args via the `arguments:` frontmatter are also available (`$name`, mapped to positions in order). Omit entirely when the command takes no input. (SPC-AE) -->
+The target is `$ARGUMENTS`.   # or `$0` for the first positional arg (`$1` for the second) — present only when argument-hint is set above
 
 <common_rules>
 - Never write outside the repository.
@@ -62,8 +66,35 @@ You are <role lead — one sentence: who this skill is and its stance>.   # PRM-
 <case condition="<branch B>">
 1. <action>.
 </case>
+<case condition="<none of the above>">
+Report that the situation is unhandled and stop. Do not guess.   # exhaustive fall-through — A
+</case>
 
 **Get explicit user approval before <irreversible action>.**   # calibrated emphasis, irreversible only — PRM-CPM/FLW-EAG
+
+### Dispatch a subagent (driver → execution)
+When the driver fans out to an execution subagent, invoke `Task` with the agent name, the **scoped context inlined in the prompt**, and the expected return contract. Subagents cannot re-dispatch — all fan-out originates here. smith commits to **one** context-provisioning mode per artifact in 5-2 (see `workflow-patterns.md` § Dispatch); the preferred default is inline (deterministic). See `workflow-patterns.md` § Dispatch.
+```markdown
+Dispatch `<agent-name>` via Task with:
+- context: <the exact files / diff / scope the agent needs, inlined in the prompt — the agent does not fetch it>.
+- return: <the contract the agent must return, e.g. one finding per issue or an explicit empty result>.
+Use the returned result verbatim; do not re-derive it.
+```
+
+**Parallel fan-out (N independent agents — e.g. 2-3 architects, per-part writers).** When the work splits into independent units, dispatch them as **one fixed batch in a single assistant message** (parallel), not one at a time, and **aggregate the returns in a fixed order**. See `workflow-patterns.md` § Dispatch (parallel fan-out + aggregation).
+```markdown
+Dispatch all N agents in ONE assistant message (one Task call per agent, same batch every run — do not dispatch sequentially):
+- `<agent-1>` with context: <scope 1>, return: <contract>.
+- `<agent-2>` with context: <scope 2>, return: <contract>.
+- … (fixed agent set)
+On collection: merge the returns in a fixed order (sort by a stable key — agent name or target file path — NOT arrival order). For an N-candidate fan-out, present all candidates together; do not pick first-to-return.
+```
+
+### Load a knowledge skill (driver → knowledge)
+When this driver depends on a knowledge skill, load it **explicitly via the Skill tool** at the phase that needs it — do not rely on description auto-match (that varies run-to-run). Requires `Skill` in `allowed-tools` above. See `workflow-patterns.md` § Load knowledge skill.
+```markdown
+At Phase N, before <step>, load `<knowledge-skill-name>` via the Skill tool.
+```
 
 <on_failure>
 Halt at the failing step. Do not auto-rollback. Report the partial state and point the user at `git status`. Never claim completion while the failure stands.
@@ -84,8 +115,14 @@ On-demand reference loaded by the driver during a phase. Embodies: CTX-PD (progr
 ---
 name: <kebab-name>
 description: <When this knowledge applies — third person. e.g. "Best-practice patterns for authoring Claude Code subagents. Loaded when designing or writing an agent.">
-user-invocable: false              # loaded by the driver, not the user
+user-invocable: false              # hides it from the `/` menu; the driver still loads it via the Skill tool. Do NOT add `disable-model-invocation: true` here — see note below.
 ---
+
+<!-- Invocation fields at this seam (verified against the current skills doc — code.claude.com/docs/en/skills, "Restrict Claude's skill access"):
+     - `user-invocable: false` controls MENU VISIBILITY ONLY, not Skill-tool access — "Only Claude can invoke." The driver's explicit Skill-tool load still works. This is the correct field for a driver-loaded knowledge skill.
+     - `disable-model-invocation: true` would "block programmatic invocation" and "removes the skill from Claude's context entirely" — it would break the driver→knowledge Skill-tool load (the load-bearing seam) and defeat both A and B. Do NOT set it on a knowledge skill the driver loads. -->
+<!-- Driver-side load: the driver loads this skill with the line `load \`<this-skill-name>\` via the Skill tool` at the phase that needs it (driver template § Load a knowledge skill; workflow-patterns.md § Load knowledge skill). The load is explicit and fires at a fixed phase regardless of whether the description happens to auto-match — never relies on description auto-match — so the seam is fixed (A). -->
+
 
 # <Title>
 
@@ -102,13 +139,13 @@ For <edge cases / long reference material>, see `references/<topic>.md` — load
 
 ## Execution subagent — `agents/<name>.md`
 
-A bounded, isolated worker dispatched by the driver (subagents cannot dispatch subagents). Embodies: SPC-AFM (frontmatter), PRM-LFD (delegation-trigger description), FLW-MTS (model by judgment density), SPC-ATR (least privilege), PRM-RLA (role), PRM-ESL (explicit scope), PRM-EI-CA (example), PRM-CTX (XML for mixed content), PRM-NRP.
+A bounded, isolated worker dispatched by the driver (subagents cannot dispatch subagents). Embodies: SPC-AFM (frontmatter), PRM-LFD (delegation-trigger description), FLW-MTS (model by judgment density), SPC-ATR (least privilege), PRM-RLA (role), PRM-ESL (explicit scope), PRM-CTX (XML for mixed content), PRM-NRP.
 
 ```markdown
 ---
 name: <kebab-name>
 description: <When to delegate to this agent — third person, the trigger. e.g. "Use to review a single changed file for correctness bugs.">
-model: inherit                     # or opus (deepest judgment) / sonnet (bounded analysis)
+model: opus                        # PIN the tier to the judgment density: opus (deepest judgment) / sonnet (bounded analysis). Any subagent whose output depends on judgment MUST pin a fixed tier — `inherit` makes the model whatever the caller's session is, so the same built artifact yields different judgment under Sonnet vs Opus (reopens the model-variance seam). Reserve `inherit` ONLY for non-judgment, dialogue-only work. (FLW-MTS / A — behavior must be stable across runs AND models)
 tools: Read, Glob, Grep            # least privilege; omit Write if it only reports
 ---
 
@@ -119,15 +156,11 @@ You are <role lead — one sentence>.   # PRM-RLA
 </instructions>
 
 <context>
-!`<command that injects the live context, e.g. git diff>`
+<!-- agents/*.md is NOT preprocessed, so `!`command`` does not expand here. smith commits to ONE provisioning mode in 5-2 and emits only that mode — never "A or B" (it must be fixed at this load-bearing seam — A). -->
+<!-- MODE A (preferred — deterministic): this block is the material the driver inlines into the Task prompt at dispatch — e.g. the diff or file list. The agent does NOT fetch it. -->
+<The scoped material the driver passes in — e.g. the diff or file list.>
+<!-- MODE B (only if the driver cannot inline it): replace the line above with a fixed Step 1 in <instructions>: "Fetch context via `<exact command>`" — a single pinned command, not free choice. Requires the matching tool in `tools:`. The pinned command must emit a byte-stable result — sort any enumeration it performs via `LC_ALL=C sort` (mirror §8/§9 / workflow-patterns.md §3), never raw glob/find/directory order, or order-dependent effects vary run-to-run (A). -->
 </context>
-
-<examples>
-<example>
-Input: <concrete input>
-Output: <concrete output>
-</example>
-</examples>
 
 ## Output
 Return <output contract>. If <nothing is found>, return <explicit empty result>.   # PRM-NRP
@@ -135,9 +168,35 @@ Return <output contract>. If <nothing is found>, return <explicit empty result>.
 
 ---
 
+## Deterministic script — `scripts/<name>.sh`
+
+The strongest A lever (FLW-DSAS). Use for any step whose result must be byte-identical every run — `plugin.json` generation, parsing, validation, dependency-ordered writes. A prompt cannot guarantee this; a script can. The driver invokes it and uses its output **verbatim** (see `workflow-patterns.md` § Deterministic step → script). Embodies: FLW-DSAS, SPC-PRV (`${CLAUDE_PLUGIN_ROOT}`).
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+export LC_ALL=C   # locale-independent collation & formatting — byte-stability
+
+# Read fixed inputs (args or stdin); do not read ambient state that varies between runs.
+input="${1:?usage: <name>.sh <input>}"
+
+# <The deterministic logic. Produce the same bytes for the same inputs.>
+
+# Byte-stability rules (defeat the common nondeterminism sources):
+#  - sort every enumeration:        find ... | LC_ALL=C sort
+#  - stable JSON key order:         jq -S ...
+#  - no timestamps / PIDs / random / hostnames in persisted or compared output
+#  - no unsorted glob order — pipe through sort
+
+# Emit a byte-stable result to stdout (or a fixed file path).
+printf '%s\n' "<result>"
+```
+
+---
+
 ## Hook — `hooks/hooks.json` + `hooks-handlers/<name>.sh`
 
-Deterministic enforcement. Embodies: SPC-HER (correct event), SPC-THT (`type: command`), SPC-PRV (`${CLAUDE_PLUGIN_ROOT}`), SPC-HIV (safe script), SPC-HSV (exit-2 reason to stderr), SPC-HI (idempotent).
+Deterministic enforcement that fires unconditionally (the optional default-output component, distinct from the script above). Embodies: SPC-HER (correct event), SPC-THT (`type: command`), SPC-PRV (`${CLAUDE_PLUGIN_ROOT}`), SPC-HIV (safe script), SPC-HSV (exit-2 reason to stderr), SPC-HI (idempotent).
 
 `hooks/hooks.json`:
 ```json
@@ -147,7 +206,7 @@ Deterministic enforcement. Embodies: SPC-HER (correct event), SPC-THT (`type: co
       {
         "matcher": "<ToolName>",
         "hooks": [
-          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/<name>.sh" }
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks-handlers/<name>.sh" }
         ]
       }
     ]
@@ -155,10 +214,13 @@ Deterministic enforcement. Embodies: SPC-HER (correct event), SPC-THT (`type: co
 }
 ```
 
+> `${CLAUDE_PLUGIN_ROOT}` **must be double-quoted** in the shell-form `command` (`"${CLAUDE_PLUGIN_ROOT}"/...`) — the plugin install path can contain spaces; unquoted, the command splits into multiple arguments and fails to run (an install-location-dependent break of the unconditional-enforcement guarantee — A). SPC-PRV.
+
 `hooks-handlers/<name>.sh`:
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
+export LC_ALL=C   # byte-stable: locale-independent. If this hook persists or compares any output, sort enumerations and exclude timestamps/PIDs/random.
 
 input=$(cat)
 tool_name=$(printf '%s' "$input" | jq -r '.tool_name')
@@ -177,6 +239,31 @@ fi
 
 exit 0
 ```
+
+---
+
+## Resumable state file — `.<name>.local.md` (multi-phase / gated drivers only)
+
+For a driver that runs a long gated workflow, an interrupted run must resume to the same point or it is not reproducible (A). Persist pinned inputs, progress, and the selection log to a state file with YAML front matter (machine-readable I/O) and a markdown body (human-readable log). Pair with a TodoWrite progress anchor in-session. Scope to multi-phase/gated drivers — do **not** emit for trivial single-skill output. Embodies: CTX-LMS (`.local.md` resumable state), CTX-TWA (TodoWrite anchor), SPC-FMS (front-matter shell I/O). See `workflow-patterns.md` § Resumable state / progress anchor.
+
+```markdown
+---
+phase: <current-phase-number>      # where to resume
+inputs:                            # the pinned, immutable run inputs
+  <key>: <value>
+completed: [<phase-1>, <phase-2>]  # phases already passed their exit gate
+---
+
+# <workflow> run state
+
+## Pinned intent
+<the fixed goal statement, copied verbatim — never re-derived on resume>
+
+## Selection log
+- <decision made and why — append-only>
+```
+
+> On start: if this file exists, read it and resume at `phase`; otherwise create it. On each phase exit, update `phase`/`completed` and append to the selection log. Front matter is read/written with `LC_ALL=C` and a fixed key order (SPC-FMS) so the file is byte-stable.
 
 ---
 

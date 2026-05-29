@@ -76,6 +76,14 @@ These remain valid as the knowhow corpus the pattern libraries draw on. The cont
 
 Three expert subagents (plugin architecture / prompt engineering / agentic process & QA), each with live official docs, reviewed the builder model. Key convergent findings (all adopted): A/B asymmetry is backwards → both-axes-per-step; evaluations-first → P4 authoring + continuous run; throwaway draft must be stripped to intent (don't inherit archetype); calibrated emphasis reverses PRM-CPM; XML only for mixed-content; commands merged into skills; deterministic selective-Action governance; A test (N-run invariance) ≠ B test (baseline win), skill-creator can't own A.
 
+## Template/pattern expert review (2026-05-29)
+
+7-round loop-until-dry multi-lens review (reproducibility A / quality B / CC-correctness / usability / coverage) of `templates.md` + `workflow-patterns.md`. **Did not formally converge** (essential findings 8→5→5→3→2→3→5); the non-convergence was an **oscillation on one fact** — slash-command positional-arg indexing — caused by stale 1-based wording in the repo's own source docs. **Resolved by direct verification** of code.claude.com/docs/en/skills: positionals are **0-based** (`$ARGUMENTS[0]`/`$0` = first; `$1` = second; `@$1` not documented). Final state of both files is correct.
+
+Net improvements from the review (all kept): added Deterministic-script template + pattern (§8, FLW-DSAS byte-stability via `LC_ALL=C`/sorted enumerations/`jq -S`), Dispatch pattern + parallel fan-out with deterministic merge order (§9), Load-knowledge-skill seam (§10, explicit Skill-tool load, reject `disable-model-invocation` on driver-loaded knowledge skills — verified), Resumable-state template + pattern (§11), `.claude-plugin/plugin.json` exact path, hook `${CLAUDE_PLUGIN_ROOT}` quoting, exhaustive branch fall-through, subagent `model` pinned-tier (not `inherit`).
+
+Root cause fixed: corrected the stale 1-based arg convention in `actions.md` (SPC-AE), `components.md`, `checklists.md`, `checklist-items.md` to 0-based.
+
 ## Archived (checker era — do not use)
 
 Evaluate→Propose→Apply 10-step pipeline; 3 parallel inspector lenses; convergence formula `(num_lenses_caught × 30) + (max(self_confidence) × 0.3)` threshold 80; `[auto]` pre-pass; `smith-autocheck.sh`/`smith-evaluate.sh`/`smith-state.sh`; Finding schema / OOS rule. Superseded by the builder model.
