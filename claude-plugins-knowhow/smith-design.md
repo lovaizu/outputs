@@ -17,11 +17,11 @@
 smith starts from a rough draft (typically a skill emitted by skill-creator) plus user dialogue. The draft is an **intent-elicitation seed, not a base to improve**.
 
 1. **Strip to intent.** smith reads the draft and restates, as a proposal, only: `{goal, user/trigger, inputs, outputs, ≤3 concrete usage scenarios}`.
-2. **Discard structure.** The draft's component shape (e.g. "one skill") is dropped. It must **not** anchor the archetype — a skill-shaped draft must not bias smith toward skill-only output.
+2. **Discard structure.** The draft's component shape (e.g. "one skill") is dropped. It must **not** anchor the structure — a skill-shaped draft must not bias smith toward skill-only output.
 3. **Hearing supplements.** Phases 1–3 fill the gaps the draft doesn't reveal, proposal-based with rationale.
 4. **Re-derive structure in 5-1** from the taxonomy, never inherited from the draft.
 
-> Rationale: a rough draft makes intent legible faster than a blank interview, but a draft is never structurally neutral — it smuggles in an archetype. Keeping its intent and discarding its structure captures the benefit without the anchoring risk. (Aligns with `action.md` §A.5 — do not narrow/expand the goal.)
+> Rationale: a rough draft makes intent legible faster than a blank interview, but a draft is never structurally neutral — it smuggles in a structure. Keeping its intent and discarding its structure captures the benefit without the anchoring risk. (Aligns with `action.md` §A.5 — do not narrow/expand the goal.)
 
 ## Flow — Phase > Step > Action
 
@@ -44,7 +44,7 @@ Every step addresses **both** A and B. Structure steps (5-1, 5-2) have the highe
 
 | Step | Action | A contribution | B contribution |
 |---|---|---|---|
-| **5-1 Turn goal into structure** (archetype + parts + flow) | Re-derive the archetype (A/B/C) from the taxonomy; decompose into parts; design the flow. Decide **what becomes a deterministic script vs. an LLM step**, and where verifiable intermediate outputs sit. | Highest A lever: pushing logic into byte-stable scripts and gating non-determinism is what makes runs repeatable. | Highest B lever: how parts divide/connect sets the ceiling on quality. |
+| **5-1 Turn goal into structure** (roles + parts + flow) | Re-derive the structure from the goal — assign **driver / knowledge / execution** roles and the component mix that realizes them (not the legacy Archetype A/B/C); decompose into parts; design the flow. Decide **what becomes a deterministic script vs. an LLM step**, and where verifiable intermediate outputs sit. | Highest A lever: pushing logic into byte-stable scripts and gating non-determinism is what makes runs repeatable. | Highest B lever: how parts divide/connect sets the ceiling on quality. |
 | **5-2 Confirm parts & interfaces** | Pin the seams: handoffs, approval gates, `plan→validate→execute` boundaries, per-part degree-of-freedom budget, description-as-trigger. Run the eval subset covering wiring. | Fixed seams ⇒ same handoff every run. | Responsibility separation + trigger design ⇒ quality. |
 | **5-3 Build per-part work instructions** | Write each part's prompt from the pinned design: numbered procedure + branches + output contract; instruction-vs-explanation separation; scripts that "solve, don't punt." | Removing room for guessing ⇒ stable behavior. | **B lives here too:** trigger wording, concrete I/O examples, consistent terminology, rationale-not-just-rules. |
 | **5-4 Optimize parts one by one** | Polish each isolated part. Run the eval subset for each touched part as a feedback loop (validator → fix → repeat). | Tighten freedom on fragile parts; move flaky steps into scripts. | Prune verbosity; capture gotchas/failure modes. |
@@ -79,7 +79,7 @@ Three layers, each loaded only by the phase that needs it (progressive disclosur
 
 ### Layer 1 — Structure/role patterns (Phase 5-1/5-2)
 
-Archetype selection (decide first): Archetype A (command+agent / workflow), B (skill-only / knowledge), C (hybrid / toolkit); archetype-first before decomposition. Decomposition: three-layer separation, minimum-viable-plugin, skill-three-roles, progressive-disclosure layering. Multi-agent wiring: reporter/evaluator separation, parallel-perspective split, parallel-vs-sequential, selective dispatch, whole-view singleton agent, **subagent-vs-inline** (hard rule: subagents cannot spawn subagents — all fan-out originates at the top-level orchestrator), `skills`-preload vs `context: fork`, model-tier-by-judgment-density. Interfaces: allowed-tools least-privilege, explicit approval gates, phase-control markers, `.local.md` state + TodoWrite anchor, `${CLAUDE_PLUGIN_ROOT}` portability.
+Structure selection (decide first): assign roles — driver/orchestration, knowledge, side-effecting execution — and the component mix that realizes them, before decomposition. (The legacy Archetype A/B/C trichotomy is a special case from when commands were distinct from skills; commands are now authored as skills.) Decomposition: three-layer separation, minimum-viable-plugin, skill-three-roles, progressive-disclosure layering. Multi-agent wiring: reporter/evaluator separation, parallel-perspective split, parallel-vs-sequential, selective dispatch, whole-view singleton agent, **subagent-vs-inline** (hard rule: subagents cannot spawn subagents — all fan-out originates at the top-level orchestrator), `skills`-preload vs `context: fork`, model-tier-by-judgment-density. Interfaces: allowed-tools least-privilege, explicit approval gates, phase-control markers, `.local.md` state + TodoWrite anchor, `${CLAUDE_PLUGIN_ROOT}` portability.
 
 ### Layer 2 — Prompt-composition patterns (Phase 5-3)
 
@@ -108,7 +108,7 @@ The calibrated-emphasis reversal and literalism patterns target Opus 4.5/4.6/4.8
 
 ## Architecture
 
-Hybrid plugin (Archetype C). All fan-out (Task dispatch) originates in the orchestrator; subagents never dispatch subagents.
+A plugin combining a driver skill + knowledge skills + execution subagents (formerly the "hybrid" archetype). All fan-out (Task dispatch) originates in the orchestrator; subagents never dispatch subagents.
 
 | Part | Form | Model | Role | Phases |
 |---|---|---|---|---|
@@ -128,7 +128,7 @@ Hybrid plugin (Archetype C). All fan-out (Task dispatch) originates in the orche
 
 ### Minimum-viable output
 
-Default output is a full plugin, but smith down-scopes when the pinned intent is small (a single skill, or command+agent) per minimum-viable-plugin. smith proposes the smallest archetype that satisfies the goal at the end of 5-1.
+Default output is a full plugin, but smith down-scopes when the pinned intent is small (a single skill, or a driver skill + one subagent) per minimum-viable-plugin. smith proposes the smallest structure that satisfies the goal at the end of 5-1.
 
 ## skill-creator integration
 

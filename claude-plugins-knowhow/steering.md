@@ -41,7 +41,7 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 - [ ] **#4 Implement the plugin** — orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md`.
 - [ ] **#5 Define `.smith.local.md` schema** — pinned intent, eval suite, selection log, reconcile history.
 - [ ] **#6 Dogfood** smith to build/improve itself.
-- [ ] **#7 Reconcile archetype trichotomy** — `smith-design.md` + `docs/concepts.md` still say "Archetype A/B/C"; commands merged into skills makes it legacy. Reframe to driver/knowledge/execution roles (see `actions.md` §Open follow-ups).
+- [x] **#7 Reconcile archetype trichotomy** — reframed `smith-design.md`, `README.md`, `docs/concepts.md` from "Archetype A/B/C" to driver/knowledge/execution **roles** (commands merged into skills). concepts.md keeps A/B/C as labeled-legacy with a 2026 note; the empirical component inventory is unchanged.
 
 ## Key files
 

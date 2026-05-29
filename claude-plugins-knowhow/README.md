@@ -42,7 +42,7 @@ smith runs six phases (`Phase > Step > Action`). Hearing is proposal-based: smit
 3. **Constraints** — target models, tools, side-effects, non-goals.
 4. **Propose UX + author evaluations** — usage, ≥3 scenarios, output examples; then author the eval suite and capture the no-artifact baseline. *(Nothing in Phase 5 starts until evals exist.)*
 5. **Build by applying best practices** — the main event:
-   - 5-1 turn the goal into structure (archetype + parts + flow)
+   - 5-1 turn the goal into structure (roles + parts + flow)
    - 5-2 confirm parts & interfaces
    - 5-3 build per-part work instructions
    - 5-4 optimize parts one by one
@@ -54,7 +54,7 @@ smith runs six phases (`Phase > Step > Action`). Hearing is proposal-based: smit
 
 Three layers of canonical patterns, each loaded only by the phase that needs it:
 
-1. **Structure/role patterns** (design) — archetype selection, three-layer separation, reporter/evaluator separation, parallel-vs-sequential dispatch, model placement.
+1. **Structure/role patterns** (design) — role assignment (driver/knowledge/execution), three-layer separation, reporter/evaluator separation, parallel-vs-sequential dispatch, model placement.
 2. **Prompt-composition patterns** (implementation) — output contracts, role leads, long-context ordering, example envelopes, and a scoped **XML** policy (XML only for mixed-content prompts, never on skill `name`/`description` or simple procedures).
 3. **Concrete-writing patterns** (polish) — calibrated emphasis (prefer "Use this tool when…" over "CRITICAL: You MUST…" on current Opus models), positive form, explicit scope, third-person skill descriptions, consistent terminology.
 
@@ -70,7 +70,7 @@ These are **sources of Actions, applied selectively** — Mandatory items always
 
 ## Architecture (planned)
 
-Hybrid plugin (Archetype C). All fan-out originates in the orchestrator; subagents never dispatch subagents.
+A plugin combining a driver skill + knowledge skills + execution subagents. All fan-out originates in the orchestrator; subagents never dispatch subagents.
 
 ```
 smith/
