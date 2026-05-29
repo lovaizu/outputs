@@ -24,12 +24,15 @@ The plugin must:
 - Skills cannot invoke `/clear` — after `/rn:bb`, the user must `/clear` manually
 - Hooks cannot receive context usage — automatic bb→clear→hi on threshold is not possible (future work)
 - Subagents (Agent tool) have no conversation history — all review context must be passed in the prompt
+- Custom commands are skills: a flat `commands/*.md` file and a `skills/<name>/SKILL.md` both create `/<name>`. Only the skill (directory) form can bundle supporting files. ([skills doc](https://code.claude.com/docs/en/skills))
+- `${CLAUDE_PLUGIN_ROOT}` is substituted inline in skill content and resolves to the plugin's installed directory; everything under the plugin root is copied to the cache on install. ([plugins-reference](https://code.claude.com/docs/en/plugins-reference))
 
 ### Design constraints
 
 - All user interactions are proposals, never questions (action.md D principle)
 - Rule files (.md read by AI) are written in English
 - 1 task = 1 commit
+- Prompt workflows are structured as **Phase > Step > Action**: a Phase groups related steps toward one sub-goal, a Step is a unit of work, an Action is a concrete operation.
 
 ## 3. Workflow
 
@@ -46,15 +49,11 @@ Decompose tasks          │                   Remove State section
 Begin task #1         ← user does /clear →   Begin next task
   │                                              │
   ▼                                              ▼
-[Task execution cycle]                    [Task execution cycle]
+[task-workflow]                            [task-workflow]
   │                                              │
-  ├─ Execute work steps                          │
-  ├─ Self-check                                  │
-  ├─ QA review (subagent)                        │
-  ├─ Expert reviews (code only, subagents)       │
-  ├─ User review                                 │
-  ├─ Commit                                      │
-  └─ Next task (or /rn:bb to suspend)            │
+  ├─ Phase: Execute                              │
+  ├─ Phase: Verify (self-check + reviews)        │
+  └─ Phase: Complete (user review + commit)      │
 ```
 
 ## 4. Plugin Structure
@@ -63,40 +62,47 @@ Begin task #1         ← user does /clear →   Begin next task
 rn/
 ├── .claude-plugin/
 │   └── plugin.json              # { "name": "rn" }
-├── commands/
-│   ├── gm.md                    # Procedure: start session
-│   ├── bb.md                    # Procedure: suspend session
-│   └── hi.md                    # Procedure: resume session
 ├── skills/
-│   └── rn-execution/
-│       ├── SKILL.md             # Knowledge: task execution, reviews, check files
-│       └── references/
-│           └── template.md      # steering.md template
+│   ├── gm/
+│   │   └── SKILL.md             # Procedure: start session
+│   ├── bb/
+│   │   └── SKILL.md             # Procedure: suspend session
+│   └── hi/
+│       └── SKILL.md             # Procedure: resume session
+├── references/
+│   ├── task-workflow.md         # Shared knowledge: task execution, reviews, check files
+│   └── steering-template.md     # steering.md template
 └── README.md
 ```
+
+Each command is a skill directory so it can be invoked as `/rn:gm` etc. The shared task-execution knowledge lives once in `references/task-workflow.md`; `gm` and `hi` read it on demand via its `${CLAUDE_PLUGIN_ROOT}` path. `references/` is not a component directory — it is plain bundled content, copied to the cache on install and addressable through `${CLAUDE_PLUGIN_ROOT}/references/…`.
 
 ### Component responsibilities
 
 | Component | Layer | What it specifies |
 |---|---|---|
-| gm.md | Procedure | Steps 1-6: hear goal → propose location → create steering.md (from template.md) → decompose tasks → present to user → begin task #1 (load rn-execution) |
-| bb.md | Procedure | Steps 1-6: find steering.md → commit work → write State → push → verify clean → report |
-| hi.md | Procedure | Steps 1-7: handle dirty tree → find steering.md → read State → sync tasks with git log → check blockers → remove State → begin next task (load rn-execution) |
-| SKILL.md | Knowledge | Task completion process (3-step / 5-step), subagent review dispatch, review policies, check file format |
-| template.md | Reference | Full steering.md template — loaded by gm.md at session start |
+| skills/gm/SKILL.md | Procedure | Define goal → plan tasks → launch task #1 (reads task-workflow.md, steering-template.md) |
+| skills/bb/SKILL.md | Procedure | Capture state → persist (commit, push, report). Reads nothing |
+| skills/hi/SKILL.md | Procedure | Recover state → reconcile with git → resume next task (reads task-workflow.md) |
+| references/task-workflow.md | Knowledge | Task execution workflow (Execute / Verify / Complete), subagent review dispatch, review policies, check file format |
+| references/steering-template.md | Reference | Full steering.md template |
 
-### Skill loading points
+### Invocation control
 
-| When | What loads | Why |
+All three skills set `disable-model-invocation: true`. They are explicit workflows with side effects (commit, push, `/clear` handoff); Claude must not trigger them automatically. The user invokes each with `/rn:gm` / `/rn:bb` / `/rn:hi`.
+
+### File reads
+
+| When | What it reads | Why |
 |---|---|---|
-| gm.md step 3 | `references/template.md` | Create steering.md from template |
-| gm.md step 6 | `rn-execution` skill | Execute task #1 |
-| hi.md step 7 | `rn-execution` skill | Execute next task |
-| bb.md | Nothing | Suspend only, no task execution |
+| gm Phase 2 | `${CLAUDE_PLUGIN_ROOT}/references/steering-template.md` | Create steering.md from template |
+| gm Phase 3 | `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md` | Execute task #1 |
+| hi Phase 3 | `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md` | Execute next task |
+| bb | Nothing | Suspend only, no task execution |
 
 ## 5. steering.md Specification
 
-### 5.1 Template
+### 5.1 Template (references/steering-template.md)
 
 ```markdown
 # Goal
@@ -182,102 +188,125 @@ rn/
 
 ## 6. Command Steps
 
+Each command is structured as **Phase > Step > Action**.
+
 ### 6.1 /rn:gm — Start
 
-| Step | Action | Detail |
-|---|---|---|
-| 1 | Hear the goal | Use user's message or `$ARGUMENTS`. If none, ask. Record exact words — never paraphrase |
-| 2 | Propose location | Derive directory from goal in kebab-case. Propose `work/{goal-slug}/steering.md`. Wait for confirmation |
-| 3 | Create steering.md | Load template from `@${CLAUDE_PLUGIN_ROOT}/skills/rn-execution/references/template.md`. Fill Goal, Verification, Assumptions, Rules. Leave Tasks, Decisions, State empty |
-| 4 | Decompose tasks | Work backwards from Verification end state. Each task gets Purpose, Prerequisites, Steps, Completion criteria |
-| 5 | Present to user | Show complete steering.md. Do not proceed without user approval |
-| 6 | Begin task #1 | Commit steering.md. Load rn-execution skill. Execute task #1 |
+**Phase 1: Define** — fix the goal and where it lives
+
+| Step | Actions |
+|---|---|
+| 1. Hear the goal | Use the user's message or `$ARGUMENTS`. If none, ask. Record exact words — never paraphrase |
+| 2. Propose location | Derive a kebab-case slug from the goal. Propose `work/{goal-slug}/steering.md`. Wait for confirmation |
+
+**Phase 2: Plan** — turn the goal into verifiable tasks
+
+| Step | Actions |
+|---|---|
+| 3. Create steering.md | Read `${CLAUDE_PLUGIN_ROOT}/references/steering-template.md`. Fill Goal, Verification, Assumptions, Rules. Leave Tasks, Decisions, State empty |
+| 4. Decompose tasks | Work backwards from the Verification end state. Give each task Purpose, Prerequisites, Steps, Completion criteria |
+
+**Phase 3: Launch** — get approval and start
+
+| Step | Actions |
+|---|---|
+| 5. Present and approve | Show the complete steering.md. Do not proceed without user approval |
+| 6. Begin task #1 | Commit steering.md. Read `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md`. Execute task #1 |
 
 ### 6.2 /rn:bb — Suspend
 
-| Step | Action | Detail |
-|---|---|---|
-| 1 | Find steering.md | Use known path, or commit history search |
-| 2 | Commit work | Clean tree → skip. Dirty: all task steps checked → normal commit. Some unchecked → `wip:` prefix |
-| 3 | Update steering.md | Check off done tasks. Add new tasks/decisions. Write State section (status, date, last completed, next, notes) |
-| 4 | Commit and push | `git commit` + `git push`. If push fails, continue (user can push later) |
-| 5 | Verify clean | `git status` must show clean tree |
-| 6 | Report | Output: last completed, next task, branch name |
+**Phase 1: Capture** — record where work stands
 
-**State section notes**: Include enough context for `/rn:hi` to resume without the conversation. Mention: current work, blockers, pending decisions, next concrete action.
+| Step | Actions |
+|---|---|
+| 1. Find steering.md | Use the known path, or commit history search |
+| 2. Commit work | Clean tree → skip. Dirty: all task steps checked → normal commit; some unchecked → `wip:` prefix |
+| 3. Write State | Check off done tasks. Add new tasks/decisions. Write the State section (status, date, last completed, next, notes). Notes must carry enough context for `/rn:hi` to resume without the conversation: current work, blockers, pending decisions, next concrete action |
+
+**Phase 2: Persist** — push and confirm
+
+| Step | Actions |
+|---|---|
+| 4. Commit and push | `git commit` + `git push`. If push fails, continue (user can push later) |
+| 5. Verify clean | `git status` must show a clean tree |
+| 6. Report | Output: last completed, next task, branch name |
 
 ### 6.3 /rn:hi — Resume
 
-| Step | Action | Detail |
-|---|---|---|
-| 1 | Handle dirty tree | Clean → proceed. Dirty → propose wip commit or discard. Wait for confirmation |
-| 2 | Find steering.md | Commit history search |
-| 3 | Restore context | Read State section: last completed, next task, notes |
-| 4 | Sync tasks | Cross-check git log vs unchecked tasks. If a commit matches a task, check it off |
-| 5 | Check blockers | If State notes mention a blocker: investigate, find alternative approach before removing tasks |
-| 6 | Clean up State | Replace State section with placeholder. Commit |
-| 7 | Begin next task | Load rn-execution skill. Execute next unchecked task. If all done, propose running Verification |
+**Phase 1: Recover** — reconstruct the prior state
 
-## 7. Task Execution (rn-execution skill)
+| Step | Actions |
+|---|---|
+| 1. Handle dirty tree | Clean → proceed. Dirty → propose wip commit or discard; wait for confirmation |
+| 2. Find steering.md | Commit history search |
+| 3. Read State | Read the State section: last completed, next task, notes |
 
-### 7.1 Process overview
+**Phase 2: Reconcile** — align the file with git reality
 
-| Task type | Steps |
+| Step | Actions |
+|---|---|
+| 4. Sync tasks | Cross-check git log against unchecked tasks. If a commit matches a task, check it off |
+| 5. Check blockers | If State notes mention a blocker: investigate and find an alternative approach before removing tasks |
+| 6. Clean up State | Replace the State section with its placeholder. Commit |
+
+**Phase 3: Resume** — continue execution
+
+| Step | Actions |
+|---|---|
+| 7. Begin next task | Read `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md`. Execute the next unchecked task. If all done, propose running Verification |
+
+## 7. Task Workflow (references/task-workflow.md)
+
+The shared execution loop, structured as **Phase > Step > Action**. `gm` and `hi` read this file when they reach task execution.
+
+### 7.1 Process selection
+
+| Task type | Verify phase steps |
 |---|---|
 | Non-code (docs, config, design) | Self-check → QA review → User review |
 | Code changes | Self-check → QA review → Language expert review → Software engineer review → User review |
 
-### 7.2 Self-check
+### 7.2 Phase: Execute
 
-Verify each completion criterion. Record OK/NG with specific evidence. Write results to `{steering_dir}/checks/{task-id}.md`.
+| Step | Actions |
+|---|---|
+| Do the work | Carry out the task's Steps from steering.md until each is complete |
 
-### 7.3 Subagent reviews
+### 7.3 Phase: Verify
 
-Each reviewer runs as an independent subagent (Agent tool, no conversation history).
+**Step — Self-check**
 
-**Prompt construction** — include these 5 elements:
+- Action: verify each completion criterion, recording OK/NG with specific evidence
+- Action: (code) measure coverage with a project-appropriate tool (Jest, pytest, JaCoCo, gcov, etc.); record line/branch coverage and uncovered areas
+- Action: write results to `{steering_dir}/checks/{task-id}.md`
 
-1. **Role**: reviewer persona (QA engineer / language expert in {language} / software engineer)
-2. **Artifact**: full file content or diff under review
-3. **Criteria**: the checklist for this reviewer type (see below)
-4. **Completion criteria**: the task's criteria from steering.md
-5. **Output format**: OK/NG per criterion with evidence, overall pass/fail
+**Step — QA review (subagent)**, then expert reviews for code tasks. Each reviewer runs as an independent subagent (Agent tool, no conversation history).
 
-**QA engineer checklist:**
+- Action: build the review prompt with 5 elements — (1) Role, (2) Artifact (full content or diff), (3) Criteria (the checklist below), (4) the task's Completion criteria from steering.md, (5) Output format (OK/NG per criterion with evidence, overall pass/fail)
+- Action: dispatch the subagent and collect the verdict
+- Action: apply the iteration protocol — any NG → fix → re-run the same reviewer; max 3 iterations; still NG after 3 → record findings and escalate to user review with unresolved items
 
-- Are tests/verifications meaningful to the purpose? (not just "passed")
-- Are edge cases covered? (boundary, error, empty, max, type conversion)
+Reviewer checklists:
 
-**Language expert checklist** (code tasks only):
+- **QA engineer**: tests/verifications meaningful to the purpose (not just "passed"); edge cases covered (boundary, error, empty, max, type conversion)
+- **Language expert** (code only): best practices (naming, error handling, null/thread safety); consistency with existing codebase style; test code in GWT (Given/When/Then) format
+- **Software engineer** (code only): separation of concerns; system-wide integrity (interface contracts, API compatibility); maintainability (no duplication, deep nesting, magic numbers)
 
-- Best practices (naming, error handling, null safety, thread safety)
-- Consistency with existing codebase style
-- Test code in GWT (Given/When/Then) format
+Review policy (all reviewers):
 
-**Software engineer checklist** (code tasks only):
-
-- Appropriate separation of concerns
-- System-wide integrity (interface contracts, API compatibility)
-- Maintainability (no duplication, deep nesting, magic numbers)
-
-**Iteration protocol:**
-
-- NG on any finding → fix → re-run same reviewer
-- Max 3 iterations per reviewer
-- Still NG after 3 → record findings, escalate to user review with unresolved items
-
-### 7.4 Review policies
-
-- Address all findings. Never skip as "minor" or "low priority"
+- Address every finding. Never skip as "minor" or "low priority"
 - To skip a finding, get user confirmation first
-- Only dismiss findings with factual errors, stating the evidence
+- Only dismiss a finding with a factual error, stating the evidence
 
-### 7.5 Coverage verification (code tasks)
+### 7.4 Phase: Complete
 
-- Use project-appropriate tool (Jest, pytest, JaCoCo, gcov, etc.)
-- Check line and branch coverage; record uncovered areas in self-check
+| Step | Actions |
+|---|---|
+| User review | Present results; do not proceed without approval |
+| Commit | Check off the task in steering.md. Commit: `docs: complete task #{id} — {description}` |
+| Advance | Begin the next unchecked task immediately. If all tasks are done → propose running the Verification criteria |
 
-### 7.6 Check file format
+### 7.5 Check file format
 
 Output to `{steering_dir}/checks/{task-id}.md`:
 
@@ -324,28 +353,21 @@ Output to `{steering_dir}/checks/{task-id}.md`:
 - Ready for user review: Yes / No (reason)
 ```
 
-### 7.7 After task completion
-
-1. Check off the task in steering.md
-2. Commit: `docs: complete task #{id} — {description}`
-3. Begin next unchecked task immediately
-4. If all tasks done → propose running Verification criteria
-
 ## Appendix: Action Principle Traceability
 
 How each action.md principle is enforced in the plugin workflow:
 
 | Principle | Enforcement point | Mechanism |
 |---|---|---|
-| A.1 Goal as starting point | gm step 1 | Goal captured verbatim before any planning |
-| A.2 Work backwards from end state | gm step 4 | Task decomposition starts from Verification criteria |
+| A.1 Goal as starting point | gm Phase 1 | Goal captured verbatim before any planning |
+| A.2 Work backwards from end state | gm Phase 2 | Task decomposition starts from Verification criteria |
 | A.3 Means adapt, goal fixed | All commands | Goal section is read-only after creation |
-| A.4 Find alternatives before giving up | hi step 5 | Blockers trigger alternative search, not task removal |
-| A.5 No reinterpretation | gm step 3 | User's exact words stored, never paraphrased |
-| B.1 Act on verified facts | Task execution | Assumptions section forces explicit declaration |
+| A.4 Find alternatives before giving up | hi Phase 2 | Blockers trigger alternative search, not task removal |
+| A.5 No reinterpretation | gm Phase 2 | User's exact words stored, never paraphrased |
+| B.1 Act on verified facts | task-workflow | Assumptions section forces explicit declaration |
 | B.2 Verify complete population | QA review | Subagent checks edge case coverage exhaustively |
-| C.1 Define hypothesis + verification | gm step 3 | Verification section written before tasks |
-| C.4 Two-axis verification | Completion process | Goal alignment + quality as separate review passes |
-| C.5 Address every finding | Review policies | No skipping without user confirmation |
+| C.1 Define hypothesis + verification | gm Phase 2 | Verification section written before tasks |
+| C.4 Two-axis verification | Verify phase | Goal alignment + quality as separate review passes |
+| C.5 Address every finding | Review policy | No skipping without user confirmation |
 | D.1 Always propose | All user interactions | Questions replaced with proposals |
 | D.3 Issue-Conclusion format | Decisions section | All decisions recorded in structured format |

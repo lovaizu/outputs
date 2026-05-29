@@ -2,11 +2,18 @@
 
 CCとの協業でステアリングできるプラグインを作る。プラグインはCCのマーケットプレイスに公開する。
 
+**このリポジトリのスコープ**: 設計書（design.md）の完成まで。実装・公開は lovaizu/ccpm 側の別作業（D-12）。
+
 ## Verification
 
-- プラグインが https://github.com/lovaizu/ccpm に公開されている
-- `/rn:gm`, `/rn:bb`, `/rn:hi` の3コマンドが動作する
-- steering.mdベースの作業管理で中断・再開が可能である
+- design.md が実装可能な設計書として完成している（要件→前提→ワークフロー→構造→詳細を網羅）
+- 設計が公式の Claude Code プラグイン仕様と整合している（一次情報で裏取り済み）
+- ユーザーレビューを通過している
+
+## Handoff (別リポジトリ)
+
+- 実装: design.md に従い lovaizu/ccpm でプラグインを実装・PR作成
+- 公開後の動作検証: `/rn:gm`, `/rn:bb`, `/rn:hi` の3コマンドが動作し、steering.mdベースで中断・再開できる
 
 # Assumptions
 
@@ -31,8 +38,9 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - [x] #7: action.md原則のsteering.mdへの組み込み方を設計する
 - [x] #8: 設計書を完成させる（本ファイルの「Design」セクションを完成）
 - [x] #9: プラグインのディレクトリ構成を設計する（plugin.json, skills/, hooks/等）
-- [ ] #10: design.md のユーザーレビュー
-- [ ] #11: lovaizu/ccpm リポジトリにプラグインを実装してPR作成する
+- [x] #10: design.md のユーザーレビュー（指摘反映済み：構成・参照方式・Phase>Step>Action）
+
+実装（旧#11）はこのリポジトリのスコープ外。lovaizu/ccpm 側で別途実施（D-12）。
 
 # Decisions
 
@@ -80,10 +88,27 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Conclusion**: design.md を成果物とし、実装ファイルは設計レビュー後に別タスクで作成する
 - **Rationale**: ユーザーレビューなしに実装を進めていた。設計書のレビュー→承認→実装の順序に修正
 
+## D-12: 実装はccpm側、本リポジトリは設計書で完結
+- **Conclusion**: このリポジトリの成果物は design.md まで。プラグインの実装・公開は lovaizu/ccpm 側の別作業として行う
+- **Rationale**: CLAUDE.md のリポジトリ境界制約により本ワークツリーから ccpm を触れない。設計と実装をリポジトリ単位で分離する
+
+## D-13: 共有知識は references/ ファイル、コマンドはスキル
+- **Conclusion**: gm/bb/hi を `skills/` 配下のスキルにし、共有するタスク実行知識を `references/task-workflow.md`、テンプレを `references/steering-template.md` に置く。gm/hi は `${CLAUDE_PLUGIN_ROOT}` パスで Read する
+- **Rationale**: 公式仕様で「コマンド=スキル」「supporting file はスキル形式でのみ同梱可」「`${CLAUDE_PLUGIN_ROOT}` はスキル本文でインライン置換」「プラグインルート配下は install 時コピー」を一次情報で確認。インライン重複（非DRY）も Skill 誤用も避けられる
+- **Evidence**: code.claude.com/docs の skills / plugins-reference。「Custom commands have been merged into skills」、env var はskill contentでインライン置換（589行）、ルート外のみコピー対象外（678行）
+
+## D-14: プロンプトは Phase > Step > Action 構成
+- **Conclusion**: コマンドおよび task-workflow を3階層（Phase=目的のまとまり / Step=作業単位 / Action=具体操作）で記述する
+- **Rationale**: ワークフローの粒度と意図が明確になり、レビュー・保守がしやすい
+
+## D-15: コマンドは手動起動のみ
+- **Conclusion**: gm/bb/hi に `disable-model-invocation: true` を付与
+- **Rationale**: commit/push/clear 等の副作用を伴う明示ワークフローであり、Claude が自動起動すべきでない
+
 # State
 
-- **Status**: paused
+- **Status**: complete (このリポジトリのスコープ完了)
 - **Date**: 2026-05-29
-- **Last completed**: #9 プラグインのディレクトリ構成を設計する
-- **Next**: #10 design.md のユーザーレビュー
-- **Notes**: design.md を再構成済み（要件→前提→ワークフロー→構造→詳細の順）。プラグイン名を steer→rn、コマンドを hi/dn/up→gm/bb/hiにリネーム済み。実装ファイルは削除済み（設計レビュー後に再作成）。checksの要否はユーザー未確認。
+- **Last completed**: #10 design.md のユーザーレビュー（指摘反映済み）
+- **Next**: なし。実装は lovaizu/ccpm 側で別途（D-12）
+- **Notes**: design.md 完成。レビューで構成を skills/{gm,bb,hi}/ + references/ に変更、参照を ${CLAUDE_PLUGIN_ROOT} の Read 方式に統一、Phase>Step>Action で再構成（D-13〜D-15）。公式仕様は一次情報で裏取り済み。次は ccpm リポジトリで design.md を元に実装。
