@@ -11,6 +11,17 @@
 3. Fill placeholders in 5-3; polish wording in 5-4.
 4. XML appears only where these templates already place it (structural blocks); the linear step sequence stays markdown — per `workflow-patterns.md`.
 
+## Reading these templates — what to emit vs. strip
+
+A template's fenced block is the skeleton smith emits, **minus the authoring annotations**. On emit, smith:
+
+- **Fills** every `<...>` placeholder.
+- **Strips** all `<!-- ... -->` comments — they are guidance to smith, never part of the emitted artifact.
+- **Strips** trailing annotations introduced by **two or more spaces then `#`** that name an Action ID or give authoring advice (e.g. `   # PRM-RLA`, `   # least privilege — trim to what's needed`).
+- **Keeps** genuine artifact content: markdown `#` headings (at line start), and in-script comments inside `.sh` blocks that explain the script's own logic (e.g. `# Reject path traversal`).
+
+Rule of thumb: if an annotation names an Action ID or tells smith *how to author*, it is guidance → strip. If it explains *what the emitted code does*, it is content → keep.
+
 ---
 
 ## `.claude-plugin/plugin.json` (manifest)
@@ -145,7 +156,7 @@ A bounded, isolated worker dispatched by the driver (subagents cannot dispatch s
 ---
 name: <kebab-name>
 description: <When to delegate to this agent — third person, the trigger. e.g. "Use to review a single changed file for correctness bugs.">
-model: opus                        # PIN the tier to the judgment density: opus (deepest judgment) / sonnet (bounded analysis). Any subagent whose output depends on judgment MUST pin a fixed tier — `inherit` makes the model whatever the caller's session is, so the same built artifact yields different judgment under Sonnet vs Opus (reopens the model-variance seam). Reserve `inherit` ONLY for non-judgment, dialogue-only work. (FLW-MTS / A — behavior must be stable across runs AND models)
+model: <opus | sonnet>             # PIN the tier to the judgment density: opus (deepest judgment) / sonnet (bounded analysis). Any subagent whose output depends on judgment MUST pin a fixed tier — `inherit` makes the model whatever the caller's session is, so the same built artifact yields different judgment under Sonnet vs Opus (reopens the model-variance seam). Reserve `inherit` ONLY for non-judgment, dialogue-only work. (FLW-MTS / A — behavior must be stable across runs AND models)
 tools: Read, Glob, Grep            # least privilege; omit Write if it only reports
 ---
 
@@ -278,3 +289,48 @@ Embodies: CTX-CIR ("would removing this cause mistakes?"), CTX-CMP (placement), 
 ```
 
 > Use a hook instead (template above) when the rule **must** fire unconditionally and a soft instruction has proven unreliable — CTX-RHM.
+
+---
+
+## Pinned intent (end of Phase 4)
+
+The fixed point for Phases 5–6. Derived from the throwaway draft **stripped to intent** (its component structure discarded — never inherited) plus proposal-based hearing. Never re-derived on resume. Embodies: `action.md` §A (goal is the fixed point), strip-to-intent (`smith-design.md` § Input model).
+
+```markdown
+---
+goal: <the fixed final state the artifact must achieve — in the user's terms, not reinterpreted/narrowed/expanded>
+trigger: <who or what invokes it, and when>
+inputs: <what it receives>
+outputs: <what it produces>
+constraints: <target model(s), allowed tools, side-effects, explicit non-goals>
+scenarios:                          # ≥3 concrete usage scenarios — these seed the eval suite
+  - <scenario 1>
+  - <scenario 2>
+  - <scenario 3>
+---
+```
+
+> Confirm this with the user at the Phase-4 gate before any building starts. Persist it verbatim in the resumable-state file (`## Pinned intent`).
+
+---
+
+## Evaluation suite — `evals/<name>.eval.md`
+
+The artifact smith authors at Phase 4 (**before** building — evaluations-first) and runs at Phase 6. Ships with the plugin as its regression evals. Each scenario is frozen: same query + same input files every run. Embodies: PRM-VSC (verifiable success criteria), FLW-BAC (blind A/B), FLW-WQR (rubric); see `workflow-patterns.md` § Verify.
+
+```markdown
+# Evals — <plugin-name>
+
+> Authored at Phase 4, run at Phase 6. Scenarios are frozen (same query + same fixtures every run).
+
+## Baseline (no-artifact)
+<Claude's result on the scenarios WITHOUT this plugin — captured once at Phase 4, so Phase 6 can prove the artifact beats it (B-test).>
+
+## Scenarios
+### <scenario-id>
+- query: <exact invocation — e.g. `/sql-review migrations/0007_add_index.sql`>
+- files: <fixed input fixture(s)>
+- expected_behavior: <observable, checkable outcome — what must be true of the result>
+```
+
+> A-test (reproducibility): run each scenario N≥3× per target model; the invariants — same trigger, same files touched, byte-stable script output, all `expected_behavior` pass — must be identical across runs. B-test (quality): the artifact must meet `expected_behavior` and beat the captured baseline. See `workflow-patterns.md` § Verify.

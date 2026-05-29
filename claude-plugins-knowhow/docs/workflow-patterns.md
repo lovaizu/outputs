@@ -235,6 +235,24 @@ Read/write the front matter with `LC_ALL=C` and a fixed key order (SPC-FMS) so t
 
 A: pinned intent + checkpointed phase ⇒ an interrupted run resumes to the identical point; byte-stable state file. B: the resume contract is explicit, not improvised (CTX-LMS, CTX-TWA, SPC-FMS). See the `.<name>.local.md` template in `templates.md`.
 
+### 12. Verify (evaluations-first): A-test + B-test
+
+When: confirming the built artifact. **Author the evals at Phase 4** — the moment goal + scenarios + outputs exist — and run them at Phase 6. Never invent criteria at the end (that violates `action.md` §C and the official "evaluations first").
+
+1. **Author (Phase 4):** write ≥3 frozen scenarios `{query, files, expected_behavior}` and capture the **no-artifact baseline**. See the eval-suite template in `templates.md`.
+2. **A-test — reproducibility:** run each scenario **N≥3× per target model**; pass iff the invariants are **identical across all runs and models** — same trigger fired, same set of files touched, byte-stable script output, all `expected_behavior` pass. Any variance is a defect → lower a degree of freedom or move the varying step into a script (§8), then re-run.
+3. **B-test — quality:** run the artifact and score against `expected_behavior`; pass iff it meets the rubric **and beats the captured baseline** on every scenario. (Optional relative-B between two built versions: skill-creator blind A/B — measures B, not A.)
+4. **Continuous:** run a cheap subset as a validator→fix loop during 5-3/5-4; the full suite is the Phase-6 gate.
+
+```markdown
+At Phase 4, author evals/<name>.eval.md (≥3 frozen scenarios + no-artifact baseline) before building.
+At Phase 6:
+1. A-test — run each scenario N≥3× per target model; the invariants (trigger, files touched, script-output bytes, expected_behavior) must be identical across runs. Fix any variance, re-run.
+2. B-test — the artifact must meet expected_behavior and beat the baseline on every scenario.
+Do not claim completion while any scenario fails either test.
+```
+A: the A-test **is** the reproducibility proof (a non-deterministic LLM artifact is proven reproducible only by invariance across repeated runs). B: baseline-win is the quality proof (PRM-VSC, FLW-BAC, FLW-WQR, FLW-DEC, FLW-PIV, FLW-REA; `action.md` §C). See the eval-suite + pinned-intent templates in `templates.md`.
+
 ## Composition order within a single prompt
 
 To support long-context ordering (PRM-LCO) and clean parsing:
@@ -259,6 +277,10 @@ To support long-context ordering (PRM-LCO) and clean parsing:
 | Common flow | FLW-PIV, FLW-DSAS |
 | Alternative / exception | FLW-PVE, FLW-LEB |
 | Deterministic step → script | FLW-DSAS, SPC-PRV |
+| Dispatch / parallel fan-out | FLW-PVS, FLW-PPS, FLW-PCP |
+| Load knowledge skill | CTX-PD, SPC-DOM, SPC-ATR |
+| Resumable state / progress anchor | CTX-LMS, CTX-TWA, SPC-FMS |
+| Verify (A-test + B-test) | PRM-VSC, FLW-BAC, FLW-WQR, FLW-DEC, FLW-PIV, FLW-REA |
 | Dispatch (driver → subagent) | PRM-ESL, PRM-NRP, SPC-ATR, FLW-PVS, FLW-PPS, FLW-PCP |
 | Load knowledge skill | CTX-PD, SPC-DOM, SPC-ATR |
 | Resumable state / progress anchor | CTX-LMS, CTX-TWA, SPC-FMS |

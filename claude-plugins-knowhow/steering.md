@@ -84,6 +84,16 @@ Net improvements from the review (all kept): added Deterministic-script template
 
 Root cause fixed: corrected the stale 1-based arg convention in `actions.md` (SPC-AE), `components.md`, `checklists.md`, `checklist-items.md` to 0-based.
 
+### Trace-to-"should-work" pass (2026-05-30)
+
+Bar (user): fix everything an expert would spot **before** running; only run once a hand-trace says "this should work." Traced smith building a SQL-migration-review plugin end-to-end on the assets. Found + closed 4 expert-obvious gaps:
+- **G1 (blocker):** no eval/verify support for the confirmed evaluations-first core → added the `evals/<name>.eval.md` template + `## Pinned intent` template (templates.md) and pattern **§12 Verify (A-test + B-test)** (workflow-patterns.md).
+- **G2 (blocker):** templates didn't separate emit-skeleton from smith-guidance → added the **"Reading these templates — emit vs. strip"** convention (`<!-- -->` and `  # Action` annotations are stripped on emit).
+- **G3:** subagent `model: opus` hardcoded → `model: <opus | sonnet>` placeholder.
+- **G4:** thin hearing/intent support → `## Pinned intent (end of Phase 4)` template.
+
+Re-trace verdict: core build flow now traces with no expert-obvious holes. Remaining unknowns are **runtime behaviors** (multi-phase skill execution, Skill-tool mid-run load, Task fan-out) that only a real run confirms → #4 is now worth doing.
+
 ## Archived (checker era — do not use)
 
 Evaluate→Propose→Apply 10-step pipeline; 3 parallel inspector lenses; convergence formula `(num_lenses_caught × 30) + (max(self_confidence) × 0.3)` threshold 80; `[auto]` pre-pass; `smith-autocheck.sh`/`smith-evaluate.sh`/`smith-state.sh`; Finding schema / OOS rule. Superseded by the builder model.
