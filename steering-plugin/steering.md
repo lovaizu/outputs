@@ -111,4 +111,4 @@ CCとの協業でステアリングできるプラグインを作る。プラグ
 - **Date**: 2026-05-29
 - **Last completed**: #10 design.md のユーザーレビュー（指摘反映済み）
 - **Next**: なし。実装は lovaizu/ccpm 側で別途（D-12）
-- **Notes**: design.md 完成。レビューで構成を skills/{gm,bb,hi}/ + references/ に変更、参照を ${CLAUDE_PLUGIN_ROOT} の Read 方式に統一、Phase>Step>Action で再構成（D-13〜D-15）。公式仕様は一次情報で裏取り済み。次は ccpm リポジトリで design.md を元に実装。
+- **Notes**: design.md 完成。レビューで構成を skills/{gm,bb,hi}/ + references/ に変更、参照を ${CLAUDE_PLUGIN_ROOT} の Read 方式に統一、Phase>Step>Action で再構成（D-13〜D-15）。公式仕様は一次情報で裏取り済み。収束型エキスパートレビュー（鋭いessential基準＋既決台帳＋反証検証＝1ラウンドで0 essential収束）と gm/bb/hi のエンドツーエンド・トレースを通過。トレースで surfaced した3点（gmのファイル書込明示／hiのコミット↔タスク照合規則／State reset 表記統一）を修正済み。実装して動かす価値あり、と判断。次は ccpm リポジトリで design.md を元に実装。
