@@ -1,6 +1,6 @@
 # Plugin Knowhow Smith — Steering
 
-<!-- paused: 2026-05-29 — next: #1 Re-color + prune checklist into A/B, drop CC-default overlaps & checker-only items -->
+<!-- paused: 2026-05-29 — next: #2 Modernize PRM items (mostly done in actions.md; verify) then #3 author pattern libraries -->
 
 ## Goal
 
@@ -35,12 +35,13 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 
 ## Tasks
 
-- [ ] **#1 Re-color + prune the checklist** — tag each of the 108 items A / B (or both), and **remove**: (a) CC-default format/syntax checks (old `[auto]` mechanical bucket: kebab names, required front-matter, line limits, `${CLAUDE_PLUGIN_ROOT}`, absolute paths); (b) checker-only items (FLW-CTF, FLW-CSF, FLW-AST convergence machinery). Map survivors onto the 3 pattern layers / Phase 5 steps.
-- [ ] **#2 Modernize PRM items** — invert PRM-CPM (calibrated emphasis), add role-lead / long-context-ordering / literalism-scope / content-type-XML items, reframe PRM-FPE (coverage-then-filter), demote PRM-SMC/PRM-CWF/PRM-APE.
+- [x] **#1 Re-color + prune the checklist** — done via 5 parallel subagents (full 108-item population, no sampling) → `docs/actions.md`. **87 survive** (A≈41 / B≈42 / BOTH≈9), **21 removed** (9 CC-default/spec-obsolete + 10 checker-only + 2 folded), **5 new** PRM items from live docs. Survivors mapped to P4 / 5-1 / 5-2 / 5-3 / 5-4 / P6.
+- [x] **#2 Modernize PRM items** — folded into #1: PRM-CPM inverted (calibrated emphasis, A/B-conflict flagged), PRM-FPE inverted (coverage-then-filter), PRM-SMC→FLW, PRM-APE→PIF, PRM-CWF demoted; added PRM-CTX / PRM-ESL / PRM-RLA / PRM-LCO / PRM-RGC.
 - [ ] **#3 Author the 3 knowledge-skill pattern libraries** from the pruned checklist (hand-authored prose, cross-linked to taxonomy IDs).
 - [ ] **#4 Implement the plugin** — orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md`.
 - [ ] **#5 Define `.smith.local.md` schema** — pinned intent, eval suite, selection log, reconcile history.
 - [ ] **#6 Dogfood** smith to build/improve itself.
+- [ ] **#7 Reconcile archetype trichotomy** — `smith-design.md` + `docs/concepts.md` still say "Archetype A/B/C"; commands merged into skills makes it legacy. Reframe to driver/knowledge/execution roles (see `actions.md` §Open follow-ups).
 
 ## Key files
 
@@ -48,7 +49,8 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 |---|---|
 | `smith-design.md` | **Authoritative spec** (rewritten 2026-05-29 for the builder model) |
 | `README.md` | User-facing overview (rewritten 2026-05-29) |
-| `docs/checklist-items.md` | 108-item checklist — **input** to A/B re-coloring (#1) |
+| `docs/actions.md` | **A/B-colored, pruned, layer-mapped Actions** (output of #1/#2) |
+| `docs/checklist-items.md` | 108-item checklist — **source** for actions.md (kept for traceability) |
 | `docs/taxonomy.md` | 108-item knowhow index |
 | `docs/concepts.md`, `components.md`, `patterns.md`, `checklists.md`, `case-studies.md` | Knowhow sources for the pattern libraries |
 
