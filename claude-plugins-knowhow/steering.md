@@ -37,7 +37,7 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 
 - [x] **#1 Re-color + prune the checklist** — done via 5 parallel subagents (full 108-item population, no sampling) → `docs/actions.md`. **87 survive** (A≈41 / B≈42 / BOTH≈9), **21 removed** (9 CC-default/spec-obsolete + 10 checker-only + 2 folded), **5 new** PRM items from live docs. Survivors mapped to P4 / 5-1 / 5-2 / 5-3 / 5-4 / P6.
 - [x] **#2 Modernize PRM items** — folded into #1: PRM-CPM inverted (calibrated emphasis, A/B-conflict flagged), PRM-FPE inverted (coverage-then-filter), PRM-SMC→FLW, PRM-APE→PIF, PRM-CWF demoted; added PRM-CTX / PRM-ESL / PRM-RLA / PRM-LCO / PRM-RGC.
-- [ ] **#3 Author the 3 knowledge-skill pattern libraries** from the pruned checklist (hand-authored prose, cross-linked to taxonomy IDs). `workflow-patterns.md` is the started Layer-2 workflow-authoring source; extend with the remaining composition/writing Actions.
+- [ ] **#3 Author the 3 knowledge-skill pattern libraries** from the pruned checklist (hand-authored prose, cross-linked to taxonomy IDs). Sources started: `workflow-patterns.md` (Layer-2 *how*), `templates.md` (component *what*). Extend with the remaining structure/composition/writing Actions and split into the 3 skills.
 - [ ] **#4 Implement the plugin** — orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md`.
 - [ ] **#5 Define `.smith.local.md` schema** — pinned intent, eval suite, selection log, reconcile history.
 - [ ] **#6 Dogfood** smith to build/improve itself.
@@ -50,7 +50,8 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 | `smith-design.md` | **Authoritative spec** (rewritten 2026-05-29 for the builder model) |
 | `README.md` | User-facing overview (rewritten 2026-05-29) |
 | `docs/actions.md` | **A/B-colored, pruned, layer-mapped Actions** (output of #1/#2) |
-| `docs/workflow-patterns.md` | **Workflow-authoring templates** (prompt-as-workflow): Phase>Step>Action skeleton + sequential/branch/loop/notify/common-rules/common-flow/exception patterns + hybrid markdown/XML/script rule |
+| `docs/workflow-patterns.md` | **Workflow-authoring patterns** (the *how*): Phase>Step>Action skeleton + sequential/branch/loop/notify/common-rules/common-flow/exception patterns + hybrid markdown/XML/script rule |
+| `docs/templates.md` | **Component templates** (the *what*): fill-in skeletons for plugin.json / driver skill / knowledge skill / subagent / hook / CLAUDE.md rule, with Actions baked in |
 | `docs/checklist-items.md` | 108-item checklist — **source** for actions.md (kept for traceability) |
 | `docs/taxonomy.md` | 108-item knowhow index |
 | `docs/concepts.md`, `components.md`, `patterns.md`, `checklists.md`, `case-studies.md` | Knowhow sources for the pattern libraries |
