@@ -102,7 +102,7 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 | PRM-SAC | single-approach-commitment | A | Pick one approach and commit; no mid-procedure branching. |
 | PRM-FPE | false-positive-enumeration | B | **Modernized (inverted):** finding-stage prompts use coverage-then-filter (report all + confidence, downstream ranks). FP-enumeration only for genuine single-pass self-filter, and then concrete ("omit pure style nits"). |
 | CTX-CS | context-separation | B | **Modernized:** what co-loads vs loads selectively (long-context ordering). |
-| **PRM-CTX** | content-type-xml-composition | B | **NEW.** XML tags only for mixed-content prompts (instructions+context+examples+input), example/output envelopes, multi-document long-context. **Forbidden on skill `name`/`description`.** Not for simple procedures. |
+| **PRM-CTX** | content-type-xml-composition | B | **NEW.** XML tags to delimit **structural blocks** in a workflow prompt (common rules, named flows, multi-line branch cases, alternative/exception flows) + injected context, examples, output envelopes. **Forbidden on skill `name`/`description`.** Not for the linear step sequence (markdown). See `workflow-patterns.md`. |
 | **PRM-LCO** | long-context-ordering | B | **NEW.** For 20k+ token inputs, longform data at top, query/instructions at end (up to ~30% quality gain). Content-conditional. |
 | **PRM-RGC** | reversibility-gated-confirmation | BOTH | **NEW.** Gate confirmation on reversibility: act freely on local/reversible ops, confirm before destructive/shared/irreversible. Principled replacement for the old hard-marker gate. |
 
