@@ -43,7 +43,7 @@ The plugin must:
 Create steering.md    Commit work           Find steering.md
   │                   Write State section    Read State section
   ▼                   Push                   Sync tasks with git log
-Decompose tasks          │                   Remove State section
+Decompose tasks          │                   Reset State section
   │                      ▼                      │
   ▼                   "Session suspended"        ▼
 Begin task #1         ← user does /clear →   Begin next task
@@ -152,7 +152,7 @@ All three skills set `disable-model-invocation: true`. They are explicit workflo
 
 # State
 
-(written by /rn:bb, read and removed by /rn:hi)
+(written by /rn:bb, read and reset to this placeholder by /rn:hi)
 
 - **Status**: paused
 - **Date**: YYYY-MM-DD
@@ -211,7 +211,7 @@ Each command is structured as **Phase > Step > Action**.
 | Step | Actions |
 |---|---|
 | 5. Present and approve | Show the complete steering.md. Do not proceed without user approval |
-| 6. Begin task #1 | Commit steering.md. Read `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md`. Execute task #1 |
+| 6. Begin task #1 | After approval, write the completed steering.md to the proposed path, then commit it (`chore: start session — {goal-slug}`). Read `${CLAUDE_PLUGIN_ROOT}/references/task-workflow.md`. Execute task #1 |
 
 ### 6.2 /rn:bb — Suspend
 
@@ -245,7 +245,7 @@ Each command is structured as **Phase > Step > Action**.
 
 | Step | Actions |
 |---|---|
-| 4. Sync tasks | Cross-check git log against unchecked tasks. If a commit matches a task, check it off |
+| 4. Sync tasks | Cross-check git log against unchecked tasks. A commit matches a task when its message contains `complete task #{id}` (the format written by task-workflow Complete, §7.4); check that task off |
 | 5. Check blockers | If State notes mention a blocker: investigate and find an alternative approach before removing tasks |
 | 6. Clean up State | Replace the State section with its placeholder. Commit |
 
