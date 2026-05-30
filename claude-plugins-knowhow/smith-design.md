@@ -83,15 +83,15 @@ Structure selection (decide first): assign roles — driver/orchestration, knowl
 
 ### Layer 2 — Prompt-composition patterns (Phase 5-3)
 
-How a command/agent/skill prompt is structured. Content-type XML tagging (only when a prompt mixes ≥2 of {instructions, context, examples, input}); example envelope (`<example>` inside `<examples>`); two-step output contract (declare structure, then format rules, then pick enforcement: XML indicator > template > headings); role lead for agent bodies; long-context ordering (longform material at top, task at bottom, wrap each document); numbered procedure + branch markers (markdown, **not** XML); reasoning/answer separation (niche); imported steering blocks (paste official XML-tagged snippets verbatim); reversibility-gated confirmation (act freely on reversible ops, confirm before destructive/shared/irreversible).
+How a command/agent/skill prompt is structured — **plain markdown** (see `docs/workflow-patterns.md` § Writing rule): role lead for agent bodies; numbered procedure + `If/Otherwise` branch steps with explicit fall-through; a bold "Rules (apply to every step)" block; two-step output contract (declare structure, then format rules); long-context ordering (longform material at top, task at bottom); inject live data with `` !`command` `` / `@file`; reversibility-gated confirmation (act freely on reversible ops, confirm before destructive/shared/irreversible). XML only for agent-`description` invocation examples (`<example>/<commentary>`) and optionally delimiting pasted data — never to structure the body.
 
 ### Layer 3 — Concrete-writing patterns (Phase 5-4)
 
 Word-level craft. **Calibrated emphasis, not hard markers** — prefer "Use this tool when…" over "CRITICAL: You MUST…"; reserve ALL-CAPS/MUST for genuinely irreversible gates (reverses the old PRM-CPM doctrine for Opus 4.5+). Positive form over negative; reason-attached instructions; explicit scope to defeat literalism ("apply to every section, not just the first"); concrete over qualitative bars; third-person active skill descriptions; consistent terminology; default + escape over option lists; time-independent phrasing.
 
-### XML policy (modernization)
+### XML policy (revised — grounded in real plugins)
 
-XML tags are adopted **only** for mixed-content prompts (agent/command bodies that combine instructions + injected context + examples + input), for example/output envelopes, and for imported official steering snippets. XML is **not** used on skill `name`/`description` (validation forbids it), nor on short single-purpose prompts, nor on simple numbered procedures. (The earlier blanket omission of XML was wrong only for mixed-content prompts.)
+Plugin procedures are written in **plain markdown** (headings, numbered steps, `If/Otherwise` branches, bold "Rules" blocks) — matching the official `plugin-dev` authoring skills and real plugins like `code-review` (which runs multi-agent fan-out, branching, and a validation loop entirely in markdown). XML is used in only two places, the only places real plugins use it: (1) **agent `description` invocation examples** (`<example>/<commentary>`), and (2) optionally, delimiting a block of **pasted runtime data**. XML is **forbidden** on skill `name`/`description`, and is **not** used to structure procedure bodies (steps / branches / rules / exceptions). The structure that delivers reproducibility (A) is explicit branches + role decomposition (script / subagent) + pinned hand-offs — not bracket syntax. See `docs/workflow-patterns.md` § Writing rule.
 
 ### Model-era note
 

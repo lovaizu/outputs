@@ -15,8 +15,8 @@
 | | Count |
 |---|---|
 | Original items | 108 |
-| **Survive** | **87** (incl. 4 ARC archetype items folded into one decomposition action) |
-| Removed — CC-default / spec-obsolete | 9 |
+| **Survive** | **88** (incl. 4 ARC archetype items folded into one decomposition action; SPC-EBT restored) |
+| Removed — CC-default / spec-obsolete | 8 |
 | Removed — checker-only | 10 |
 | Folded into another action | 2 |
 | **New** (from live official docs) | **5** |
@@ -102,7 +102,7 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 | PRM-SAC | single-approach-commitment | A | Pick one approach and commit; no mid-procedure branching. |
 | PRM-FPE | false-positive-enumeration | B | **Modernized (inverted):** finding-stage prompts use coverage-then-filter (report all + confidence, downstream ranks). FP-enumeration only for genuine single-pass self-filter, and then concrete ("omit pure style nits"). |
 | CTX-CS | context-separation | B | **Modernized:** what co-loads vs loads selectively (long-context ordering). |
-| **PRM-CTX** | content-type-xml-composition | B | **NEW.** XML tags to delimit **structural blocks** in a workflow prompt (common rules, named flows, multi-line branch cases, alternative/exception flows) + injected context, examples, output envelopes. **Forbidden on skill `name`/`description`.** Not for the linear step sequence (markdown). See `workflow-patterns.md`. |
+| **PRM-CTX** | xml-scope | B | **NEW (revised).** Procedure structure (steps, branches, rules, exceptions) is **plain markdown**, not XML — matching the official `plugin-dev` authoring skills and real plugins (`code-review`). XML is used ONLY for (a) agent `description` invocation examples (`<example>/<commentary>`) and (b) optionally delimiting pasted runtime data. **Forbidden on skill `name`/`description`.** See `workflow-patterns.md` § Writing rule. |
 | **PRM-LCO** | long-context-ordering | B | **NEW.** For 20k+ token inputs, longform data at top, query/instructions at end (up to ~30% quality gain). Content-conditional. |
 | **PRM-RGC** | reversibility-gated-confirmation | BOTH | **NEW.** Gate confirmation on reversibility: act freely on local/reversible ops, confirm before destructive/shared/irreversible. Principled replacement for the old hard-marker gate. |
 
@@ -133,6 +133,7 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 | SPC-HIV | hook-input-validation | B | Safe hook template (`set -euo pipefail`, jq stdin, quote expansions, block `..`). |
 | **PRM-ESL** | explicit-scope-literalism | BOTH | **NEW.** Opus 4.8 won't silently generalize; state scope ("every section, not just the first"). |
 | **PRM-RLA** | role-lead-agent | B | **NEW.** Open the agent/system body with a role sentence. |
+| SPC-EBT | example-block-trigger | B | **RESTORED.** Agent `description` carries `<example>…<commentary>…</commentary></example>` invocation examples (real convention: agent-development skill, pr-review-toolkit). Earlier wrongly removed as "dead lore". |
 
 ## Phase 6 — Verification
 
@@ -147,13 +148,14 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 
 ---
 
-## Removed — CC-default / spec-obsolete (9)
+## Removed — CC-default / spec-obsolete (8)
 
 The Claude Code harness validators (`claude plugin validate`, the skill/agent loaders, `/agents`) already enforce these, or the spec they targeted no longer exists. smith must not re-implement them.
 
 | id | slug | reason |
 |---|---|---|
 | ARC-SDL | standard-directory-layout | Harness-enforced top-level layout. |
+<!-- SPC-EBT moved OUT of this list — restored as a kept Phase 5-4 action (agent-description invocation examples are a real convention). -->
 | ARC-MVP | minimum-viable-plugin | `plugin.json` presence + `name` is harness-validated. |
 | SPC-CA | color-assignment | Optional, fixed enum, `/agents` UI-assigned. |
 | SPC-SFM | skill-front-matter | Format/presence harness-owned; also stale (1,536-char cap, `name` optional). |
@@ -161,7 +163,6 @@ The Claude Code harness validators (`claude plugin validate`, the skill/agent lo
 | SPC-HJF | hooks-json-format | Valid-JSON + required fields = loader validation. |
 | SPC-PRV | plugin-root-variable | `${CLAUDE_PLUGIN_ROOT}`-vs-absolute path is a harness path check. |
 | SPC-MSF | mcp-server-file | `.mcp.json` valid-JSON + required server fields = loader validation. |
-| SPC-EBT | example-block-trigger | The `<example>` block format is gone from the current subagent spec. |
 
 ## Removed — checker-only (10)
 

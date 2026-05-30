@@ -112,11 +112,10 @@ You are <role lead — one sentence: who this skill is and its stance>.   # PRM-
 <!-- If the command takes input: reference the user's arguments as `$ARGUMENTS` (full string) or positionals — 0-based: `$ARGUMENTS[0]` (or the shorthand `$0`) is the FIRST positional, `$1` the second, …. Named args via the `arguments:` frontmatter are also available (`$name`, mapped to positions in order). Omit entirely when the command takes no input. (SPC-AE) -->
 The target is `$ARGUMENTS`.   # or `$0` for the first positional arg (`$1` for the second) — present only when argument-hint is set above
 
-<common_rules>
+**Rules (apply to every step):**
 - Never write outside the repository.
 - Stop and ask before any destructive or irreversible action.   # PRM-RGC
 - Report facts; if a step is skipped or fails, say so.
-</common_rules>
 
 ## Phase 1 — <name>
 **Goal:** <what this phase achieves.>
@@ -126,16 +125,10 @@ The target is `$ARGUMENTS`.   # or `$0` for the first positional arg (`$1` for t
 
 ## Phase 2 — <name>
 **Goal:** <...>
-1. **<step>** — <action>.
-<case condition="<branch A>">
-1. <action>.
-</case>
-<case condition="<branch B>">
-1. <action>.
-</case>
-<case condition="<none of the above>">
-Report that the situation is unhandled and stop. Do not guess.   # exhaustive fall-through — A
-</case>
+1. **<step>** — <action>, then branch (exhaustive, incl. fall-through):
+   - **If <branch A>:** <action>.
+   - **If <branch B>:** <action>.
+   - **Otherwise (none of the above):** report that the situation is unhandled and stop. Do not guess.   # A
 
 **Get explicit user approval before <irreversible action>.**   # calibrated emphasis, irreversible only — PRM-CPM/FLW-EAG
 
@@ -163,9 +156,7 @@ When this driver depends on a knowledge skill, load it **explicitly via the Skil
 At Phase N, before <step>, load `<knowledge-skill-name>` via the Skill tool.
 ```
 
-<on_failure>
-Halt at the failing step. Do not auto-rollback. Report the partial state and point the user at `git status`. Never claim completion while the failure stands.
-</on_failure>
+**If any step fails:** halt at the failing step. Do not auto-rollback. Report the partial state and point the user at `git status`. Never claim completion while the failure stands.
 
 ## Output
 <What to return: structure first, then format rules.>   # PRM-OSD/PRM-OFD
@@ -206,28 +197,28 @@ For <edge cases / long reference material>, see `references/<topic>.md` — load
 
 ## Execution subagent — `agents/<name>.md`
 
-A bounded, isolated worker dispatched by the driver (subagents cannot dispatch subagents). Embodies: SPC-AFM (frontmatter), PRM-LFD (delegation-trigger description), FLW-MTS (model by judgment density), SPC-ATR (least privilege), PRM-RLA (role), PRM-ESL (explicit scope), PRM-CTX (XML for mixed content), PRM-NRP.
+A bounded, isolated worker dispatched by the driver (subagents cannot dispatch subagents). Embodies: SPC-AFM (frontmatter), PRM-LFD (delegation-trigger description), SPC-EBT/PRM-EI (invocation examples in the description), FLW-MTS (model by judgment density), SPC-ATR (least privilege), PRM-RLA (role), PRM-ESL (explicit scope), PRM-NRP. Body is plain markdown (no XML) — matching real agents like pr-review-toolkit/code-reviewer.
 
 ```markdown
 ---
 name: <kebab-name>
-description: <When to delegate to this agent — third person, the trigger. e.g. "Use to review a single changed file for correctness bugs.">
+description: <When to delegate — third person trigger, e.g. "Reviews a single changed file for correctness bugs."> followed by invocation examples (the real convention — see comment).
+# Append invocation examples INTO the description string, real format uses literal \n (agent-development skill; pr-review-toolkit):
+#   …trigger.  Examples:\n<example>\nContext: <situation>.\nuser: "<request>"\nassistant: "I'll launch <agent> via the Task tool."\n<commentary>\n<why this agent fits>\n</commentary>\n</example>
 model: <opus | sonnet>             # PIN the tier to the judgment density: opus (deepest judgment) / sonnet (bounded analysis). Any subagent whose output depends on judgment MUST pin a fixed tier — `inherit` makes the model whatever the caller's session is, so the same built artifact yields different judgment under Sonnet vs Opus (reopens the model-variance seam). Reserve `inherit` ONLY for non-judgment, dialogue-only work. (FLW-MTS / A — behavior must be stable across runs AND models)
 tools: Read, Glob, Grep            # least privilege; omit Write if it only reports
 ---
 
 You are <role lead — one sentence>.   # PRM-RLA
 
-<instructions>
+## Task
 <The scoped task.> Apply to <explicit scope — e.g. every changed line>, not just the first.   # PRM-ESL
-</instructions>
 
-<context>
-<!-- agents/*.md is NOT preprocessed, so `!`command`` does not expand here. smith commits to ONE provisioning mode in 5-2 and emits only that mode — never "A or B" (it must be fixed at this load-bearing seam — A). -->
-<!-- MODE A (preferred — deterministic): this block is the material the driver inlines into the Task prompt at dispatch — e.g. the diff or file list. The agent does NOT fetch it. -->
+## Context
+<!-- agents/*.md is NOT preprocessed, so `!`command`` does not expand here. smith commits to ONE provisioning mode in 5-2 and emits only that mode — never "A or B" (fixed seam — A). -->
+<!-- MODE A (preferred — deterministic): this section states the material the driver inlines into the Task prompt at dispatch — e.g. the diff or file list. The agent does NOT fetch it. -->
 <The scoped material the driver passes in — e.g. the diff or file list.>
-<!-- MODE B (only if the driver cannot inline it): replace the line above with a fixed Step 1 in <instructions>: "Fetch context via `<exact command>`" — a single pinned command, not free choice. Requires the matching tool in `tools:`. The pinned command must emit a byte-stable result — sort any enumeration it performs via `LC_ALL=C sort` (mirror §8/§9 / workflow-patterns.md §3), never raw glob/find/directory order, or order-dependent effects vary run-to-run (A). -->
-</context>
+<!-- MODE B (only if the driver cannot inline it): instead, add a fixed Step 1 under ## Task — "Fetch context via `<exact command>`" (a single pinned command, not free choice). Requires the matching tool in `tools:`. The command must emit a byte-stable result — sort any enumeration via `LC_ALL=C sort`, never raw glob/find/directory order (A). -->
 
 ## Output
 Return <output contract>. If <nothing is found>, return <explicit empty result>.   # PRM-NRP

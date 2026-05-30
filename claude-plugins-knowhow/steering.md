@@ -95,6 +95,16 @@ Bar (user): fix everything an expert would spot **before** running; only run onc
 
 Re-trace verdict: core build flow now traces with no expert-obvious holes. Remaining unknowns are **runtime behaviors** (multi-phase skill execution, Skill-tool mid-run load, Task fan-out) that only a real run confirms → #4 is now worth doing.
 
+### Grounding correction: markdown convention, not XML (2026-05-30)
+
+Verified against real plugins (anthropics/claude-code/plugins) + the official `plugin-dev` authoring skills. **`code-review` (Boris Cherny) runs multi-agent fan-out, parallel review, a validation loop, branching and early-exit entirely in plain markdown — zero XML.** The `plugin-dev` command/skill/agent-development skills prescribe markdown. So the earlier XML-structural-block approach (in templates + workflow-patterns) was an over-build like the heavy README. Corrected:
+- **Procedure bodies → plain markdown**: `If/Otherwise` branch steps (or `$IF()` macro), bold "Rules (apply to every step)" block, "If any step fails:" block, named sub-procedures. Dropped `<common_rules>`/`<case>`/`<flow>`/`<on_failure>`/`<instructions>`/`<context>`.
+- **XML kept only where real plugins use it**: agent `description` invocation examples (`<example>/<commentary>` — **SPC-EBT restored**, earlier wrongly removed) + optionally delimiting pasted data.
+- **Completeness gap closed**: added `marketplace.json` template (needed for ccpm).
+- Reproducibility (A) comes from explicit branches + role decomposition (script/subagent) + pinned hand-offs — **not** bracket syntax.
+- **Still unresolved (official sources conflict — verify on real run):** positional args 0-based (skills doc) vs 1-based (command-development skill); hard markers (`**CRITICAL: MUST**`) — prompting guidance says soften, but `code-review` still uses them.
+Files updated: `docs/workflow-patterns.md`, `docs/templates.md`, `docs/actions.md` (PRM-CTX revised, SPC-EBT restored), `smith-design.md` (XML policy).
+
 ## Archived (checker era — do not use)
 
 Evaluate→Propose→Apply 10-step pipeline; 3 parallel inspector lenses; convergence formula `(num_lenses_caught × 30) + (max(self_confidence) × 0.3)` threshold 80; `[auto]` pre-pass; `smith-autocheck.sh`/`smith-evaluate.sh`/`smith-state.sh`; Finding schema / OOS rule. Superseded by the builder model.

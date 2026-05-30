@@ -4,19 +4,23 @@
 >
 > Feeds the `smith-prompt-patterns` skill (steering task #3). Cross-references Actions in `actions.md`.
 
-## Format rule (derived from smith's axes — not optional)
+## Writing rule: plain markdown (the plugin-authoring convention)
 
-The markdown-vs-XML choice is **derived** from reproducibility (A) + quality (B) + official guidance, not a free preference:
+A plugin procedure is written in **plain markdown** — verified against Anthropic's official authoring guidance (the `plugin-dev` command-development / skill-development / agent-development skills) and against real plugins (e.g. `code-review`, which runs multi-agent fan-out, parallel review, a validation loop, branching and early-exit **entirely in markdown**, no XML). What makes a procedure reproducible (A) and clear (B) is **not** bracket syntax — it is **explicit branches, role decomposition, and pinned hand-offs**, all expressible in markdown:
 
-| Content | Form | Why |
-|---|---|---|
-| Linear step sequence | **markdown** numbered list / `- [ ]` checklist | Official idiom for procedures; wrapping each step in `<step>` is verbose and lowers B. |
-| Structural block needing an unambiguous boundary — common rules, named common flow, multi-line branch case, alternative/exception flow, injected context, examples, output envelope | **XML tags** | Clear boundaries reduce misread → fewer nondeterministic interpretations (A) without polluting the step prose (B). |
-| Control flow that must be deterministic / byte-repeatable | **a script** (FLW-DSAS), invoked from the prompt; output used verbatim | A prompt cannot guarantee repeatability; a script can. Strongest A lever. See § Deterministic step → script. |
+| Need | Form |
+|---|---|
+| Sequence, phases | markdown headings + numbered list / `- [ ]` checklist |
+| Branch | numbered `If … → … / Otherwise → … / else stop` steps, or the `$IF($N, then, else)` macro |
+| Common rules | a bold heading (`**Rules (apply to every step):**`) + bullets |
+| Exception | an `If any step fails: …` line / block |
+| Inject live data | `` !`command` `` or `@file` (NOT an XML wrapper) |
+| Deterministic / complex logic | a **script** (FLW-DSAS) — output used verbatim |
+| Heavy / independent work | a **subagent** (separate `agents/*.md`), dispatched by name |
 
-Hard constraints: XML is **forbidden** on skill `name`/`description`. Short single-line branches stay inline markdown (`If X → …`); promote to XML `<case>` only when a branch spans multiple lines or nests.
+**XML appears in only two places**, because that is the only place real plugins use it: (1) **agent `description` invocation examples** — `Examples:` then `<example>…<commentary>…</commentary></example>` (taught by the agent-development skill; used by pr-review-toolkit); (2) optionally, to delimit a block of **pasted runtime data** inside a prompt. XML is **forbidden** on skill `name`/`description`. Do **not** wrap procedure structure (steps, branches, rules, exceptions) in XML.
 
-→ Net: **hybrid** — markdown for the spine, XML for bounded blocks, scripts for determinism.
+→ Net: **markdown for the procedure; scripts/subagents for the hard parts; XML only for agent-description examples and (optionally) pasted data.**
 
 ## Skeleton — Phase > Step > Action
 
@@ -57,22 +61,20 @@ Short branches — inline markdown:
 3. If tests exist, run them; otherwise note "no tests" and continue.
 ```
 
-Multi-line / nested branches — XML `<case>`:
+Multi-line / nested branches — one bold-headed case per branch, with an explicit fall-through:
 ```markdown
 Determine the archetype, then follow the matching case:
 
-<case condition="procedure the user triggers">
-1. ...
-2. ...
-</case>
-<case condition="reference knowledge only">
-1. ...
-</case>
-<case condition="none of the above">
-Report that the target is unclassifiable and stop. Do not guess.
-</case>
+- **If a procedure the user triggers:**
+  1. ...
+  2. ...
+- **If reference knowledge only:**
+  1. ...
+- **Otherwise (none of the above):** report that the target is unclassifiable and stop. Do not guess.
 ```
-A: exhaustive cases + explicit fall-through remove a degree of freedom. B: XML boundaries keep multi-line branches unambiguous (PRM-SC, PRM-ESL, PRM-CTX).
+For a branch on an argument, the `$IF` macro is also available: `$IF($0, Review PR #$0, Ask for a PR number and stop.)`
+
+A: exhaustive cases + explicit fall-through remove a degree of freedom (PRM-SC, PRM-ESL). B: bold case headings keep multi-line branches readable without non-standard syntax. (This is how `code-review` writes its `If … → stop / continue to step N` branches.)
 
 ### 3. Loop (loop-until / for-each)
 
@@ -115,41 +117,38 @@ A: gate position is fixed. B: calibrated emphasis avoids over-triggering (FLW-EA
 When: constraints that apply to every step. State **once**, near the top, in a bounded block.
 
 ```markdown
-<common_rules>
+**Rules (apply to every step):**
 - Never write outside the repository.
 - Stop and ask before any destructive or irreversible action.
 - Report facts; if a step is skipped, say so.
-</common_rules>
 ```
-A: identical constraints every run. B: single source, no per-step repetition (PRM-CWF).
+A: identical constraints every run. B: single source, no per-step repetition (PRM-CWF). (This is exactly how `code-review` states its "Agent assumptions (applies to all agents and subagents)" block.)
 
 ### 6. Common flow (shared sub-procedure)
 
-When: the same sub-procedure is invoked from several places. Define once as a named flow; reference it by name.
+When: the same sub-procedure is invoked from several places. Give it a named heading and refer to it by name; if it is deterministic, make it a **script**; if it is heavy or needs isolation, make it a **subagent**.
 
 ```markdown
-<flow name="verify_preimage">
+### Pre-image check (sub-procedure)
 1. Re-read the target file.
 2. Confirm it still matches the expected pre-image; if not, halt and report.
-</flow>
 
 ... later ...
-Before each write, run the `verify_preimage` flow.
+Before each write, run the **Pre-image check** sub-procedure above.
 ```
-A: the same sub-procedure runs identically wherever invoked (DRY → no drift) (FLW-PIV, FLW-DSAS for the deterministic parts).
+A: the same sub-procedure runs identically wherever invoked (DRY → no drift) (FLW-PIV; FLW-DSAS when extracted to a script).
 
 ### 7. Alternative / exception flow (on-failure / fallback)
 
 When: define what happens when a step fails — separated from the happy path so it can't be skipped.
 
 ```markdown
-<on_failure>
+**If any step fails:**
 - Halt at the failing step. Do not auto-rollback.
 - Report the partial state and point the user at `git status`.
 - Never emit a completion claim while the failure stands.
-</on_failure>
 ```
-A: failure handling is fixed and explicit, not improvised. B: bounded block keeps it out of the happy-path prose (FLW-PVE, FLW-LEB).
+A: failure handling is fixed and explicit, not improvised. B: a labelled block keeps it out of the happy-path prose (FLW-PVE, FLW-LEB).
 
 ### 8. Deterministic step → script
 
@@ -187,7 +186,7 @@ Use the returned result verbatim. Do not re-derive it.
 | Mode | When | Behavior pinned by |
 |---|---|---|
 | **Inline (preferred — deterministic)** | the driver already holds the material | the exact text inlined in the prompt; byte-stable, same files touched every run |
-| **Agent self-fetch** | the driver cannot inline it | a **single fixed Step 1** in the agent's `<instructions>` — "Fetch context via `<exact command>`", not free choice — plus the matching tool in `tools:` |
+| **Agent self-fetch** | the driver cannot inline it | a **single fixed Step 1** in the agent's instructions — "Fetch context via `<exact command>`", not free choice — plus the matching tool in `tools:` |
 
 Never emit "pass it in **or** have the agent fetch it" in the artifact: an unpinned choice at the seam lets the built plugin vary run-to-run (agent self-fetch via Bash can touch different files). Pick one, emit only that.
 
@@ -258,11 +257,11 @@ A: the A-test **is** the reproducibility proof (a non-deterministic LLM artifact
 To support long-context ordering (PRM-LCO) and clean parsing:
 
 1. Role lead (one sentence) — PRM-RLA.
-2. `<common_rules>` — shared constraints.
-3. Injected context (`<diff>`, `<git_status>`, …) — large material near the top.
-4. The Phase > Step > Action body (markdown), with inline branches and referenced `<flow>`s.
-5. `<case>` / `<on_failure>` blocks where needed.
-6. Output contract / `<example>` / output envelope near the end (PRM-OSD, PRM-EI-*, PRM-CTX).
+2. **Rules (apply to every step)** — shared constraints (bold heading + bullets).
+3. Injected live data near the top — pulled in with `` !`command` `` / `@file` (large material first; PRM-LCO).
+4. The Phase > Step > Action body (markdown), with inline `If/Otherwise` branches and named sub-procedures.
+5. The **If any step fails** block where needed.
+6. Output contract near the end (PRM-OSD). For an **agent** file, the `<example>/<commentary>` invocation examples go in the `description` frontmatter, not the body (PRM-EI-*).
 
 ## Action cross-reference
 
