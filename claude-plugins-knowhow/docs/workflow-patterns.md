@@ -22,6 +22,8 @@ A plugin procedure is written in **plain markdown** — verified against Anthrop
 
 → Net: **markdown for the procedure; scripts/subagents for the hard parts; XML only for agent-description examples and (optionally) pasted data.**
 
+**Enforce, don't emphasize (PRM-CPM).** A rule that must hold is enforced by **structure / process** — a gate step the procedure cannot pass, a script/hook that blocks, or a tool restriction (`allowed-tools`) — **never** by `CRITICAL` / `MUST` / ALL-CAPS. Emphasis is not a reproducibility mechanism: a rule that needs shouting to be obeyed will eventually be ignored, so it is not a rule. Use plain, direct wording for everything else.
+
 ## Skeleton — Phase > Step > Action
 
 The top-level shape of every smith-authored workflow. Phases are gated; steps are markdown; actions are imperative.
@@ -98,19 +100,18 @@ A: bounded + explicit termination + no-false-completion + full-population (actio
 
 ### 4. User notification & approval gate
 
-When: a consequential or irreversible decision. **Calibrate the emphasis to reversibility** (PRM-CPM / PRM-RGC): hard gate only when irreversible; otherwise act and notify.
+When: a consequential or irreversible decision. The gate is **structural, not emphatic** (PRM-CPM / PRM-RGC): a numbered step whose **exit condition is "user approved"**, with no later step reachable until it is met. Reliability comes from step ordering, not from shouting. Gate only the irreversible; act-and-notify for the reversible.
 
-Irreversible (hard gate):
+Irreversible (a gate step — the procedure stops here):
 ```markdown
-**Get explicit user approval before proceeding.**
-Present: <summary of what will happen>.
-Options: apply all / select a subset / reject.
+N. Present <summary of what will happen> and ask: apply all / select a subset / reject.
+   Exit: do NOT proceed to step N+1 until the user has approved.
 ```
 Reversible (notify, don't block):
 ```markdown
 Proceed, then report what changed in one line. The user can revert via git.
 ```
-A: gate position is fixed. B: calibrated emphasis avoids over-triggering (FLW-EAG, PRM-RGC).
+A: the gate is enforced by a fixed, unskippable step position — not by emphasis. B: gating only the irreversible avoids friction (FLW-EAG, PRM-RGC).
 
 ### 5. Common rules block
 
@@ -271,7 +272,7 @@ To support long-context ordering (PRM-LCO) and clean parsing:
 | Sequential | PRM-MSS, CTX-TWA |
 | Branch | PRM-SC, PRM-ESL, PRM-CTX |
 | Loop | FLW-LEB, action.md §B.2 (full population) |
-| Notify / approval | FLW-EAG, PRM-RGC, PRM-CPM (calibrated) |
+| Notify / approval | FLW-EAG, PRM-RGC, PRM-CPM (structural gate, not emphasis) |
 | Common rules | PRM-CWF, PRM-CTX |
 | Common flow | FLW-PIV, FLW-DSAS |
 | Alternative / exception | FLW-PVE, FLW-LEB |

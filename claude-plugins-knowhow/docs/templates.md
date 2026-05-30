@@ -130,7 +130,7 @@ The target is `$ARGUMENTS`.   # or `$0` for the first positional arg (`$1` for t
    - **If <branch B>:** <action>.
    - **Otherwise (none of the above):** report that the situation is unhandled and stop. Do not guess.   # A
 
-**Get explicit user approval before <irreversible action>.**   # calibrated emphasis, irreversible only — PRM-CPM/FLW-EAG
+**Approval gate (irreversible only):** present what will happen; ask apply all / select / reject; do NOT proceed until approved.   # enforced by step order, not emphasis — PRM-CPM/PRM-RGC/FLW-EAG
 
 ### Dispatch a subagent (driver → execution)
 When the driver fans out to an execution subagent, invoke `Task` with the agent name, the **scoped context inlined in the prompt**, and the expected return contract. Subagents cannot re-dispatch — all fan-out originates here. smith commits to **one** context-provisioning mode per artifact in 5-2 (see `workflow-patterns.md` § Dispatch); the preferred default is inline (deterministic). See `workflow-patterns.md` § Dispatch.

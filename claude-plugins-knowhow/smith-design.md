@@ -67,7 +67,7 @@ Hard gates (no proceed without user approval):
 3. **Before any disk write** — preview the file tree + per-file diffs.
 4. **Phase 6 findings** — per finding: fix now / accept / defer. No silent skips (`action.md` §C.5).
 
-Emphasis on these gates is **calibrated**, not maximal — see [Concrete-writing patterns](#layer-3--concrete-writing-patterns).
+These gates are enforced **structurally** — each is a step the procedure cannot pass until its exit condition (e.g. user approval) is met; reproducibility comes from this ordering, not from emphasis. smith never relies on `CRITICAL`/`MUST` markers to make a rule hold — a rule that needs emphasis to be obeyed is not reproducible. See `docs/workflow-patterns.md` § Writing rule (Enforce, don't emphasize).
 
 ## A/B model
 
@@ -87,7 +87,7 @@ How a command/agent/skill prompt is structured — **plain markdown** (see `docs
 
 ### Layer 3 — Concrete-writing patterns (Phase 5-4)
 
-Word-level craft. **Calibrated emphasis, not hard markers** — prefer "Use this tool when…" over "CRITICAL: You MUST…"; reserve ALL-CAPS/MUST for genuinely irreversible gates (reverses the old PRM-CPM doctrine for Opus 4.5+). Positive form over negative; reason-attached instructions; explicit scope to defeat literalism ("apply to every section, not just the first"); concrete over qualitative bars; third-person active skill descriptions; consistent terminology; default + escape over option lists; time-independent phrasing.
+Word-level craft. **Enforce critical behavior with structure, not emphasis (PRM-CPM)** — never rely on `CRITICAL`/`MUST`/ALL-CAPS to make a rule hold (not reproducible); move must-hold rules to a gate step / script / hook / tool restriction. Plain, direct wording for the rest. Positive form over negative; reason-attached instructions; explicit scope to defeat literalism ("apply to every section, not just the first"); concrete over qualitative bars; third-person active skill descriptions; consistent terminology; default + escape over option lists; time-independent phrasing.
 
 ### XML policy (revised — grounded in real plugins)
 
@@ -95,7 +95,7 @@ Plugin procedures are written in **plain markdown** (headings, numbered steps, `
 
 ### Model-era note
 
-The calibrated-emphasis reversal and literalism patterns target Opus 4.5/4.6/4.8. If a generated artifact targets older Sonnet/Haiku, stronger "MUST/CRITICAL" markers may still help; smith reads the Phase-3 target model and adjusts.
+The literalism / explicit-scope patterns target Opus 4.5/4.6/4.8. The Enforce-not-emphasize principle is **model-independent** — structural enforcement (gate step / script / hook / tool restriction) works on every model, so smith does not fall back to `MUST`/`CRITICAL` markers even for older targets; it relies on structure instead.
 
 ## Selective-Action governance
 

@@ -28,7 +28,7 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 
 ## Live-docs facts (verified 2026-05-29) to bake into the checklist
 
-- **🔴 Calibrated emphasis**: Opus 4.5/4.6/4.8 — dial back "CRITICAL: You MUST…" → "Use this tool when…". **Reverses PRM-CPM.** (Bigger impact than XML.)
+- **🔴 Enforce, don't emphasize (PRM-CPM)**: never rely on `CRITICAL`/`MUST`/ALL-CAPS to make a rule hold — a rule that needs shouting is not reproducible. Enforce must-hold behavior **structurally** (gate step / script / hook / tool restriction). (Supersedes the earlier "calibrate emphasis" framing.)
 - **XML scope**: only for mixed-content prompts (instructions+context+examples+input), example/output envelopes, imported steering snippets. **Forbidden** on skill `name`/`description`. Not on simple procedures.
 - **Commands merged into skills**: `commands/` legacy; entry = skill with `disable-model-invocation: true`. Subagents cannot spawn subagents (all fan-out from top). Subagent `model` defaults to `inherit`.
 - **Coverage-over-conservatism** for finding-stage review prompts (modernize PRM-FPE).
@@ -102,7 +102,7 @@ Verified against real plugins (anthropics/claude-code/plugins) + the official `p
 - **XML kept only where real plugins use it**: agent `description` invocation examples (`<example>/<commentary>` — **SPC-EBT restored**, earlier wrongly removed) + optionally delimiting pasted data.
 - **Completeness gap closed**: added `marketplace.json` template (needed for ccpm).
 - Reproducibility (A) comes from explicit branches + role decomposition (script/subagent) + pinned hand-offs — **not** bracket syntax.
-- **Still unresolved (official sources conflict — verify on real run):** positional args 0-based (skills doc) vs 1-based (command-development skill); hard markers (`**CRITICAL: MUST**`) — prompting guidance says soften, but `code-review` still uses them.
+- **Resolved by investigation (no run needed):** (1) positional args are **0-based** (`$0` = first) — the live skills doc states it explicitly with multiple examples (`/my-skill "hello world" second` → `$0`="hello world"); the 1-based in plugin-dev's command-development skill is a stale teaching doc lagging the commands→skills merge. (2) **Emphasis is never used to enforce a rule** — must-hold behavior is enforced structurally (gate step / script / hook / tool restriction) per the new **"Enforce, don't emphasize" (PRM-CPM)** principle; `code-review`'s `**CRITICAL**` markers are a soft fallback we deliberately do not copy because emphasis is not reproducible.
 Files updated: `docs/workflow-patterns.md`, `docs/templates.md`, `docs/actions.md` (PRM-CTX revised, SPC-EBT restored), `smith-design.md` (XML policy).
 
 ## Archived (checker era — do not use)

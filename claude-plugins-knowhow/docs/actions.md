@@ -111,7 +111,7 @@ Axis split among survivors+new: **A ≈ 41, B ≈ 42, BOTH ≈ 9.**
 | id | slug | axis | note |
 |---|---|---|---|
 | PRM-IV | instruction-voice | B | Imperative directives. |
-| PRM-CPM | critical-phase-markers | BOTH ⚠️ | **Modernized (inverted):** calibrated emphasis ("Use this tool when…") over "CRITICAL: You MUST…" for Opus 4.5+. **A/B conflict** — hard markers raise A but degrade B; resolve toward B and use a reversibility gate (PRM-RGC) for genuine must-not-skip phases. |
+| PRM-CPM | enforce-not-emphasize | A | **Revised:** do **not** rely on emphasis (`CRITICAL` / `MUST` / ALL-CAPS) to make a rule hold — a rule that needs shouting to be obeyed is **not reproducible**. Enforce must-hold behavior **structurally**: a gate step the process cannot pass, a script/hook that blocks (exit 2), or a tool restriction (`allowed-tools`). Plain, direct wording for the rest. (Supersedes both the old hard-marker doctrine and the "calibrate emphasis" half-measure.) |
 | PRM-OSD | output-shape-directives | B | Specify output structure. |
 | PRM-SBS | concrete-example-shape | B | Literal I/O pairs, not abstract. |
 | PRM-OFD | output-format-discipline | B | Precise format rules. |
