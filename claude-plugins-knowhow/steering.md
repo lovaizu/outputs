@@ -1,6 +1,19 @@
 # Plugin Knowhow Smith — Steering
 
-<!-- paused: 2026-05-29 — next: #2 Modernize PRM items (mostly done in actions.md; verify) then #3 author pattern libraries -->
+<!-- paused: 2026-05-30 — next: #4 build the smith plugin IN lovaizu/ccpm (design complete; see "Resume — start here" below) -->
+
+## Resume — start here
+
+**State:** Design + knowhow are complete and grounded against real plugins. Done & current: `docs/actions.md` (88 A/B-colored Actions), `docs/workflow-patterns.md` (12 markdown patterns), `docs/templates.md` (component templates incl. marketplace.json), `smith-design.md`, `README.md`. Worktree clean; all work is on **PR #22** (branch `worktree-smith` → `main`). **PR not yet merged** — blocked by a `main` ruleset requiring 1 approving review from a write-access reviewer; `--admin` could not bypass (author = kiyobot). To merge: have another write-access account approve, or relax the ruleset.
+
+**Next action — #4: build smith as a plugin in `lovaizu/ccpm`, NOT in this `outputs` repo.** This session is sandboxed to the `outputs` worktree (cannot write to ccpm), so start a session rooted at ccpm. Layout + dev round-trip: `smith-design.md` § Deployment. Port `workflow-patterns.md` / `templates.md` / `actions.md` content into the 3 knowledge skills (#3) as you build. Verify with `claude --plugin-dir <path>/ccpm/smith` + `/reload-plugins` — the only way to settle remaining runtime behavior.
+
+**Non-negotiables carried from this session (do not relitigate):**
+- Procedure bodies = **plain markdown** (`If/Otherwise` steps, bold "Rules (apply to every step)" block, named sub-procedures). XML only for agent-`description` invocation examples + optionally pasted data; never to structure bodies; never on skill `name`/`description`.
+- **Enforce, don't emphasize (PRM-CPM)**: must-hold rules via a gate step / script / hook / tool restriction — never `CRITICAL`/`MUST`/ALL-CAPS.
+- Positional args are **0-based** (`$0` = first).
+- Reproducibility (A) = explicit branches + role decomposition (script/subagent) + pinned hand-offs + deterministic steps as scripts.
+
 
 ## Goal
 
