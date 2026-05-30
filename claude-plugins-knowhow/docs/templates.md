@@ -38,6 +38,35 @@ Always emit at the exact path `.claude-plugin/plugin.json` — a manifest at the
 
 ---
 
+## Plugin README — `<name>/README.md`
+
+The plugin's homepage/usage doc. The `/plugin` pane already auto-shows the `description`, the component list ("Will install"), and the context-cost estimate — so the README is where **usage** lives (users are explicitly pointed to the homepage for it). **Keep it lean.** Survey of the 13 official Anthropic plugins (977 B–14.6 KB): the consistent **core is 5 sections**; everything else is optional and added *only* in proportion to the plugin's size. Embodies: SPC-DOM/PRM-LFD (clear what + when), PRM-EI-S (concrete example).
+
+```markdown
+# <Plugin Name>
+
+> <one line — match plugin.json `description`>
+
+## Overview
+<One short paragraph: what it does and when to use it.>
+
+## What it provides
+- `/<plugin>:<skill>` — <one line>.
+- `<agent-name>` (agent) — <one line>.   # list only user-relevant components
+
+## Usage
+<A concrete example invocation, then what Claude does — a short bullet list of the outcome.>
+
+## Installation
+/plugin marketplace add <owner/repo>
+/plugin install <plugin>@<marketplace>
+/reload-plugins
+```
+
+Add these **only if they apply** (official plugins include them in proportion to size, never by default): **Requirements** (external binaries / tools / services, target model), **Best practices / Tips**, **Troubleshooting**, **Author / Version / License**. Do **not** add dedicated Permissions/Trust, Context-cost, or Changelog sections — trust is handled by the marketplace, context cost is shown in-app, and version lives in `plugin.json`.
+
+---
+
 ## Driver skill — `skills/<name>/SKILL.md`
 
 The user-invoked entry point (the modern slash command). Embodies: SPC-DMI, SPC-ATR, PRM-LFD/SPC-DOM (description), PRM-RLA (role lead), the Phase>Step>Action skeleton (FLW-PC), common-rules/on-failure blocks, FLW-EAG/PRM-RGC (gates), PRM-OSD (output contract), SPC-AE (argument expansion).
