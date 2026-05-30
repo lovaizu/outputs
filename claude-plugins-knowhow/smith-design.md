@@ -77,6 +77,8 @@ A and B are orthogonal **value axes**, but they are **not** split across the flo
 
 Three layers, each loaded only by the phase that needs it (progressive disclosure). IDs cross-reference `taxonomy.md`. The libraries are **sources of Actions, applied selectively** — see [Selective-Action governance](#selective-action-governance).
 
+The full, layer-mapped Action list lives in `docs/actions.md` (each item tagged A/B and assigned to P4 / 5-1 / 5-2 / 5-3 / 5-4 / P6); the three knowledge skills (`smith-structure-patterns`, `smith-prompt-patterns`, plus the requirement procedures in `smith-requirements`) are authored by porting these Actions into prose, phase-scoped per the table below. Layer 1 ↔ structure Actions; Layers 2–3 ↔ writing Actions + `docs/workflow-patterns.md`.
+
 ### Layer 1 — Structure/role patterns (Phase 5-1/5-2)
 
 Structure selection (decide first): assign roles — driver/orchestration, knowledge, side-effecting execution — and the component mix that realizes them, before decomposition. (The legacy Archetype A/B/C trichotomy is a special case from when commands were distinct from skills; commands are now authored as skills.) Decomposition: three-layer separation, minimum-viable-plugin, skill-three-roles, progressive-disclosure layering. Multi-agent wiring: reporter/evaluator separation, parallel-perspective split, parallel-vs-sequential, selective dispatch, whole-view singleton agent, **subagent-vs-inline** (hard rule: subagents cannot spawn subagents — all fan-out originates at the top-level orchestrator), `skills`-preload vs `context: fork`, model-tier-by-judgment-density. Interfaces: allowed-tools least-privilege, explicit approval gates, phase-control markers, `.local.md` state + TodoWrite anchor, `${CLAUDE_PLUGIN_ROOT}` portability.
@@ -109,6 +111,8 @@ The literalism / explicit-scope patterns target Opus 4.5/4.6/4.8. The Enforce-no
 ## Architecture
 
 A plugin combining a driver skill + knowledge skills + execution subagents (formerly the "hybrid" archetype). All fan-out (Task dispatch) originates in the orchestrator; subagents never dispatch subagents.
+
+Each part below is emitted from its fill-in skeleton in `docs/templates.md` (`marketplace.json` / `plugin.json` / driver skill / knowledge skill / subagent / hook / `evals/*.eval.md`); the Actions baked into each part are in `docs/actions.md` (A/B-colored, mapped to the phase that applies them); how those Actions are written into a procedure body is `docs/workflow-patterns.md` § Writing rule. **To implement, read those three files plus this spec — nothing in `steering.md` is needed (steering drove the design, not the build).**
 
 | Part | Form | Model | Role | Phases |
 |---|---|---|---|---|
