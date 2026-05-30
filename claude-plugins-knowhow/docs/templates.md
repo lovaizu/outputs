@@ -38,6 +38,33 @@ Always emit at the exact path `.claude-plugin/plugin.json` — a manifest at the
 
 ---
 
+## Marketplace manifest — `.claude-plugin/marketplace.json` (ccpm repo root)
+
+The "store listing" that makes the plugin **installable**. Lives at the **marketplace repo (ccpm) root**, not the plugin. `/plugin marketplace add lovaizu/ccpm` reads this catalog; then `/plugin install smith@ccpm`. `source: "./smith"` is the relative path to the plugin inside ccpm (resolved from the marketplace root; works when added via git). Schema verified against anthropics/claude-code's real `marketplace.json`. Embodies: SPC-DOM/PRM-LFD (clear description for discovery).
+
+```json
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "ccpm",
+  "version": "1.0.0",
+  "description": "<one line: what this marketplace catalogs>",
+  "owner": { "name": "lovaizu" },
+  "plugins": [
+    {
+      "name": "smith",
+      "description": "<one line — match smith's plugin.json description>",
+      "source": "./smith",
+      "version": "0.1.0",
+      "category": "development"
+    }
+  ]
+}
+```
+
+Per-plugin, only `name` + `source` are required; `version` / `category` / `author` are optional. Add more entries to `plugins[]` as ccpm grows (or set `metadata.pluginRoot` to shorten relative paths).
+
+---
+
 ## Plugin README — `<name>/README.md`
 
 The plugin's homepage/usage doc. The `/plugin` pane already auto-shows the `description`, the component list ("Will install"), and the context-cost estimate — so the README is where **usage** lives (users are explicitly pointed to the homepage for it). **Keep it lean.** Survey of the 13 official Anthropic plugins (977 B–14.6 KB): the consistent **core is 5 sections**; everything else is optional and added *only* in proportion to the plugin's size. Embodies: SPC-DOM/PRM-LFD (clear what + when), PRM-EI-S (concrete example).
