@@ -149,6 +149,38 @@ Boundary: smith owns intent, structure, and **both** eval axes. skill-creator ow
 
 Sources: code.claude.com/docs (plugins, skills, sub-agents); platform.claude.com/docs prompting best practices (XML scope, calibrated emphasis, literalism, long-context ordering, code-review coverage-over-conservatism); agent-skills best practices (evaluations-first, third-person descriptions, "solve don't punt", XML-forbidden in name/description).
 
+## Deployment & development round-trip
+
+**Distribution repo:** `lovaizu/ccpm` (https://github.com/lovaizu/ccpm) — "Claude Code plugin marketplace for lovaizu projects". smith ships as a plugin **inside** ccpm. The design/knowhow in `claude-plugins-knowhow/` (repo `lovaizu/outputs`) is the **spec** the ccpm implementation follows; the plugin itself is built and distributed in ccpm, not in `outputs`.
+
+**Layout in ccpm** — one repo serves as marketplace + plugin + dev target:
+
+```
+ccpm/
+├── .claude-plugin/
+│   └── marketplace.json      # { "name":"ccpm", "owner":{...}, "plugins":[{ "name":"smith", "source":"./smith", "description":..., "version":... }] }
+├── smith/
+│   ├── .claude-plugin/plugin.json     # { "name":"smith", "version":..., "description":... }
+│   ├── skills/   smith (driver), smith-requirements, smith-structure-patterns, smith-prompt-patterns
+│   ├── agents/   smith-architect, smith-writer, smith-verifier
+│   ├── hooks/  scripts/  evals/
+│   └── README.md
+├── LICENSE
+└── README.md
+```
+
+`source: "./smith"` is a **relative path** resolved from the marketplace root (the directory containing `.claude-plugin/`); relative-path sources only resolve when the marketplace is added via git. (`metadata.pluginRoot` could shorten it if more plugins are added later.)
+
+**Round-trip — develop in place, no install, no two-repo sync:**
+
+1. **Develop:** `claude --plugin-dir <path>/ccpm/smith` — loads the plugin straight from its directory, no install/marketplace needed.
+2. **Iterate:** edit files, then `/reload-plugins` (reloads skills/agents/hooks/MCP/LSP without restarting). `--plugin-dir` takes precedence over an installed same-name plugin for the session.
+3. **Test:** invoke `/smith:<skill>` (plugin skills are namespaced `smith:`), confirm subagents in `/agents`, verify hooks fire.
+4. **Validate:** `claude plugin validate` (run in CI before publishing).
+5. **Distribute:** push ccpm to GitHub. Users add it with `/plugin marketplace add lovaizu/ccpm`, install with `/plugin install smith@ccpm`, and update with `/plugin marketplace update`.
+
+Standalone `.claude/` development and a GitHub-Action sync between repos are **not** needed — ccpm is simultaneously the dev location and the marketplace.
+
 ## Open items / deferred
 
 - Exact prompt wording for the orchestrator skill, the three knowledge skills, and the three subagents (written during implementation).

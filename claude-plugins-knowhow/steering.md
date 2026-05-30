@@ -38,7 +38,7 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 - [x] **#1 Re-color + prune the checklist** — done via 5 parallel subagents (full 108-item population, no sampling) → `docs/actions.md`. **87 survive** (A≈41 / B≈42 / BOTH≈9), **21 removed** (9 CC-default/spec-obsolete + 10 checker-only + 2 folded), **5 new** PRM items from live docs. Survivors mapped to P4 / 5-1 / 5-2 / 5-3 / 5-4 / P6.
 - [x] **#2 Modernize PRM items** — folded into #1: PRM-CPM inverted (calibrated emphasis, A/B-conflict flagged), PRM-FPE inverted (coverage-then-filter), PRM-SMC→FLW, PRM-APE→PIF, PRM-CWF demoted; added PRM-CTX / PRM-ESL / PRM-RLA / PRM-LCO / PRM-RGC.
 - [ ] **#3 Author the 3 knowledge-skill pattern libraries** from the pruned checklist (hand-authored prose, cross-linked to taxonomy IDs). Sources started: `workflow-patterns.md` (Layer-2 *how*), `templates.md` (component *what*). Extend with the remaining structure/composition/writing Actions and split into the 3 skills.
-- [ ] **#4 Implement the plugin** — orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md`.
+- [ ] **#4 Implement the plugin — IN `lovaizu/ccpm`, not here.** Build orchestrator skill + 3 knowledge skills + architect/writer/verifier subagents per `smith-design.md` § Deployment. ccpm layout: `ccpm/.claude-plugin/marketplace.json` (source `./smith`) + `ccpm/smith/` plugin. Dev round-trip: `claude --plugin-dir <path>/ccpm/smith` + `/reload-plugins`; validate with `claude plugin validate`. The docs here are the spec; this `outputs` repo is NOT the build location.
 - [ ] **#5 Define `.smith.local.md` schema** — pinned intent, eval suite, selection log, reconcile history.
 - [ ] **#6 Dogfood** smith to build/improve itself.
 - [x] **#7 Reconcile archetype trichotomy** — reframed `smith-design.md`, `README.md`, `docs/concepts.md` from "Archetype A/B/C" to driver/knowledge/execution **roles** (commands merged into skills). concepts.md keeps A/B/C as labeled-legacy with a 2026 note; the empirical component inventory is unchanged.
@@ -63,6 +63,7 @@ smith is **no longer a checker or converter** — it is a **best-practice-applyi
 - A = reproducibility; B = quality.
 - CC default format/syntax checks are **out of scope** — never re-implement.
 - Work only in this worktree (`.claude/worktrees/smith`); never touch the original repo root.
+- **Distribution repo: `lovaizu/ccpm`** (https://github.com/lovaizu/ccpm) — the lovaizu plugin marketplace. smith ships as `ccpm/smith/`; ccpm root holds `marketplace.json`. Dev = `claude --plugin-dir <path>/ccpm/smith` + `/reload-plugins`; install = `/plugin marketplace add lovaizu/ccpm` → `/plugin install smith@ccpm`. (Resolves the old "deploy target" open question — it is **not** `agents-in-your-area`.)
 
 ## Knowhow build history (pre-pivot, still valid as source material)
 

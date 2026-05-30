@@ -87,3 +87,13 @@ smith/
 ```
 
 The knowledge skills wrap the corresponding pattern libraries; the design docs in this directory are the single source of truth. See [`smith-design.md`](./smith-design.md) for the authoritative specification, and `docs/` for the underlying knowhow (concepts, components, patterns, case-studies, taxonomy, checklist-items).
+
+## Distribution & development
+
+smith is built and distributed in **[`lovaizu/ccpm`](https://github.com/lovaizu/ccpm)** (the lovaizu plugin marketplace), as a plugin subdirectory `ccpm/smith/` with a `marketplace.json` at the ccpm root. The docs here are the spec; the plugin lives in ccpm.
+
+- **Develop / run:** `claude --plugin-dir <path>/ccpm/smith`, then `/reload-plugins` after edits. Invoke `/smith:<skill>`; check `/agents`.
+- **Validate:** `claude plugin validate`.
+- **Install (users):** `/plugin marketplace add lovaizu/ccpm` → `/plugin install smith@ccpm`.
+
+See [`smith-design.md` § Deployment & development round-trip](./smith-design.md) for the full layout and round-trip.
